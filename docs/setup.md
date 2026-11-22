@@ -2,31 +2,29 @@
 
 ## Docker fixture demonstration
 
-No Gemini or Google Cloud secrets are needed for fixture mode. Generate an
-isolated ignored `.env.fixture` with local demo credentials; existing files are
-preserved. Run from the project directory after installing dependencies.
+Only Docker with Compose v2 is needed on the host (macOS, Linux or WSL).
+From the repository root:
 
 ```sh
-.venv/bin/python scripts/setup_fixture.py
-BUILDX_CONFIG=/tmp/retail-buildx docker compose --env-file .env.fixture --project-name retail-assessment up --build -d
-.venv/bin/python scripts/bootstrap_webui.py
-docker compose --env-file .env.fixture --project-name retail-assessment up -d --force-recreate api
-docker compose --env-file .env.fixture --project-name retail-assessment exec -e RETAIL_API_TOKEN=alice-local-token api retail --url http://localhost:8000
+./start.sh
 ```
 
-API: http://localhost:8000. WebUI: http://localhost:3000. Ports bind to loopback.
-PostgreSQL is reachable only on the Compose network. Named volumes persist state
-across container recreation. `docker compose down` preserves volumes; the `-v`
-flag removes them and must not be used for routine shutdown.
+The script builds the images, creates a private `.env.docker-retail-demo`, waits
+for services, installs the Pipe/Reports/feedback/preferences integrations and
+reloads them. No host Python or uv is needed. Open http://localhost:3000 and sign
+in with `WEBUI_ADMIN_EMAIL` / `WEBUI_ADMIN_PASSWORD` from the generated file.
+Select **Retail Intelligence**. This dedicated local installation assumes the
+created account is its first administrator. Never point it at an unrelated WebUI.
 
-The bootstrap creates the local WebUI account, enables the Pipe and configures
-the server identity mapping. Local admin login details are in `.env.fixture`;
-keep that file private. API recreation loads the updated mapping.
+For occupied ports, use `./start.sh --project another-demo --api-port 8010 --webui-port 3010`.
+Rerun the same command to resume; local secrets and volumes are preserved. Stop
+with `./start.sh --stop` (include the custom `--project` when used). Do not use
+`docker compose down -v` unless you intend to erase stored data.
 
-**Earlier fixture verification (not repeated in the current session):** image build, healthy API/PostgreSQL/WebUI, container CLI report
-creation, report persistence after API recreation, and actual WebUI chat with
-progress history, rendered evidence table and saved report. Data/model mode is
-fixture; this does not verify Gemini or BigQuery.
+PostgreSQL is only reachable on the Compose network. API/WebUI ports bind to
+loopback. Generated configuration files contain secrets; do not share or commit
+them. A fixture launch makes no model/BigQuery calls and demonstrates mechanics,
+not live answer quality. See [the walkthrough](../START_HERE.md).
 
 ## Open WebUI Pipe
 
@@ -78,11 +76,32 @@ BigQuery can be checked independently before Gemini is configured: see
 [standalone BigQuery verification](bigquery-verification.md). The default
 verifier invocation loads no environment settings and makes no provider calls.
 
-Supply credentials via the secure form or local ignored environment file. Never
-copy credentials into the image. Google credentials on the host do not magically
-exist inside containers. Add a local Compose override mounting the credential file
-read-only at `/run/secrets/google.json` and set GOOGLE_APPLICATION_CREDENTIALS to
-that container path. Prefer workload identity for a cloud deployment.
+Copy `deployment/live.env.example` to `.env.providers` (ignored by Git), fill in
+the execution project, provider key and model ID, and set intended product access.
+The supplied example uses lexical retrieval to avoid embedding calls during setup.
+Then run:
+
+```sh
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
+```
+
+Use your own ADC or service-account credential file. The launcher puts a runtime copy in a private `0700` directory under
+`.local/docker-retail-live/` and mounts only that file read-only at `/run/secrets/google.json` and sets `GOOGLE_APPLICATION_CREDENTIALS`.
+The original credential file and its permissions are unchanged. The copy is
+readable by the non-root API inside the container; its host directory remains private.
+The launcher generates stable application tokens, label/adapter secrets and local login
+credentials in `.env.docker-retail-live`. The input env file supplies provider
+settings, budgets and entitlements; it does not replace the generated database,
+login, label or adapter secrets. On rerun, supplied provider settings update;
+local identities and stored reports remain. Fixture/live modes need separate
+project names and available ports. Stop with `./start.sh --project retail-live --stop`.
+
+No evaluation or corpus indexing is run by the launcher. Live questions and
+explicit embedding indexing can incur charges. Startup configuration validation
+does not prove credentials have working provider/BigQuery permissions. Prefer
+managed workload identity for cloud deployment.
+
+For manual host setup, the equivalent settings are described below.
 
 Set RETAIL_MODE=live and GOOGLE_CLOUD_PROJECT, a random LABEL_SECRET, and
 replace local demo API tokens. For direct Google use LLM_PROVIDER=gemini,

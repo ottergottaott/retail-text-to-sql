@@ -1,4 +1,4 @@
-"""Configure the isolated local fixture WebUI; never print credentials/tokens."""
+"""Configure a dedicated local WebUI; never print credentials/tokens."""
 import argparse
 import json
 import os
@@ -14,10 +14,14 @@ def main():
     parser.add_argument("--webui-url", default="http://127.0.0.1:3000")
     parser.add_argument("--login-script", type=Path, help="Optional private browser login helper; delete after use")
     parser.add_argument("--reports", action="store_true", help="Install Reports library API and native Action (requires Reports image overlay)")
+    parser.add_argument("--compose-local", action="store_true", help="Allow the private http://webui:8080 Compose service and live backend")
     args = parser.parse_args()
     config = dotenv_values(args.env_file)
-    if config.get("RETAIL_MODE") != "fixture" or urlparse(args.webui_url).hostname not in {"127.0.0.1", "localhost"}:
-        parser.error("This bootstrap is restricted to local fixture mode")
+    url = urlparse(args.webui_url)
+    local = url.scheme == "http" and url.hostname in {"127.0.0.1", "localhost"}
+    compose = args.compose_local and args.webui_url == "http://webui:8080"
+    if not (local or compose) or (config.get("RETAIL_MODE") != "fixture" and not args.compose_local):
+        parser.error("Bootstrap requires a dedicated local WebUI; Compose live setup needs --compose-local")
     email, password = config["WEBUI_ADMIN_EMAIL"], config["WEBUI_ADMIN_PASSWORD"]
     id = "retail_assessment_pipe"
     experience = json.loads((Path(__file__).parents[1] / "integrations/webui_report_experience.json").read_text())
@@ -30,7 +34,7 @@ def main():
         response.raise_for_status()
         auth = response.json()
         if auth.get("role") != "admin":
-            raise RuntimeError("The fixture account is not an administrator")
+            raise RuntimeError("The local account is not an administrator")
         client.headers["Authorization"] = "Bearer " + auth["token"]
         existing = client.get("/api/v1/functions/list"); existing.raise_for_status()
         present = next((f for f in existing.json() if f["id"] == id), None)

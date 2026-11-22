@@ -1,0 +1,16 @@
+{
+  "status": "incomplete",
+  "scope": "Docker-only reviewer launcher and versioned shared-tone operator command",
+  "automated_tests": {"passed": 221, "failed": 0, "seconds": 45.29, "new_config_tests": 5},
+  "shell_syntax": "passed",
+  "compose_fixture_config": "passed",
+  "compose_live_config": "passed",
+  "runtime": {
+    "image_build": "untested",
+    "fresh_webui_bootstrap": "untested",
+    "live_credentials_in_container": "untested",
+    "blocker": "Existing Docker daemon did not answer health requests. Docker Desktop restart failed to stop its processes within the configured timeout. No volumes were deleted."
+  },
+  "provider_calls": 0,
+  "boundary": "Unit tests validate config stability, redaction, mode separation and protected runtime credential copying. Compose validation does not prove image build, browser integration or live provider permissions. Existing browser evidence predates this launcher."
+}

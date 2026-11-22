@@ -1,0 +1,8 @@
+# Used only by start.sh --live; the host file is never copied into the image.
+services:
+  api:
+    volumes:
+      - type: bind
+        source: ${RETAIL_GOOGLE_CREDENTIALS:?Pass --google-credentials to start.sh}
+        target: /run/secrets/google.json
+        read_only: true

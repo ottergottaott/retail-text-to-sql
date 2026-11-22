@@ -5,6 +5,8 @@ RUN pip install --no-cache-dir uv==0.9.11
 COPY pyproject.toml uv.lock ./
 COPY retail ./retail
 COPY evaluation ./evaluation
+COPY scripts ./scripts
+COPY integrations ./integrations
 RUN uv sync --frozen --no-dev --no-cache \
     && useradd --uid 10001 --create-home retail \
     && mkdir /data && chown retail:retail /data

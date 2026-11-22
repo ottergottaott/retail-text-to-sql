@@ -12,19 +12,21 @@ The CLI and Open WebUI use the same backend.
 
 ## Quick start: no credentials required
 
-Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/). Run from the repository root:
+Requires Docker with Compose v2 (macOS, Linux or WSL). From the repository root:
 
 ```sh
-uv sync --frozen --extra dev
-uv run uvicorn retail.api:create_app --factory --host 127.0.0.1 --port 8000
+./start.sh
 ```
 
-In another terminal:
+Open **http://localhost:3000** and select **Retail Intelligence**. The script
+creates a private `.env.docker-retail-demo`; use its `WEBUI_ADMIN_EMAIL` and
+`WEBUI_ADMIN_PASSWORD` to sign in. It installs the Pipe, Reports library,
+feedback and preference pages. Python and uv run inside Docker.
+
+CLI against the same demo:
 
 ```sh
-export RETAIL_API_TOKEN=alice-local-token
-uv run retail --once 'monthly revenue' --json
-uv run retail
+docker compose -p retail-demo --env-file .env.docker-retail-demo exec -e RETAIL_API_TOKEN=alice-local-token api retail --once 'monthly revenue' --json
 ```
 
 This is **fixture mode**: synthetic data and a small rule-based planner. It
@@ -33,9 +35,10 @@ shows workflows and safety mechanics, not live model reasoning. Try
 The interactive CLI retains the conversation. Deletion requires an explicit
 application confirmation command after a preview.
 
-SQLite persists state in `retail.db`. Alice can analyze products 1/2; Bob
+Docker volumes persist PostgreSQL, reports and WebUI data. Alice can analyze products 1/2; Bob
 (`bob-local-token`) can analyze product 3. These are demo identities and tokens.
-For the browser demo, follow [Docker/Open WebUI setup](START_HERE.md#credential-free-docker-demo).
+Stop with `./start.sh --stop`; rerun `./start.sh` to resume. For alternate ports
+and the walkthrough, see [the reviewer guide](START_HERE.md#credential-free-docker-demo).
 
 ## Live Gemini and BigQuery
 
@@ -49,6 +52,34 @@ Follow [live setup](docs/setup.md#live-gemini-and-bigquery) and use
 The dataset is `bigquery-public-data.thelook_ecommerce`. Live model, embedding
 and BigQuery calls may incur charges. No credentials are included. The default
 configuration remains fixture mode; API health does not establish provider readiness.
+
+Copy [deployment/live.env.example](deployment/live.env.example) to `.env.providers`,
+fill in your project/model/key, then run:
+
+```sh
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
+```
+
+A runtime copy of the Google JSON is kept under a private `.local/docker-retail-live/`
+directory and mounted read-only; the source file is unchanged. The private generated
+`.env.docker-retail-live` keeps local application/login secrets across restarts.
+Use different ports if the demo is still running. Startup does not run model
+evaluations or embed the corpus; live chat and explicit indexing may incur charges.
+
+## Shared report tone
+
+Edit [deployment/tone.txt](deployment/tone.txt), then publish it:
+
+```sh
+./start.sh --tone deployment/tone.txt --reviewer owner
+```
+
+For a live deployment, add `--live --project retail-live`. The next turn uses
+the new shared tone without a restart. Versions are recorded; publish an older
+text again to roll back. Personal format/depth preferences remain per user.
+This is an operator command; a tone editor in WebUI is not implemented.
+The fixture planner does not demonstrate arbitrary tone changes; live generation
+receives the versioned tone in its context.
 
 ## How it works
 
@@ -74,7 +105,7 @@ uv run python -m retail.evaluate --output /tmp/retail-evaluation.json
 uv run python scripts/verify_offline.py --output /tmp/retail-workflow.json
 ```
 
-The latest local regression run passed 216 tests. Evaluators separately measure
+The latest local regression run passed 221 tests. Evaluators separately measure
 SQL results, retrieval ranking, workflow safety and report faithfulness. Live
 checks and synthetic tests have different evidence boundaries. There is no single
 overall accuracy score or automated GitHub Actions gate yet.

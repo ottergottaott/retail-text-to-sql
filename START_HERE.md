@@ -18,24 +18,29 @@ and remaining checks.
 
 ## Credential-free Docker demo
 
-Prerequisites: Docker Compose v2, Python 3.11+ and uv. Run from the extracted
+Prerequisites: Docker with Compose v2 (macOS, Linux or WSL). Run from the extracted
 project directory on a machine with ports 3000 and 8000 available. Initial
 dependency/image installation requires internet access.
 
 ```sh
-uv sync --frozen --extra dev
-uv run python scripts/setup_fixture.py
-docker compose -p retail-assessment --env-file .env.fixture -f compose.yaml -f compose.webui-reports.yaml up --build -d
-uv run python scripts/bootstrap_webui.py --reports
-docker compose -p retail-assessment --env-file .env.fixture -f compose.yaml -f compose.webui-reports.yaml up -d --force-recreate api webui
+./start.sh
 ```
 
 Open **http://localhost:3000**. Sign in with `WEBUI_ADMIN_EMAIL` and
-`WEBUI_ADMIN_PASSWORD` from your locally generated `.env.fixture`; the installer
+`WEBUI_ADMIN_PASSWORD` from your locally generated `.env.docker-retail-demo`; the installer
 does not print them. Select **Retail Intelligence**. Bootstrap expects the demo
 account to be the first administrator on a fresh WebUI volume. If you already
 have a WebUI deployment on this port, use a separate environment instead of
-reconfiguring that installation.
+reconfiguring that installation:
+
+```sh
+./start.sh --project another-demo --api-port 8010 --webui-port 3010
+```
+
+The script builds the runtime, generates persistent local secrets, waits for
+healthy services, installs the WebUI integrations and reloads their configuration.
+No Python or uv installation is required on the host. Rerun the same command
+after a setup interruption; it preserves the existing local login and data.
 
 **This is fixture mode:** deterministic synthetic data and a small rule-based
 planner, clearly labeled. It demonstrates integration and safety mechanics;
@@ -67,18 +72,16 @@ be remotely revoked when a database report is deleted.
 With the Docker API running:
 
 ```sh
-export RETAIL_API_TOKEN=alice-local-token
-uv run retail --url http://localhost:8000 --once 'monthly revenue' --json
-uv run pytest -q
-uv run python scripts/verify_offline.py --output /tmp/retail-offline.json
+docker compose -p retail-demo --env-file .env.docker-retail-demo exec -e RETAIL_API_TOKEN=alice-local-token api retail --once 'monthly revenue' --json
 ```
 
 Use `bob-local-token` to exercise a separate fixture user. Alice is authorized for
 products 1/2; Bob for product 3. These are local demo tokens, not production credentials.
-Use the interactive `uv run retail --url http://localhost:8000` to retain a
-conversation, or pass `--conversation ID` between invocations.
+Omit `--once ... --json` for the interactive CLI, or pass `--conversation ID`
+between invocations. Developer tests use `uv sync --frozen --extra dev` and
+`uv run pytest -q`; uv is optional for reviewer startup.
 
-Stop with the same Compose arguments followed by `stop`. Named volumes preserve
+Stop with `./start.sh --stop` (include `--project NAME` for another deployment). Named volumes preserve
 data. Do not use `down -v` unless you intend to erase the demo databases.
 
 ## Live model and data
@@ -89,6 +92,29 @@ application-default credentials and a project with query-job permission.
 See [.env.example](.env.example), [setup](docs/setup.md), and
 [BigQuery verification](docs/bigquery-verification.md). For a host live backend,
 use the documented public launch command; private development helpers are not required.
+
+For the Docker live launch, fill in `.env.providers` from
+[deployment/live.env.example](deployment/live.env.example), then use:
+
+```sh
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
+```
+
+Supply your own Google ADC/service-account credential file with the required
+BigQuery permissions. A runtime copy is kept in the private `.local/docker-retail-live/` directory
+and mounted read-only, never copied into the image; the source file is unchanged.
+This creates a new reviewer deployment; it does not import existing developer
+reports or WebUI accounts. The example product entitlements are demonstration
+settings; replace them deliberately. For production, use managed identities.
+
+## Shared report tone
+
+Edit [deployment/tone.txt](deployment/tone.txt), then run
+`./start.sh --tone deployment/tone.txt --reviewer owner`. Add
+`--live --project retail-live` for that deployment. The operator command
+publishes a new shared version; the next question uses it without a restart.
+It controls presentation tone. Personal format/depth preferences are separate.
+There is no WebUI editor for this shared setting yet.
 
 Curated examples are explicitly synthetic, not client-supplied analyst history.
 Load them with `retail-admin load-demo` and index with `retail-admin index`
@@ -107,7 +133,7 @@ autonomous training, preference inference, dashboard scheduler or durable mid-tu
 resume. Human approval governs shared knowledge publication. Local Langfuse experiment ingestion and live metadata delivery have been verified.
 See [experiment setup and boundaries](docs/faithfulness-experiments.md).
 
-216 tests passed in the latest local run, including five actual CLI/HTTP/SSE integration tests. Live business checks and judge scores
+221 tests passed in the latest local run, including five actual CLI/HTTP/SSE integration tests. Live business checks and judge scores
 have separate evidence contracts; tests are not an answer-accuracy percentage.
 A fresh installation on another machine and final human report acceptance remain open.
 The latest prompt experiment is incomplete after provider balance exhaustion;
