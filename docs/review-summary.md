@@ -25,18 +25,36 @@ Open http://localhost:3000. Use the generated WebUI login in
 cloud credentials. [Walkthrough](../START_HERE.md#five-minute-walkthrough).
 
 For real queries, supply your own model-provider key, BigQuery execution project
-and Google credential JSON. Both direct Gemini and Gemini via DeepInfra are
-supported. [Credential and endpoint instructions](setup.md#credentials-checklist).
+and Google credential JSON. Direct Gemini, DeepInfra, and OpenAI-compatible gateways are supported. [Credential and endpoint instructions](setup.md#credentials-checklist).
 
 Default local endpoints: WebUI `http://localhost:3000`, backend
 `http://localhost:8000`, API reference `http://localhost:8000/docs`.
 These are local services; this repository does not include a hosted public API.
 
+## Fastest verification path
+
+```sh
+git clone git@github.com:ottergottaott/retail-text-to-sql.git
+cd retail-text-to-sql
+./start.sh
+```
+
+Open `http://localhost:3000`, sign in with the generated credentials from
+`.env.docker-retail-demo`, select **Retail Intelligence**, then ask:
+**Create and save a monthly revenue report.** Open **Reports**, select the saved
+report, expand **Query evidence**, and click **Open tab**. This verifies the core
+question → progress → table → save → report-library flow using fixture data.
+No provider or BigQuery credentials are needed for this smoke test.
+
+For live mode, copy `deployment/live.env.example` or use the OpenAI-compatible
+example in `docs/setup.md`, provide the model key and Google credential JSON, then
+run the documented `./start.sh --live ...` command.
+
 ## Recorded checks
 
 | Check | Result | Scope |
 | --- | --- | --- |
-| Regression suite | 252 passed | Controlled tests; brand access, stored artifacts and demographic privacy. [Evidence](../evaluation/client-alignment-2026-11-22.json) |
+| Regression suite | 253 passed | Controlled tests; brand access, stored artifacts and demographic privacy. [Evidence](../evaluation/client-alignment-2026-11-22.json) |
 | Current Docker/CLI | 10 HTTP/CLI checks + 4 rerun checks passed | Fresh fixture deployment, retained login/report, installed-source match. [Evidence](../evaluation/client-runtime-2026-11-22.json) |
 | Current browser smoke | Report library, embedded report, separate tab and SQL highlighting checked | Fixture data; screenshots linked in [runtime evidence](../evaluation/client-runtime-2026-11-22.json). |
 | Historical live SQL/save/structure | 12 selected reports | 11/12 initial passes plus 1/1 recheck; 13 requests, retail-v7. [Evidence](../evaluation/live-business-pro-final-2026-11-21.json) |

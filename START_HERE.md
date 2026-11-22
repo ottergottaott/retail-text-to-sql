@@ -18,6 +18,13 @@ and remaining checks.
 
 ## Credential-free Docker demo
 
+**Fast path:** run `./start.sh`, open `http://localhost:3000`, sign in with the
+generated credentials in `.env.docker-retail-demo`, select **Retail Intelligence**,
+and ask **Create and save a monthly revenue report.** Then open **Reports** →
+report → **Query evidence** → **Open tab**. This checks the main workflow in a
+few minutes without any cloud key.
+
+
 Prerequisites: Docker with Compose v2 (macOS, Linux or WSL). Run from the extracted
 project directory on a machine with ports 3000 and 8000 available. Initial
 dependency/image installation requires internet access.

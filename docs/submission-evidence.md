@@ -5,14 +5,14 @@ Updated on 22 November 2026. Results are local observations, not production guar
 Current entry point: [one-page review summary](review-summary.html),
 [source-backed metrics](../evaluation/submission-metrics-2026-11-22.json) and
 [browser acceptance](../evaluation/browser-acceptance-2026-11-22.json).
-The latest regression suite passed 252/252 tests; see [client-alignment evidence](../evaluation/client-alignment-2026-11-22.json). Earlier dated summaries retain their original counts.
+The latest regression suite passed 253/253 tests; see [client-alignment evidence](../evaluation/client-alignment-2026-11-22.json). Earlier dated summaries retain their original counts.
 DeepSeek independently audited the metric claims and compared the new live
 WebUI report with its embedded SQL evidence; it did not execute SQL or inspect
 screenshots. Both critiques are retained in `evaluation/deepseek-*-2026-11-22.json`.
 
 | Area | Evidence | What it establishes |
 | --- | --- | --- |
-| Regression suite | 252 passing tests, including brand scope, demographic privacy, experiment infrastructure and CLI integration | Controlled safety, workflow, provider-contract and learning mechanics |
+| Regression suite | 253 passing tests, including brand scope, demographic privacy, experiment infrastructure and CLI integration | Controlled safety, workflow, provider-contract and learning mechanics |
 | Prompt iteration | `evaluation/prompt-iteration-3-2026-11-22/` | Narrow save-state improvement: complete paired generation/scoring, DeepSeek critique, live-model/fixture-SQL workflow checks; distinct Ragas contracts |
 | WebUI feedback/preferences | `evaluation/learning-loop-acceptance-2026-11-21.json` | Actual native Actions, owned response mapping, unreviewed feedback and persisted preferences |
 | Reviewed improvement | `evaluation/learning-loop-live-v2-2026-11-21.json` | Real Gemini/Qwen calls; one synthetic new definition, reviewed publication/indexing, correct fixture SQL result |

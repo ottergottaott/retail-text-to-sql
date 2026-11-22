@@ -3,11 +3,11 @@
   "spec": "docs/acceptance-spec.md v1.1",
   "prompt": "retail-v9-client-policy",
   "tests": {
-    "passed": 252,
+    "passed": 253,
     "failed": 0,
     "errors": 0,
-    "seconds": 58.592,
-    "source": "client-alignment-tests-2026-11-22.xml"
+    "seconds": 54.54,
+    "source": "client-alignment-tests-2026-11-23.xml"
   },
   "new_contracts": [
     "brand manager and CEO authorization",
