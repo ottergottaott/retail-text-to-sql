@@ -1,0 +1,23 @@
+{
+  "status": "inconclusive",
+  "provider": "alibaba-cn",
+  "model": "deepseek-v4.1-flash",
+  "interface": "OpenCode CLI",
+  "user_source_transfer_consent": "explicit, 2026-11-23",
+  "files": [
+    "retail/privacy.py",
+    "retail/security.py",
+    "retail/analytics.py",
+    "tests/test_demographic_privacy.py",
+    "tests/test_brand_access.py"
+  ],
+  "boundary": "Selected source/test bundle only; no credentials or real customer rows. No DeepInfra calls. One model step recorded.",
+  "result": "OpenCode reported finish reason length with zero answer tokens; no findings or acceptance verdict returned.",
+  "reported_tokens": {
+    "input": 21276,
+    "output": 0,
+    "reasoning": 32000,
+    "cache_read": 1024
+  },
+  "opencode_reported_cost_usd": 0.04443049816
+}

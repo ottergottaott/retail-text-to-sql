@@ -22,8 +22,9 @@
   ],
   "evidence_boundary": "Deterministic fixture and mocked SDK contracts. No live Gemini, BigQuery or embedding calls in this run. Historical judge/browser results do not measure the new policy. Business override context tests do not prove live model SQL semantics.",
   "independent_model_review": {
-    "status": "blocked_pending_explicit_source_transfer_consent",
-    "reason": "Automatic approval rejected source upload to Alibaba China; no reviewer call completed; no provider substitution."
+    "status": "inconclusive",
+    "source": "china-policy-review-2026-11-23.json",
+    "reason": "User explicitly approved source transfer. OpenCode China DeepSeek ran but exhausted its response length before returning any review text."
   },
   "remaining": [
     "live Gemini/BigQuery acceptance with user-supplied key",

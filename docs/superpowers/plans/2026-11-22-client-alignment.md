@@ -55,8 +55,8 @@ submission summary and tests for model-boundary context and overrides.
 - [x] Verify fresh/repeated isolated Docker startup, persistence, CLI/WebUI and
   unavailable/invalid credentials without modifying unrelated deployments.
 - [ ] Obtain independent OpenCode review on bounded code changes; resolve issues.
-  Blocked: automatic approval rejected source transfer to Alibaba China; explicit
-  source-transfer consent requested. No model review completed.
+  Explicit source-transfer consent received 23 November. OpenCode China DeepSeek
+  ran but returned no review text (finish reason length); review is inconclusive.
 - [x] Inspect tracked history for credentials/private data before public push.
 - [x] Set remote `git@github.com:ottergottaott/retail-text-to-sql.git`; publish
   reviewed clean commits only. Record remaining live Gemini gate explicitly.
