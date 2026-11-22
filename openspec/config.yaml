@@ -1,0 +1,47 @@
+schema: spec-driven
+
+context: |
+  The supplied Retail Company assessment PDF is authoritative.
+  Clearly distinguish assignment requirements, chosen additions, implemented
+  behavior and remaining verification. Production design is not runtime proof.
+  Fixture results cannot prove real Gemini, BigQuery or embedding behavior.
+  Do not publish externally without explicit user authorization.
+
+rules:
+  proposal:
+    - Identify assessment requirements separately from chosen additions.
+  specs:
+    - Describe observable acceptance behavior without claiming it already passes.
+  tasks:
+    - Mark a task complete only when current evidence proves its stated scope.
+
+# Project context (optional)
+# Add only constraints that should guide OpenSpec artifacts and workflows.
+# Include constraints an agent cannot infer by reading the code.
+# Keep general project documentation and discoverable codebase facts out.
+# Example:
+#   context: |
+#     Designs and tasks must cover Windows, macOS, and Linux
+#     Write all artifacts in Spanish
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

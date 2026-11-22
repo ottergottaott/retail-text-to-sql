@@ -1,0 +1,9 @@
+{
+  "source": "retail/model.py and retail/deepinfra.py",
+  "trace_prompt_version": "retail-v8",
+  "files": {
+    "decision.schema.json": "b4a1ec73feea21a058eb72d410b0a902ce0289f3f5afdaad604b310e05e1e962",
+    "deepinfra-decision.schema.json": "f8233056062a01c5ce65d808ccf2ed799ece31fb26c48446ec4bac804cb15ea2",
+    "system.txt": "8e86bb2ebb0cac15e71e7c938f8f8ea019e8777e118d3ca2d93b76e99a1f4b09"
+  }
+}

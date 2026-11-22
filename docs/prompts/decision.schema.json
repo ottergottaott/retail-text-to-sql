@@ -1,0 +1,82 @@
+{
+  "properties": {
+    "action": {
+      "enum": [
+        "query",
+        "answer",
+        "clarify",
+        "schema",
+        "save_report",
+        "list_reports",
+        "open_report",
+        "delete_reports",
+        "preference"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "text": {
+      "default": "",
+      "maxLength": 16000,
+      "title": "Text",
+      "type": "string"
+    },
+    "sql": {
+      "default": "",
+      "maxLength": 24000,
+      "title": "Sql",
+      "type": "string"
+    },
+    "title": {
+      "default": "Analysis report",
+      "maxLength": 200,
+      "title": "Title",
+      "type": "string"
+    },
+    "report_id": {
+      "default": "",
+      "maxLength": 80,
+      "title": "Report Id",
+      "type": "string"
+    },
+    "phrase": {
+      "default": "",
+      "maxLength": 200,
+      "title": "Phrase",
+      "type": "string"
+    },
+    "current_conversation": {
+      "default": false,
+      "title": "Current Conversation",
+      "type": "boolean"
+    },
+    "format": {
+      "default": "tables",
+      "enum": [
+        "tables",
+        "bullets",
+        "prose"
+      ],
+      "title": "Format",
+      "type": "string"
+    },
+    "depth": {
+      "default": "standard",
+      "enum": [
+        "concise",
+        "standard",
+        "detailed"
+      ],
+      "title": "Depth",
+      "type": "string"
+    }
+  },
+  "required": [
+    "action",
+    "text",
+    "format",
+    "depth"
+  ],
+  "title": "Decision",
+  "type": "object"
+}
