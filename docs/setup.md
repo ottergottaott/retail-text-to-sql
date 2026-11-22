@@ -26,6 +26,13 @@ loopback. Generated configuration files contain secrets; do not share or commit
 them. A fixture launch makes no model/BigQuery calls and demonstrates mechanics,
 not live answer quality. See [the walkthrough](../START_HERE.md).
 
+### Restricted Docker Desktop file sharing
+
+If startup reports `Mounts denied`, allow the repository directory in Docker
+Desktop → Settings → Resources → File Sharing, then rerun the command. For live
+setup, the supplied credential files must also be in allowed locations. This is
+a host Docker setting; the launcher does not change it automatically.
+
 ## Open WebUI Pipe
 
 1. Create the first local WebUI account as administrator.
