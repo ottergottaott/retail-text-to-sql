@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\nThis analysis measures item-level revenue (`SUM(sale_price)`) and item counts (`COUNT(*)`) for the executor-authorized product scope. The population is filtered to items where `status = 'Complete'`. No date filter was applied in q1; historical coverage was not audited.\n\nBased on the results [q1], the West brand generated 210.0 in complete revenue from 7 complete items. The South brand also had 7 complete items but generated lower revenue at 140.0.\n\n### Limitations\n* This query measured item counts, not distinct order volume or customer counts.\n* It did not measure catalogue costs or actual gross profit.\n\n### Action items (proposed)\n* Query the distinct `order_key` count by brand to determine if these items were purchased in single or multi-item orders.\n* Compare `sale_price` to `products.retail_price` to check for current reference price gaps across these brands.",
+  "status": "generated",
+  "seconds": 19.739013349999368,
+  "usage": {
+    "input_tokens": 2640,
+    "output_tokens": 1237,
+    "total_tokens": 3877,
+    "thought_tokens": 941,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

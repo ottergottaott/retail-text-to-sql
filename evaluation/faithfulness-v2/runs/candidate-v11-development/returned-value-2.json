@@ -1,0 +1,25 @@
+{
+  "id": "returned-value-2",
+  "family": "returned-value",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| returned_recorded_value | returned_items |\n|---|---|\n| 50.0 | 2 |\n\nThe table above shows the results from [q1]. The metric `returned_recorded_value` is calculated as the sum of `sale_price`, and `returned_items` is the count of item rows. The analysis is at the item grain. The population is filtered strictly to items where `status = 'Returned'`. The product scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query measured the recorded sale price of returned items, not the actual refunded amounts or net profit.\n* Total sales volume was not queried, so a return rate cannot be established from this data.\n\n### Action items (proposed)\n* What is the return rate compared to completed sales? (Query `order_items` to compare the count of 'Returned' items against 'Complete' items).\n* Are these returns concentrated in specific products? (Query `order_items` joined with `products` grouping by `name` or `category` for returned items).",
+  "status": "generated",
+  "seconds": 15.977883977999227,
+  "usage": {
+    "input_tokens": 2573,
+    "output_tokens": 1062,
+    "total_tokens": 3635,
+    "thought_tokens": 774,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

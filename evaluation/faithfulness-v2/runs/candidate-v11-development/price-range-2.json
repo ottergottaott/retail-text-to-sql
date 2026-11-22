@@ -1,0 +1,25 @@
+{
+  "id": "price-range-2",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| min_price | max_price |\n|---|---|\n| 20.0 | 30.0 |\n\nThe table above shows the minimum and maximum `sale_price` observed [q1]. This analysis was conducted at the item grain, filtered to a population where `status = 'Complete'`. The product scope was restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure the total volume (item count) of sales, so the sample size supporting this price range is unknown.\n* The distribution of sales across this range (e.g., average or median sale price) was not measured.\n\n### Action items (proposed)\n* Query the count of Complete items grouped by `sale_price` to determine the actual distribution of sales volume across this 20.0 to 30.0 range.\n* Query the `sale_price` alongside `products.retail_price` to check if the observed variation represents a gap from the current catalogue reference price.",
+  "status": "generated",
+  "seconds": 14.096032491999722,
+  "usage": {
+    "input_tokens": 2577,
+    "output_tokens": 1074,
+    "total_tokens": 3651,
+    "thought_tokens": 802,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

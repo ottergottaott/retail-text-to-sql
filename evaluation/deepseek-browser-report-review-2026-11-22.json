@@ -1,0 +1,20 @@
+{
+  "evidence_boundary": "Read only evaluation/browser-live-report-2026-11-22.json. This is a saved retail-v8 WebUI/Gemini/BigQuery report object; the embedded provenance rows are the only evidence compared. No independent SQL recomputation, no network, no execution, no visual/browser review, and no human acceptance. Product scope (1,2) is asserted via body.products and presumed executor-bound; the SQL itself carries no product predicate, so I cannot verify the binding here.",
+  "verdict": "consistent_no_blocking_findings",
+  "checks": {
+    "table_values": "Match provenance exactly: product 2 Calvin Klein 69.50 / 1 item; product 1 Seven7 49.00 / 1 item. Aliases product_id, product_name, completed_revenue, completed_items match the SQL aliases.",
+    "grain": "Correct item grain: SQL uses COUNT(i.item_key) per product_id/product_name over status='Complete'; COUNT(item_key) counts items, not orders, and no join fan-out (products joined on p.id=i.product_id, single row per product).",
+    "status_and_window": "status='Complete' enforced in SQL; 'all available history' matches the absence of a date filter; completeness/coverage flagged unmeasured, which is accurate.",
+    "sample_limitations": "Accurate: 'only 1 item per product' is supported by completed_items=1 for each row; no invented sample size.",
+    "pricing_caveat": "Appropriately states discount history, promotional calendars and stock availability were not measured; no historical-discount or current-price-gap claim is made.",
+    "causal_claims": "None asserted; next checks are phrased as proposals.",
+    "save_status": "No save/success claim appears in the content text, so nothing is fabricated. The object itself carries report_id rep_6f502bbf85fa399b and a persisted body, which is consistent with a saved report; the content simply omits a receipt line."
+  },
+  "blocking_findings": [],
+  "minor_findings": [
+    "Proposed check 'whether these products have active inventory or if they were excluded from recent promotional campaigns' presumes inventory and promotion data exist, mildly inconsistent with the same report's stated limitation that stock/promotional calendars were not measured. It is framed as a proposal, so non-blocking; better phrased as 'confirm whether such data is available'.",
+    "Content has no explicit save receipt line; existence is evidenced only by report_id/body, so a reader of the text alone cannot confirm the save. Not misleading, but not self-evidencing.",
+    "SQL lacks an explicit product predicate; correctness for the authorized scope depends on the executor-bound views (consistent with products [1,2]) and cannot be verified from this file alone."
+  ],
+  "recommendation": "Accept this report as internally consistent: numeric values, item grain, Complete-status/window framing, small-sample limitation and absent causal claims all match the embedded provenance. No blocking discrepancy found. Do not describe this as independent SQL verification, visual acceptance, or human review; the residual inventory/promotion premise and the implicit executor scope binding remain noted."
+}

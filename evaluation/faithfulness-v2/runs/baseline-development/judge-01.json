@@ -1,0 +1,743 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.5336805555555555,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.5336805555555555,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "realized-price-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The overall mean realized price for Complete items is 15.0.",
+                "reason": "The SQL query calculates the average sale price for order items where status is 'Complete', and the returned mean_price is 15.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured the overall average sale price.",
+                "reason": "The SQL query only selects AVG(`order_items`.`sale_price`) and does not include any other metrics or dimensions.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not query transaction volume, which includes item counts.",
+                "reason": "The SQL query only selects the average sale price and does not query COUNT or any other volume metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not query time periods.",
+                "reason": "The SQL query does not contain any date or time filters or groupings.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not query product-level distributions.",
+                "reason": "The SQL query does not group by product or filter by specific products, except for the execution scope restriction.",
+                "verdict": 1
+              },
+              {
+                "statement": "The scale of demand and any variations across the catalog remain unmeasured.",
+                "reason": "Since only the overall average price was queried, demand scale (volume) and catalog variations (product breakdown) are indeed unmeasured in this query.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to measure volume by querying the count of Complete items to establish actual transaction volume and demand scale.",
+                "reason": "The context only contains the SQL query, its execution metadata, and scope. It does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to perform trend analysis by analyzing the mean price and item volume over time, such as by month or quarter, to identify historical trends.",
+                "reason": "The context does not contain any information about proposed action items or trend analysis.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to perform a product breakdown by grouping the mean price and volume by product category or brand to identify which segments drive the overall average.",
+                "reason": "The context does not contain any information about proposed action items or product breakdowns.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.182312983999509
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The overall mean realized price for Complete items is 15.0.",
+                "reason": "The SQL query calculates the average sale price of order items where status is 'Complete', and the returned mean_price is 15.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured the overall average sale price.",
+                "reason": "The SQL query only selects AVG(sale_price) as mean_price, with no other metrics or dimensions.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not query transaction volume (item counts).",
+                "reason": "The SQL query does not contain COUNT() or any other volume metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not query time periods.",
+                "reason": "The SQL query does not reference any date or time columns or filters.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not query product-level distributions.",
+                "reason": "The SQL query does not group by product or select product-level details.",
+                "verdict": 1
+              },
+              {
+                "statement": "The scale of demand remains unmeasured.",
+                "reason": "No volume, count, or demand metrics were queried in the SQL.",
+                "verdict": 1
+              },
+              {
+                "statement": "Variations across the catalog remain unmeasured.",
+                "reason": "The query calculates a single overall average and does not group by product, category, or catalog variations.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.019913258000088
+        }
+      }
+    },
+    {
+      "id": "realized-price-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.625,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized price for Complete items within the authorized product scope is 25.0.",
+                "reason": "The context shows a mean_price of 25.0 from a query calculating the average sale price of order items where status is 'Complete', and the execution scope restricts to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only the overall average sale price for items with a 'Complete' status.",
+                "reason": "The SQL query in the context is 'SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'', which only measures the average sale price for complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the total count of items.",
+                "reason": "The SQL query only selects the average sale price (AVG) and does not include a COUNT function.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the time period of the sales.",
+                "reason": "The SQL query does not filter by or select any date or time fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the variance or distribution of the prices.",
+                "reason": "The SQL query only calculates the average (AVG) and does not calculate variance, standard deviation, or other distribution metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total count of Complete items to establish the sample size supporting the average price.",
+                "reason": "The context contains only query execution metadata, SQL, and results. It does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze the minimum, maximum, and percentiles of the sale price to identify the range of realized prices and potential discounting.",
+                "reason": "The context contains only query execution metadata, SQL, and results. It does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to group the mean price by month or quarter to observe if the realized price has changed over time.",
+                "reason": "The context contains only query execution metadata, SQL, and results. It does not mention any proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.80188735700176
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized price for Complete items within the authorized product scope is 25.0.",
+                "reason": "The SQL query calculates the average sale price of order items with status 'Complete', and the returned row shows a mean_price of 25.0. The execution scope restricts this to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only the overall average sale price for items with a 'Complete' status.",
+                "reason": "The SQL query only selects AVG(`order_items`.`sale_price`) with the filter `status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the total count of items.",
+                "reason": "The SQL query does not contain any COUNT aggregate function.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the time period of the sales.",
+                "reason": "The SQL query does not inspect any date or time columns.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the variance or distribution of the prices.",
+                "reason": "The SQL query only calculates the average (AVG) and does not measure variance, standard deviation, or other distribution metrics.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.149271584001326
+        }
+      }
+    },
+    {
+      "id": "returned-value-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.42857142857142855,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The returned recorded sale value for authorized products is 30.0.",
+                "reason": "The context shows a returned_recorded_value of 30.0 from the query, but there is no indication that this value is specifically filtered or restricted to the 'authorized_products' listed in the execution scope.",
+                "verdict": 0
+              },
+              {
+                "statement": "The number of returned items for authorized products is 2.",
+                "reason": "The context shows returned_items is 2, but there is no indication that this count is specifically filtered or restricted to the 'authorized_products' listed in the execution scope.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query only measured the recorded sale price and count of items explicitly marked with a 'Returned' status.",
+                "reason": "The SQL query in the context explicitly selects SUM(sale_price) and COUNT(*) with the WHERE clause `order_items`.`status` = 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure actual refunded amounts, return reasons, or the timeframe of the returns.",
+                "reason": "The SQL query only selects the sum of sale_price and count of items where status is 'Returned', and does not select fields for refunded amounts, return reasons, or timeframes.",
+                "verdict": 1
+              },
+              {
+                "statement": "The observed sample size of returned items is very small, consisting of only 2 items.",
+                "reason": "The context explicitly states that the returned_items count is 2, which is a very small sample size.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to group returned items by product category or brand to identify specific products driving returns.",
+                "reason": "There is no mention of proposed action items, product categories, or brands in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to compare the return rate across different customer age bands or locations to see if specific segments have higher return frequencies.",
+                "reason": "There is no mention of customer age bands, locations, or return rates in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.22223312800088
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The returned recorded value of authorized products is 30.0.",
+                "reason": "The SQL query calculates the SUM of sale_price as returned_recorded_value, which is 30.0, and the execution scope limits the authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The number of returned items of authorized products is 2.",
+                "reason": "The SQL query counts the items, and the returned row shows returned_items is 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measured the recorded sale price and count of items explicitly marked with a 'Returned' status.",
+                "reason": "The SQL query filters specifically on `order_items`.`status` = 'Returned' and selects SUM(sale_price) and COUNT(*).",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure actual refunded amounts, return reasons, or the timeframe of the returns.",
+                "reason": "The SQL query only aggregates sale_price and count for returned items, without selecting or filtering on refund amounts, reasons, or timeframes.",
+                "verdict": 1
+              },
+              {
+                "statement": "The observed sample size is very small, consisting of 2 items.",
+                "reason": "The returned_items count is 2, which is a very small observation count.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.226263137999922
+        }
+      }
+    },
+    {
+      "id": "returned-value-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.4444444444444444,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For the user's authorized products, the recorded sale value of items with a 'Returned' status is $50.00.",
+                "reason": "The context shows a returned_recorded_value of 50.0, but the SQL query itself does not filter by the authorized_products [2, 3] mentioned in the execution_scope.",
+                "verdict": 0
+              },
+              {
+                "statement": "The recorded sale value of $50.00 for returned items spans across 2 items.",
+                "reason": "The context explicitly states returned_recorded_value is 50.0 and returned_items is 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL query only measured the recorded sale_price and count of items currently marked as 'Returned'.",
+                "reason": "The SQL query is 'SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'', which matches this description.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL query does not measure actual refunded amounts, net profit, or whether discounts were applied.",
+                "reason": "The SQL query only selects the sum of sale_price and count of items, with no fields for refunds, net profit, or discounts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size of the query is very small, consisting of only 2 items.",
+                "reason": "The returned_items count is 2, which is indeed a very small number of items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The small sample size of 2 items means these results cannot establish broader return trends.",
+                "reason": "While logically true, this analytical conclusion is not directly stated or inferable from the raw JSON data provided in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare sale_price to retail_price for the returned items to determine if they were purchased at a discount.",
+                "reason": "There are no proposed action items mentioned in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to group returned items by product_id or category to identify which specific products are driving the returns.",
+                "reason": "There are no proposed action items mentioned in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze the created_at dates of the returned items to see if they correspond to a specific period.",
+                "reason": "There are no proposed action items mentioned in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.398947657999088
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For the user's authorized products, the recorded sale value of items with a 'Returned' status is $50.00.",
+                "reason": "The SQL query calculates the SUM of sale_price for returned items, and the returned row shows a value of 50.0. The execution scope restricts this to authorized products 2 and 3.",
+                "verdict": 1
+              },
+              {
+                "statement": "The recorded sale value of $50.00 for returned items spans across 2 items.",
+                "reason": "The returned row shows returned_recorded_value is 50.0 and returned_items (COUNT(*)) is 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measured the recorded sale_price and count of items currently marked as 'Returned'.",
+                "reason": "The SQL query selects SUM(sale_price) and COUNT(*) with the filter status = 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure actual refunded amounts, net profit, or whether discounts were applied.",
+                "reason": "The query only aggregates sale_price and count, and does not inspect refund columns, cost/profit columns, or discount history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size of returned items is 2 items.",
+                "reason": "The returned_items count is 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size of 2 items is very small, so these results cannot establish broader return trends.",
+                "reason": "Two observed items justify a cautious small-observation-count limitation; do not infer causal demand or general population patterns.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.8045073749999574
+        }
+      }
+    },
+    {
+      "id": "catalog-count-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5714285714285714,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue contains 2 authorized products.",
+                "reason": "The context explicitly lists authorized_products as [1, 2], which means there are 2 authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL query output shows a count of 2 under the alias catalogue_products.",
+                "reason": "The context shows rows containing 'catalogue_products': 2, which is the output of the SQL query.",
+                "verdict": 1
+              },
+              {
+                "statement": "The provided query only counts the number of authorized products in the catalogue.",
+                "reason": "The SQL query is 'SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`'. It counts all products in the products table, not specifically filtering for 'authorized' products in the SQL string itself, although the execution scope mentions authorized products.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query does not measure sales volume, revenue, net profit, or discount history.",
+                "reason": "The query only counts products and does not reference sales volume, revenue, net profit, or discount history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The execution scope automatically binds the query to the user's authorized products.",
+                "reason": "The context mentions 'execution_scope': {'authorized_products': [1, 2], 'enforcement': 'executor_bound_views'}, which implies the execution scope binds the query to these authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the `order_items` table to measure the total sales volume and revenue for the authorized products.",
+                "reason": "There is no mention of proposed action items or an `order_items` table in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to analyze the `sale_price` versus `retail_price` to determine if any discounts have been applied historically.",
+                "reason": "There is no mention of analyzing `sale_price` versus `retail_price` or any proposed action items in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.196295674999419
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue contains 2 authorized products.",
+                "reason": "The query counts the products in the database, and the returned count is 2. The execution scope restricts the authorized products to [1, 2], which is exactly 2 products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only counts the number of authorized products in the catalogue.",
+                "reason": "The query is 'SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`'. Under the execution scope 'executor_bound_views' with authorized_products [1, 2], the query is bound to only count these authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure sales volume, revenue, net profit, or discount history.",
+                "reason": "The query only performs a COUNT(*) on the products table and does not inspect sales volume, revenue, net profit, or discount history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The execution scope automatically binds the query to the user's authorized products.",
+                "reason": "The execution scope metadata shows 'enforcement': 'executor_bound_views' for authorized_products [1, 2], which binds the query execution to those products.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.275410827000087
+        }
+      }
+    },
+    {
+      "id": "catalog-count-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.2,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query returned a count of 2 authorized products in the catalogue.",
+                "reason": "The context shows 'catalogue_products' is 2, and 'authorized_products' contains [2, 3], but the query itself was 'SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`'. It does not explicitly state that the count of 2 represents 'authorized' products, only 'catalogue_products'. However, looking closely, the query returned a count of 2, and the execution scope lists authorized products as [2, 3]. Thus, the query returned a count of 2 catalogue products, not specifically 2 authorized products.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query only measured the total count of authorized products in the catalogue.",
+                "reason": "The query measured the total count of all products in the 'products' table ('SELECT COUNT(*) AS `catalogue_products` FROM `products`'), not specifically 'authorized' products.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query did not measure product categories, brands, pricing, or sales performance.",
+                "reason": "The query is 'SELECT COUNT(*) AS `catalogue_products` FROM `products`', which only counts the rows and does not measure categories, brands, pricing, or sales performance.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the distribution of the authorized products by category or brand.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze the sales volume or revenue generated by the authorized products.",
+                "reason": "There is no mention of proposed action items or sales volume/revenue analysis in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.651011787000243
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The count of authorized catalogue products is 2.",
+                "reason": "The query returned a count of 2 for catalogue products, and the execution scope restricts the authorized products to IDs [2, 3], which has a size of 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only the total count of authorized products in the catalogue.",
+                "reason": "The SQL query is a simple COUNT(*) on the products table, which measures only the total count of products within the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure product categories, brands, pricing, or sales performance.",
+                "reason": "The SQL query only selected COUNT(*), meaning it did not inspect or measure product categories, brands, pricing, or sales performance.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 5.825092690998645
+        }
+      }
+    },
+    {
+      "id": "catalog-price-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis retrieved the static catalogue reference prices, represented as retail_price, for the authorized products.",
+                "reason": "The context shows a SQL query retrieving `id` and `retail_price` from `products` for authorized products (ids 1 and 2).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure actual transaction prices, represented as sale_price.",
+                "reason": "The context only contains a query for `retail_price` from the `products` table and does not contain any information or measurement of `sale_price`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure historical sales volume.",
+                "reason": "The context only shows a query retrieving product IDs and retail prices, with no mention or measurement of historical sales volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer demand.",
+                "reason": "The context only shows a query retrieving product IDs and retail prices, with no mention or measurement of customer demand.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed action item is to compare the retail_price against the average sale_price in order_items to determine the effective discount rate for each product.",
+                "reason": "There are no proposed action items or mentions of `order_items` or `sale_price` in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to query the count of completed order_items by product id to evaluate sales volume relative to the reference prices.",
+                "reason": "There are no proposed action items or mentions of `order_items` or sales volume evaluation in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.458745424999506
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue reference price (retail_price) for product ID 1 is 100.0.",
+                "reason": "The returned rows show product ID 1 has a retail_price of 100.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The catalogue reference price (retail_price) for product ID 2 is 80.0.",
+                "reason": "The returned rows show product ID 2 has a retail_price of 80.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis retrieved static catalogue reference prices (retail_price) for authorized products.",
+                "reason": "The SQL query selects 'retail_price' from 'products' for the authorized products (IDs 1 and 2).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure actual transaction prices (sale_price).",
+                "reason": "The SQL query only selects 'retail_price' and does not inspect or measure 'sale_price' or transaction prices.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure historical sales volume.",
+                "reason": "The SQL query only retrieves product IDs and retail prices, without inspecting sales volume or transaction history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer demand.",
+                "reason": "The SQL query only retrieves product IDs and retail prices, without inspecting customer demand metrics.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 5.865479277001214
+        }
+      }
+    },
+    {
+      "id": "catalog-price-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The reference price for the authorized product with ID 2 is 80.0 based on the catalogue data.",
+                "reason": "The context shows a row with id 2 and retail_price 80.0, and the product is listed in authorized_products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The reference price for the authorized product with ID 3 is 200.0 based on the catalogue data.",
+                "reason": "The context shows a row with id 3 and retail_price 200.0, and the product is listed in authorized_products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only retrieved catalogue reference prices, which are represented as retail_price.",
+                "reason": "The SQL query selects only `products`.`id` and `products`.`retail_price` from the `products` table.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sales volume, actual demand, and current stock levels were not measured in the query.",
+                "reason": "The SQL query only selects `id` and `retail_price` from `products`, so sales volume, actual demand, and stock levels are indeed not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed action item is to query order_items to measure actual sales volume and establish demand for the authorized products.",
+                "reason": "There is no mention of proposed action items or querying 'order_items' in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to compare the actual sale_price in order_items against the retail_price to analyze discounting behavior.",
+                "reason": "There is no mention of comparing 'sale_price' in 'order_items' or analyzing discounting behavior in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.704978627001765
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the catalogue data, the reference price for the authorized product with ID 2 is 80.0.",
+                "reason": "The returned rows show that the product with id 2 has a retail_price of 80.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on the catalogue data, the reference price for the authorized product with ID 3 is 200.0.",
+                "reason": "The returned rows show that the product with id 3 has a retail_price of 200.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only retrieved catalogue reference prices.",
+                "reason": "The query selected only the product id and retail_price from the products table.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sales volume was not measured.",
+                "reason": "The query only selected product IDs and retail prices, so sales volume was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Actual demand was not measured.",
+                "reason": "The query only selected product IDs and retail prices, so actual demand was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Current stock levels were not measured.",
+                "reason": "The query only selected product IDs and retail prices, so current stock levels were not measured.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 6.248243289001039
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 32,
+  "max_provider_calls": 48,
+  "measured_total_tokens": 43009,
+  "usage_responses": 32,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "monthly-sales-1",
+  "family": "monthly-sales",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nHere is the monthly Complete-item revenue based on the queried data [q1]:\n\n| month | complete_revenue |\n|---|---|\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |\n\n### Limitations\n* This query measures revenue (`sale_price`) for items with a 'Complete' status. It does not measure net profit, as product costs were not queried.\n* The query does not confirm the absence of discounts, as `retail_price` was not compared to `sale_price`.\n* Item counts were not queried, so transaction volume is unknown.\n\n### Action Items (Proposed)\n* Compare `sale_price` to `retail_price` to measure actual discount rates.\n* Query item counts alongside revenue to understand if revenue changes are driven by volume or price.\n* Include product cost to calculate net profit margins.",
+  "status": "generated",
+  "seconds": 13.416363296999407,
+  "usage": {
+    "input_tokens": 2113,
+    "output_tokens": 959,
+    "total_tokens": 3072,
+    "thought_tokens": 688,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

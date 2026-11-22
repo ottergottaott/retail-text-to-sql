@@ -1,0 +1,9 @@
+{
+  "baseline.txt": "9a3cbd9b78c773680a6bd6ce588abd19959a4956e89bdb223920a9bd6f275717",
+  "candidate.txt": "49476c140613c64d5beee2d74eb9ba5455bc65e363e871881a1c60d8971cda5d",
+  "cases.json": "448be829e16d37b8d68e406d54418615e70023098729e0197ddd5c15d855001d",
+  "baseline-samples.json": "60553f396356b205623ad3bd31a43b806508f014062d06bd5cecd6d7f88a7e45",
+  "candidate-samples.json": "35c99b6cba3634fd15ba22e49d503eeed1ea52f53f1ea5a0183aae4b7b273d7f",
+  "judge-results.json": "aebb9c078aca70fd8e808d6f8899c79c47d47431d47b47c818e403ef2c0cde0b",
+  "results.json": "76e54fd3db11ceaa0b4d1da59058876e3dcbbb8d8462df34960d3d914338cd59"
+}

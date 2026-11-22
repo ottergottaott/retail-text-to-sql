@@ -1,0 +1,154 @@
+{
+  "model_source": "live",
+  "data_mode": "fixture",
+  "live_bigquery_verified": false,
+  "question": "Calculate our Lantern KPI for my authorized catalogue. Show products and explain the definition.",
+  "before": {
+    "outcome": "clarification",
+    "answer": "The 'Lantern KPI' is not a standard retail metric defined in our schema. Could you please provide the definition or formula for the Lantern KPI (for example, which columns or calculations from products, order_items, or orders should be used to compute it)?",
+    "query_oracle_passed": false,
+    "evidence": [],
+    "retrieved_candidate": false,
+    "model_usage": [
+      {
+        "trace_id": "52192e385da545d891b5c7540c42176f",
+        "request_id": "52192e385da545d891b5c7540c42176f",
+        "turn_id": "52192e385da545d891b5c7540c42176f",
+        "conversation_id": "con_1f1df62aca5e4f5b",
+        "stage": "model_usage",
+        "time": 1795286800.8083131,
+        "mode": "live",
+        "config_version": "mvp-v1",
+        "model": "google/gemini-3.5-flash",
+        "provider": "deepinfra",
+        "model_call_id": "52192e385da545d891b5c7540c42176f:model:1",
+        "input_tokens": 2120,
+        "output_tokens": 87,
+        "total_tokens": 2207,
+        "thought_tokens": null,
+        "usage_source": "provider_measured",
+        "cost": null
+      }
+    ]
+  },
+  "failed_review": {
+    "status": "rejected",
+    "evaluation_id": "eva_76863a9c7195ea85",
+    "published": false
+  },
+  "approved_review": {
+    "status": "published",
+    "id": "lantern-catalogue",
+    "version": 1,
+    "evaluation_id": "eva_89b6acb62d1a415f"
+  },
+  "initial_indexing": {
+    "indexed": 3,
+    "model": "deepinfra:Qwen/Qwen3-Embedding-8B:dim=1024:instruction=instruct-v1"
+  },
+  "indexing": {
+    "indexed": 1,
+    "model": "deepinfra:Qwen/Qwen3-Embedding-8B:dim=1024:instruction=instruct-v1"
+  },
+  "after": {
+    "outcome": "succeeded",
+    "answer": "### Findings\n\nBased on our synthetic business definition, the **Lantern KPI** represents the count of authorized catalogue products (rather than sold items) [trio: lantern-catalogue]. \n\nFor your authorized catalogue, the Lantern KPI value is **2** (representing the two authorized products in your scope) [q1].\n\nBelow is the list of products in your authorized catalogue:\n\n| id | name | category | brand | retail_price | cost |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | Trail Jacket | Outerwear | North | 100.0 | 40.0 |\n| 2 | City Jacket | Outerwear | South | 80.0 | 30.0 |\n\n### Limitations\n* This KPI is a synthetic business definition and does not reflect standard industry metrics or actual sales volume.\n* The analysis is restricted to the authorized product scope provided in the execution environment.\n\n### Action Items (Proposed)\n* Propose a comparison of this catalogue count against actual sales volumes to measure product activation rates.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| id | name | category | brand | retail_price | cost |\n| --- | --- | --- | --- | --- | --- |\n| 1 | Trail Jacket | Outerwear | North | 100.0 | 40.0 |\n| 2 | City Jacket | Outerwear | South | 80.0 | 30.0 |",
+    "query_oracle_passed": false,
+    "evidence": [
+      {
+        "rows": [
+          {
+            "id": 1,
+            "name": "Trail Jacket",
+            "category": "Outerwear",
+            "brand": "North",
+            "retail_price": 100.0,
+            "cost": 40.0
+          },
+          {
+            "id": 2,
+            "name": "City Jacket",
+            "category": "Outerwear",
+            "brand": "South",
+            "retail_price": 80.0,
+            "cost": 30.0
+          }
+        ],
+        "mode": "fixture",
+        "job_id": null,
+        "bytes_processed": null,
+        "sql": "SELECT `products`.`id` AS `id`, `products`.`name` AS `name`, `products`.`category` AS `category`, `products`.`brand` AS `brand`, `products`.`retail_price` AS `retail_price`, `products`.`cost` AS `cost` FROM `products` AS `products`",
+        "truncated": false,
+        "seconds": 0.04183919899514876,
+        "query_id": "q1"
+      }
+    ],
+    "retrieved_candidate": true,
+    "model_usage": [
+      {
+        "trace_id": "fbd3332a23a347a486f50dd607d12199",
+        "request_id": "fbd3332a23a347a486f50dd607d12199",
+        "turn_id": "fbd3332a23a347a486f50dd607d12199",
+        "conversation_id": "con_8bd6b7bf7b48a5f5",
+        "stage": "model_usage",
+        "time": 1795286806.889001,
+        "mode": "live",
+        "config_version": "mvp-v1",
+        "model": "google/gemini-3.5-flash",
+        "provider": "deepinfra",
+        "model_call_id": "fbd3332a23a347a486f50dd607d12199:model:1",
+        "input_tokens": 2516,
+        "output_tokens": 82,
+        "total_tokens": 2598,
+        "thought_tokens": null,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      {
+        "trace_id": "fbd3332a23a347a486f50dd607d12199",
+        "request_id": "fbd3332a23a347a486f50dd607d12199",
+        "turn_id": "fbd3332a23a347a486f50dd607d12199",
+        "conversation_id": "con_8bd6b7bf7b48a5f5",
+        "stage": "model_usage",
+        "time": 1795286810.02372,
+        "mode": "live",
+        "config_version": "mvp-v1",
+        "model": "google/gemini-3.5-flash",
+        "provider": "deepinfra",
+        "model_call_id": "fbd3332a23a347a486f50dd607d12199:model:2",
+        "input_tokens": 2756,
+        "output_tokens": 281,
+        "total_tokens": 3037,
+        "thought_tokens": null,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      {
+        "trace_id": "fbd3332a23a347a486f50dd607d12199",
+        "request_id": "fbd3332a23a347a486f50dd607d12199",
+        "turn_id": "fbd3332a23a347a486f50dd607d12199",
+        "conversation_id": "con_8bd6b7bf7b48a5f5",
+        "stage": "model_usage",
+        "time": 1795286813.125862,
+        "mode": "live",
+        "config_version": "mvp-v1",
+        "model_call_id": "fbd3332a23a347a486f50dd607d12199:model:3",
+        "model": "google/gemini-3.5-flash",
+        "phase": "report_review",
+        "provider": "deepinfra",
+        "input_tokens": 3014,
+        "output_tokens": 281,
+        "total_tokens": 3295,
+        "thought_tokens": null,
+        "usage_source": "provider_measured",
+        "cost": null
+      }
+    ]
+  },
+  "limitations": [
+    "One synthetic business definition, one run per condition; not general accuracy.",
+    "Exact SQL oracle does not establish report faithfulness; human review pending.",
+    "No live application data or shared knowledge was modified."
+  ],
+  "model": "google/gemini-3.5-flash"
+}

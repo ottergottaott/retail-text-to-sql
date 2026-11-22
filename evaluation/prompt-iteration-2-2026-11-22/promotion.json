@@ -1,0 +1,9 @@
+{
+  "decision": "rejected",
+  "serving_prompt": "retail-v7 unchanged",
+  "reasons": [
+    "Incomplete paired generation coverage: baseline 7/8, candidate 8/8. Aggregate means have different denominators and do not establish a paired improvement.",
+    "Candidate invents currency in catalogue-gap. SQL-aware judge gave 1.0 across candidate cases and missed this error; exact-output inspection takes precedence."
+  ],
+  "human_review": "pending"
+}

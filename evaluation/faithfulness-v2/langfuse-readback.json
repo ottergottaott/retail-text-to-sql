@@ -1,0 +1,51 @@
+{
+  "status": "readback_completed",
+  "experiments": [
+    {
+      "name": "candidate-v11-development-INCOMPLETE",
+      "id": "644b3f20a26c8a69",
+      "items": 20,
+      "score_count": 0
+    },
+    {
+      "name": "candidate-v11-validation-INCOMPLETE",
+      "id": "a6da9747ee0ed254",
+      "items": 16,
+      "score_count": 0
+    },
+    {
+      "name": "candidate-v9-development-rejected",
+      "id": "a6eca7dc79cadec8",
+      "items": 40,
+      "score_count": 0
+    },
+    {
+      "name": "baseline-v8-validation",
+      "id": "908a36438db42ff1",
+      "items": 20,
+      "score_count": 0
+    },
+    {
+      "name": "candidate-v10-development-pilot",
+      "id": "371cd0429aaa3fd1",
+      "items": 8,
+      "score_count": 0
+    },
+    {
+      "name": "v8-development",
+      "id": "2209122d644b4dac",
+      "items": 40,
+      "score_count": 0
+    }
+  ],
+  "live_trace": {
+    "http_status": 200,
+    "outcome": "dependency_error",
+    "trace_id": "082b5c6a99f44caeb40f7ebc12733b24",
+    "conversation_id": "con_c0a478c1bcf44a2e",
+    "boundary": "Live serving request; report listing only, no SQL query or faithfulness measurement.",
+    "langfuse_observations": 8,
+    "metadata_readback_verified": true
+  },
+  "boundary": "API count readback. Partial experiments remain incomplete; dashboard import duration is not generation latency."
+}

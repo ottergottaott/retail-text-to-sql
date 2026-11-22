@@ -1,0 +1,679 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6184807256235827,
+    "sql_factual_faithfulness": 0.9142857142857144
+  },
+  "combined_means": {
+    "faithfulness": 0.6184807256235827,
+    "sql_factual_faithfulness": 0.9142857142857144
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 7,
+      "rule_scored": 0,
+      "applicable": 7,
+      "total_samples": 7
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 7,
+      "rule_scored": 0,
+      "applicable": 7,
+      "total_samples": 7
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "catalog-cost-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The current catalogue cost reference is 40.0 for product 1.",
+                "reason": "The context shows a row with id 1 and cost 40.0, which corresponds to product 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The current catalogue cost reference is 30.0 for product 2.",
+                "reason": "The context shows a row with id 2 and cost 30.0, which corresponds to product 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only retrieves the current catalogue cost proxy.",
+                "reason": "The context only contains a SQL query retrieving product id and cost from the products table, which acts as a catalogue cost proxy, and does not contain other metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure actual sales volume.",
+                "reason": "The SQL query in the context only selects product id and cost, with no mention of sales volume or order items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not reflect historical cost variations.",
+                "reason": "The SQL query only retrieves the current cost from the products table, with no historical data or variations included.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not reflect actual gross profit.",
+                "reason": "The SQL query only retrieves product id and cost, which is insufficient to calculate or reflect actual gross profit.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query `order_items` to measure the total sales volume (`COUNT(item_key)`) for product 1 and product 2 to establish actual demand.",
+                "reason": "There is no mention of proposed action items, querying `order_items`, or measuring sales volume in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare the catalogue `cost` to the actual `sale_price` in `order_items` to calculate the current reference margin per item sold.",
+                "reason": "There is no mention of proposed action items, comparing catalogue cost to sale price, or calculating reference margins in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.888290810999024
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The current catalogue cost reference is 40.0 for product 1.",
+                "reason": "The returned row for product id 1 shows a cost of 40.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The current catalogue cost reference is 30.0 for product 2.",
+                "reason": "The returned row for product id 2 shows a cost of 30.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only retrieves the current catalogue cost proxy.",
+                "reason": "The SQL query only selects the product id and cost from the products table, which acts as a cost proxy.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure actual sales volume.",
+                "reason": "The SQL query only retrieves product IDs and costs; it does not inspect sales volume or transaction history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not reflect historical cost variations.",
+                "reason": "The query only retrieves the current cost from the products table and does not inspect historical cost records.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not reflect actual gross profit.",
+                "reason": "The query only retrieves product costs and does not contain revenue, sales, or profit metrics.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.824285918000896
+        }
+      }
+    },
+    {
+      "id": "catalog-cost-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The findings table displays the catalogue cost reference for the authorized products.",
+                "reason": "The context shows a query selecting `id` and `cost` from `products` for the authorized products (ids 2 and 3), which represents the cost reference.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product 3 has a catalogue cost of 70.0.",
+                "reason": "The context explicitly lists a row with id 3 and cost 70.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product 2 has a catalogue cost of 30.0.",
+                "reason": "The context explicitly lists a row with id 2 and cost 30.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only retrieved the catalogue cost proxy from the products table.",
+                "reason": "The SQL query in the context only selects `id` and `cost` from the `products` table, which matches this statement.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure actual historical sales volume for the authorized products.",
+                "reason": "The SQL query only retrieved `id` and `cost` from the `products` table, meaning no historical sales volume was measured in this query.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the current catalogue retail price for the authorized products.",
+                "reason": "The SQL query only retrieved `id` and `cost` from the `products` table, meaning retail price was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to check the total sales volume (`COUNT(item_key)`) for the authorized products in the `order_items` table where `status = 'Complete'`.",
+                "reason": "There is no mention of proposed action items, `order_items` table, `item_key`, or `status` in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to check the complete item revenue (`SUM(sale_price)`) for the authorized products in the `order_items` table where `status = 'Complete'`.",
+                "reason": "There is no mention of proposed action items, `order_items` table, `sale_price`, or `status` in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare the catalogue `cost` to the current `retail_price` in the `products` table for the authorized products.",
+                "reason": "There is no mention of proposed action items or `retail_price` in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 10.058682203998615
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue cost reference for product 2 is 30.0.",
+                "reason": "The returned rows show that the product with id 2 has a cost of 30.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The catalogue cost reference for product 3 is 70.0.",
+                "reason": "The returned rows show that the product with id 3 has a cost of 70.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only retrieved the catalogue cost proxy from the products table.",
+                "reason": "The SQL query only selects the 'id' and 'cost' columns from the 'products' table.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure actual historical sales volume for the items.",
+                "reason": "The SQL query only retrieves product cost and does not query any sales volume or transaction tables.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the current catalogue retail price for the items.",
+                "reason": "The SQL query only retrieves the 'cost' column and does not query retail price.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 7.244923980000749
+        }
+      }
+    },
+    {
+      "id": "catalog-department-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5714285714285714,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the authorized catalogue data, there is 1 product in the Men department.",
+                "reason": "The context explicitly shows a row with department 'Men' and catalogue_products as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on the authorized catalogue data, there is 1 product in the Women department.",
+                "reason": "The context explicitly shows a row with department 'Women' and catalogue_products as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct product entries in the catalogue.",
+                "reason": "The SQL query uses COUNT(*) which counts all rows in the grouped products table, not necessarily distinct product entries, and the context does not state that it only counts distinct entries.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure historical sales volume of the items.",
+                "reason": "The context only contains a query counting products by department and does not mention historical sales volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the current reference prices (retail_price) of the items.",
+                "reason": "The context only contains a query counting products by department and does not mention retail_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total completed revenue generated by the products in each department by querying SUM(sale_price) in order_items joined with products where status equals 'Complete'.",
+                "reason": "There is no mention of proposed action items, SUM(sale_price), order_items, or status in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query how many distinct customers have purchased items from these departments by querying COUNT(DISTINCT customer_key) in order_items grouped by department.",
+                "reason": "There is no mention of proposed action items, customer_key, or order_items in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.472193936000622
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the authorized catalogue data, there is 1 product in the Men department.",
+                "reason": "The returned rows show that for the 'Men' department, the count of catalogue_products is 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on the authorized catalogue data, there is 1 product in the Women department.",
+                "reason": "The returned rows show that for the 'Women' department, the count of catalogue_products is 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct product entries in the catalogue.",
+                "reason": "The SQL query uses COUNT(*) rather than COUNT(DISTINCT ...), so it counts all rows/entries, not necessarily distinct product entries.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure historical sales volume of the items.",
+                "reason": "The SQL query only counts products grouped by department from the products table and does not inspect sales volume data.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the current reference prices (retail_price) of the items.",
+                "reason": "The SQL query only selects the department and the count of products, without inspecting any price columns.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.9221352950007713
+        }
+      }
+    },
+    {
+      "id": "catalog-department-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5714285714285714,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The authorized catalogue contains 1 product in the Men department.",
+                "reason": "The context shows a row with department 'Men' and 'catalogue_products' as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The authorized catalogue contains 1 product in the Women department.",
+                "reason": "The context shows a row with department 'Women' and 'catalogue_products' as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct product records in the catalogue.",
+                "reason": "The SQL query uses COUNT(*) which counts all records, not necessarily distinct product records, and the context does not explicitly state that it only counts distinct records.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure actual sales volume or revenue.",
+                "reason": "The context only shows a query counting products grouped by department, which does not measure sales volume or revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure historical discounts, net profit, or current inventory levels.",
+                "reason": "The context only shows a query counting products grouped by department, which does not measure historical discounts, net profit, or current inventory levels.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the `order_items` table joined with `products` to measure the actual sales volume and revenue generated by the Men and Women departments.",
+                "reason": "There is no mention of proposed action items or the `order_items` table in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query the `retail_price` and `cost` in the `products` table to evaluate the current catalogue reference gap for the items in the Men and Women departments.",
+                "reason": "There is no mention of proposed action items, `retail_price`, or `cost` in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.641568700000789
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The authorized catalogue contains 1 product in the Men department.",
+                "reason": "The returned rows show that for the 'Men' department, the count of catalogue_products is 1, and the execution scope is restricted to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The authorized catalogue contains 1 product in the Women department.",
+                "reason": "The returned rows show that for the 'Women' department, the count of catalogue_products is 1, and the execution scope is restricted to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct product records in the catalogue.",
+                "reason": "The SQL query uses COUNT(*), which counts all rows in the grouped products table, not necessarily distinct product records (COUNT(DISTINCT ...)).",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure actual sales volume or revenue.",
+                "reason": "The SQL query only counts products grouped by department from the products table and does not inspect sales volume or revenue data.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure historical discounts, net profit, or current inventory levels.",
+                "reason": "The SQL query only counts products grouped by department and does not inspect historical discounts, net profit, or inventory levels.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.836007580999649
+        }
+      }
+    },
+    {
+      "id": "catalog-category-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measured the count of catalogue products grouped by category.",
+                "reason": "The SQL query explicitly selects the category and counts the products, grouping by category: `SELECT products.category AS category, COUNT(*) AS catalogue_products FROM products GROUP BY category`.",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 2 authorized products, and both of these authorized products are within the Outerwear category.",
+                "reason": "The context states there are authorized products [1, 2] and that the Outerwear category has 2 catalogue products, but it does not state that these specific authorized products are within the Outerwear category.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query only counts catalogue entries.",
+                "reason": "The SQL query performs a COUNT(*) on the products table, which represents counting catalogue entries.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure sales volume or revenue.",
+                "reason": "The SQL query only counts products from the products table and does not reference any sales, orders, or revenue columns/tables.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed action item is to query the 'order_items' table joined with the 'products' table to measure the total items sold for the Outerwear products.",
+                "reason": "There is no mention of proposed action items, an 'order_items' table, or measuring items sold in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to analyze the 'retail_price' and 'cost' in the 'products' table to understand the catalogue reference margins for the Outerwear products.",
+                "reason": "There is no mention of proposed action items, 'retail_price', 'cost', or catalogue reference margins in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.967777223000667
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measured the count of catalogue products grouped by category.",
+                "reason": "The SQL query groups by category and counts the products (COUNT(*) AS catalogue_products).",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 2 authorized products, both within the Outerwear category.",
+                "reason": "The execution scope shows 2 authorized products (IDs 1 and 2), and the returned row shows 2 catalogue products in the Outerwear category. Since truncated is false and the query groups the whole population, these 2 authorized products are indeed within the Outerwear category.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only counts catalogue entries.",
+                "reason": "The SQL query performs a COUNT(*) on the products table grouped by category, which counts the catalogue entries.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure sales volume or revenue.",
+                "reason": "The SQL query only counts products from the products table and does not reference sales volume or revenue columns or tables.",
+                "verdict": 1
+              },
+              {
+                "statement": "The products table contains retail_price and cost.",
+                "reason": "There is no evidence in the SQL query or returned rows to suggest that the products table contains retail_price and cost columns.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 7.138566336998338
+        }
+      }
+    },
+    {
+      "id": "catalog-brand-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5555555555555556,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the catalogue data, there is exactly 1 authorized product for the North brand.",
+                "reason": "The context shows that the brand 'North' has 1 catalogue product, but the authorized products list contains IDs [1, 2] without mapping them specifically to the North brand. Thus, we cannot directly infer that there is exactly 1 authorized product for the North brand.",
+                "verdict": 0
+              },
+              {
+                "statement": "Based on the catalogue data, there is exactly 1 authorized product for the South brand.",
+                "reason": "The context shows that the brand 'South' has 1 catalogue product, but the authorized products list contains IDs [1, 2] without mapping them specifically to the South brand. Thus, we cannot directly infer that there is exactly 1 authorized product for the South brand.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query only measures the count of distinct products in the catalogue.",
+                "reason": "The SQL query 'SELECT `products`.`brand` AS `brand`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `brand` ORDER BY `brand`' counts the total products grouped by brand, which represents the count of products in the catalogue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure historical sales volume.",
+                "reason": "The SQL query only counts products from the `products` table and does not reference any sales data or historical sales volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure current inventory levels.",
+                "reason": "The SQL query only counts products from the `products` table and does not reference inventory levels.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not evaluate the retail price associated with the products.",
+                "reason": "The SQL query only counts products and does not select or evaluate any retail price fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not evaluate the cost associated with the products.",
+                "reason": "The SQL query only counts products and does not select or evaluate any cost fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total completed sales revenue for each of the brands by joining order_items with products and summing sale_price where status is Complete.",
+                "reason": "There is no mention of proposed action items, order_items, sale_price, or completed sales revenue in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare the average retail prices between the North and South brands by querying products and averaging retail_price grouped by brand.",
+                "reason": "There is no mention of proposed action items, average retail prices, or retail_price in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.856169779000993
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the catalogue data, there is exactly 1 authorized product for the North brand.",
+                "reason": "The query returns 1 catalogue product for the North brand, which is consistent with the data.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on the catalogue data, there is exactly 1 authorized product for the South brand.",
+                "reason": "The query returns 1 catalogue product for the South brand, which is consistent with the data.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measures the count of distinct products in the catalogue.",
+                "reason": "The query counts all rows grouped by brand (COUNT(*)), which represents the count of products in the catalogue, not necessarily distinct product counts unless each row is a distinct product, but it is a simple count of catalogue products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure historical sales volume.",
+                "reason": "The SQL query only counts products from the products table grouped by brand; it does not inspect sales or transaction tables.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure current inventory levels.",
+                "reason": "The SQL query only counts products from the products table grouped by brand; it does not inspect inventory levels.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not evaluate the retail price associated with these products.",
+                "reason": "The SQL query does not select or aggregate any price columns.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not evaluate the cost associated with these products.",
+                "reason": "The SQL query does not select or aggregate any cost columns.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.475834015998771
+        }
+      }
+    },
+    {
+      "id": "catalog-brand-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query measured the count of catalogue products grouped by brand.",
+                "reason": "The SQL query explicitly selects `products`.`brand` and COUNT(*) AS `catalogue_products` from `products` grouped by `brand`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Within the authorized scope, the South brand has exactly 1 catalogue product.",
+                "reason": "The rows data shows that the brand 'South' has a 'catalogue_products' count of 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Within the authorized scope, the West brand has exactly 1 catalogue product.",
+                "reason": "The rows data shows that the brand 'West' has a 'catalogue_products' count of 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts catalogue products.",
+                "reason": "The context only shows a query counting catalogue products grouped by brand, but it does not state that the analysis *only* counts catalogue products in a broader sense, though for this specific query it is true. However, to be safe, the context only contains this specific count.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure historical sales volume or revenue.",
+                "reason": "There is no mention of historical sales volume or revenue in the provided SQL or results, making this statement true based on the provided context.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total completed revenue generated by each of the brands by joining order_items with products and summing sale_price where status is Complete.",
+                "reason": "There is no mention of proposed action items, order_items, sale_price, or status in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query how many distinct customers have purchased products from the brands by counting distinct customer_key grouped by brand in order_items.",
+                "reason": "There is no mention of proposed action items, distinct customers, customer_key, or order_items in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.780691611000293
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query measured the count of catalogue products grouped by brand.",
+                "reason": "The SQL query selects brand and COUNT(*) as catalogue_products, grouped by brand.",
+                "verdict": 1
+              },
+              {
+                "statement": "Within the authorized scope, the South brand has exactly 1 catalogue product.",
+                "reason": "The returned rows show that the South brand has exactly 1 catalogue product, and truncated is false, meaning the group is complete for the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Within the authorized scope, the West brand has exactly 1 catalogue product.",
+                "reason": "The returned rows show that the West brand has exactly 1 catalogue product, and truncated is false, meaning the group is complete for the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts catalogue products.",
+                "reason": "The SQL query only counts rows from the products table (aliased as catalogue_products) and does not measure other metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure historical sales volume or revenue.",
+                "reason": "The SQL query only inspects the products table and counts products; it does not inspect sales volume or revenue tables or columns.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.580216706999636
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 28,
+  "max_provider_calls": 48,
+  "measured_total_tokens": 38976,
+  "usage_responses": 28,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

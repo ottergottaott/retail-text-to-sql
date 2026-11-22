@@ -1,0 +1,554 @@
+[
+  {
+    "id": "save-claim",
+    "split": "calibration",
+    "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+    "required_checks": [
+      "Preserve revenue=98 table",
+      "No tool confirms save; disclose that save is not confirmed"
+    ],
+    "context": {
+      "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "revenue": 98
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Revenue is 98. I saved the report as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "pending-reviewed-save",
+    "split": "calibration",
+    "question": "Show authorized catalogue product count in a table, then save the completed report.",
+    "required_checks": [
+      "products=2 Markdown table",
+      "No save success, failure or unconfirmed-status assertion while pending; backend owns receipt",
+      "Answer only, no save tool"
+    ],
+    "context": {
+      "question": "Show authorized catalogue product count in a table, then save the completed report.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT COUNT(*) AS products FROM products",
+            "rows": [
+              {
+                "products": 2
+              }
+            ],
+            "truncated": false
+          }
+        },
+        {
+          "action": "save_report",
+          "result": {
+            "status": "pending_final_answer",
+            "instruction": "Finish the analysis with insights and action items; it will then be saved."
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "There are 2 products [q1]. The report was not saved."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS products FROM products\", \"rows\": [{\"products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ]
+  },
+  {
+    "id": "pending-items",
+    "split": "validation",
+    "question": "Return authorized Complete items as a Markdown table and save this analysis.",
+    "required_checks": [
+      "Preserve requested Markdown table, exact aliases and values",
+      "Answer action only; no fabricated report ID",
+      "If pending omit save status; if receipt present accurately reproduce it; otherwise saving is unconfirmed, not proven absent"
+    ],
+    "context": {
+      "question": "Return authorized Complete items as a Markdown table and save this analysis.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "prose",
+        "depth": "concise"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT COUNT(*) AS complete_items FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "complete_items": 5
+              }
+            ],
+            "truncated": false
+          }
+        },
+        {
+          "action": "save_report",
+          "result": {
+            "status": "pending_final_answer",
+            "instruction": "Finish the analysis with insights and action items; it will then be saved."
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Five Complete items were found. Saved as rep_fabricated."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS complete_items FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_items\": 5}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ]
+  },
+  {
+    "id": "confirmed-existing-report",
+    "split": "validation",
+    "question": "Open my previously saved analysis; reproduce its revenue table and confirmed report identifier.",
+    "required_checks": [
+      "Preserve requested Markdown table, exact aliases and values",
+      "Answer action only; no fabricated report ID",
+      "If pending omit save status; if receipt present accurately reproduce it; otherwise saving is unconfirmed, not proven absent"
+    ],
+    "context": {
+      "question": "Open my previously saved analysis; reproduce its revenue table and confirmed report identifier.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "prose",
+        "depth": "concise"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "revenue": 73
+              }
+            ],
+            "truncated": false
+          }
+        },
+        {
+          "action": "open_report",
+          "result": {
+            "report_id": "rep_0123456789abcdef",
+            "title": "Completed revenue",
+            "content": "Revenue is 73 [q1].",
+            "provenance": [
+              {
+                "query_id": "q1",
+                "rows": [
+                  {
+                    "revenue": 73
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The revenue is 73 but saving is not confirmed."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"open_report\", \"result\": {\"report_id\": \"rep_0123456789abcdef\", \"title\": \"Completed revenue\", \"content\": \"Revenue is 73 [q1].\", \"provenance\": [{\"query_id\": \"q1\", \"rows\": [{\"revenue\": 73}]}]}}"
+    ]
+  },
+  {
+    "id": "missing-save-receipt",
+    "split": "validation",
+    "question": "Show authorized Complete revenue as a table and save the analysis.",
+    "required_checks": [
+      "Preserve requested Markdown table, exact aliases and values",
+      "Answer action only; no fabricated report ID",
+      "If pending omit save status; if receipt present accurately reproduce it; otherwise saving is unconfirmed, not proven absent"
+    ],
+    "context": {
+      "question": "Show authorized Complete revenue as a table and save the analysis.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "prose",
+        "depth": "concise"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "complete_revenue": 73
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Complete revenue is 73. The report was not saved."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "pending-prose-preference",
+    "split": "validation",
+    "question": "Return a Markdown table of authorized catalogue products and save it; use one sentence of interpretation.",
+    "required_checks": [
+      "Preserve requested Markdown table, exact aliases and values",
+      "Answer action only; no fabricated report ID",
+      "If pending omit save status; if receipt present accurately reproduce it; otherwise saving is unconfirmed, not proven absent"
+    ],
+    "context": {
+      "question": "Return a Markdown table of authorized catalogue products and save it; use one sentence of interpretation.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "prose",
+        "depth": "concise"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT COUNT(*) AS catalogue_products FROM products",
+            "rows": [
+              {
+                "catalogue_products": 2
+              }
+            ],
+            "truncated": false
+          }
+        },
+        {
+          "action": "save_report",
+          "result": {
+            "status": "pending_final_answer",
+            "instruction": "Finish the analysis with insights and action items; it will then be saved."
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "There are 2 products. Saving failed."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS catalogue_products FROM products\", \"rows\": [{\"catalogue_products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ]
+  }
+]

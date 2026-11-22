@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-1",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| complete_revenue |\n|---|---|\n| 210.0 |\n\nThe total revenue for Complete items within the authorized product scope is 210.0 [q1].\n\n### Limitations\nThis analysis did not measure the total number of items sold (volume) or the timeframe over which this revenue was generated.\n\n### Action items (proposed)\n* What is the breakdown of this revenue by product category or brand?\n* How does this revenue trend over time (e.g., grouped by month using `created_at`)?",
+  "status": "generated",
+  "seconds": 11.403945850001037,
+  "usage": {
+    "input_tokens": 2323,
+    "output_tokens": 673,
+    "total_tokens": 2996,
+    "thought_tokens": 511,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

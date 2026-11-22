@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "checks": {
+    "analysis_succeeded": true,
+    "live_bigquery": true,
+    "json_stdout_valid": true,
+    "progress_on_stderr": true,
+    "followup_succeeded": true,
+    "conversation_retained": true,
+    "no_save": true,
+    "followup_no_new_query": true
+  },
+  "cases": [
+    {
+      "id": "analysis",
+      "exit_code": 0,
+      "result": {
+        "conversation_id": "con_04c14c781da42d1a",
+        "trace_id": "b5201709e0e7423491e9087ddad4e568",
+        "mode": "live",
+        "answer": "### Findings\n* There are 2 authorized products in the catalog [q1].\n\n| products |\n| :--- |\n| 2 |\n\n### Limitations\n* Only the total product count was queried; no dimensions such as category or brand were measured [q1].\n\n### Action Items (Proposed)\n* Break down the product count by category or brand to understand the catalog composition.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- products: 2",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "products": 2
+              }
+            ],
+            "mode": "live",
+            "job_id": "10f640cb-c51d-4c99-927a-d982e5737398",
+            "bytes_processed": 232960,
+            "estimated_bytes": 232960,
+            "sql": "SELECT COUNT(`products`.`id`) AS `products` FROM `products` AS `products`",
+            "truncated": false,
+            "seconds": 5.289534931000162,
+            "query_id": "q1"
+          }
+        ],
+        "management": null,
+        "completed_analysis": true
+      },
+      "progress_observed": true
+    },
+    {
+      "id": "followup",
+      "exit_code": 0,
+      "result": {
+        "conversation_id": "con_04c14c781da42d1a",
+        "trace_id": "62e18e70ce0b4a7296912bce5242a262",
+        "mode": "live",
+        "answer": "Based on the previous analysis, there are 2 authorized products in your catalog [q1].",
+        "outcome": "succeeded",
+        "evidence": [],
+        "management": null,
+        "completed_analysis": true
+      },
+      "progress_observed": true
+    }
+  ],
+  "evidence_boundary": "Installed CLI executable, real HTTP/SSE API, configured Gemini and live BigQuery. Two turns, no report-save request; not a browser test.",
+  "human_review": "pending"
+}

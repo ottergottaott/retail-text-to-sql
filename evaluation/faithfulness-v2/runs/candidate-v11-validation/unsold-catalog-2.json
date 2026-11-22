@@ -1,0 +1,25 @@
+{
+  "id": "unsold-catalog-2",
+  "family": "unsold-catalog",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| id | complete_items |\n|---|---|\n\n*Note: The query returned no rows.*\n\nThe query [q1] evaluated the catalogue at the product grain, counting `item_key` for items where `status = 'Complete'`. The population is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited. The empty result indicates there are no authorized products in the catalogue that have exactly zero 'Complete' items.\n\n### Limitations\n* This analysis did not measure the volume of items in other statuses (such as Cancelled, Returned, or Processing).\n* The query did not measure the temporal distribution of the 'Complete' items to establish when they occurred.\n\n### Action items (proposed)\n* Query the total count of items grouped by `status` for authorized products to understand the distribution of non-Complete items.\n* Query the maximum `created_at` date for 'Complete' items by product to check for recent sales inactivity.",
+  "status": "generated",
+  "seconds": 14.15605323300042,
+  "usage": {
+    "input_tokens": 2599,
+    "output_tokens": 968,
+    "total_tokens": 3567,
+    "thought_tokens": 714,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,186 @@
+{
+  "dataset_version": "english-retrieval-challenge-v1",
+  "description": "Synthetic English challenge authored before candidate gate calibration; unreviewed labels, no release-quality claim. Used once after policy selection.",
+  "cases": [
+    {
+      "id": "fresh-month",
+      "question": "Show calendar-month completed revenue and its percentage movement versus the preceding observed month.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "monthly-revenue-change",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-coverage",
+      "question": "Before comparing monthly sales, show the earliest and latest sale date and number of active days in each period.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "revenue-period-completeness",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-grain",
+      "question": "How many distinct orders are there relative to purchased line items, and what is the mean basket item count?",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "orders-items-grain",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-finalized",
+      "question": "Among items whose outcome is Complete or Returned, what fraction ended up Returned?",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "returned-item-rate-finalized",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-margin",
+      "question": "For completed purchases, calculate revenue less catalogue product cost; do not call this net profit.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "cost-proxy-margin",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-brands",
+      "question": "Rank brands on completed revenue and show the breadth of products generating that revenue.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "brand-product-performance",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-cohorts",
+      "question": "Group buyers by the month of their first completed purchase and compare subsequent repeat buying.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "customer-cohort-repeat",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-frequency",
+      "question": "Build a distribution of buyers by the number of distinct completed orders observed per buyer.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "customer-purchase-frequency",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-geography",
+      "question": "Summarize completed purchaser activity and revenue by US state.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "state-purchaser-demographics",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-demographics",
+      "question": "Break down purchasing customers by country and coarse age brackets.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "age-country-purchaser-mix",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-outliers",
+      "question": "Find unusually high completed customer spend and check whether it coincides with unusual order frequency.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "customer-spend-outliers",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-diagnostic",
+      "question": "Explain monthly product sales changes using completed units, realized price, and the proportion of returns.",
+      "language": "en",
+      "relevant": [
+        {
+          "id": "monthly-product-diagnostic",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "fresh-ad",
+      "question": "Which paid advertising channel has the lowest customer acquisition cost this week?",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-traffic",
+      "question": "Calculate the checkout conversion rate from website visitor sessions.",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-inventory",
+      "question": "Forecast replenishment dates using current stock on hand and supplier lead times.",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-support",
+      "question": "Measure customer support first response time by ticket priority.",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-tax",
+      "question": "Compute actual VAT remitted and shipping carrier charges for each country.",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-profit",
+      "question": "Calculate audited net profit after salaries, rent, taxes, and marketing expenses.",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-weather",
+      "question": "Predict rainfall in London for the next weekend.",
+      "language": "en",
+      "relevant": []
+    },
+    {
+      "id": "fresh-social",
+      "question": "Which social media campaign produced the most impressions and clicks?",
+      "language": "en",
+      "relevant": []
+    }
+  ]
+}

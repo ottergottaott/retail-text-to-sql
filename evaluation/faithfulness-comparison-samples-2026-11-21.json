@@ -1,0 +1,100 @@
+[
+  {
+    "id": "baseline-live-product-report",
+    "question": "Compare completed-item revenue for authorized products across history and save the report.",
+    "response": "### Completed-Item Revenue by Authorized Product\n\n| Product ID | Completed Items | Completed Revenue |\n| :--- | :--- | :--- |\n| 1 | 2 | $98.00 |\n| 2 | 1 | $69.50 |\n\n### Limitations\n1. **Limited Scope of Authorized Products**: This analysis only covers authorized product IDs 1 and 2. It does not reflect the performance of the entire product catalog.\n2. **No Temporal Context**: The metrics are aggregated across all available history, which masks seasonal trends, recent performance shifts, or changes in product popularity over time.\n\n### Action Items\n1. **Perform a Trend Analysis**: Break down the completed revenue for these products by month or quarter to identify whether sales are growing, stable, or declining.\n2. **Evaluate Inventory and Stocking**: Ensure that products 1 and 2 have adequate stock levels to support ongoing demand, given their established history of completed sales.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n| product_id | completed_items | completed_revenue |\n| --- | --- | --- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |\n\nSaved report **Completed Item Revenue for Authorized Products Across History** (`rep_8364de063044833c`).",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) AS `completed_items`, SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN `order_items`.`sale_price` ELSE 0.0 END) AS `completed_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`product_id` IN (1, 2) GROUP BY `product_id` ORDER BY `product_id`\", \"rows\": [{\"product_id\": 1, \"completed_items\": 2, \"completed_revenue\": 98.0}, {\"product_id\": 2, \"completed_items\": 1, \"completed_revenue\": 69.5}], \"mode\": \"live\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}",
+      "{\"verified_management\": {\"report_id\": \"rep_8364de063044833c\"}}"
+    ],
+    "retrieved_contexts": [],
+    "source": "bigquery-live-agent-v3.json",
+    "data_mode": "live",
+    "comparison_group": "baseline"
+  },
+  {
+    "id": "reviewed-live-product-report",
+    "question": "Compare completed-item revenue for authorized products across history and save the report.",
+    "response": "### Findings\nBased on the historical order items data [q1], the completed-item revenue for the authorized products is as follows:\n\n| Product ID | Completed Items | Completed Revenue |\n| :--- | :--- | :--- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |\n\n### Limitations\n* The analysis is limited to the authorized product IDs (1 and 2) across all available history.\n* The sample size is small (3 total completed items), which does not establish long-term demand trends.\n* Complete-item revenue is calculated as the sum of sale prices for items with a status of 'Complete' and does not represent net revenue or profit.\n\n### Action Items (Proposed)\n* Propose checking inventory levels and pricing strategies for Product 1 and Product 2 to understand the low volume of completed sales.\n* Propose monitoring future order statuses to see if cancellation or return rates are affecting these products.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) AS `completed_items`, SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN `order_items`.`sale_price` ELSE 0.0 END) AS `completed_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`product_id` IN (1, 2) GROUP BY `product_id` ORDER BY `product_id`\", \"rows\": [{\"product_id\": 1, \"completed_items\": 2, \"completed_revenue\": 98.0}, {\"product_id\": 2, \"completed_items\": 1, \"completed_revenue\": 69.5}], \"mode\": \"live\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}",
+      "{\"verified_management\": {\"report_id\": \"rep_8364de063044833c\"}}"
+    ],
+    "retrieved_contexts": [],
+    "source": "retail-v5 fixed-evidence replay plus bounded review; original SQL contexts unchanged",
+    "data_mode": "live",
+    "comparison_group": "reviewed"
+  },
+  {
+    "id": "baseline-fixture-monthly",
+    "question": "Compare completed-item revenue for January and February 2026, using only authorized products. Return one row per month with columns month (start-of-month UTC date) and revenue, then explain limitations and action items.",
+    "response": "### Completed-Item Revenue Comparison (Jan vs. Feb 2026)\n\nBased on the authorized product scope (Product IDs: 1, 2) and completed items, here is the monthly revenue comparison:\n\n| Month | Revenue |\n| :--- | :--- |\n| 2026-01-01 | $100.00 |\n| 2026-02-01 | $110.00 |\n\n### Limitations\n* **Product Scope Constraint:** This analysis is strictly limited to authorized products (IDs 1 and 2). It does not reflect the overall store or brand performance across all products.\n* **Status Definition:** Revenue is calculated strictly using completed items (`status = 'Complete'`). Any pending, cancelled, or returned orders are excluded, which may underrepresent total order volume or cash flow during these periods.\n* **Short Timeframe:** A two-month comparison cannot establish long-term seasonal trends or cyclical patterns.\n\n### Action Items\n* **Investigate Volume vs. Price:** Determine whether the $10.00 (10%) revenue increase in February was driven by higher unit sales of the authorized products or an increase in their average sale price.\n* **Expand Product Authorization:** If these products are performing well, evaluate whether to authorize additional product IDs for a more comprehensive portfolio analysis.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| month | revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT DATE_TRUNC(DATE(`order_items`.`created_at`), MONTH) AS `month`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`product_id` IN (1, 2) AND DATE(`order_items`.`created_at`) >= DATE('2026-01-01') AND DATE(`order_items`.`created_at`) < DATE('2026-03-01') GROUP BY `month` ORDER BY `month`\", \"rows\": [{\"month\": \"2026-01-01 00:00:00\", \"revenue\": 100.0}, {\"month\": \"2026-02-01 00:00:00\", \"revenue\": 110.0}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "agent-retrieval-live-fixture-v2.json",
+    "data_mode": "fixture",
+    "comparison_group": "baseline"
+  },
+  {
+    "id": "reviewed-fixture-monthly",
+    "question": "Compare completed-item revenue for January and February 2026, using only authorized products. Return one row per month with columns month (start-of-month UTC date) and revenue, then explain limitations and action items.",
+    "response": "### Findings\n\n| month | revenue |\n| :--- | :--- |\n| 2026-01-01 | 100.0 |\n| 2026-02-01 | 110.0 |\n\n[q1] Completed-item revenue for authorized products (IDs 1 and 2) was 100.0 in January 2026 and 110.0 in February 2026.\n\n### Limitations\n* Analysis is strictly limited to authorized product IDs 1 and 2 [q1].\n* Revenue is defined as the sum of sale prices for items with a 'Complete' status and does not reflect net revenue or deductions [q1].\n* The query did not measure item counts, order counts, or customer counts, so sample sizes and transaction volumes are unknown.\n\n### Action Items (Proposed)\n* Propose a query to count the number of completed items and unique customers for these products in January and February 2026 to evaluate transaction volume.\n* Propose checking the retail prices and costs of product IDs 1 and 2 to analyze profit margins.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT DATE_TRUNC(DATE(`order_items`.`created_at`), MONTH) AS `month`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`product_id` IN (1, 2) AND DATE(`order_items`.`created_at`) >= DATE('2026-01-01') AND DATE(`order_items`.`created_at`) < DATE('2026-03-01') GROUP BY `month` ORDER BY `month`\", \"rows\": [{\"month\": \"2026-01-01 00:00:00\", \"revenue\": 100.0}, {\"month\": \"2026-02-01 00:00:00\", \"revenue\": 110.0}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "retail-v5 fixed-evidence replay plus bounded review; original SQL contexts unchanged",
+    "data_mode": "fixture",
+    "comparison_group": "reviewed"
+  },
+  {
+    "id": "baseline-fixture-returns",
+    "question": "For each authorized product, calculate returned items / (Complete + Returned items) across all available history. Return columns product_id, finalized_items, returned_items, return_rate. Explain why this is not a refund rate and suggest follow-up actions.",
+    "response": "### Product Return Rates (Authorized Products)\n\n| product_id | finalized_items | returned_items | return_rate |\n| :--- | :--- | :--- | :--- |\n| 1 | 8 | 1 | 12.5% |\n| 2 | 8 | 1 | 12.5% |\n\n### Why This is Not a Refund Rate\n1. **Scope of Denominator**: This metric only considers items that have reached a finalized state of either `Complete` or `Returned`. It excludes pending, processing, or cancelled orders which may eventually result in refunds or successful completions.\n2. **Financial vs. Unit Metric**: A refund rate is typically calculated based on monetary value (refunded revenue / total revenue), whereas this is a unit-based return rate. Differences in item pricing, partial refunds, or restocking fees are not captured here.\n3. **Status Definition**: In some systems, an item can be refunded without being physically returned (e.g., customer service concessions, lost packages), which would not be captured by the `Returned` status alone.\n\n### Suggested Follow-up Actions\n* **Analyze Return Reasons**: Investigate customer feedback or support tickets associated with these specific product IDs to understand why 12.5% of finalized units are being returned.\n* **Monitor Volume Trends**: Since the current sample size is small (8 finalized items per product), monitor these metrics as sales volume increases to see if the return rate stabilizes or changes.\n* **Compare Against Category Benchmarks**: Compare these product-level return rates against their broader category averages to determine if a 12.5% return rate is typical or anomalous.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| product_id | finalized_items | returned_items | return_rate |\n| --- | --- | --- | --- |\n| 1 | 8 | 1 | 0.125 |\n| 2 | 8 | 1 | 0.125 |",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END) AS `finalized_items`, SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) AS `returned_items`, SAFE_DIVIDE(SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END), SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END)) AS `return_rate` FROM `order_items` AS `order_items` WHERE `order_items`.`product_id` IN (1, 2) GROUP BY `product_id` ORDER BY `product_id`\", \"rows\": [{\"product_id\": 1, \"finalized_items\": 8, \"returned_items\": 1, \"return_rate\": 0.125}, {\"product_id\": 2, \"finalized_items\": 8, \"returned_items\": 1, \"return_rate\": 0.125}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "agent-retrieval-live-fixture-v2.json",
+    "data_mode": "fixture",
+    "comparison_group": "baseline"
+  },
+  {
+    "id": "reviewed-fixture-returns",
+    "question": "For each authorized product, calculate returned items / (Complete + Returned items) across all available history. Return columns product_id, finalized_items, returned_items, return_rate. Explain why this is not a refund rate and suggest follow-up actions.",
+    "response": "### Findings\nBased on all available history for the authorized products [q1]:\n\n| product_id | finalized_items | returned_items | return_rate |\n| :--- | :--- | :--- | :--- |\n| 1 | 8 | 1 | 0.125 |\n| 2 | 8 | 1 | 0.125 |\n\n### Limitations\n* **Not a Refund Rate:** This metric measures physical item return status, not financial refunds. It excludes other order statuses (e.g., 'Shipped', 'Processing', 'Cancelled') and does not account for partial refunds, store credits, or cases where a refund was issued without a physical return.\n* **Small Sample Size:** The analysis is based on a very small sample of only 8 finalized items per product [q1].\n\n### Action Items (Proposed)\n* Verify if financial refund records exist in a separate billing system to compare physical returns against actual monetary refunds.\n* Monitor return rates as transaction volumes grow to establish statistical significance.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END) AS `finalized_items`, SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) AS `returned_items`, SAFE_DIVIDE(SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END), SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END)) AS `return_rate` FROM `order_items` AS `order_items` WHERE `order_items`.`product_id` IN (1, 2) GROUP BY `product_id` ORDER BY `product_id`\", \"rows\": [{\"product_id\": 1, \"finalized_items\": 8, \"returned_items\": 1, \"return_rate\": 0.125}, {\"product_id\": 2, \"finalized_items\": 8, \"returned_items\": 1, \"return_rate\": 0.125}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "retail-v5 fixed-evidence replay plus bounded review; original SQL contexts unchanged",
+    "data_mode": "fixture",
+    "comparison_group": "reviewed"
+  },
+  {
+    "id": "baseline-fixture-margin",
+    "question": "Across all authorized Complete items and all available history, calculate total sale price minus product cost, excluding other expenses. Return one row with columns completed_revenue, product_cost_proxy, margin_proxy. Explain limitations and suggest actions; do not call this net profit.",
+    "response": "### Completed Items Margin Proxy Analysis\n\nBased on all available historical data for completed items, the aggregate revenue, product cost proxy, and margin proxy are summarized below:\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| :--- | :--- | :--- |\n| 210.00 | 490.00 | -280.00 |\n\n### Key Observations & Limitations\n* **Negative Margin Proxy:** The margin proxy is negative (-280.00), indicating that the recorded product cost (490.00) exceeds the completed sale price revenue (210.00) for these items.\n* **Not Net Profit:** This metric is strictly a limited margin proxy. It only subtracts the recorded product cost from the completed item sale price. It does not account for other critical business expenses such as shipping, taxes, customer acquisition costs, marketing, returns processing, or general overhead.\n* **Scope:** This analysis is restricted to items with a status of 'Complete'.\n\n### Actionable Suggestions\n1. **Audit Product Costing and Pricing:** Investigate the pricing structure and supplier costs for these products, as the current sale prices do not cover the recorded product costs.\n2. **Review Data Integrity:** Verify if the product cost values in the database are accurate or if there are promotional discounts applied to these completed orders that heavily depressed the sale price.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| --- | --- | --- |\n| 210.0 | 490.0 | -280.0 |",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT SUM(`i`.`sale_price`) AS `completed_revenue`, SUM(`p`.`cost`) AS `product_cost_proxy`, SUM(`i`.`sale_price` - `p`.`cost`) AS `margin_proxy` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = 'Complete'\", \"rows\": [{\"completed_revenue\": 210.0, \"product_cost_proxy\": 490.0, \"margin_proxy\": -280.0}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "agent-retrieval-live-fixture-v2.json",
+    "data_mode": "fixture",
+    "comparison_group": "baseline"
+  },
+  {
+    "id": "reviewed-fixture-margin",
+    "question": "Across all authorized Complete items and all available history, calculate total sale price minus product cost, excluding other expenses. Return one row with columns completed_revenue, product_cost_proxy, margin_proxy. Explain limitations and suggest actions; do not call this net profit.",
+    "response": "### Findings\nBased on all available history for completed items, the total sale price minus product cost is negative, indicating that product costs exceeded completed revenue for these items [q1].\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| :--- | :--- | :--- |\n| 210.0 | 490.0 | -280.0 |\n\n### Limitations\n* This calculation only reflects completed items and does not account for other operational expenses, returns, or taxes; therefore, it is a margin proxy and not net profit [q1].\n* The analysis is limited to the available historical records in the database and does not establish causal factors for the negative margin proxy [q1].\n\n### Action Items (Proposed)\n* Propose an audit of the pricing structure and product cost sourcing for the authorized products to understand the negative margin proxy [q1].\n* Propose a review of order item statuses to verify if high volumes of non-completed items impact overall cost distributions [q1].",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT SUM(`i`.`sale_price`) AS `completed_revenue`, SUM(`p`.`cost`) AS `product_cost_proxy`, SUM(`i`.`sale_price` - `p`.`cost`) AS `margin_proxy` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = 'Complete'\", \"rows\": [{\"completed_revenue\": 210.0, \"product_cost_proxy\": 490.0, \"margin_proxy\": -280.0}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "retail-v5 fixed-evidence replay plus bounded review; original SQL contexts unchanged",
+    "data_mode": "fixture",
+    "comparison_group": "reviewed"
+  }
+]

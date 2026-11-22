@@ -1,0 +1,87 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "product-revenue",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "status-mix",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "monthly-revenue",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "category-revenue",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "margin-proxy",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "state-customers",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "country-customers",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "age-band",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "scoped-orders",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "realized-price",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "return-rate",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    },
+    {
+      "name": "yearly-comparison",
+      "status": "passed",
+      "review_model": "google/gemini-3.1-pro",
+      "review_before_save": true
+    }
+  ],
+  "boundary": "Local metadata event ordering and actual reviewer identity for twelve selected reports. No Langfuse delivery claim.",
+  "attempts": {
+    "original_status": "incomplete",
+    "original_passed": 11,
+    "original_total": 12,
+    "recheck_passed": 1,
+    "recheck_total": 1,
+    "total_requests": 13,
+    "note": "12 latest reports pass SQL/save/structure; one original reviewer dependency failure remains recorded. This is not a first-attempt 12/12 pass."
+  }
+}

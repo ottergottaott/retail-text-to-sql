@@ -1,0 +1,9 @@
+{
+  "id": "customer-frequency-1",
+  "family": "customer-frequency",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7251755230008712,
+  "attempt": 1
+}

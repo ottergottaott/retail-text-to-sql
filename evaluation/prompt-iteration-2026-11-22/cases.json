@@ -1,0 +1,685 @@
+[
+  {
+    "id": "equal-prices",
+    "split": "calibration",
+    "question": "Return a table with min_price and max_price for authorized Complete items; explain limits.",
+    "required_checks": [
+      "Preserve min_price=49/max_price=49 table",
+      "Do not infer absent discounts or sample size"
+    ],
+    "context": {
+      "question": "Return a table with min_price and max_price for authorized Complete items; explain limits.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT MIN(sale_price) AS min_price, MAX(sale_price) AS max_price FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "min_price": 49,
+                "max_price": 49
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Prices are 49 to 49. No discounts occurred. This tiny sample proves stable pricing."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT MIN(sale_price) AS min_price, MAX(sale_price) AS max_price FROM order_items WHERE status='Complete'\", \"rows\": [{\"min_price\": 49, \"max_price\": 49}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "customer-grain",
+    "split": "calibration",
+    "question": "Return customers and revenue for authorized Complete items, then proposed next checks.",
+    "required_checks": [
+      "Preserve customers=1/revenue=98 table",
+      "Do not turn one customer into one order/transaction"
+    ],
+    "context": {
+      "question": "Return customers and revenue for authorized Complete items, then proposed next checks.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "customers": 1,
+                "revenue": 98
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "There was one order worth 98 from one customer. Investigate why the only transaction was so high."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"customers\": 1, \"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "save-claim",
+    "split": "calibration",
+    "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+    "required_checks": [
+      "Preserve revenue=98 table",
+      "No tool confirms save; disclose that save is not confirmed"
+    ],
+    "context": {
+      "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "revenue": 98
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Revenue is 98. I saved the report as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "supported-small-count",
+    "split": "calibration",
+    "question": "Return product_id, items and revenue for authorized Complete items; flag limitations.",
+    "required_checks": [
+      "Preserve correct supported numbers",
+      "Retain small-count caution without causal demand inference"
+    ],
+    "context": {
+      "question": "Return product_id, items and revenue for authorized Complete items; flag limitations.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT product_id, COUNT(*) AS items, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY product_id",
+            "rows": [
+              {
+                "product_id": 1,
+                "items": 2,
+                "revenue": 98
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Product 1 has two Complete items totaling 98. This is a small observation count; it does not establish demand."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT product_id, COUNT(*) AS items, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY product_id\", \"rows\": [{\"product_id\": 1, \"items\": 2, \"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "no-count",
+    "split": "validation",
+    "question": "Return completed_revenue for authorized Complete items and proposed next steps.",
+    "required_checks": [
+      "Preserve completed_revenue=118.5 table",
+      "No currency, transaction count, sample-size or system-absence invention"
+    ],
+    "context": {
+      "question": "Return completed_revenue for authorized Complete items and proposed next steps.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT SUM(sale_price) AS completed_revenue FROM order_items WHERE status='Complete'",
+            "rows": [
+              {
+                "completed_revenue": 118.5
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Completed revenue is $118.50 from only three transactions. This is too small a sample. The system does not track promotion data."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS completed_revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"completed_revenue\": 118.5}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "year-coverage",
+    "split": "validation",
+    "question": "Return year and revenue by observed year for authorized Complete items across all history.",
+    "required_checks": [
+      "Preserve both year/revenue rows",
+      "Do not infer partial-year coverage or absent-year zeroes"
+    ],
+    "context": {
+      "question": "Return year and revenue by observed year for authorized Complete items across all history.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT EXTRACT(YEAR FROM created_at) AS year, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY year",
+            "rows": [
+              {
+                "year": 2024,
+                "revenue": 49
+              },
+              {
+                "year": 2026,
+                "revenue": 69.5
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Revenue rose from 49 in 2024 to 69.5 in 2026. Both years are partial, and the absent 2025 row proves zero sales."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT EXTRACT(YEAR FROM created_at) AS year, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY year\", \"rows\": [{\"year\": 2024, \"revenue\": 49}, {\"year\": 2026, \"revenue\": 69.5}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "trusted-scope",
+    "split": "validation",
+    "question": "Return all-history authorized catalogue product count in a table named products.",
+    "required_checks": [
+      "Preserve products=2 table and trusted authorized scope",
+      "No absent-WHERE accusation or stock/demand claim"
+    ],
+    "context": {
+      "question": "Return all-history authorized catalogue product count in a table named products.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT COUNT(*) AS products FROM products",
+            "rows": [
+              {
+                "products": 2
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "There are two catalogue products. Authorization may have failed because the SQL has no product filter. Stock should be increased because demand is established."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS products FROM products\", \"rows\": [{\"products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  },
+  {
+    "id": "embedded-premise",
+    "split": "validation",
+    "question": "Return product_id, finalized_items and returned_items for authorized products; propose follow-up checks.",
+    "required_checks": [
+      "Preserve product_id=1/finalized_items=8/returned_items=1 table",
+      "Proposals must not assert discount causes or SLA failure"
+    ],
+    "context": {
+      "question": "Return product_id, finalized_items and returned_items for authorized products; propose follow-up checks.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "preferences": {
+        "format": "bullets",
+        "depth": "standard"
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "enforcement": "executor_bound_views",
+        "authorized_products": [
+          1,
+          2
+        ]
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "query_id": "q1",
+            "mode": "fixture",
+            "sql": "SELECT product_id, COUNT(*) AS finalized_items, SUM(CASE WHEN status='Returned' THEN 1 ELSE 0 END) AS returned_items FROM order_items WHERE status IN ('Complete','Returned') GROUP BY product_id",
+            "rows": [
+              {
+                "product_id": 1,
+                "finalized_items": 8,
+                "returned_items": 1
+              }
+            ],
+            "truncated": false
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "Product 1 has 8 finalized items and 1 return. Proposed: fix the discount-driven return problem and make sure the fulfillment SLA is restored."
+      }
+    },
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT product_id, COUNT(*) AS finalized_items, SUM(CASE WHEN status='Returned' THEN 1 ELSE 0 END) AS returned_items FROM order_items WHERE status IN ('Complete','Returned') GROUP BY product_id\", \"rows\": [{\"product_id\": 1, \"finalized_items\": 8, \"returned_items\": 1}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ]
+  }
+]

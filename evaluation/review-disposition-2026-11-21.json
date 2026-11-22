@@ -1,0 +1,27 @@
+{
+  "review_source": "deepseek-live-business-review-2026-11-21.json",
+  "findings": [
+    {
+      "finding": "realized-price empty report accepted",
+      "status": "fixed_and_rechecked",
+      "evidence": "live-business-realized-price-recheck-2026-11-21.json",
+      "note": "Agent rejects empty final answers without saving; acceptance also checks minimum English report structure. Original report and evidence preserved."
+    },
+    {
+      "finding": "Logical SQL omits product predicates",
+      "status": "review_concern_resolved_by_existing_design",
+      "evidence": "retail/analytics.py:80,94,123; tests/test_core.py:test_nested_cte_sources_bound_not_cte_references",
+      "note": "Reports expose validated logical SQL. Trusted binding replaces every approved source with product-scoped physical subqueries, using principal products. Enforcement does not depend on the model including predicates. Numeric oracles and source-binding tests support this; no new provider recomputation was added for this comment."
+    },
+    {
+      "finding": "Remaining caveats, causal suggestions, item/order wording and partial-year caveats",
+      "status": "human_review_pending",
+      "note": "Recorded reports are preserved for human review; numeric oracle success is not a report-quality acceptance."
+    },
+    {
+      "finding": "Realized-price recheck infers no discounting from identical min/max/average",
+      "status": "human_review_pending",
+      "note": "The rerun is complete and numerically correct, but no observed price variance cannot establish absence of discounts. This statement should be qualified; the rerun is not a judge/human quality pass."
+    }
+  ]
+}

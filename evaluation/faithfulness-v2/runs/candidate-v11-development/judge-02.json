@@ -1,0 +1,117 @@
+{
+  "status": "incomplete",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": null,
+    "sql_factual_faithfulness": null
+  },
+  "combined_means": {
+    "faithfulness": null,
+    "sql_factual_faithfulness": null
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 0,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 0,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "catalog-cost-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.7277119400005176
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.23233097299998917
+        }
+      }
+    },
+    {
+      "id": "catalog-cost-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.26065264799945
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.25893314799941436
+        }
+      }
+    },
+    {
+      "id": "catalog-department-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.24189818800005014
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.322738519998893
+        }
+      }
+    },
+    {
+      "id": "catalog-department-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.3102134689997911
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 0.24043259499921987
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 48,
+  "measured_total_tokens": null,
+  "usage_responses": 0,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

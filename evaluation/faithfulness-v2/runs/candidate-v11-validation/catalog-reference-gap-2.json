@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-2",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| id | current_reference_gap |\n|---|---|\n| 2 | 60.0 |\n| 3 | 170.0 |\n\nThe metric `current_reference_gap` calculates the average difference between the current catalogue `retail_price` and the realized `sale_price` at the item grain [q1]. The population is filtered to items where `status = 'Complete'`. The scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\nBased on the results, Product ID 3 has an average current reference gap of 170.0, while Product ID 2 has an average gap of 60.0 [q1].\n\n### Limitations\n* This query did not measure item sales volume (counts), so the sample size supporting these averages is not established.\n* Comparing realized prices to the current catalogue retail price measures a current reference gap; it does not establish actual historical discounts or net profit.\n\n### Action items (proposed)\n* Query `COUNT(item_key)` grouped by `product_id` to determine the sales volume supporting these average gaps.\n* Query `AVG(sale_price - cost)` for these products to evaluate a proxy for gross margin.",
+  "status": "generated",
+  "seconds": 16.094592607001687,
+  "usage": {
+    "input_tokens": 2635,
+    "output_tokens": 1151,
+    "total_tokens": 3786,
+    "thought_tokens": 833,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

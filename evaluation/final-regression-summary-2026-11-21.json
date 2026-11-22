@@ -1,0 +1,7 @@
+{
+  "source": "final local pytest JUnit run",
+  "tests": 195,
+  "failures": 0,
+  "errors": 0,
+  "evidence_boundary": "Controlled tests; not live provider or semantic accuracy evidence."
+}

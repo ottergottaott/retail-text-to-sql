@@ -1,0 +1,9 @@
+{
+  "id": "brand-status-1",
+  "family": "brand-status",
+  "split": "validation",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7819176960001641,
+  "attempt": 1
+}

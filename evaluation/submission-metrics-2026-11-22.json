@@ -1,0 +1,400 @@
+{
+  "date": "2026-11-22",
+  "serving_prompt": "retail-v8",
+  "human_review": "pending",
+  "regression": {
+    "passed": 205,
+    "total": 205,
+    "seconds": 54.233
+  },
+  "archive_installation": {
+    "date": "2026-11-22",
+    "status": "passed",
+    "candidate_archive_sha256": "92eb139f6399cfc303cf0f325c0bbd53814ede8bb34de9d3860c3a303a5ffb82",
+    "manifest_files_verified": 293,
+    "excluded_private_state": true,
+    "installation": "uv sync --frozen --extra dev, fresh extracted directory, new virtualenv, isolated empty uv cache",
+    "cli_help_exit": 0,
+    "cli_tests_passed": 5,
+    "cli_tests_total": 5,
+    "seconds": 39.65,
+    "runtime_files_unchanged_since_tested_archive": 80,
+    "evidence_boundary": "Same host, fresh archive/environment/cache. Installed executable plus five subprocess/HTTP/SSE fixture workflow tests. No live providers, no full Docker/bootstrap walkthrough, no other-machine installation claim."
+  },
+  "live_business": {
+    "serving_prompt": "retail-v7",
+    "selected_reports": 12,
+    "query_oracle_passed": 12,
+    "attempts": {
+      "original_status": "incomplete",
+      "original_passed": 11,
+      "original_total": 12,
+      "recheck_passed": 1,
+      "recheck_total": 1,
+      "total_requests": 13,
+      "note": "12 latest reports pass SQL/save/structure; one original reviewer dependency failure remains recorded. This is not a first-attempt 12/12 pass."
+    }
+  },
+  "live_judge": {
+    "means": {
+      "faithfulness": 0.5342592592592593,
+      "sql_factual_faithfulness": 0.843037518037518
+    },
+    "coverage": {
+      "faithfulness": {
+        "ragas_scored": 12,
+        "rule_scored": 0,
+        "applicable": 12,
+        "total_samples": 12
+      },
+      "sql_factual_faithfulness": {
+        "ragas_scored": 12,
+        "rule_scored": 0,
+        "applicable": 12,
+        "total_samples": 12
+      }
+    },
+    "judge": "google/gemini-3.5-flash",
+    "ragas_version": "0.4.4",
+    "calls": 48,
+    "tokens": 84715,
+    "cost": null,
+    "boundary": "Different judge contracts; neither is overall answer accuracy."
+  },
+  "english_retrieval": {
+    "baseline": {
+      "positive_cases": 40,
+      "negative_cases": 10,
+      "by_k": {
+        "1": {
+          "recall": 0.9,
+          "precision": 0.9,
+          "mrr": 0.9,
+          "ndcg": 0.9
+        },
+        "2": {
+          "recall": 1.0,
+          "precision": 0.5,
+          "mrr": 0.95,
+          "ndcg": 0.9630929753571458
+        },
+        "5": {
+          "recall": 1.0,
+          "precision": 0.2,
+          "mrr": 0.95,
+          "ndcg": 0.9630929753571458
+        }
+      },
+      "negative_false_match_rate": 0.8,
+      "negative_no_result_rate": 0.2,
+      "mean_latency_ms": 11.072655899915844,
+      "p50_latency_ms": 10.382259992184117,
+      "p95_latency_ms": 15.61744199716486,
+      "recall_at_2": 1.0,
+      "mrr": 0.95,
+      "irrelevant_example_rate": 0.8245614035087719
+    },
+    "candidate": {
+      "positive_cases": 40,
+      "negative_cases": 10,
+      "by_k": {
+        "1": {
+          "recall": 0.9,
+          "precision": 0.9,
+          "mrr": 0.9,
+          "ndcg": 0.9
+        },
+        "2": {
+          "recall": 1.0,
+          "precision": 0.5,
+          "mrr": 0.95,
+          "ndcg": 0.9630929753571458
+        },
+        "5": {
+          "recall": 1.0,
+          "precision": 0.2,
+          "mrr": 0.95,
+          "ndcg": 0.9630929753571458
+        }
+      },
+      "negative_false_match_rate": 0.0,
+      "negative_no_result_rate": 1.0,
+      "mean_latency_ms": 23.18478373985272,
+      "p50_latency_ms": 22.21677001216449,
+      "p95_latency_ms": 29.72777298418805,
+      "recall_at_2": 1.0,
+      "mrr": 0.95,
+      "irrelevant_example_rate": 0.47368421052631576
+    }
+  },
+  "english_challenge": {
+    "baseline": {
+      "positive_cases": 12,
+      "negative_cases": 8,
+      "by_k": {
+        "1": {
+          "recall": 0.9166666666666666,
+          "precision": 0.9166666666666666,
+          "mrr": 0.9166666666666666,
+          "ndcg": 0.9166666666666666
+        },
+        "2": {
+          "recall": 1.0,
+          "precision": 0.5,
+          "mrr": 0.9583333333333334,
+          "ndcg": 0.9692441461309548
+        },
+        "5": {
+          "recall": 1.0,
+          "precision": 0.20000000000000004,
+          "mrr": 0.9583333333333334,
+          "ndcg": 0.9692441461309548
+        }
+      },
+      "negative_false_match_rate": 1.0,
+      "negative_no_result_rate": 0.0,
+      "mean_latency_ms": 6.82073944772128,
+      "p50_latency_ms": 6.64384599076584,
+      "p95_latency_ms": 7.989436009665951,
+      "recall_at_2": 1.0,
+      "mrr": 0.9583333333333334,
+      "irrelevant_example_rate": 0.8695652173913043
+    },
+    "candidate": {
+      "positive_cases": 12,
+      "negative_cases": 8,
+      "by_k": {
+        "1": {
+          "recall": 0.9166666666666666,
+          "precision": 0.9166666666666666,
+          "mrr": 0.9166666666666666,
+          "ndcg": 0.9166666666666666
+        },
+        "2": {
+          "recall": 1.0,
+          "precision": 0.5,
+          "mrr": 0.9583333333333334,
+          "ndcg": 0.9692441461309548
+        },
+        "5": {
+          "recall": 1.0,
+          "precision": 0.20000000000000004,
+          "mrr": 0.9583333333333334,
+          "ndcg": 0.9692441461309548
+        }
+      },
+      "negative_false_match_rate": 0.0,
+      "negative_no_result_rate": 1.0,
+      "mean_latency_ms": 22.69259455060819,
+      "p50_latency_ms": 18.259806995047256,
+      "p95_latency_ms": 37.546712992480025,
+      "recall_at_2": 1.0,
+      "mrr": 0.9583333333333334,
+      "irrelevant_example_rate": 0.4782608695652174
+    }
+  },
+  "retrieval_boundary": "Small synthetic sets, cached live Qwen vectors. Expanded cases previously exposed; challenge evaluated without retuning. Replay latency excludes providers.",
+  "cli": {
+    "turns": 2,
+    "checks": {
+      "analysis_succeeded": true,
+      "live_bigquery": true,
+      "json_stdout_valid": true,
+      "progress_on_stderr": true,
+      "followup_succeeded": true,
+      "conversation_retained": true,
+      "no_save": true,
+      "followup_no_new_query": true
+    }
+  },
+  "browser": {
+    "passed": 17,
+    "untested": 4,
+    "checks": [
+      {
+        "id": "live_chat_progress",
+        "status": "passed",
+        "evidence": "Observed Running requested operation, Reviewing report against query evidence, Complete \u00b7 live."
+      },
+      {
+        "id": "live_analysis_table_save",
+        "status": "passed",
+        "evidence": "Actual BigQuery job 0db6fed0-d344-4331-b113-d0aef3295992; persisted rep_6f502bbf85fa399b, matching table and receipt."
+      },
+      {
+        "id": "embedded_preview_and_artifact",
+        "status": "passed",
+        "evidence": "Embedded card and separate Artifacts panel display saved analysis/chart/table."
+      },
+      {
+        "id": "library_search_and_open",
+        "status": "passed",
+        "evidence": "Reports sidebar; filtered Final browser acceptance; opened matching saved report."
+      },
+      {
+        "id": "separate_report_tab",
+        "status": "passed",
+        "evidence": "Open tab created distinct browser page with report hash and loaded report."
+      },
+      {
+        "id": "reload_persistence",
+        "status": "passed",
+        "evidence": "Reloaded library URL with report hash; same report restored."
+      },
+      {
+        "id": "query_evidence_navigation",
+        "status": "passed",
+        "evidence": "Clicked section anchor in library report; Behind the numbers remained, no nested library loading."
+      },
+      {
+        "id": "highlighted_sql",
+        "status": "passed",
+        "evidence": "Expanded SQL & execution details in library; SQL, job and measured bytes visible; 18 .sql-keyword spans."
+      },
+      {
+        "id": "desktop_visual",
+        "status": "passed",
+        "evidence": "Inspected real 1280px screenshot: chat/Artifact split, report header and evidence chart."
+      },
+      {
+        "id": "narrow_library_visual",
+        "status": "passed",
+        "evidence": "Inspected real 430x900 screenshot; library/viewer stack; document width 430; no outer horizontal overflow. Not a physical-device test."
+      },
+      {
+        "id": "explicit_table_over_preference",
+        "status": "passed",
+        "evidence": "Account preference bullets/concise; explicit Markdown table retained in new live report."
+      },
+      {
+        "id": "preferences_persistence_restore",
+        "status": "passed",
+        "evidence": "Changed to tables/detailed, saved v6, reloaded persisted values; restored bullets/concise."
+      },
+      {
+        "id": "feedback_response_mapping",
+        "status": "passed",
+        "evidence": "Native Give feedback opened selected question/answer; submitted explicitly automated test feedback fee_9501215f2a8bae5a, awaiting analyst review."
+      },
+      {
+        "id": "deletion_cancel",
+        "status": "passed",
+        "evidence": "Disposable rep_1e766cee8554895e previewed; /cancel returned 0 deletions; second preview still selected that report."
+      },
+      {
+        "id": "deletion_confirmation",
+        "status": "passed",
+        "evidence": "Second preview contained only disposable ID; exact /confirm returned 1 deletion."
+      },
+      {
+        "id": "report_survives_webui_chat_delete",
+        "status": "passed",
+        "evidence": "Deleted only newly created WebUI chat 9857cfea-874c-4d57-9045-01c6c209e59a through its confirmation dialog; primary report retained."
+      },
+      {
+        "id": "reopen_from_new_chat",
+        "status": "passed",
+        "evidence": "New chat requested open rep_6f502bbf85fa399b; saved report rendered again."
+      },
+      {
+        "id": "download_file_persistence",
+        "status": "untested",
+        "evidence": "Download HTML clicked; OS file persistence not established. Earlier Blob mechanism evidence is separate."
+      },
+      {
+        "id": "native_fullscreen",
+        "status": "untested",
+        "evidence": "Clicked native Open in full screen; document.fullscreenElement false in headless Chrome. Separate report tab verified."
+      },
+      {
+        "id": "cross_user_browser_session",
+        "status": "untested",
+        "evidence": "Covered by API/CLI controlled tests; no second-user browser login in this pass."
+      },
+      {
+        "id": "live_fault_injection",
+        "status": "untested",
+        "evidence": "Controlled regression coverage only; did not disrupt live providers."
+      }
+    ],
+    "boundary": "Observed browser interactions and inspected screenshots. One new live analysis; no independent reference SQL recomputation. Human acceptance pending. WebUI chat deletion does not assert backend conversation erasure. No existing user reports/chats deleted."
+  },
+  "targeted_save_prompt": {
+    "baseline": {
+      "status": "tested",
+      "aggregation_version": "v2",
+      "means": {
+        "faithfulness": 0.6916666666666667,
+        "sql_factual_faithfulness": 0.7708333333333334
+      },
+      "combined_means": {
+        "faithfulness": 0.6916666666666667,
+        "sql_factual_faithfulness": 0.7708333333333334
+      },
+      "coverage": {
+        "faithfulness": {
+          "ragas_scored": 4,
+          "rule_scored": 0,
+          "applicable": 4,
+          "total_samples": 4
+        },
+        "sql_factual_faithfulness": {
+          "ragas_scored": 4,
+          "rule_scored": 0,
+          "applicable": 4,
+          "total_samples": 4
+        }
+      }
+    },
+    "candidate": {
+      "status": "tested",
+      "aggregation_version": "v2",
+      "means": {
+        "faithfulness": 0.8035714285714286,
+        "sql_factual_faithfulness": 1.0
+      },
+      "combined_means": {
+        "faithfulness": 0.8035714285714286,
+        "sql_factual_faithfulness": 1.0
+      },
+      "coverage": {
+        "faithfulness": {
+          "ragas_scored": 4,
+          "rule_scored": 0,
+          "applicable": 4,
+          "total_samples": 4
+        },
+        "sql_factual_faithfulness": {
+          "ragas_scored": 4,
+          "rule_scored": 0,
+          "applicable": 4,
+          "total_samples": 4
+        }
+      }
+    }
+  },
+  "prompt_boundary": "Four synthetic validation cases per variant, one repetition; save semantics only. Broad live business set predates retail-v8.",
+  "deepseek_review": {
+    "metrics_blockers": [],
+    "new_report_verdict": "consistent_no_blocking_findings",
+    "boundary": "Independent AI text/evidence critique; no SQL recomputation or visual review."
+  },
+  "remaining": [
+    "Human report review",
+    "Fresh installation on another machine",
+    "Optional live Langfuse ingestion"
+  ],
+  "source_sha256": {
+    "regression-2026-11-22.json": "e5884a00c04ea016ae89a000ebae198bd1c8c73973d12623a494197613ff84d9",
+    "live-business-pro-final-2026-11-21.json": "a7b006186802a28be004d9a30b4e36b55dbeeb789e08d1c25be9c52b64bca1a8",
+    "faithfulness-pro-live-results-2026-11-21.json": "675f5f82a8560a183992cbb6e222db4330fb62158abd3bb9dbc936617a907b11",
+    "retrieval-gate-2026-11-21/english-results.json": "33adc376c885a4cd948e9052ab29fe316a6789898c7dc4f9adf7b6d86910b429",
+    "retrieval-gate-2026-11-21/challenge-results.json": "a8d474d60deb7cf6f519b7e50a8b488887899c59670accfb4d5657c4cd2cf14c",
+    "cli-live-2026-11-22.json": "a0239c0fca03937a87ad80dd5d4db334322040036e2855ed5dd7db05b6d7f0f8",
+    "browser-acceptance-2026-11-22.json": "51be4a3b14fcc6993865c8f670a6a5c3a15bac89ed7eab161c57689c92ff56f0",
+    "prompt-iteration-3-2026-11-22/results.json": "eabaad65646311f3b4455ba2ad18bcb3509dd02fc4cdad0bcff7fadcdd718c03",
+    "deepseek-final-metrics-audit-2026-11-22.json": "9c34f5168f69861e652b6bfbdb7021e32891332fa714cf2fb8c3f8efc785f753",
+    "deepseek-browser-report-review-2026-11-22.json": "dce1d687f5dc634b1b040d013011fc623ecc5c64bfb42ba0b2c20fa221b1969f",
+    "archive-installation-2026-11-22.json": "8385670e837b1bfd886a712f166cb2db75f0c80a47f301fc713191c7a60b5810"
+  }
+}

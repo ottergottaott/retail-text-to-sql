@@ -1,0 +1,62 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "sql_factual_faithfulness": 0.9375
+  },
+  "combined_means": {
+    "sql_factual_faithfulness": 0.9375
+  },
+  "coverage": {
+    "sql_factual_faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "pro-state-customers",
+      "metrics": {
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 4.358240043016849
+        }
+      }
+    },
+    {
+      "id": "pro-realized-price",
+      "metrics": {
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.875,
+          "source": "ragas",
+          "seconds": 7.599377564998576
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 4,
+  "max_provider_calls": 12,
+  "measured_total_tokens": 6603,
+  "usage_responses": 4,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  }
+}

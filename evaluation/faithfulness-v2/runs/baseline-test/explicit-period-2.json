@@ -1,0 +1,9 @@
+{
+  "id": "explicit-period-2",
+  "family": "explicit-period",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.769088194001597,
+  "attempt": 1
+}

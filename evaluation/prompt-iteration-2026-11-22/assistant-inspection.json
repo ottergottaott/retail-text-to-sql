@@ -1,0 +1,28 @@
+{
+  "reviewer": "coding assistant; not human acceptance or independent SQL recomputation",
+  "basis": "direct inspection of the frozen responses and SQL contexts",
+  "observations": [
+    {
+      "case": "no-count",
+      "baseline": "Adds $118.50 although no currency is supplied.",
+      "candidate": "Uses 118.5 without invented currency.",
+      "assessment": "Targeted correction observed."
+    },
+    {
+      "case": "equal-prices",
+      "both": "Propose sale_price versus retail_price to measure actual discount amounts/rates.",
+      "assessment": "Current catalogue retail_price is a reference-price proxy; it does not establish historical discount amounts. Residual issue in both variants."
+    },
+    {
+      "case": "customer-grain",
+      "candidate": "Proposes counting order_key to determine transactions.",
+      "assessment": "In order_items, non-distinct order_key counts item rows; recommendation needs DISTINCT/grain qualification."
+    },
+    {
+      "case": "save-claim",
+      "both": "Remove fabricated saved ID, but assert save was not executed.",
+      "assessment": "Absence of success evidence supports no save confirmed, not necessarily proof no save operation occurred."
+    }
+  ],
+  "promotion": "Not approved by this inspection alone. The pending-final-answer save workflow, requested depth and tool-routing regressions remain untested by this frozen-review experiment."
+}

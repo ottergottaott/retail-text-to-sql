@@ -1,0 +1,24 @@
+{
+  "id": "return-denominator-1",
+  "family": "return-denominator",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nThe overall return rate for the authorized products is 12.5%, based on a small sample of 16 observed items [q1].\n\n| return_item_rate | observed_items |\n|---|---|\n| 0.125 | 16 |\n\n### Limitations\n* The query only measured the aggregate return rate and total item count for the authorized products.\n* It did not measure net profit, discount history, or specific time periods.\n* The sample size is small (16 items), which may not be representative of long-term trends.\n\n### Action Items (Proposed)\n* Compare the return rate across specific products or categories to see if a particular item is driving the returns.\n* Analyze the return rate over time (e.g., by month) to identify any seasonal patterns or recent spikes.",
+  "status": "generated",
+  "seconds": 12.926556909000283,
+  "usage": {
+    "input_tokens": 2086,
+    "output_tokens": 818,
+    "total_tokens": 2904,
+    "thought_tokens": 596,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

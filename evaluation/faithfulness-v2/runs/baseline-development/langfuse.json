@@ -1,0 +1,168 @@
+{
+  "status": "submitted_not_yet_verified",
+  "run": "v8-development",
+  "dataset": "retail-faithfulness-v2-development",
+  "records": [
+    {
+      "trace_id": "6a195b2f3ac12b1ad4df7e25b6af122b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "d666a39ae555f0b6d625f9189572ff39",
+      "score_count": 2
+    },
+    {
+      "trace_id": "7a37e77e23ebeaa9abc005c3c62ee4fd",
+      "score_count": 2
+    },
+    {
+      "trace_id": "47cb425e55a2cc0823b6bdd6455cfa46",
+      "score_count": 2
+    },
+    {
+      "trace_id": "d82b2511487c372c67a634cee182c2fd",
+      "score_count": 2
+    },
+    {
+      "trace_id": "499c9ede8de39541fbc4b2c7bc0674ec",
+      "score_count": 2
+    },
+    {
+      "trace_id": "549dabb95d0a411f9cd6a83887b67442",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f52db492534918d2b8c5135775b88f92",
+      "score_count": 2
+    },
+    {
+      "trace_id": "79a212546b70467f0cdba608a3d67041",
+      "score_count": 2
+    },
+    {
+      "trace_id": "5bb50b00cc6d80d02e16c91091b932ed",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ba087ca49e303b26fd1ca248107aeee3",
+      "score_count": 2
+    },
+    {
+      "trace_id": "322c285dad386acc54bfa9aaf1c0c832",
+      "score_count": 2
+    },
+    {
+      "trace_id": "e8680d8aac8fe390739b45ddb147059a",
+      "score_count": 2
+    },
+    {
+      "trace_id": "717e7706a74cc63c24c010e186a6985f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "647d22ab77e92b3b9bde682444865b9f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "17452d644a7793e2fc200bf205ce212b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "5392d536144cf5dc958262ff2d1ba33f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "6402a8d6f2224621d590b3b7051d4df4",
+      "score_count": 2
+    },
+    {
+      "trace_id": "cc6bdd7d736993b9951b175d2a732cbd",
+      "score_count": 2
+    },
+    {
+      "trace_id": "84cbba393605e58e8a1c1fdacfb30c9d",
+      "score_count": 2
+    },
+    {
+      "trace_id": "3829594e075447894a054383cec945a0",
+      "score_count": 2
+    },
+    {
+      "trace_id": "66f9d699f6fcb9516e6bd734ab87fc5d",
+      "score_count": 2
+    },
+    {
+      "trace_id": "cb59ef3f5b0b90d3de4f586599fb7692",
+      "score_count": 2
+    },
+    {
+      "trace_id": "c32e353cc0bb9dcb4a7b0196ba3771d1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "376a5a70809d3cdd0d16223fa15b6305",
+      "score_count": 2
+    },
+    {
+      "trace_id": "b7fe8f156e59515ab379f5e8588104ed",
+      "score_count": 2
+    },
+    {
+      "trace_id": "51ee27e494c274956b0e2a66b43786b9",
+      "score_count": 2
+    },
+    {
+      "trace_id": "fe190af1f0da3b024732603d23eb8334",
+      "score_count": 2
+    },
+    {
+      "trace_id": "996b4235d4b527d43e747148eb3c2730",
+      "score_count": 2
+    },
+    {
+      "trace_id": "9f3424412d742a91d973493489685ceb",
+      "score_count": 2
+    },
+    {
+      "trace_id": "8452583c7c4d8d4abb691490158ea636",
+      "score_count": 2
+    },
+    {
+      "trace_id": "0c4c1fdd4fc630046b316cb8b174083e",
+      "score_count": 2
+    },
+    {
+      "trace_id": "c84c90f8a9e3aeca018f01e28503c474",
+      "score_count": 2
+    },
+    {
+      "trace_id": "de21997d87585074887dca0f7a84437d",
+      "score_count": 2
+    },
+    {
+      "trace_id": "1374ca27c2f61e000a23f5c69036a769",
+      "score_count": 2
+    },
+    {
+      "trace_id": "0b3f168d5658f7f3d55dd56ea13c8d4f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "17b9cbabf6ab1ff1b2cf338e54053b1e",
+      "score_count": 2
+    },
+    {
+      "trace_id": "c9843ab1cdc03e16be2e1cb132031db0",
+      "score_count": 2
+    },
+    {
+      "trace_id": "e1a551bcdbf02c00b7e3cba031870da5",
+      "score_count": 2
+    },
+    {
+      "trace_id": "5039d1b363daa524de412075aa602707",
+      "score_count": 2
+    }
+  ],
+  "capture": "synthetic"
+}

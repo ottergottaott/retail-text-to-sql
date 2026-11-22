@@ -1,0 +1,241 @@
+{
+  "model": "DeepSeek V4.1 Flash (bounded report reviewer)",
+  "evidence_boundary": "Read-only review of answer text plus embedded query evidence (SQL, returned rows, management/saved fields) and docs/evaluation.md. No independent SQL execution or BigQuery ground-truth recomputation. Fixture rows are canned and not independently verifiable. human_report_review is 'pending' in every record; no human acceptance asserted. Numeric checks compare prose/tables against the returned rows in the same record.",
+  "summary": "Of 11 reports (9 fixture: 3 modes x 3 cases; 2 live), numeric values, grain, Complete-status revenue framing, the Returned/(Complete+Returned) denominator, and margin-vs-net-profit caveats are largely faithful. No numeric contradiction was found between any report and its own returned rows. v3 accurately claims the save (report_id matches management); the initial live run made no false save claim but silently omits that a requested save did not occur. Residual issues are minor text/grounding nits, not data errors.",
+  "reviews": [
+    {
+      "source": "bigquery-live-agent.json",
+      "mode": "live",
+      "case_id": "product_completed_revenue",
+      "data_source": "live BigQuery, job eeb52e3b-3e39-4c46-b6bd-52b1ec0874a9",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "minor",
+          "claim": "Action items: investigate low sales 'e.g., check stock availability, search visibility, or pricing competitiveness' and 'friction in the fulfillment funnel'.",
+          "evidence": "Only q1 exists: product 1=2 items, product 2=1 item; no stock/search/pricing/funnel data queried.",
+          "reason": "Causes enumerated without supporting evidence; 'low sales volume' inferred from a 3-item sample.",
+          "recommendation": "Label as unverified hypotheses to test, or drop the cause list."
+        },
+        {
+          "severity": "minor",
+          "claim": "Says 'Based on all available historical data' but gives no temporal/freshness limitation.",
+          "evidence": "SQL has no date predicate; limitations cover only sample size and status exclusions.",
+          "reason": "All-history aggregation without flagging the absent window masks recency/seasonality (v3 did flag this).",
+          "recommendation": "Add a no-window / freshness limitation."
+        },
+        {
+          "severity": "info",
+          "claim": "No save statement; requested save was missed.",
+          "evidence": "management=null, saved_reports=0, answer has no save claim.",
+          "reason": "Does not fabricate a save (good) but does not disclose a save was requested and not completed.",
+          "recommendation": "Surface save success/failure in the narrative."
+        }
+      ]
+    },
+    {
+      "source": "bigquery-live-agent-v3.json",
+      "mode": "live",
+      "case_id": "product_completed_revenue",
+      "data_source": "live BigQuery, job 63275cb8-6d43-44dc-a82e-33725900729f",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "minor",
+          "claim": "'Evaluate Inventory and Stocking ... given their established history of completed sales.'",
+          "evidence": "q1 totals 3 completed items (2+1).",
+          "reason": "'established history' overstates a 3-item sample and implies recurring demand not shown.",
+          "recommendation": "Qualify as very-low volume rather than established."
+        },
+        {
+          "severity": "minor",
+          "claim": "v3 limitations omit the small-sample caveat present in the initial run.",
+          "evidence": "Same 3 completed items; v3 lists only scope and no-temporal-context.",
+          "reason": "Dropping the sample-size limitation reduces statistical-reliability transparency.",
+          "recommendation": "Retain a small-sample limitation."
+        },
+        {
+          "severity": "info",
+          "claim": "Saved report 'Completed Item Revenue for Authorized Products Across History' (rep_8364de063044833c).",
+          "evidence": "management.report_id=rep_8364de063044833c, saved_reports=1.",
+          "reason": "No discrepancy detected in reviewed evidence: save claim matches the recorded id.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "none",
+      "case_id": "monthly",
+      "data_source": "fixture rows, model-generated; live_bigquery_verified=false",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "Jan $100 / Feb $110 with explicit refusal to infer cause of the $10 increase.",
+          "evidence": "q1 rows 100.0/110.0; window 2026-01-01 to <2026-03-01.",
+          "reason": "No discrepancy detected in reviewed evidence; window, status, scope match and causation withheld.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "none",
+      "case_id": "returns",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "8 finalized / 1 returned / 12.50% per product, explicit not-a-refund-rate framing.",
+          "evidence": "q1 rows 8/1/0.125; denominator status IN ('Complete','Returned').",
+          "reason": "No discrepancy detected in reviewed evidence; numbers and denominator match and are stated.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "none",
+      "case_id": "margin",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "minor",
+          "claim": "'Investigate why the sale price of these items is consistently below their product cost.'",
+          "evidence": "q1 returns a single aggregate row (210/490/-280); no per-item rows.",
+          "reason": "'consistently' overgeneralizes an aggregate that cannot show per-item consistency.",
+          "recommendation": "State aggregate margin is negative instead of asserting per-item consistency."
+        },
+        {
+          "severity": "info",
+          "claim": "Margin treated as proxy not net profit; scope products 1 and 2.",
+          "evidence": "SQL has status='Complete' AND product_id IN (1,2); caveat says not net profit.",
+          "reason": "No discrepancy detected in reviewed evidence for scope or margin framing.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "lexical",
+      "case_id": "monthly",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "Jan $100 / Feb $110 and '10% month-over-month growth', drivers left as follow-up.",
+          "evidence": "q1 rows 100.0/110.0; (110-100)/100=10%.",
+          "reason": "No discrepancy detected in reviewed evidence; arithmetic and non-causal framing consistent.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "lexical",
+      "case_id": "returns",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "8/1/12.50% per product with sample-size caveat and denominator explanation.",
+          "evidence": "q1 and q2 return identical rows 8/1/0.125; q2 SQL duplicates q1.",
+          "reason": "No text discrepancy detected in reviewed evidence; the duplicate query is a process nit.",
+          "recommendation": "Avoid duplicate identical queries."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "lexical",
+      "case_id": "margin",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "minor",
+          "claim": "Action items reference 'the authorized products' / 'these products'.",
+          "evidence": "q1 SQL is 'WHERE i.status = Complete' with no product_id filter.",
+          "reason": "Product-scope wording implies restriction to products 1/2 that the SQL does not enforce.",
+          "recommendation": "State actual unfiltered scope or add the product filter."
+        },
+        {
+          "severity": "info",
+          "claim": "Proxy margin 210/490/-280, explicitly not net profit.",
+          "evidence": "q1 single row matches stated values.",
+          "reason": "No numeric discrepancy detected in reviewed evidence.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "hybrid",
+      "case_id": "monthly",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "Jan $100 / Feb $110, '$10.00 (10%) increase', volume-vs-price follow-up.",
+          "evidence": "q1 rows 100.0/110.0; window DATE>=2026-01-01 AND <2026-03-01.",
+          "reason": "No discrepancy detected in reviewed evidence; math, window, non-causal framing match.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "hybrid",
+      "case_id": "returns",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "8/1/12.5% per product with correct denominator and not-a-refund-rate reasoning.",
+          "evidence": "q1 rows 8/1/0.125; denominator IN ('Complete','Returned').",
+          "reason": "No discrepancy detected in reviewed evidence.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "source": "agent-retrieval-live-fixture-v2.json",
+      "mode": "hybrid",
+      "case_id": "margin",
+      "data_source": "fixture rows, model-generated",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "minor",
+          "claim": "Actionable suggestions target 'these products'.",
+          "evidence": "q1 SQL is 'WHERE i.status = Complete' with no product_id filter.",
+          "reason": "Implied product restriction exceeds executed query scope.",
+          "recommendation": "Align scope wording with the unfiltered SQL."
+        },
+        {
+          "severity": "info",
+          "claim": "Scope stated as 'restricted to items with Complete status'; proxy not net profit.",
+          "evidence": "q1 row 210/490/-280; SQL filters status only.",
+          "reason": "No discrepancy detected in reviewed evidence between stated scope and SQL.",
+          "recommendation": "None."
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "No independent SQL ground truth; findings rely on report-vs-embedded-rows consistency, not BigQuery re-execution.",
+    "Fixture rows are canned: identical 210/490/-280 is returned even where margin SQL omits the product filter, so SQL-to-output linkage is unverifiable.",
+    "human_report_review is 'pending' in every record; no human acceptance claimed.",
+    "Repetitions = 1 per case; no variance/stability evidence.",
+    "The 11 reports are 3 fixture cases x 3 retrieval modes plus 2 live runs of the same completed-revenue question; they are not 11 independent business scenarios.",
+    "Live and fixture data are disjoint (live 3 completed items vs fixture 8 finalized per product); cross-set numeric comparison is not meaningful.",
+    "The lexical/returns answer was read with a truncated trailing evidence table; its prose and q1 rows were fully visible."
+  ]
+}

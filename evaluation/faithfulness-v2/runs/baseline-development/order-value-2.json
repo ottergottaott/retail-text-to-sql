@@ -1,0 +1,24 @@
+{
+  "id": "order-value-2",
+  "family": "order-value",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nThe mean Complete-item revenue per represented order for your authorized products is as follows [q1]:\n\n| revenue_per_order |\n| :--- |\n| 25.0 |\n\n### Limitations\n* The query measured the overall mean revenue per order for Complete items. It did not measure the total number of orders, the timeframe of these sales, or the distribution of order values.\n* Without querying order counts, the sample size and total volume remain unknown.\n\n### Action Items (Proposed)\n* **Volume Analysis:** Query the total number of distinct orders and items to understand the sample size driving this average.\n* **Trend Analysis:** Group the revenue per order by month or quarter to identify any seasonal changes or trends over time.\n* **Distribution Check:** Analyze the minimum, maximum, and median order values to see if the mean is skewed by a few large orders.",
+  "status": "generated",
+  "seconds": 14.246570045001135,
+  "usage": {
+    "input_tokens": 2048,
+    "output_tokens": 859,
+    "total_tokens": 2907,
+    "thought_tokens": 630,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

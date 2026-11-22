@@ -1,0 +1,255 @@
+{
+  "judge": "google/gemini-3.5-flash via DeepInfra",
+  "ragas": "0.4.4",
+  "advisory": true,
+  "cases": [
+    {
+      "id": "live-product-report",
+      "score": 0.5,
+      "judgments": {
+        "statements": [
+          {
+            "statement": "The completed-item revenue for authorized product ID 1 is $98.00 across 2 completed items.",
+            "reason": "The context shows product_id 1 has completed_items as 2 and completed_revenue as 98.0.",
+            "verdict": 1
+          },
+          {
+            "statement": "The completed-item revenue for authorized product ID 2 is $69.50 across 1 completed item.",
+            "reason": "The context shows product_id 2 has completed_items as 1 and completed_revenue as 69.5.",
+            "verdict": 1
+          },
+          {
+            "statement": "The analysis of completed-item revenue only covers authorized product IDs 1 and 2.",
+            "reason": "The SQL query explicitly filters for product_id IN (1, 2).",
+            "verdict": 1
+          },
+          {
+            "statement": "The analysis of completed-item revenue does not reflect the performance of the entire product catalog.",
+            "reason": "Since the query only filters for product IDs 1 and 2, it does not reflect the entire product catalog.",
+            "verdict": 1
+          },
+          {
+            "statement": "The metrics are aggregated across all available history, which masks seasonal trends, recent performance shifts, or changes in product popularity over time.",
+            "reason": "The context does not mention anything about masking seasonal trends, recent performance shifts, or changes in product popularity over time.",
+            "verdict": 0
+          },
+          {
+            "statement": "An action item is to perform a trend analysis by breaking down the completed revenue for these products by month or quarter to identify whether sales are growing, stable, or declining.",
+            "reason": "There is no mention of action items or trend analysis in the context.",
+            "verdict": 0
+          },
+          {
+            "statement": "An action item is to evaluate inventory and stocking to ensure that products 1 and 2 have adequate stock levels to support ongoing demand.",
+            "reason": "There is no mention of inventory, stocking, or stock levels in the context.",
+            "verdict": 0
+          },
+          {
+            "statement": "The report 'Completed Item Revenue for Authorized Products Across History' has been saved with the ID 'rep_8364de063044833c'.",
+            "reason": "The context contains the report_id 'rep_8364de063044833c', but does not mention the title 'Completed Item Revenue for Authorized Products Across History'.",
+            "verdict": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "fixture-monthly",
+      "score": 0.6,
+      "judgments": {
+        "statements": [
+          {
+            "statement": "The completed-item revenue for January 2026, using only authorized products, is $100.00.",
+            "reason": "The SQL query filters for status = 'Complete', product_id IN (1, 2), and dates in January 2026, returning a revenue of 100.0.",
+            "verdict": 1
+          },
+          {
+            "statement": "The completed-item revenue for February 2026, using only authorized products, is $110.00.",
+            "reason": "The SQL query filters for status = 'Complete', product_id IN (1, 2), and dates in February 2026, returning a revenue of 110.0.",
+            "verdict": 1
+          },
+          {
+            "statement": "The authorized product scope is strictly limited to Product IDs 1 and 2.",
+            "reason": "The SQL query explicitly filters product_id IN (1, 2).",
+            "verdict": 1
+          },
+          {
+            "statement": "The revenue analysis does not reflect the overall store or brand performance across all products.",
+            "reason": "The query is restricted to product_id IN (1, 2), meaning it does not reflect overall performance across all products.",
+            "verdict": 1
+          },
+          {
+            "statement": "Revenue is calculated strictly using completed items where the status is 'Complete'.",
+            "reason": "The SQL query filters where status = 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "Pending, cancelled, or returned orders are excluded from the revenue calculation.",
+            "reason": "Since the query filters strictly for status = 'Complete', other statuses like pending, cancelled, or returned are excluded.",
+            "verdict": 1
+          },
+          {
+            "statement": "Excluding pending, cancelled, or returned orders may underrepresent total order volume or cash flow during these periods.",
+            "reason": "While logically true, this specific analytical implication is not mentioned in the provided context or definitions.",
+            "verdict": 0
+          },
+          {
+            "statement": "A two-month comparison cannot establish long-term seasonal trends or cyclical patterns.",
+            "reason": "The definitions state that 'observations do not establish causes', but there is no direct mention of seasonal trends or cyclical patterns in the context.",
+            "verdict": 0
+          },
+          {
+            "statement": "An action item is to determine whether the $10.00 (10%) revenue increase in February was driven by higher unit sales of the authorized products or an increase in their average sale price.",
+            "reason": "There are no action items mentioned in the provided context.",
+            "verdict": 0
+          },
+          {
+            "statement": "An action item is to evaluate whether to authorize additional product IDs for a more comprehensive portfolio analysis if the current authorized products are performing well.",
+            "reason": "There are no action items or recommendations mentioned in the provided context.",
+            "verdict": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "fixture-returns",
+      "score": 0.5,
+      "judgments": {
+        "statements": [
+          {
+            "statement": "The product return rate for product_id 1 is 12.5% based on 8 finalized items and 1 returned item.",
+            "reason": "The context explicitly shows product_id 1 has finalized_items: 8, returned_items: 1, and return_rate: 0.125 (which is 12.5%).",
+            "verdict": 1
+          },
+          {
+            "statement": "The product return rate for product_id 2 is 12.5% based on 8 finalized items and 1 returned item.",
+            "reason": "The context explicitly shows product_id 2 has finalized_items: 8, returned_items: 1, and return_rate: 0.125 (which is 12.5%).",
+            "verdict": 1
+          },
+          {
+            "statement": "The calculated return rate is not a refund rate because the denominator only considers items that have reached a finalized state of either Complete or Returned.",
+            "reason": "The SQL query in the context shows the denominator is indeed the sum of items with status in ('Complete', 'Returned'), which supports this reasoning.",
+            "verdict": 1
+          },
+          {
+            "statement": "The calculated return rate excludes pending, processing, or cancelled orders which may eventually result in refunds or successful completions.",
+            "reason": "The SQL query only includes 'Complete' and 'Returned' statuses in the calculation, thereby excluding other statuses like pending, processing, or cancelled.",
+            "verdict": 1
+          },
+          {
+            "statement": "The calculated return rate is not a refund rate because a refund rate is typically calculated based on monetary value, whereas this metric is a unit-based return rate.",
+            "reason": "The context does not mention monetary values or define refund rates in terms of monetary value versus unit-based metrics.",
+            "verdict": 0
+          },
+          {
+            "statement": "The calculated return rate does not capture differences in item pricing, partial refunds, or restocking fees.",
+            "reason": "The SQL query shows the calculation is based purely on item counts (1 or 0) and does not incorporate pricing, partial refunds, or restocking fees.",
+            "verdict": 1
+          },
+          {
+            "statement": "The calculated return rate is not a refund rate because an item can sometimes be refunded without being physically returned, which would not be captured by the Returned status alone.",
+            "reason": "There is no information in the context about items being refunded without being physically returned or how that relates to the Returned status.",
+            "verdict": 0
+          },
+          {
+            "statement": "A suggested follow-up action is to analyze return reasons by investigating customer feedback or support tickets associated with the specific product IDs.",
+            "reason": "The context does not mention customer feedback, support tickets, or any suggested follow-up actions.",
+            "verdict": 0
+          },
+          {
+            "statement": "A suggested follow-up action is to monitor volume trends as sales volume increases because the current sample size is small with only 8 finalized items per product.",
+            "reason": "The context does not mention monitoring volume trends or suggest any follow-up actions.",
+            "verdict": 0
+          },
+          {
+            "statement": "A suggested follow-up action is to compare the product-level return rates against broader category averages to determine if a 12.5% return rate is typical or anomalous.",
+            "reason": "The context does not mention comparing rates against broader category averages or suggest any follow-up actions.",
+            "verdict": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "fixture-margin",
+      "score": 0.7,
+      "judgments": {
+        "statements": [
+          {
+            "statement": "Based on all available historical data for completed items, the aggregate completed revenue is 210.00.",
+            "reason": "The context provides a row with 'completed_revenue' equal to 210.0 based on the SQL query filtering for status 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "Based on all available historical data for completed items, the product cost proxy is 490.00.",
+            "reason": "The context provides a row with 'product_cost_proxy' equal to 490.0 based on the SQL query filtering for status 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "Based on all available historical data for completed items, the margin proxy is -280.00.",
+            "reason": "The context provides a row with 'margin_proxy' equal to -280.0 based on the SQL query filtering for status 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "The margin proxy is negative (-280.00), indicating that the recorded product cost (490.00) exceeds the completed sale price revenue (210.00) for these items.",
+            "reason": "The SQL query calculates margin_proxy as sale_price - cost, and the results show completed_revenue (210.0) minus product_cost_proxy (490.0) equals -280.0, which directly supports this statement.",
+            "verdict": 1
+          },
+          {
+            "statement": "The margin proxy metric is strictly a limited margin proxy.",
+            "reason": "The definitions in the context state that 'product cost is a margin proxy, not net profit', which supports that it is a limited proxy.",
+            "verdict": 1
+          },
+          {
+            "statement": "The margin proxy metric only subtracts the recorded product cost from the completed item sale price.",
+            "reason": "The SQL query explicitly calculates margin_proxy as `i`.`sale_price` - `p`.`cost` for items where status is 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "The margin proxy metric does not account for other critical business expenses such as shipping, taxes, customer acquisition costs, marketing, returns processing, or general overhead.",
+            "reason": "The definitions state that 'Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit', implying other expenses are not accounted for, though the specific list of expenses (shipping, taxes, etc.) is not explicitly detailed in the context.",
+            "verdict": 0
+          },
+          {
+            "statement": "The analysis is restricted to items with a status of 'Complete'.",
+            "reason": "The SQL query contains the clause WHERE `i`.`status` = 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "One actionable suggestion is to audit product costing and pricing by investigating the pricing structure and supplier costs for these products, as the current sale prices do not cover the recorded product costs.",
+            "reason": "The context contains only raw SQL, query results, and definitions. It does not contain any actionable suggestions or recommendations.",
+            "verdict": 0
+          },
+          {
+            "statement": "Another actionable suggestion is to review data integrity by verifying if the product cost values in the database are accurate or if there are promotional discounts applied to these completed orders that heavily depressed the sale price.",
+            "reason": "The context contains only raw SQL, query results, and definitions. It does not contain any actionable suggestions or recommendations.",
+            "verdict": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "calibration-supported",
+      "score": 1.0,
+      "judgments": {
+        "statements": [
+          {
+            "statement": "Complete-item revenue was 98.",
+            "reason": "The statement is identical to the provided context, which explicitly states that complete-item revenue was 98.",
+            "verdict": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "calibration-contradicted",
+      "score": 0.0,
+      "judgments": {
+        "statements": [
+          {
+            "statement": "Complete-item revenue was 9800.",
+            "reason": "The context states that the complete-item revenue was 98, not 9800.",
+            "verdict": 0
+          }
+        ]
+      }
+    }
+  ]
+}

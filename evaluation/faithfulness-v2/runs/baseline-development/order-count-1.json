@@ -1,0 +1,24 @@
+{
+  "id": "order-count-1",
+  "family": "order-count",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nBased on the query [q1], here is the count of distinct orders represented by Complete items:\n\n| complete_orders |\n|---|\n| 14 |\n\n### Limitations\n* The query only measured the count of distinct order keys associated with items in 'Complete' status.\n* It did not measure net profit, sale prices, or the presence of discounts.\n* The count does not reflect the total number of items within those orders or orders in other statuses.\n\n### Action items (proposed)\n* Query the total `sale_price` (revenue) and item counts associated with these complete orders.\n* Compare the volume of complete orders against orders with returned or cancelled items to understand fulfillment success rates.\n* Analyze the sale price versus retail price to determine if any discounts were applied to these orders.",
+  "status": "generated",
+  "seconds": 13.76540515600027,
+  "usage": {
+    "input_tokens": 2023,
+    "output_tokens": 795,
+    "total_tokens": 2818,
+    "thought_tokens": 580,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

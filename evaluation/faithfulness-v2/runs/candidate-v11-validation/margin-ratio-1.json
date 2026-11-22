@@ -1,0 +1,25 @@
+{
+  "id": "margin-ratio-1",
+  "family": "margin-ratio",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| cost_proxy_margin_ratio |\n| :--- |\n| -1.3333333333333333 |\n\nThis analysis calculates the cost-proxy margin ratio using the formula `SUM(sale_price - cost) / NULLIF(SUM(sale_price), 0)` at the item grain [q1]. The population is filtered to items where `status = 'Complete'`. The product scope is restricted to authorized products by the executor. No date filter was applied in q1; historical coverage was not audited. The observed cost-proxy margin ratio is approximately -1.33 [q1].\n\n### Limitations\n* This query did not measure the total item count or absolute revenue, so the sample size and total financial impact are not established.\n* The `products.cost` field is a catalogue cost proxy; therefore, this calculation does not establish actual gross profit or net profit.\n\n### Action items (proposed)\n* What is the total count of Complete items and absolute `SUM(sale_price)` for these authorized products to determine the sample size driving this negative ratio?\n* How does the cost-proxy margin ratio vary when grouped by `product_id`?",
+  "status": "generated",
+  "seconds": 17.938139525000224,
+  "usage": {
+    "input_tokens": 2616,
+    "output_tokens": 1318,
+    "total_tokens": 3934,
+    "thought_tokens": 1014,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

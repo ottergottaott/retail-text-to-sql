@@ -1,0 +1,252 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.7148478835978835,
+    "sql_factual_faithfulness": 0.8819444444444445
+  },
+  "combined_means": {
+    "faithfulness": 0.7148478835978835,
+    "sql_factual_faithfulness": 0.8819444444444445
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 12,
+      "rule_scored": 0,
+      "applicable": 12,
+      "total_samples": 12
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 12,
+      "rule_scored": 0,
+      "applicable": 12,
+      "total_samples": 12
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "baseline__save-claim",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5555555555555556,
+          "source": "ragas",
+          "seconds": 6.028244610000911
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "seconds": 3.8243849739992584
+        }
+      }
+    },
+    {
+      "id": "baseline__pending-reviewed-save",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "seconds": 6.088419368001269
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "seconds": 3.931205683000371
+        }
+      }
+    },
+    {
+      "id": "baseline__pending-items",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "seconds": 4.484579789999771
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "seconds": 3.9490135770010966
+        }
+      }
+    },
+    {
+      "id": "baseline__confirmed-existing-report",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 7.987252251999962
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 6.700236485999994
+        }
+      }
+    },
+    {
+      "id": "baseline__missing-save-receipt",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "seconds": 4.391058453000369
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "seconds": 6.046181642999727
+        }
+      }
+    },
+    {
+      "id": "baseline__pending-prose-preference",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5,
+          "source": "ragas",
+          "seconds": 6.0510520939988055
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.5,
+          "source": "ragas",
+          "seconds": 4.648866572999395
+        }
+      }
+    },
+    {
+      "id": "candidate__save-claim",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.625,
+          "source": "ragas",
+          "seconds": 4.5589449090002745
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 5.348535341998286
+        }
+      }
+    },
+    {
+      "id": "candidate__pending-reviewed-save",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "seconds": 7.887496919998739
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 4.716663278000851
+        }
+      }
+    },
+    {
+      "id": "candidate__pending-items",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "seconds": 7.8503034339992155
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 5.844996084999366
+        }
+      }
+    },
+    {
+      "id": "candidate__confirmed-existing-report",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 5.572672300000704
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 6.871526303000792
+        }
+      }
+    },
+    {
+      "id": "candidate__missing-save-receipt",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "seconds": 8.851586405999115
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 5.532831656999406
+        }
+      }
+    },
+    {
+      "id": "candidate__pending-prose-preference",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "seconds": 9.41978240500066
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 6.1443717689999175
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 48,
+  "max_provider_calls": 96,
+  "measured_total_tokens": 60625,
+  "usage_responses": 48,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  }
+}

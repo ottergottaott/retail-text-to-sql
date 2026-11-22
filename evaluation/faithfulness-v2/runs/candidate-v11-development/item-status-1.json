@@ -1,0 +1,25 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThis table displays the total item count (`COUNT(*)`) grouped by `status` at the item grain [q1]. The population includes all statuses within the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n\nThis analysis did not measure the financial value (`sale_price`) of these items or the distinct number of orders (`order_key`) they represent.\n\n### Action items (proposed)\n\n* What is the total `sale_price` for the 'Complete' items compared to the 'Returned' items?\n* How are these item statuses distributed across different `created_at` months?",
+  "status": "generated",
+  "seconds": 14.844631215000845,
+  "usage": {
+    "input_tokens": 2563,
+    "output_tokens": 965,
+    "total_tokens": 3528,
+    "thought_tokens": 754,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

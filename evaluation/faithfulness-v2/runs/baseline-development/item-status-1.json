@@ -1,0 +1,24 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe table gives the query results for item counts by status [q1].\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\n### Limitations\nThe query measured item counts grouped by status. It did not measure revenue, time periods, product categories, or the reasons for returns.\n\n### Action items (proposed)\n* Compare the return rate across specific products or categories to see if the returned items are concentrated in a particular area.\n* Analyze the timeframe of these orders to determine if the returns occurred recently.",
+  "status": "generated",
+  "seconds": 15.142886037998323,
+  "usage": {
+    "input_tokens": 2035,
+    "output_tokens": 708,
+    "total_tokens": 2743,
+    "thought_tokens": 546,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

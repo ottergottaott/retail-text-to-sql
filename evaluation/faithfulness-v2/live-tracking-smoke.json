@@ -1,0 +1,9 @@
+{
+  "http_status": 200,
+  "outcome": "dependency_error",
+  "trace_id": "082b5c6a99f44caeb40f7ebc12733b24",
+  "conversation_id": "con_c0a478c1bcf44a2e",
+  "boundary": "Live serving request; report listing only, no SQL query or faithfulness measurement.",
+  "langfuse_observations": 8,
+  "metadata_readback_verified": true
+}

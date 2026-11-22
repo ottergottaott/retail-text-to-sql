@@ -1,0 +1,25 @@
+{
+  "id": "complete-share-2",
+  "family": "complete-share",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| complete_item_share | all_items |\n|---|---|\n| 0.875 | 16 |\n\nOut of 16 total items observed for the authorized products, 87.5% have a 'Complete' status [q1]. Note that 16 items is a small sample size.\n\n### Limitations\nThis query did not measure the specific statuses of the non-complete items or the time period (`created_at`) over which these items were ordered.\n\n### Action items (proposed)\n* What is the breakdown of the remaining item statuses (e.g., Cancelled, Returned) in `order_items`?\n* How are these 16 items distributed over time by grouping `order_items.created_at`?",
+  "status": "generated",
+  "seconds": 14.546444689000054,
+  "usage": {
+    "input_tokens": 2363,
+    "output_tokens": 934,
+    "total_tokens": 3297,
+    "thought_tokens": 724,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

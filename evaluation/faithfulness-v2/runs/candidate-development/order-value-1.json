@@ -1,0 +1,25 @@
+{
+  "id": "order-value-1",
+  "family": "order-value",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| revenue_per_order |\n|---|---|\n| 15.0 |\n\nThe mean Complete-item revenue per represented order for authorized products is 15.0 [q1].\n\n### Limitations\n* This analysis does not measure the total count of orders or items, so the volume supporting this average is unknown.\n* The query does not measure the distribution or variance of revenue across individual orders.\n\n### Action items (proposed)\n* Query the total count of distinct orders and items with a 'Complete' status to establish the sample size.\n* Group the mean revenue per order by product category or brand to identify which segments drive higher order values.",
+  "status": "generated",
+  "seconds": 11.558757214999787,
+  "usage": {
+    "input_tokens": 2354,
+    "output_tokens": 662,
+    "total_tokens": 3016,
+    "thought_tokens": 477,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

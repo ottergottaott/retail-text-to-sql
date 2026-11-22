@@ -1,0 +1,24 @@
+{
+  "id": "reference-spread-2",
+  "family": "reference-spread",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nThe catalogue retail-reference minus cost spread for the authorized products is as follows [q1]:\n\n| id | reference_spread |\n|---|---|\n| 2 | 50.0 |\n| 3 | 130.0 |\n\n### Limitations\nThis analysis only calculates the theoretical spread based on the catalogue `retail_price` and `cost` [q1]. It does not measure realized profit, actual sale prices, applied discounts, or transaction volume.\n\n### Action Items (Proposed)\n*   **Measure Realized Profit:** Query the actual `sale_price` minus `cost` from `order_items` for items with a 'Complete' status to see the true margin.\n*   **Analyze Sales Volume:** Check the total count of completed sales for these products to understand their overall margin contribution.",
+  "status": "generated",
+  "seconds": 12.782745283000622,
+  "usage": {
+    "input_tokens": 2056,
+    "output_tokens": 748,
+    "total_tokens": 2804,
+    "thought_tokens": 528,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

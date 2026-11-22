@@ -1,0 +1,79 @@
+{
+  "evidence_boundary": "Independent AI audit of six named files only. No execution, SQL, network, tests, edits, or secrets. All files report human_review 'pending'; this is not human acceptance. Live business reports were checked against independent reference rows; Ragas values are LLM-judge outputs under named contracts, not accuracy. Prompt-iteration-3 used frozen synthetic SQL evidence (live_bigquery_verified false). Scores from different contracts are kept separate.",
+  "defensible_metrics": [
+    {
+      "metric": "Live business reports passing query/save/structure",
+      "value": "12 selected reports; 12/12 query_oracle_passed, saved=true, structure checks true",
+      "denominator": "12 selected reports drawn from 13 requests (11 original passes of 12 + 1 explicit dependency-failure recheck of 1)",
+      "source": "live-business-pro-final-2026-11-21.json (attempts.original_status=incomplete, original_passed=11/12, recheck_passed=1/1, total_requests=13)",
+      "evidence_boundary": "Ordered/value match to independent reference SQL rows and report-structure presence; not first-attempt 12/12; not human review; one original reviewer dependency failure retained."
+    },
+    {
+      "metric": "Standard Ragas whole-response faithfulness (live)",
+      "value": "0.5343",
+      "denominator": "12/12 selected live reports scored (ragas)",
+      "source": "faithfulness-pro-live-results-2026-11-21.json, judge google/gemini-3.5-flash (deepinfra), ragas 0.4.4, 48 provider calls / 84,715 tokens",
+      "evidence_boundary": "Unmodified Ragas entailment contract; LLM judge; not SQL correctness or human acceptance; disjoint initial/recheck batches."
+    },
+    {
+      "metric": "Custom SQL-aware factual faithfulness (live)",
+      "value": "0.8430",
+      "denominator": "12/12 selected live reports scored",
+      "source": "same file, metric_definitions.sql_factual_faithfulness",
+      "evidence_boundary": "Different extraction/entailment contract; not comparable to the 0.5343 standard score and not an overall accuracy figure."
+    },
+    {
+      "metric": "Prompt-iteration-3 validation (targeted save-state, synthetic)",
+      "value": "candidate faithfulness 0.8036 / sql_factual 1.0; baseline 0.6917 / 0.7708",
+      "denominator": "4 validation cases per variant; 6 total per variant (2 calibration + 4 validation), 1 repetition",
+      "source": "prompt-iteration-3-2026-11-22/results.json (12 generated/scored, missing_ids none)",
+      "evidence_boundary": "Frozen synthetic SQL evidence, no query executed, live_bigquery_verified false; tests only deferred-save instructions; not broad live quality; one repetition."
+    },
+    {
+      "metric": "Prompt-iteration-3 full-set (6 cases)",
+      "value": "candidate faithfulness 0.7649 / sql_factual 1.0; baseline 0.6648 / 0.7639",
+      "denominator": "6 cases per variant",
+      "source": "same results.json judge_summary",
+      "evidence_boundary": "Small targeted adversarial set; separate contract; not statistical significance."
+    },
+    {
+      "metric": "CLI live integration session",
+      "value": "8/8 boolean checks true (analysis, live BigQuery, JSON stdout, stderr progress, follow-up, conversation retained, no save, no new follow-up query)",
+      "denominator": "2 turns in one CLI session",
+      "source": "cli-live-2026-11-22.json",
+      "evidence_boundary": "Installed CLI, real HTTP/SSE API, live Gemini/BigQuery; not a browser or visual test; one session."
+    },
+    {
+      "metric": "Promotion scope",
+      "value": "retail-v8, deferred-save semantics only; catalogue-price, depth and grain changes NOT promoted",
+      "denominator": "6 synthetic save-state cases; live-model/fixture-SQL workflow 6/6 checks plus ordinary unsaved request",
+      "source": "promotion.json",
+      "evidence_boundary": "Live API smoke created one real count report (rep_7de35cbfbe5d4942, trace retail-v8); not a browser visual check."
+    }
+  ],
+  "misleading_claims_to_avoid": [
+    "Do not call the live set '12/12 first-attempt' or '13/13 requests passed': it is 12 selected reports from 13 requests, with one original reviewer dependency failure retained.",
+    "Do not average 0.5343 faithfulness and 0.8430 sql_factual into one accuracy score, nor describe 53% to 84% as an improvement; they are different judge contracts.",
+    "Do not present the prompt-iteration-3 save-state scores (0.6917\u21920.8036; 0.7708\u21921.0) as broad live report quality; they are targeted synthetic cases, one repetition.",
+    "Do not use the retail-v8 promotion as evidence of live business quality: the 12 live reports were produced under retail-v7 (review model gemini-3.1-pro).",
+    "Do not equate CLI evidence with browser/visual acceptance; the WebUI was not tested here.",
+    "Do not claim human acceptance, production guarantees, or that the synthetic confirmed-existing-report exercises real open_report routing (real opening stops before review).",
+    "Do not state '205 passing tests' or 'five CLI integration tests' as verified here; those come only from docs/submission-evidence.md and were not re-run.",
+    "Avoid quoting realized-price's proposed 'compare against retail_price to determine if items were sold at full price' as validated: retail_price is a current catalogue reference, so it cannot establish historical full-price sales or past discounts."
+  ],
+  "blocking_inconsistencies": [],
+  "inconsistency_notes": [
+    "No blocking inconsistency found. The apparent 'passed' vs 'original_status: incomplete' tension is disclosed in the same file (attempts.note) and in submission-evidence ('thirteen initial/recheck requests, not twelve consecutive successes').",
+    "Version skew, not contradiction: live business reports ran retail-v7; prompt-iteration-3 promotes retail-v8 for save semantics only.",
+    "Several reference_job bytes_processed are 0 while report query bytes are >0; not shown to invalidate oracle rows, but unexplained.",
+    "scoped-orders answer honestly states item-level status derivation and possible mixed-status double counting; it matches reference rows but is a residual grain risk, not a hidden discrepancy."
+  ],
+  "remaining_gates": {
+    "human": "Human review of report usefulness and factual premises is pending for every file; Ragas judge scores are not human acceptance.",
+    "installation": "Fresh installation on another machine has not been exercised per submission-evidence.",
+    "browser": "Actual WebUI/visual acceptance and live WebUI chat deletion are not established; CLI only.",
+    "optional": "Live Langfuse ingestion, if demonstrated during assessment.",
+    "scope": "Residual grain and retail_price-proxy factual risks remain in live reports (notably realized-price action)."
+  },
+  "recommendation": "Report the live business result as 12 selected reports (11 first-pass + 1 recheck) from 13 requests passing value/save/structure checks, and report the two live Ragas contracts separately (0.5343 standard; 0.8430 SQL-aware) with explicit non-comparability. Treat the prompt-iteration-3 gains as targeted synthetic save-state evidence only, and the retail-v8 promotion as scoped to save semantics. Keep 205 tests and five CLI tests labeled as documentation claims unless re-run. No blocking inconsistency was found, but human, fresh-install, and browser gates remain open; this is an independent AI audit."
+}

@@ -1,0 +1,3988 @@
+[
+  {
+    "id": "complete-revenue-1",
+    "family": "complete-revenue",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_revenue": 210.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": 210.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "complete_revenue": 210.0
+      }
+    ],
+    "required_aliases": [
+      "complete_revenue"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "complete-revenue-2",
+    "family": "complete-revenue",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_revenue": 350.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": 350.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "complete_revenue": 350.0
+      }
+    ],
+    "required_aliases": [
+      "complete_revenue"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "item-status-1",
+    "family": "item-status",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "status": "Complete",
+                "items": 14
+              },
+              {
+                "status": "Returned",
+                "items": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"items\": 14}, {\"status\": \"Returned\", \"items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT status,COUNT(*) AS items FROM order_items GROUP BY status ORDER BY status",
+    "reference_rows": [
+      {
+        "status": "Complete",
+        "items": 14
+      },
+      {
+        "status": "Returned",
+        "items": 2
+      }
+    ],
+    "required_aliases": [
+      "status",
+      "items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "item-status-2",
+    "family": "item-status",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "status": "Complete",
+                "items": 14
+              },
+              {
+                "status": "Returned",
+                "items": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"items\": 14}, {\"status\": \"Returned\", \"items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT status,COUNT(*) AS items FROM order_items GROUP BY status ORDER BY status",
+    "reference_rows": [
+      {
+        "status": "Complete",
+        "items": 14
+      },
+      {
+        "status": "Returned",
+        "items": 2
+      }
+    ],
+    "required_aliases": [
+      "status",
+      "items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "item-volume-1",
+    "family": "item-volume",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "product_id": 1,
+                "complete_items": 7
+              },
+              {
+                "product_id": 2,
+                "complete_items": 7
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 1, \"complete_items\": 7}, {\"product_id\": 2, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT product_id,COUNT(*) AS complete_items FROM order_items WHERE status='Complete' GROUP BY product_id ORDER BY product_id",
+    "reference_rows": [
+      {
+        "product_id": 1,
+        "complete_items": 7
+      },
+      {
+        "product_id": 2,
+        "complete_items": 7
+      }
+    ],
+    "required_aliases": [
+      "product_id",
+      "complete_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "item-volume-2",
+    "family": "item-volume",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "product_id": 2,
+                "complete_items": 7
+              },
+              {
+                "product_id": 3,
+                "complete_items": 7
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 2, \"complete_items\": 7}, {\"product_id\": 3, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT product_id,COUNT(*) AS complete_items FROM order_items WHERE status='Complete' GROUP BY product_id ORDER BY product_id",
+    "reference_rows": [
+      {
+        "product_id": 2,
+        "complete_items": 7
+      },
+      {
+        "product_id": 3,
+        "complete_items": 7
+      }
+    ],
+    "required_aliases": [
+      "product_id",
+      "complete_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "price-range-1",
+    "family": "price-range",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "min_price": 10.0,
+                "max_price": 20.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"min_price\": 10.0, \"max_price\": 20.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT MIN(sale_price) AS min_price,MAX(sale_price) AS max_price FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "min_price": 10.0,
+        "max_price": 20.0
+      }
+    ],
+    "required_aliases": [
+      "min_price",
+      "max_price"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "price-range-2",
+    "family": "price-range",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "min_price": 20.0,
+                "max_price": 30.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"min_price\": 20.0, \"max_price\": 30.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT MIN(sale_price) AS min_price,MAX(sale_price) AS max_price FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "min_price": 20.0,
+        "max_price": 30.0
+      }
+    ],
+    "required_aliases": [
+      "min_price",
+      "max_price"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "realized-price-1",
+    "family": "realized-price",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show mean realized Complete-item price for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show mean realized Complete-item price for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "mean_price": 15.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"mean_price\": 15.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT AVG(sale_price) AS mean_price FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "mean_price": 15.0
+      }
+    ],
+    "required_aliases": [
+      "mean_price"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "realized-price-2",
+    "family": "realized-price",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show mean realized Complete-item price for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show mean realized Complete-item price for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "mean_price": 25.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"mean_price\": 25.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT AVG(sale_price) AS mean_price FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "mean_price": 25.0
+      }
+    ],
+    "required_aliases": [
+      "mean_price"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "returned-value-1",
+    "family": "returned-value",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Returned-item recorded sale value, not refunds for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Returned-item recorded sale value, not refunds for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "returned_recorded_value": 30.0,
+                "returned_items": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"returned_recorded_value\": 30.0, \"returned_items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price) AS returned_recorded_value,COUNT(*) AS returned_items FROM order_items WHERE status='Returned'",
+    "reference_rows": [
+      {
+        "returned_recorded_value": 30.0,
+        "returned_items": 2
+      }
+    ],
+    "required_aliases": [
+      "returned_recorded_value",
+      "returned_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "returned-value-2",
+    "family": "returned-value",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Returned-item recorded sale value, not refunds for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Returned-item recorded sale value, not refunds for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "returned_recorded_value": 50.0,
+                "returned_items": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"returned_recorded_value\": 50.0, \"returned_items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price) AS returned_recorded_value,COUNT(*) AS returned_items FROM order_items WHERE status='Returned'",
+    "reference_rows": [
+      {
+        "returned_recorded_value": 50.0,
+        "returned_items": 2
+      }
+    ],
+    "required_aliases": [
+      "returned_recorded_value",
+      "returned_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-count-1",
+    "family": "catalog-count",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "catalogue_products": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"catalogue_products\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT COUNT(*) AS catalogue_products FROM products",
+    "reference_rows": [
+      {
+        "catalogue_products": 2
+      }
+    ],
+    "required_aliases": [
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-count-2",
+    "family": "catalog-count",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "catalogue_products": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"catalogue_products\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT COUNT(*) AS catalogue_products FROM products",
+    "reference_rows": [
+      {
+        "catalogue_products": 2
+      }
+    ],
+    "required_aliases": [
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-price-1",
+    "family": "catalog-price",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue reference price by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue reference price by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "id": 1,
+                "retail_price": 100.0
+              },
+              {
+                "id": 2,
+                "retail_price": 80.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`id` AS `id`, `products`.`retail_price` AS `retail_price` FROM `products` AS `products` ORDER BY `id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 1, \"retail_price\": 100.0}, {\"id\": 2, \"retail_price\": 80.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`retail_price` AS `retail_price` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT id,retail_price FROM products ORDER BY id",
+    "reference_rows": [
+      {
+        "id": 1,
+        "retail_price": 100.0
+      },
+      {
+        "id": 2,
+        "retail_price": 80.0
+      }
+    ],
+    "required_aliases": [
+      "id",
+      "retail_price"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-price-2",
+    "family": "catalog-price",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue reference price by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue reference price by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "id": 2,
+                "retail_price": 80.0
+              },
+              {
+                "id": 3,
+                "retail_price": 200.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`id` AS `id`, `products`.`retail_price` AS `retail_price` FROM `products` AS `products` ORDER BY `id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 2, \"retail_price\": 80.0}, {\"id\": 3, \"retail_price\": 200.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`retail_price` AS `retail_price` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT id,retail_price FROM products ORDER BY id",
+    "reference_rows": [
+      {
+        "id": 2,
+        "retail_price": 80.0
+      },
+      {
+        "id": 3,
+        "retail_price": 200.0
+      }
+    ],
+    "required_aliases": [
+      "id",
+      "retail_price"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-cost-1",
+    "family": "catalog-cost",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue cost reference by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue cost reference by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "id": 1,
+                "cost": 40.0
+              },
+              {
+                "id": 2,
+                "cost": 30.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`id` AS `id`, `products`.`cost` AS `cost` FROM `products` AS `products` ORDER BY `id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 1, \"cost\": 40.0}, {\"id\": 2, \"cost\": 30.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`cost` AS `cost` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT id,cost FROM products ORDER BY id",
+    "reference_rows": [
+      {
+        "id": 1,
+        "cost": 40.0
+      },
+      {
+        "id": 2,
+        "cost": 30.0
+      }
+    ],
+    "required_aliases": [
+      "id",
+      "cost"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-cost-2",
+    "family": "catalog-cost",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue cost reference by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue cost reference by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "id": 2,
+                "cost": 30.0
+              },
+              {
+                "id": 3,
+                "cost": 70.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`id` AS `id`, `products`.`cost` AS `cost` FROM `products` AS `products` ORDER BY `id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 2, \"cost\": 30.0}, {\"id\": 3, \"cost\": 70.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`cost` AS `cost` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT id,cost FROM products ORDER BY id",
+    "reference_rows": [
+      {
+        "id": 2,
+        "cost": 30.0
+      },
+      {
+        "id": 3,
+        "cost": 70.0
+      }
+    ],
+    "required_aliases": [
+      "id",
+      "cost"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-department-1",
+    "family": "catalog-department",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "department": "Men",
+                "catalogue_products": 1
+              },
+              {
+                "department": "Women",
+                "catalogue_products": 1
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`department` AS `department`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `department` ORDER BY `department`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"department\": \"Men\", \"catalogue_products\": 1}, {\"department\": \"Women\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`department` AS `department`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `department` ORDER BY `department`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT department,COUNT(*) AS catalogue_products FROM products GROUP BY department ORDER BY department",
+    "reference_rows": [
+      {
+        "department": "Men",
+        "catalogue_products": 1
+      },
+      {
+        "department": "Women",
+        "catalogue_products": 1
+      }
+    ],
+    "required_aliases": [
+      "department",
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-department-2",
+    "family": "catalog-department",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "department": "Men",
+                "catalogue_products": 1
+              },
+              {
+                "department": "Women",
+                "catalogue_products": 1
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`department` AS `department`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `department` ORDER BY `department`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"department\": \"Men\", \"catalogue_products\": 1}, {\"department\": \"Women\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`department` AS `department`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `department` ORDER BY `department`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT department,COUNT(*) AS catalogue_products FROM products GROUP BY department ORDER BY department",
+    "reference_rows": [
+      {
+        "department": "Men",
+        "catalogue_products": 1
+      },
+      {
+        "department": "Women",
+        "catalogue_products": 1
+      }
+    ],
+    "required_aliases": [
+      "department",
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-category-1",
+    "family": "catalog-category",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "category": "Outerwear",
+                "catalogue_products": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`category` AS `category`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `category` ORDER BY `category`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"category\": \"Outerwear\", \"catalogue_products\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`category` AS `category`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `category` ORDER BY `category`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT category,COUNT(*) AS catalogue_products FROM products GROUP BY category ORDER BY category",
+    "reference_rows": [
+      {
+        "category": "Outerwear",
+        "catalogue_products": 2
+      }
+    ],
+    "required_aliases": [
+      "category",
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-category-2",
+    "family": "catalog-category",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "category": "Footwear",
+                "catalogue_products": 1
+              },
+              {
+                "category": "Outerwear",
+                "catalogue_products": 1
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`category` AS `category`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `category` ORDER BY `category`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"category\": \"Footwear\", \"catalogue_products\": 1}, {\"category\": \"Outerwear\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`category` AS `category`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `category` ORDER BY `category`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT category,COUNT(*) AS catalogue_products FROM products GROUP BY category ORDER BY category",
+    "reference_rows": [
+      {
+        "category": "Footwear",
+        "catalogue_products": 1
+      },
+      {
+        "category": "Outerwear",
+        "catalogue_products": 1
+      }
+    ],
+    "required_aliases": [
+      "category",
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-brand-1",
+    "family": "catalog-brand",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "brand": "North",
+                "catalogue_products": 1
+              },
+              {
+                "brand": "South",
+                "catalogue_products": 1
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`brand` AS `brand`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `brand` ORDER BY `brand`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"North\", \"catalogue_products\": 1}, {\"brand\": \"South\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`brand` AS `brand`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT brand,COUNT(*) AS catalogue_products FROM products GROUP BY brand ORDER BY brand",
+    "reference_rows": [
+      {
+        "brand": "North",
+        "catalogue_products": 1
+      },
+      {
+        "brand": "South",
+        "catalogue_products": 1
+      }
+    ],
+    "required_aliases": [
+      "brand",
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "catalog-brand-2",
+    "family": "catalog-brand",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue product count by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue product count by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "brand": "South",
+                "catalogue_products": 1
+              },
+              {
+                "brand": "West",
+                "catalogue_products": 1
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`brand` AS `brand`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `brand` ORDER BY `brand`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"South\", \"catalogue_products\": 1}, {\"brand\": \"West\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`brand` AS `brand`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT brand,COUNT(*) AS catalogue_products FROM products GROUP BY brand ORDER BY brand",
+    "reference_rows": [
+      {
+        "brand": "South",
+        "catalogue_products": 1
+      },
+      {
+        "brand": "West",
+        "catalogue_products": 1
+      }
+    ],
+    "required_aliases": [
+      "brand",
+      "catalogue_products"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "reference-spread-1",
+    "family": "reference-spread",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue retail-reference minus cost spread, not realized profit for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue retail-reference minus cost spread, not realized profit for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "id": 1,
+                "reference_spread": 60.0
+              },
+              {
+                "id": 2,
+                "reference_spread": 50.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`id` AS `id`, `products`.`retail_price` - `products`.`cost` AS `reference_spread` FROM `products` AS `products` ORDER BY `id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 1, \"reference_spread\": 60.0}, {\"id\": 2, \"reference_spread\": 50.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`retail_price` - `products`.`cost` AS `reference_spread` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT id,retail_price-cost AS reference_spread FROM products ORDER BY id",
+    "reference_rows": [
+      {
+        "id": 1,
+        "reference_spread": 60.0
+      },
+      {
+        "id": 2,
+        "reference_spread": 50.0
+      }
+    ],
+    "required_aliases": [
+      "id",
+      "reference_spread"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "reference-spread-2",
+    "family": "reference-spread",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show catalogue retail-reference minus cost spread, not realized profit for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show catalogue retail-reference minus cost spread, not realized profit for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "id": 2,
+                "reference_spread": 50.0
+              },
+              {
+                "id": 3,
+                "reference_spread": 130.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `products`.`id` AS `id`, `products`.`retail_price` - `products`.`cost` AS `reference_spread` FROM `products` AS `products` ORDER BY `id`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 2, \"reference_spread\": 50.0}, {\"id\": 3, \"reference_spread\": 130.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`retail_price` - `products`.`cost` AS `reference_spread` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT id,retail_price-cost AS reference_spread FROM products ORDER BY id",
+    "reference_rows": [
+      {
+        "id": 2,
+        "reference_spread": 50.0
+      },
+      {
+        "id": 3,
+        "reference_spread": 130.0
+      }
+    ],
+    "required_aliases": [
+      "id",
+      "reference_spread"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "order-status-1",
+    "family": "order-status",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show scoped order counts by order status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show scoped order counts by order status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "status": "Complete",
+                "orders": 14
+              },
+              {
+                "status": "Returned",
+                "orders": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `orders`.`status` AS `status`, COUNT(DISTINCT `orders`.`order_key`) AS `orders` FROM `orders` AS `orders` GROUP BY `status` ORDER BY `status`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"orders\": 14}, {\"status\": \"Returned\", \"orders\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `orders`.`status` AS `status`, COUNT(DISTINCT `orders`.`order_key`) AS `orders` FROM `orders` AS `orders` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT status,COUNT(DISTINCT order_key) AS orders FROM orders GROUP BY status ORDER BY status",
+    "reference_rows": [
+      {
+        "status": "Complete",
+        "orders": 14
+      },
+      {
+        "status": "Returned",
+        "orders": 2
+      }
+    ],
+    "required_aliases": [
+      "status",
+      "orders"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "order-status-2",
+    "family": "order-status",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show scoped order counts by order status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show scoped order counts by order status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "status": "Complete",
+                "orders": 14
+              },
+              {
+                "status": "Returned",
+                "orders": 2
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `orders`.`status` AS `status`, COUNT(DISTINCT `orders`.`order_key`) AS `orders` FROM `orders` AS `orders` GROUP BY `status` ORDER BY `status`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"orders\": 14}, {\"status\": \"Returned\", \"orders\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `orders`.`status` AS `status`, COUNT(DISTINCT `orders`.`order_key`) AS `orders` FROM `orders` AS `orders` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT status,COUNT(DISTINCT order_key) AS orders FROM orders GROUP BY status ORDER BY status",
+    "reference_rows": [
+      {
+        "status": "Complete",
+        "orders": 14
+      },
+      {
+        "status": "Returned",
+        "orders": 2
+      }
+    ],
+    "required_aliases": [
+      "status",
+      "orders"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "order-count-1",
+    "family": "order-count",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show distinct orders represented by Complete items for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show distinct orders represented by Complete items for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_orders": 14
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT COUNT(DISTINCT `order_items`.`order_key`) AS `complete_orders` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_orders\": 14}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT COUNT(DISTINCT `order_items`.`order_key`) AS `complete_orders` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT COUNT(DISTINCT order_key) AS complete_orders FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "complete_orders": 14
+      }
+    ],
+    "required_aliases": [
+      "complete_orders"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "order-count-2",
+    "family": "order-count",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show distinct orders represented by Complete items for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show distinct orders represented by Complete items for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_orders": 14
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT COUNT(DISTINCT `order_items`.`order_key`) AS `complete_orders` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_orders\": 14}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT COUNT(DISTINCT `order_items`.`order_key`) AS `complete_orders` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT COUNT(DISTINCT order_key) AS complete_orders FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "complete_orders": 14
+      }
+    ],
+    "required_aliases": [
+      "complete_orders"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "order-value-1",
+    "family": "order-value",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show mean Complete-item revenue per represented order for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show mean Complete-item revenue per represented order for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "revenue_per_order": 15.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) / NULLIF(COUNT(DISTINCT `order_items`.`order_key`), 0) AS `revenue_per_order` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"revenue_per_order\": 15.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) / NULLIF(COUNT(DISTINCT `order_items`.`order_key`), 0) AS `revenue_per_order` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price)/NULLIF(COUNT(DISTINCT order_key),0) AS revenue_per_order FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "revenue_per_order": 15.0
+      }
+    ],
+    "required_aliases": [
+      "revenue_per_order"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "order-value-2",
+    "family": "order-value",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show mean Complete-item revenue per represented order for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show mean Complete-item revenue per represented order for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "revenue_per_order": 25.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) / NULLIF(COUNT(DISTINCT `order_items`.`order_key`), 0) AS `revenue_per_order` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"revenue_per_order\": 25.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) / NULLIF(COUNT(DISTINCT `order_items`.`order_key`), 0) AS `revenue_per_order` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price)/NULLIF(COUNT(DISTINCT order_key),0) AS revenue_per_order FROM order_items WHERE status='Complete'",
+    "reference_rows": [
+      {
+        "revenue_per_order": 25.0
+      }
+    ],
+    "required_aliases": [
+      "revenue_per_order"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "empty-population-1",
+    "family": "empty-population",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete-item revenue and count for 2030 for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete-item revenue and count for 2030 for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_revenue": null,
+                "complete_items": 0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`created_at` >= '2030-01-01'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": null, \"complete_items\": 0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`created_at` >= '2030-01-01'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price) AS complete_revenue,COUNT(*) AS complete_items FROM order_items WHERE status='Complete' AND created_at>='2030-01-01'",
+    "reference_rows": [
+      {
+        "complete_revenue": null,
+        "complete_items": 0
+      }
+    ],
+    "required_aliases": [
+      "complete_revenue",
+      "complete_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "empty-population-2",
+    "family": "empty-population",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete-item revenue and count for 2030 for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete-item revenue and count for 2030 for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_revenue": null,
+                "complete_items": 0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`created_at` >= '2030-01-01'",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": null, \"complete_items\": 0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`created_at` >= '2030-01-01'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(sale_price) AS complete_revenue,COUNT(*) AS complete_items FROM order_items WHERE status='Complete' AND created_at>='2030-01-01'",
+    "reference_rows": [
+      {
+        "complete_revenue": null,
+        "complete_items": 0
+      }
+    ],
+    "required_aliases": [
+      "complete_revenue",
+      "complete_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "limited-ranking-1",
+    "family": "limited-ranking",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show highest Complete-item revenue product within returned top-one result for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show highest Complete-item revenue product within returned top-one result for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "product_id": 2,
+                "complete_revenue": 140.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `complete_revenue` DESC LIMIT 1",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The table gives the query results. No causal analysis was performed."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 2, \"complete_revenue\": 140.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `complete_revenue` DESC LIMIT 1\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT product_id,SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete' GROUP BY product_id ORDER BY complete_revenue DESC LIMIT 1",
+    "reference_rows": [
+      {
+        "product_id": 2,
+        "complete_revenue": 140.0
+      }
+    ],
+    "required_aliases": [
+      "product_id",
+      "complete_revenue"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "limited-ranking-2",
+    "family": "limited-ranking",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show highest Complete-item revenue product within returned top-one result for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show highest Complete-item revenue product within returned top-one result for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "product_id": 3,
+                "complete_revenue": 210.0
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `complete_revenue` DESC LIMIT 1",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 3, \"complete_revenue\": 210.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `complete_revenue` DESC LIMIT 1\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT product_id,SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete' GROUP BY product_id ORDER BY complete_revenue DESC LIMIT 1",
+    "reference_rows": [
+      {
+        "product_id": 3,
+        "complete_revenue": 210.0
+      }
+    ],
+    "required_aliases": [
+      "product_id",
+      "complete_revenue"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "return-denominator-1",
+    "family": "return-denominator",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Returned/(Complete+Returned) item rate for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Returned/(Complete+Returned) item rate for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "return_item_rate": 0.125,
+                "observed_items": 16
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) * 1.0 / NULLIF(SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END), 0) AS `return_item_rate`, COUNT(*) AS `observed_items` FROM `order_items` AS `order_items`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "This measures net profit and confirms there were no discounts."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"return_item_rate\": 0.125, \"observed_items\": 16}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) * 1.0 / NULLIF(SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END), 0) AS `return_item_rate`, COUNT(*) AS `observed_items` FROM `order_items` AS `order_items`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(CASE WHEN status='Returned' THEN 1 ELSE 0 END)*1.0/NULLIF(SUM(CASE WHEN status IN ('Complete','Returned') THEN 1 ELSE 0 END),0) AS return_item_rate,COUNT(*) AS observed_items FROM order_items",
+    "reference_rows": [
+      {
+        "return_item_rate": 0.125,
+        "observed_items": 16
+      }
+    ],
+    "required_aliases": [
+      "return_item_rate",
+      "observed_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "return-denominator-2",
+    "family": "return-denominator",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Returned/(Complete+Returned) item rate for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Returned/(Complete+Returned) item rate for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "return_item_rate": 0.125,
+                "observed_items": 16
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) * 1.0 / NULLIF(SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END), 0) AS `return_item_rate`, COUNT(*) AS `observed_items` FROM `order_items` AS `order_items`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"return_item_rate\": 0.125, \"observed_items\": 16}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) * 1.0 / NULLIF(SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END), 0) AS `return_item_rate`, COUNT(*) AS `observed_items` FROM `order_items` AS `order_items`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(CASE WHEN status='Returned' THEN 1 ELSE 0 END)*1.0/NULLIF(SUM(CASE WHEN status IN ('Complete','Returned') THEN 1 ELSE 0 END),0) AS return_item_rate,COUNT(*) AS observed_items FROM order_items",
+    "reference_rows": [
+      {
+        "return_item_rate": 0.125,
+        "observed_items": 16
+      }
+    ],
+    "required_aliases": [
+      "return_item_rate",
+      "observed_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "complete-share-1",
+    "family": "complete-share",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete share of all scoped item statuses for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete share of all scoped item statuses for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        1,
+        2
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          1,
+          2
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_item_share": 0.875,
+                "all_items": 16
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(*), 0) AS `complete_item_share`, COUNT(*) AS `all_items` FROM `order_items` AS `order_items`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The report was successfully saved as rep_deadbeefdeadbeef."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_item_share\": 0.875, \"all_items\": 16}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(*), 0) AS `complete_item_share`, COUNT(*) AS `all_items` FROM `order_items` AS `order_items`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(CASE WHEN status='Complete' THEN 1 ELSE 0 END)*1.0/NULLIF(COUNT(*),0) AS complete_item_share,COUNT(*) AS all_items FROM order_items",
+    "reference_rows": [
+      {
+        "complete_item_share": 0.875,
+        "all_items": 16
+      }
+    ],
+    "required_aliases": [
+      "complete_item_share",
+      "all_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  },
+  {
+    "id": "complete-share-2",
+    "family": "complete-share",
+    "split": "development",
+    "source": "synthetic",
+    "question": "Show Complete share of all scoped item statuses for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "context": {
+      "question": "Show Complete share of all scoped item statuses for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+      "schema": {
+        "products": {
+          "id": "INT",
+          "name": "VARCHAR",
+          "category": "VARCHAR",
+          "brand": "VARCHAR",
+          "department": "VARCHAR",
+          "retail_price": "DOUBLE",
+          "cost": "DOUBLE"
+        },
+        "order_items": {
+          "item_key": "VARCHAR",
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "product_id": "INT",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP",
+          "sale_price": "DOUBLE"
+        },
+        "orders": {
+          "order_key": "VARCHAR",
+          "customer_key": "VARCHAR",
+          "status": "VARCHAR",
+          "created_at": "TIMESTAMP"
+        },
+        "users": {
+          "customer_key": "VARCHAR",
+          "state": "VARCHAR",
+          "country": "VARCHAR",
+          "age_band": "VARCHAR"
+        }
+      },
+      "authorized_products": [
+        2,
+        3
+      ],
+      "execution_scope": {
+        "authorized_products": [
+          2,
+          3
+        ],
+        "enforcement": "executor_bound_views"
+      },
+      "preferences": {
+        "format": "tables",
+        "depth": "standard"
+      },
+      "trios": [],
+      "history": [],
+      "tools": [
+        {
+          "action": "query",
+          "result": {
+            "rows": [
+              {
+                "complete_item_share": 0.875,
+                "all_items": 16
+              }
+            ],
+            "mode": "fixture",
+            "job_id": null,
+            "bytes_processed": null,
+            "sql": "SELECT SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(*), 0) AS `complete_item_share`, COUNT(*) AS `all_items` FROM `order_items` AS `order_items`",
+            "truncated": false,
+            "query_id": "q1"
+          }
+        }
+      ],
+      "report_review": {
+        "draft": "The result proves established demand. Increase stock immediately."
+      }
+    },
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_item_share\": 0.875, \"all_items\": 16}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) * 1.0 / NULLIF(COUNT(*), 0) AS `complete_item_share`, COUNT(*) AS `all_items` FROM `order_items` AS `order_items`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "reference_sql": "SELECT SUM(CASE WHEN status='Complete' THEN 1 ELSE 0 END)*1.0/NULLIF(COUNT(*),0) AS complete_item_share,COUNT(*) AS all_items FROM order_items",
+    "reference_rows": [
+      {
+        "complete_item_share": 0.875,
+        "all_items": 16
+      }
+    ],
+    "required_aliases": [
+      "complete_item_share",
+      "all_items"
+    ],
+    "evidence_boundary": "Executed deterministic DuckDB fixture; no live BigQuery, planner, retrieval or tool routing evaluated."
+  }
+]

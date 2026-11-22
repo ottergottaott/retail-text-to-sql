@@ -1,0 +1,24 @@
+{
+  "id": "limited-ranking-1",
+  "family": "limited-ranking",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nProduct ID 2 generated the highest Complete-item revenue at 140.0 [q1].\n\n| product_id | complete_revenue |\n|---|---|\n| 2 | 140.0 |\n\n### Limitations\n* The query only measured revenue for items with a 'Complete' status.\n* It did not measure item counts, customer counts, or the time period of these sales.\n* The result is limited to the single top product by revenue.\n\n### Action Items (Proposed)\n* Query the total number of items sold for Product 2 to understand volume versus price.\n* Compare this revenue against the next highest products to determine the revenue distribution.",
+  "status": "generated",
+  "seconds": 13.349181297999166,
+  "usage": {
+    "input_tokens": 2074,
+    "output_tokens": 868,
+    "total_tokens": 2942,
+    "thought_tokens": 679,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

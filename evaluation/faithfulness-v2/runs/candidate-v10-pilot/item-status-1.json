@@ -1,0 +1,25 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThis analysis measures the total item count (`COUNT(*)`) at the item grain from the `order_items` table, grouped by `status` [q1]. The population includes all available history with no date filter applied. The scope is restricted to your authorized products by the executor.\n\nObservations from the data [q1]:\n* There are 14 items with a 'Complete' status.\n* There are 2 items with a 'Returned' status.\n* Note that this represents a very small sample of total items.\n\n### Limitations\n* This query did not apply a date filter, so the temporal coverage and completeness of this data are not established.\n* Distinct order volume (`COUNT(DISTINCT order_key)`) and revenue were not measured, so the financial impact and order distribution of these items are unknown.\n\n### Action items (proposed)\n* Would you like to query the distinct order count (`COUNT(DISTINCT order_key)`) to determine if these 16 items originate from a few large orders or multiple individual transactions?\n* Should we query the temporal distribution (e.g., grouping by `created_at` year and month) to see when these returns and completions occurred?",
+  "status": "generated",
+  "seconds": 13.998649705001299,
+  "usage": {
+    "input_tokens": 2483,
+    "output_tokens": 933,
+    "total_tokens": 3416,
+    "thought_tokens": 608,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

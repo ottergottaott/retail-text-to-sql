@@ -1,0 +1,17 @@
+{
+  "status": "frozen_before_calls",
+  "candidate": "Only deferred-save instruction replacement; other serving instructions unchanged",
+  "calibration_ids": [
+    "save-claim",
+    "pending-reviewed-save"
+  ],
+  "new_validation_ids": [
+    "pending-items",
+    "confirmed-existing-report",
+    "missing-save-receipt",
+    "pending-prose-preference"
+  ],
+  "judge": "unchanged standard and SQL-aware Ragas",
+  "purpose": "Narrow save-status semantics, not broad analysis improvement",
+  "prior_iteration": "candidate 2 not promoted: incomplete baseline generation and invented currency in exact-output inspection"
+}

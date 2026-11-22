@@ -1,0 +1,39 @@
+{
+  "checks": [
+    {
+      "name": "model_failure",
+      "status": "passed",
+      "response": {
+        "conversation_id": "con_7eef3092cd1da15b",
+        "trace_id": "3c9dd89e013a4fd381df3886aa3281fb",
+        "mode": "live",
+        "answer": "Model unavailable or returned an invalid decision; no result was inferred.",
+        "outcome": "dependency_error",
+        "evidence": [],
+        "management": null
+      },
+      "source": "controlled fault injection against current live-mode app; no live dependency fault induced"
+    },
+    {
+      "name": "query_timeout",
+      "status": "passed",
+      "response": {
+        "conversation_id": "con_d1e71d87bb976833",
+        "trace_id": "1f58d60719e94c6195cb1457e32f6eb6",
+        "mode": "live",
+        "answer": "Query time budget exhausted. No result was inferred.",
+        "outcome": "dependency_error",
+        "evidence": [],
+        "management": null
+      },
+      "source": "controlled fault injection against current live-mode app; no live dependency fault induced"
+    },
+    {
+      "name": "Live metadata log excludes secrets and raw prompts/results",
+      "status": "passed",
+      "events_scanned": 407,
+      "scope": "local JSONL; does not establish Langfuse ingestion"
+    }
+  ],
+  "langfuse_ingestion": "untested; local Docker unavailable"
+}

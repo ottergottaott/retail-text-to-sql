@@ -1,0 +1,6 @@
+[
+  {"question":"Compare product revenue and return rates","relevant":["product-comparison"]},
+  {"question":"Monthly revenue trend over time","relevant":["monthly-revenue"]},
+  {"question":"Customer spend by state","relevant":["customer-spend"]},
+  {"question":"Weather forecast for tomorrow","relevant":[]}
+]

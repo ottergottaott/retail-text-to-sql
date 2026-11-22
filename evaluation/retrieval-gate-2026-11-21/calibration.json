@@ -1,0 +1,209 @@
+{
+  "development_ids": [
+    "monthly-revenue-change-en-1",
+    "revenue-period-completeness-en-1",
+    "orders-items-grain-en-1",
+    "order-item-status-reconciliation-en-1",
+    "returned-item-rate-finalized-en-1",
+    "completed-item-share-all-statuses-en-1",
+    "cancelled-order-share-en-1",
+    "discount-vs-retail-proxy-en-1",
+    "category-price-realization-en-1",
+    "cost-proxy-margin-en-1",
+    "product-margin-rate-proxy-en-1",
+    "category-revenue-returns-en-1",
+    "brand-product-performance-en-1",
+    "customer-cohort-repeat-en-1",
+    "customer-purchase-frequency-en-1",
+    "state-purchaser-demographics-en-1",
+    "age-country-purchaser-mix-en-1",
+    "active-day-revenue-gaps-en-1",
+    "customer-spend-outliers-en-1",
+    "monthly-product-diagnostic-en-1",
+    "negative-ddl-en",
+    "negative-footfall-en",
+    "negative-payroll-en",
+    "negative-prompt-injection-en",
+    "negative-weather-en"
+  ],
+  "grid": [
+    {
+      "floor": 0.5,
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.9,
+            "precision": 0.9,
+            "mrr": 0.9,
+            "ndcg": 0.9
+          },
+          "2": {
+            "recall": 1.0,
+            "precision": 0.5,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          },
+          "5": {
+            "recall": 1.0,
+            "precision": 0.2,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          }
+        },
+        "negative_false_match_rate": 0.0,
+        "negative_no_result_rate": 1.0,
+        "mean_latency_ms": 6.873717524576932,
+        "p50_latency_ms": 6.5922599751502275,
+        "p95_latency_ms": 8.258293994003907,
+        "recall_at_2": 1.0,
+        "mrr": 0.95,
+        "irrelevant_example_rate": 0.7674418604651163
+      }
+    },
+    {
+      "floor": 0.55,
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.9,
+            "precision": 0.9,
+            "mrr": 0.9,
+            "ndcg": 0.9
+          },
+          "2": {
+            "recall": 1.0,
+            "precision": 0.5,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          },
+          "5": {
+            "recall": 1.0,
+            "precision": 0.2,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          }
+        },
+        "negative_false_match_rate": 0.0,
+        "negative_no_result_rate": 1.0,
+        "mean_latency_ms": 6.552363275550306,
+        "p50_latency_ms": 6.435080984374508,
+        "p95_latency_ms": 7.136895990697667,
+        "recall_at_2": 1.0,
+        "mrr": 0.95,
+        "irrelevant_example_rate": 0.6551724137931034
+      }
+    },
+    {
+      "floor": 0.6,
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.9,
+            "precision": 0.9,
+            "mrr": 0.9,
+            "ndcg": 0.9
+          },
+          "2": {
+            "recall": 1.0,
+            "precision": 0.5,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          },
+          "5": {
+            "recall": 1.0,
+            "precision": 0.2,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          }
+        },
+        "negative_false_match_rate": 0.0,
+        "negative_no_result_rate": 1.0,
+        "mean_latency_ms": 6.832316439831629,
+        "p50_latency_ms": 6.664362997980788,
+        "p95_latency_ms": 7.727770018391311,
+        "recall_at_2": 1.0,
+        "mrr": 0.95,
+        "irrelevant_example_rate": 0.4594594594594595
+      }
+    },
+    {
+      "floor": 0.625,
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.85,
+            "precision": 0.85,
+            "mrr": 0.85,
+            "ndcg": 0.85
+          },
+          "2": {
+            "recall": 0.95,
+            "precision": 0.475,
+            "mrr": 0.9,
+            "ndcg": 0.9130929753571457
+          },
+          "5": {
+            "recall": 0.95,
+            "precision": 0.19,
+            "mrr": 0.9,
+            "ndcg": 0.9130929753571457
+          }
+        },
+        "negative_false_match_rate": 0.0,
+        "negative_no_result_rate": 1.0,
+        "mean_latency_ms": 7.545681156916544,
+        "p50_latency_ms": 7.775734004098922,
+        "p95_latency_ms": 8.657225000206381,
+        "recall_at_2": 0.95,
+        "mrr": 0.9,
+        "irrelevant_example_rate": 0.40625
+      }
+    },
+    {
+      "floor": 0.65,
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.85,
+            "precision": 0.85,
+            "mrr": 0.85,
+            "ndcg": 0.85
+          },
+          "2": {
+            "recall": 0.9,
+            "precision": 0.45,
+            "mrr": 0.875,
+            "ndcg": 0.8815464876785729
+          },
+          "5": {
+            "recall": 0.9,
+            "precision": 0.18,
+            "mrr": 0.875,
+            "ndcg": 0.8815464876785729
+          }
+        },
+        "negative_false_match_rate": 0.0,
+        "negative_no_result_rate": 1.0,
+        "mean_latency_ms": 6.627279239473864,
+        "p50_latency_ms": 6.490907981060445,
+        "p95_latency_ms": 7.031773013295606,
+        "recall_at_2": 0.9,
+        "mrr": 0.875,
+        "irrelevant_example_rate": 0.3333333333333333
+      }
+    }
+  ],
+  "selected_floor": 0.6,
+  "selection_rule": "Choose conservative round floor 0.60 among development settings with full recall and no negative false matches; do not tune using validation.",
+  "vector_threshold": 0.65
+}

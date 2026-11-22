@@ -1,0 +1,594 @@
+{
+  "data_mode": "live",
+  "checks": [
+    {
+      "name": "Owned report direct opening",
+      "status": "passed",
+      "report_id": "rep_6c40785469bea5cb"
+    },
+    {
+      "name": "Other user cannot open report",
+      "status": "passed"
+    },
+    {
+      "name": "Other user report listing excludes Alice",
+      "status": "passed"
+    },
+    {
+      "name": "Unauthenticated request denied",
+      "status": "passed"
+    },
+    {
+      "name": "PII request refused without query",
+      "status": "passed",
+      "response": {
+        "conversation_id": "con_d542a326fac42783",
+        "trace_id": "ee741c2c0e064f2a8721a8a7f6219bfa",
+        "mode": "live",
+        "answer": "I can analyze authorized retail data, but cannot disclose customer names, contacts or precise locations.",
+        "outcome": "denied",
+        "evidence": [],
+        "management": null
+      }
+    },
+    {
+      "name": "Product entitlement bypass yields no unauthorized evidence",
+      "status": "passed",
+      "response": {
+        "conversation_id": "con_90e0656b925d49fe",
+        "trace_id": "ef0bc7aab11a49b2a12e95a2a1fe8c90",
+        "mode": "live",
+        "answer": "I could not establish this analysis from query data. Please retry or narrow the metric and period.",
+        "outcome": "failed",
+        "evidence": [],
+        "management": null
+      }
+    },
+    {
+      "name": "New chat opens saved report via agent",
+      "status": "passed",
+      "response": {
+        "conversation_id": "con_6ebec71db89b945c",
+        "trace_id": "26d34c20088442e088ca7977dc579a45",
+        "mode": "live",
+        "answer": "### Complete-Item Revenue and Item Counts by Authorized Product\n\n| product_id | completed_items | revenue |\n| :--- | :--- | :--- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |\n\n### Limitations\n* **Scope of Data**: This analysis is strictly limited to authorized products (IDs 1 and 2) and does not reflect the performance of the entire product catalog.\n* **Status Definition**: Revenue is calculated strictly using completed items (`status = 'Complete'`). It excludes pending, cancelled, or returned items, which may affect overall business planning.\n* **Sample Size**: The historical volume for these specific products is very low, meaning trends may not be statistically representative of long-term performance.\n\n### Action Items\n* **Inventory Management**: Monitor stock levels for Product 1, as it shows higher completed item volume compared to Product 2.\n* **Status Mix Review**: Investigate the ratio of completed orders to cancelled/returned orders for these products to ensure high fulfillment efficiency.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n| product_id | completed_items | revenue |\n| --- | --- | --- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |",
+        "outcome": "succeeded",
+        "evidence": [],
+        "management": {
+          "report_id": "rep_6c40785469bea5cb"
+        }
+      }
+    },
+    {
+      "name": "Presentation preference stored",
+      "status": "failed",
+      "profile": {
+        "format": "bullets",
+        "depth": "standard",
+        "source": "explicit",
+        "version": 1
+      },
+      "response": {
+        "conversation_id": "con_a78c55d4951836a5",
+        "trace_id": "90dc0c8ceaeb46b385bfa2370029455a",
+        "mode": "live",
+        "answer": "Saved your preference: standard bullets.",
+        "outcome": "succeeded",
+        "evidence": [],
+        "management": {
+          "format": "bullets",
+          "depth": "standard",
+          "source": "explicit",
+          "version": 1
+        }
+      }
+    },
+    {
+      "name": "Undefined churn clarified before querying",
+      "status": "passed",
+      "response": {
+        "conversation_id": "con_e4091050da25f786",
+        "trace_id": "f3b6d901a5444d998c163fad05212cdc",
+        "mode": "live",
+        "answer": "To calculate the customer churn rate accurately, could you please clarify how you define a 'churned' customer? For example, we can define churn based on a specific period of inactivity (e.g., no orders in the last 90 or 180 days) or compare cohorts over specific timeframes. Please let me know your preferred definition or timeframe.",
+        "outcome": "clarification",
+        "evidence": [],
+        "management": null
+      },
+      "harness_correction": "Actual outcome enum is clarification, not clarified; original assertion label was wrong."
+    },
+    {
+      "name": "Previous-month follow-up preserves definition and scope",
+      "status": "passed",
+      "initial": {
+        "conversation_id": "con_6d1ce4428f810ed2",
+        "trace_id": "24d278aa04454fc8a6764d3b3bed70a6",
+        "mode": "live",
+        "answer": "Based on the analysis of order items for January 2026, here is the revenue summary for authorized products:\n\n* **Total Complete-Item Revenue**: There was no completed revenue ($0.00 or null) recorded for the authorized products (IDs: 1, 2) during January 2026.\n* **Scope & Window**: The analysis evaluated all `order_items` records with a status of 'Complete' created between `2026-01-01 00:00:00` and `2026-02-01 00:00:00` UTC for product IDs 1 and 2.\n* **Observations & Suggestions**: Since no completed transactions were found for these specific products in this timeframe, we recommend verifying if these products had active inventory or if there were any delays in order processing/status updates for this period.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- total_complete_revenue: NULL",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "total_complete_revenue": null
+              }
+            ],
+            "mode": "live",
+            "job_id": "dfe1e19a-42ad-421a-bcce-079ef0936cb1",
+            "bytes_processed": 6206678,
+            "estimated_bytes": 6206678,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `total_complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`product_id` IN (1, 2) AND `order_items`.`created_at` >= '2026-01-01 00:00:00' AND `order_items`.`created_at` < '2026-02-01 00:00:00'",
+            "truncated": false,
+            "seconds": 3.100100598006975,
+            "query_id": "q1"
+          }
+        ],
+        "management": null
+      },
+      "response": {
+        "conversation_id": "con_6d1ce4428f810ed2",
+        "trace_id": "81ac47b2a1f64f3e98003c9546903a68",
+        "mode": "live",
+        "answer": "Based on the analysis of order items for December 2025 (the previous month), here is the revenue summary for the authorized products (IDs: 1, 2):\n\n* **Total Complete-Item Revenue**: There was no completed revenue ($0.00 or null) recorded for the authorized products during December 2025.\n* **Scope & Window**: The analysis evaluated all `order_items` records with a status of 'Complete' created between `2025-12-01 00:00:00` and `2026-01-01 00:00:00` UTC for product IDs 1 and 2.\n* **Observations & Suggestions**: Similar to January 2026, no completed transactions were found for these specific products in December 2025. We recommend checking if these products were active, in stock, or if there are any data pipeline delays affecting order status updates for these periods.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- total_complete_revenue: NULL\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- total_complete_revenue: NULL",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "total_complete_revenue": null
+              }
+            ],
+            "mode": "live",
+            "job_id": "d7788b71-54d2-40f5-8899-5df17110bb68",
+            "bytes_processed": 6206678,
+            "estimated_bytes": 6206678,
+            "sql": "SELECT SUM(`order_items`.`sale_price`) AS `total_complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`product_id` IN (1, 2) AND `order_items`.`created_at` >= '2025-12-01 00:00:00' AND `order_items`.`created_at` < '2026-01-01 00:00:00'",
+            "truncated": false,
+            "seconds": 6.2489718979923055,
+            "query_id": "q1"
+          }
+        ],
+        "management": null
+      }
+    },
+    {
+      "name": "Deletion preview preserves report",
+      "status": "passed",
+      "proposal": {
+        "proposal_id": "pro_17fa55a0ecede127",
+        "reports": [
+          {
+            "id": "rep_e53ddff691b708e2",
+            "title": "Disposable acceptance deletion"
+          }
+        ],
+        "expires": 1795224041.2043362
+      }
+    },
+    {
+      "name": "Deletion rejects non-boolean confirmation",
+      "status": "passed"
+    },
+    {
+      "name": "Other user cannot confirm deletion",
+      "status": "passed"
+    },
+    {
+      "name": "Cancellation preserves report",
+      "status": "passed"
+    },
+    {
+      "name": "Confirmed deletion removes only disposable report",
+      "status": "passed"
+    },
+    {
+      "name": "Deletion confirmation replay is idempotent",
+      "status": "passed"
+    },
+    {
+      "name": "SSE emits progress and final live results",
+      "status": "passed",
+      "events": [
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "context",
+            "time": 1795223441.269401,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "started"
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "retrieval",
+            "time": 1795223449.394648,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "retrieval_mode": "hybrid",
+            "eligible": 23,
+            "indexed": 23,
+            "embedding_model": "deepinfra:Qwen/Qwen3-Embedding-8B:dim=1024:instruction=instruct-v1",
+            "returned": 2
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "context_versions",
+            "time": 1795223449.39607,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "preference_version": 1,
+            "persona_version": 0,
+            "trios": [
+              {
+                "id": "brand-product-performance",
+                "version": 1
+              },
+              {
+                "id": "monthly-revenue-change",
+                "version": 1
+              }
+            ],
+            "history_turns": 0,
+            "schema_version": "safe-v1"
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "context",
+            "time": 1795223449.396449,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "completed",
+            "seconds": 8.12688933100435
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model_context",
+            "time": 1795223449.397592,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "system_prompt_version": "retail-v3",
+            "model_call_id": "06d881ec895c454aa1633f878dde4ce3:model:1",
+            "context_digest": "238ce287a60e86eba7c04285b363e65a826c064e96c260245bfd67258bc2434d",
+            "tool_results": 0
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model",
+            "time": 1795223449.3980448,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "started"
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model_usage",
+            "time": 1795223451.360256,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "model": "google/gemini-3.5-flash",
+            "provider": "deepinfra",
+            "model_call_id": "06d881ec895c454aa1633f878dde4ce3:model:1",
+            "input_tokens": 2042,
+            "output_tokens": 119,
+            "total_tokens": 2161,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model",
+            "time": 1795223451.3605802,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "completed",
+            "seconds": 1.9624959180073347
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "tool",
+            "time": 1795223451.3615942,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "tool_call_id": "06d881ec895c454aa1633f878dde4ce3:tool:1",
+            "tool": "query",
+            "outcome": "started"
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "query",
+            "time": 1795223454.060873,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "completed",
+            "query_id": "q1",
+            "job_id": "be4012ac-c999-4412-a8c1-db9dadabc652",
+            "bytes_processed": 8626115,
+            "estimated_bytes": 8626115,
+            "rows": 2,
+            "sql_digest": "0f11c08344849a470dd02698dbe521a03bea2c294add2533bbcaf3c7b633db09",
+            "truncated": false,
+            "seconds": 2.691302450999501,
+            "retry_count": 0
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "tool",
+            "time": 1795223454.061343,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "tool_call_id": "06d881ec895c454aa1633f878dde4ce3:tool:1",
+            "tool": "query",
+            "outcome": "succeeded",
+            "seconds": 2.6996936540090246
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model_context",
+            "time": 1795223454.063616,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "system_prompt_version": "retail-v3",
+            "model_call_id": "06d881ec895c454aa1633f878dde4ce3:model:2",
+            "context_digest": "2b748f29e735bc83b97bd82830ac0a2034cf0b08e4675f5b520bca59ebd13418",
+            "tool_results": 1
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model",
+            "time": 1795223454.064311,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "started"
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model_usage",
+            "time": 1795223456.8641129,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "model": "google/gemini-3.5-flash",
+            "provider": "deepinfra",
+            "model_call_id": "06d881ec895c454aa1633f878dde4ce3:model:2",
+            "input_tokens": 2440,
+            "output_tokens": 254,
+            "total_tokens": 2694,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "model",
+            "time": 1795223456.864488,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "completed",
+            "seconds": 2.800121484993724
+          }
+        },
+        {
+          "type": "progress",
+          "data": {
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "request_id": "06d881ec895c454aa1633f878dde4ce3",
+            "turn_id": "06d881ec895c454aa1633f878dde4ce3",
+            "conversation_id": "con_08adfc9c98743c44",
+            "stage": "response",
+            "time": 1795223456.873505,
+            "mode": "live",
+            "config_version": "mvp-v1",
+            "outcome": "succeeded",
+            "seconds": 15.60502891599026
+          }
+        },
+        {
+          "type": "result",
+          "data": {
+            "conversation_id": "con_08adfc9c98743c44",
+            "trace_id": "06d881ec895c454aa1633f878dde4ce3",
+            "mode": "live",
+            "answer": "### Complete-Item Revenue by Product (All History)\n\nBelow is the historical completed-item revenue for the authorized products:\n\n| Product ID | Product Name | Category | Brand | Completed Revenue | Completed Items Count |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | Seven7 Women's Long Sleeve Stripe Belted Top | Tops & Tees | Seven7 | $98.00 | 2 |\n| 2 | Calvin Klein Women's MSY Crew Neck Roll Sleeve | Tops & Tees | Calvin Klein | $69.50 | 1 |\n\n### Key Caveats\n* **Scope of Data**: This analysis is strictly limited to authorized products (IDs 1 and 2) and items with a status of 'Complete'.\n* **Revenue Definition**: Complete-item revenue is calculated as the sum of `sale_price` for completed items only, which does not account for returns, cancellations, or other order statuses.\n* **Historical Window**: This represents all available historical data; no specific date filters were applied.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_id: 1; product_name: Seven7 Women's Long Sleeve Stripe Belted Top; category: Tops & Tees; brand: Seven7; completed_revenue: 98.0; completed_items_count: 2\n- product_id: 2; product_name: Calvin Klein Women's MSY Crew Neck Roll Sleeve; category: Tops & Tees; brand: Calvin Klein; completed_revenue: 69.5; completed_items_count: 1",
+            "outcome": "succeeded",
+            "evidence": [
+              {
+                "rows": [
+                  {
+                    "product_id": 1,
+                    "product_name": "Seven7 Women's Long Sleeve Stripe Belted Top",
+                    "category": "Tops & Tees",
+                    "brand": "Seven7",
+                    "completed_revenue": 98.0,
+                    "completed_items_count": 2
+                  },
+                  {
+                    "product_id": 2,
+                    "product_name": "Calvin Klein Women's MSY Crew Neck Roll Sleeve",
+                    "category": "Tops & Tees",
+                    "brand": "Calvin Klein",
+                    "completed_revenue": 69.5,
+                    "completed_items_count": 1
+                  }
+                ],
+                "mode": "live",
+                "job_id": "be4012ac-c999-4412-a8c1-db9dadabc652",
+                "bytes_processed": 8626115,
+                "estimated_bytes": 8626115,
+                "sql": "SELECT `p`.`id` AS `product_id`, `p`.`name` AS `product_name`, `p`.`category` AS `category`, `p`.`brand` AS `brand`, SUM(`oi`.`sale_price`) AS `completed_revenue`, COUNT(`oi`.`item_key`) AS `completed_items_count` FROM `order_items` AS `oi` JOIN `products` AS `p` ON `oi`.`product_id` = `p`.`id` WHERE `oi`.`status` = 'Complete' GROUP BY `product_id`, `product_name`, `category`, `brand` ORDER BY `completed_revenue` DESC",
+                "truncated": false,
+                "seconds": 2.691302450999501,
+                "query_id": "q1"
+              }
+            ],
+            "management": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "Hybrid retrieval active after indexing",
+      "status": "passed"
+    },
+    {
+      "name": "Saved reports survive real backend process restart",
+      "status": "passed",
+      "reports_verified": 12
+    },
+    {
+      "name": "Preference regression on prompt v4",
+      "status": "failed",
+      "response": {
+        "conversation_id": "con_f060ae5ece673611",
+        "trace_id": "0f0226f349924e3bb9bed848c50e06ff",
+        "mode": "live",
+        "answer": "Saved your preference: standard bullets.",
+        "outcome": "succeeded",
+        "evidence": [],
+        "management": {
+          "format": "bullets",
+          "depth": "standard",
+          "source": "explicit",
+          "version": 2
+        }
+      },
+      "profile": {
+        "format": "bullets",
+        "depth": "standard",
+        "source": "explicit",
+        "version": 2
+      }
+    },
+    {
+      "name": "Concise preference regression after required decision schema",
+      "status": "passed",
+      "profile": {
+        "format": "bullets",
+        "depth": "concise",
+        "source": "explicit",
+        "version": 3
+      },
+      "response": {
+        "conversation_id": "con_2542417a0de15dde",
+        "trace_id": "124e5970a6ed4baba42cf0a91af10ec8",
+        "mode": "live",
+        "answer": "Saved your preference: concise bullets.",
+        "outcome": "succeeded",
+        "evidence": [],
+        "management": {
+          "format": "bullets",
+          "depth": "concise",
+          "source": "explicit",
+          "version": 3
+        }
+      },
+      "prompt_version": "retail-v4",
+      "fix": "Require explicit format and depth in provider schema and preference validation."
+    }
+  ],
+  "human_review": "pending",
+  "report_ids_for_restart": [
+    "rep_6c40785469bea5cb",
+    "rep_d9a23e7d895b193e",
+    "rep_30cbef09c2eabf07",
+    "rep_c293a4d424061031",
+    "rep_1b5d99129e627e31",
+    "rep_cfea857a304294fe",
+    "rep_38149842608f6ad7",
+    "rep_97013e0c2e85dc62",
+    "rep_79ebaee470fd9544",
+    "rep_0b4f97ff3f1cdb37",
+    "rep_175df0dabb225fd5",
+    "rep_031f8ab1f171f149"
+  ],
+  "superseded_checks": [
+    "Presentation preference stored"
+  ]
+}

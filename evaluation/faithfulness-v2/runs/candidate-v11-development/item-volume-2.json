@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-2",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| product_id | complete_items |\n|---|---|\n| 2 | 7 |\n| 3 | 7 |\n\nThis table shows the count of item rows (`COUNT(*)`) at the item grain, filtered for the `Complete` status. The executor applied the authorized product scope. No date filter was applied in [q1]; historical coverage was not audited.\n\n### Limitations\nThis query did not measure total revenue (`sale_price`) or the number of distinct orders (`order_key`) associated with these items.\n\n### Action items (proposed)\n* What is the total revenue (`SUM(sale_price)`) for these Complete items by product?\n* How many distinct orders (`COUNT(DISTINCT order_key)`) contain these items?",
+  "status": "generated",
+  "seconds": 13.345394822999879,
+  "usage": {
+    "input_tokens": 2594,
+    "output_tokens": 945,
+    "total_tokens": 3539,
+    "thought_tokens": 738,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

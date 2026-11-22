@@ -1,0 +1,25 @@
+{
+  "id": "monthly-sales-2",
+  "family": "monthly-sales",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\n\nHere is the monthly Complete-item revenue for your authorized products [q1]:\n\n| month | complete_revenue |\n| :--- | :--- |\n| 2026-01 | 180.0 |\n| 2026-02 | 170.0 |\n\n### Limitations\n* The query only measured revenue for items with a 'Complete' status. Other statuses (such as Returned or Cancelled) were excluded.\n* Item counts, distinct customer counts, and discounts were not queried, so the volume driving this revenue is unknown.\n* It is not measured whether the observed months represent full or partial periods of data collection.\n\n### Action Items (Proposed)\n* **Volume Analysis:** Query the count of Complete items per month to determine if the revenue change is driven by transaction volume or average sale price.\n* **Status Comparison:** Measure revenue and item counts for Cancelled and Returned statuses to evaluate fulfillment success rates over the same period.",
+  "status": "generated",
+  "seconds": 14.929498307999893,
+  "usage": {
+    "input_tokens": 2115,
+    "output_tokens": 976,
+    "total_tokens": 3091,
+    "thought_tokens": 722,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": false,
+    "oracle_table_covered": false,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

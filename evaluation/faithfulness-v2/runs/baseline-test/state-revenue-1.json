@@ -1,0 +1,9 @@
+{
+  "id": "state-revenue-1",
+  "family": "state-revenue",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.8364615250011411,
+  "attempt": 1
+}

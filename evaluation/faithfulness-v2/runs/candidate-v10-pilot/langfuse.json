@@ -1,0 +1,40 @@
+{
+  "status": "submitted_not_yet_verified",
+  "run": "candidate-v10-development-pilot",
+  "dataset": "retail-faithfulness-v2-development-pilot",
+  "records": [
+    {
+      "trace_id": "eaab6cfc19489bdb2e42a66af033950f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "4d1848271cbcf27e210b2c997b748d2e",
+      "score_count": 2
+    },
+    {
+      "trace_id": "52d60b4572c1c30b6283212fa57a08c1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "017b1cee09ca62c9c43390e7ec282b62",
+      "score_count": 2
+    },
+    {
+      "trace_id": "bb0f76b89b5c62e929d00e2f50ce64b1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f44a182e57787d02a56a9fc5618eafb1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ee79a2eff0adbd75a21f5a278ae06605",
+      "score_count": 2
+    },
+    {
+      "trace_id": "86ecf5621c8c2d81e56e0178467796e9",
+      "score_count": 2
+    }
+  ],
+  "capture": "synthetic"
+}

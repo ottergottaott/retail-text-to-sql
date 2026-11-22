@@ -1,0 +1,25 @@
+{
+  "id": "catalog-price-1",
+  "family": "catalog-price",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| id | retail_price |\n|---|---|\n| 1 | 100.0 |\n| 2 | 80.0 |\n\nThe catalogue reference price is 100.0 for product 1 and 80.0 for product 2 [q1].\n\n### Limitations\n* This analysis only retrieves the current catalogue reference price (`retail_price`) and does not measure actual historical sale prices (`sale_price`).\n* Sales volume and order counts were not queried.\n\n### Action items (proposed)\n* Compare the catalogue `retail_price` to the actual `sale_price` in `order_items` to measure the current reference gap.\n* Query the count of `order_items` by `product_id` to determine the sales volume for these products.",
+  "status": "generated",
+  "seconds": 12.411561463999533,
+  "usage": {
+    "input_tokens": 2346,
+    "output_tokens": 718,
+    "total_tokens": 3064,
+    "thought_tokens": 499,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

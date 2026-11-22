@@ -1,0 +1,214 @@
+{
+  "date": "2026-11-21",
+  "overall_status": "incomplete",
+  "checks": [
+    {
+      "name": "product-revenue",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "status-mix",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "monthly-revenue",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "category-revenue",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "margin-proxy",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "state-customers",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "country-customers",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "age-band",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "scoped-orders",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "realized-price",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "return-rate",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "yearly-comparison",
+      "status": "passed",
+      "evidence": "live-business-pro-final-2026-11-21.json"
+    },
+    {
+      "name": "Owned report direct opening",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Other user cannot open report",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Other user report listing excludes Alice",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Unauthenticated request denied",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "PII request refused without query",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Product entitlement bypass yields no unauthorized evidence",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "New chat opens saved report via agent",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Presentation preference stored",
+      "status": "failed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Undefined churn clarified before querying",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Previous-month follow-up preserves definition and scope",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Deletion preview preserves report",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Deletion rejects non-boolean confirmation",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Other user cannot confirm deletion",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Cancellation preserves report",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Confirmed deletion removes only disposable report",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Deletion confirmation replay is idempotent",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "SSE emits progress and final live results",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Hybrid retrieval active after indexing",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Saved reports survive real backend process restart",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Preference regression on prompt v4",
+      "status": "failed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "Concise preference regression after required decision schema",
+      "status": "passed",
+      "evidence": "live-dialogue-security-2026-11-21.json"
+    },
+    {
+      "name": "model_failure",
+      "status": "passed",
+      "evidence": "fault-observability-checks-2026-11-21.json"
+    },
+    {
+      "name": "query_timeout",
+      "status": "passed",
+      "evidence": "fault-observability-checks-2026-11-21.json"
+    },
+    {
+      "name": "Live metadata log excludes secrets and raw prompts/results",
+      "status": "passed",
+      "evidence": "fault-observability-checks-2026-11-21.json"
+    },
+    {
+      "name": "Isolated installation and regression suite",
+      "status": "passed",
+      "note": "Frozen lock into a fresh virtual environment; 159 tests at that historical installation check. Current checkout regression: 167 tests. Installed wheel evaluator passed 21 fixture cases with explicit case paths. Same host, not a clean-machine test."
+    },
+    {
+      "name": "Live Open WebUI browser workflow",
+      "status": "passed",
+      "note": "Visible progress, rendered table, save and opening the same report from a new chat. Docker recovered; 13 unrelated containers stopped without deleting volumes."
+    },
+    {
+      "name": "Langfuse ingestion/read-back",
+      "status": "untested",
+      "note": "No running configured Langfuse service; local metadata audit passed."
+    },
+    {
+      "name": "Clean-machine installation",
+      "status": "untested",
+      "note": "Existing host setup was used."
+    },
+    {
+      "name": "Human report and UX acceptance",
+      "status": "untested",
+      "note": "Pending reviewer decision; automated checks do not imply acceptance."
+    }
+  ],
+  "historical_failures_preserved": true,
+  "preference_regression": "Fixed by requiring explicit format/depth; final live regression passed.",
+  "evidence_boundary": "See per-case SQL/save/structure checks and separate faithfulness scores. Browser verified; Langfuse, clean-machine and human acceptance remain open."
+}

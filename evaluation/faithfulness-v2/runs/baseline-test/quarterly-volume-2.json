@@ -1,0 +1,9 @@
+{
+  "id": "quarterly-volume-2",
+  "family": "quarterly-volume",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7275910160005878,
+  "attempt": 1
+}

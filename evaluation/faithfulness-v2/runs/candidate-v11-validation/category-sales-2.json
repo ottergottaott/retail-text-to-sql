@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-2",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| category | complete_revenue | complete_items |\n|---|---|---|\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\nThis analysis measures item-grain revenue (`SUM(sale_price)`) and volume (`COUNT(*)`) for items filtered to a 'Complete' status [q1]. The scope is restricted to your executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n**Observations:**\n* Both Footwear and Outerwear recorded exactly 7 complete items [q1].\n* Footwear generated 210.0 in complete revenue, while Outerwear generated 140.0 [q1].\n\n### Limitations\n* This query did not measure distinct customer counts or order-level metrics.\n* It did not evaluate items in other statuses (such as Returned or Cancelled) to determine total gross demand.\n\n### Action items (proposed)\n* Query the distinct `customer_key` count per category to see if these items were purchased by a broad customer base or a few individuals.\n* Compare `sale_price` to `products.retail_price` to check for current reference price gaps in these categories.",
+  "status": "generated",
+  "seconds": 16.553463852000277,
+  "usage": {
+    "input_tokens": 2644,
+    "output_tokens": 1057,
+    "total_tokens": 3701,
+    "thought_tokens": 740,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

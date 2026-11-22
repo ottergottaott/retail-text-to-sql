@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-2",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| complete_revenue |\n|---|\n| 350.0 |\n\nThe total revenue for Complete items is 350.0 [q1].\n\n### Limitations\nThis analysis did not measure the total number of items sold or the distribution of revenue across different product categories.\n\n### Action items (proposed)\n* What is the breakdown of this complete revenue by product category?\n* How many distinct items make up this revenue total?",
+  "status": "generated",
+  "seconds": 11.987439960999836,
+  "usage": {
+    "input_tokens": 2326,
+    "output_tokens": 777,
+    "total_tokens": 3103,
+    "thought_tokens": 637,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,51 @@
+{
+  "dataset_version": "heldout-retrieval-v1",
+  "description": "Synthetic curated-trio relevance labels: paraphrases and no-match questions held out from retrieval-cases.json.",
+  "cases": [
+    {
+      "id": "monthly-trajectory",
+      "question": "Track the sales income trajectory for each calendar month",
+      "relevant": [{"id": "monthly-revenue", "version": 1}]
+    },
+    {
+      "id": "monthly-periods",
+      "question": "How did completed-order takings move from one month to the next?",
+      "relevant": [{"id": "monthly-revenue", "version": 1}]
+    },
+    {
+      "id": "product-performance",
+      "question": "Which items differ in units sold, sales value, and sent-back goods?",
+      "relevant": [{"id": "product-comparison", "version": 1}]
+    },
+    {
+      "id": "product-decomposition",
+      "question": "Break down item performance into order volume, realized price, and returns",
+      "relevant": [{"id": "product-comparison", "version": 1}]
+    },
+    {
+      "id": "customer-regions",
+      "question": "Contrast purchasing totals across states and highlight leading pseudonymous shoppers",
+      "relevant": [{"id": "customer-spend", "version": 1}]
+    },
+    {
+      "id": "customer-spending",
+      "question": "Compare regional expenditure per active buyer and rank the biggest spenders",
+      "relevant": [{"id": "customer-spend", "version": 1}]
+    },
+    {
+      "id": "negative-weather",
+      "question": "What is the weather forecast for tomorrow?",
+      "relevant": []
+    },
+    {
+      "id": "negative-conversion",
+      "question": "Which marketing channel produced the highest conversion rate?",
+      "relevant": []
+    },
+    {
+      "id": "negative-churn",
+      "question": "Predict when each shopper will churn next month?",
+      "relevant": []
+    }
+  ]
+}

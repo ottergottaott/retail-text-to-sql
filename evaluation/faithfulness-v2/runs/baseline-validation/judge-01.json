@@ -1,0 +1,839 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6573277417027417,
+    "sql_factual_faithfulness": 0.9791666666666666
+  },
+  "combined_means": {
+    "faithfulness": 0.6573277417027417,
+    "sql_factual_faithfulness": 0.9791666666666666
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "margin-ratio-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.625,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The aggregate cost-proxy margin ratio for Complete items is approximately -1.33.",
+                "reason": "The context shows a row with 'cost_proxy_margin_ratio' of -1.3333333333333333, and the SQL query filters by `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The aggregate cost-proxy margin ratio of -1.33 indicates that the cost proxy exceeds the sale price for the queried population.",
+                "reason": "The SQL query calculates (sale_price - cost) / sale_price. A negative ratio (-1.33) mathematically implies that cost exceeds sale_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL query measured only the aggregate margin ratio for Complete items.",
+                "reason": "The SQL query selects only `cost_proxy_margin_ratio` and filters by `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts and transaction volumes were not queried, so the sample size is unknown.",
+                "reason": "The SQL query only selects the margin ratio and does not select COUNT(*) or any other volume metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time periods and individual product variations were not measured in the query.",
+                "reason": "The SQL query does not group by or filter by time periods or individual product IDs/variations.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total count of Complete items to establish the sample size driving this metric.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to break down the margin ratio by product ID or category to identify which specific items are driving the negative margin.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare average sale_price to average cost to measure the extent of potential discounting.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.058848643000601
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The aggregate cost-proxy margin ratio for Complete items is approximately -1.33.",
+                "reason": "The returned row shows a cost_proxy_margin_ratio of -1.3333333333333333, which is approximately -1.33.",
+                "verdict": 1
+              },
+              {
+                "statement": "The cost proxy exceeds the sale price for the queried population of Complete items.",
+                "reason": "The margin ratio formula is (sale_price - cost) / sale_price. A negative margin ratio (-1.33) mathematically implies that the cost (cost proxy) exceeds the sale price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only the aggregate margin ratio for Complete items.",
+                "reason": "The SQL query only selects the aggregate cost_proxy_margin_ratio for items where status is 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts and transaction volumes were not queried.",
+                "reason": "The SQL query does not select COUNT or any other transaction volume metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size of the query is unknown.",
+                "reason": "The query returns only the aggregate ratio and does not provide the count of rows or items, making the sample size unknown from the output.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time periods and individual product variations were not measured.",
+                "reason": "The SQL query does not group by or filter by time periods or individual product IDs/variations.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.9127292209996085
+        }
+      }
+    },
+    {
+      "id": "margin-ratio-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The aggregate cost-proxy margin ratio for Complete items is -1.0.",
+                "reason": "The context shows a row with 'cost_proxy_margin_ratio' equal to -1.0, calculated from order_items where status is 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measured the overall margin ratio for Complete items.",
+                "reason": "The SQL query selects only the SUM(`i`.`sale_price` - `p`.`cost`) / NULLIF(SUM(`i`.`sale_price`), 0) AS `cost_proxy_margin_ratio` for items where status is 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure transaction volume, total revenue, or individual product performance.",
+                "reason": "The SQL query only selects the aggregate cost_proxy_margin_ratio and does not select transaction volume, total revenue, or individual product performance.",
+                "verdict": 1
+              },
+              {
+                "statement": "The execution scope automatically restricts the underlying data to the user's authorized products.",
+                "reason": "The context mentions an execution scope with authorized_products [2, 3] and enforcement 'executor_bound_views', which implies restriction to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "No explicit product filter was required in the logical SQL.",
+                "reason": "The SQL query in the context does not contain an explicit product filter in its WHERE clause (only `i`.`status` = 'Complete').",
+                "verdict": 1
+              },
+              {
+                "statement": "The negative ratio indicates sales below cost.",
+                "reason": "The formula is (sale_price - cost) / sale_price. A negative ratio mathematically indicates that cost is greater than sale_price (sales below cost).",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size and timeframe were not queried.",
+                "reason": "The SQL query does not contain any filters or selections for timeframe (like dates) or sample size limits.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed check is to query the total count of Complete items and total revenue to determine the scale of the negative margin.",
+                "reason": "This is a proposed analytical step/check which is not mentioned or supported by the provided context data.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed check is to group the margin ratio and sales volume by product_id or category to identify which specific items are driving the negative margin.",
+                "reason": "This proposed check is an external recommendation and is not mentioned in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed check is to analyze the margin ratio by month or quarter to determine if this is a recent occurrence or a consistent historical pattern.",
+                "reason": "This proposed check is not mentioned or supported by the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.309789938000904
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The aggregate cost-proxy margin ratio for Complete items is -1.0.",
+                "reason": "The returned row shows cost_proxy_margin_ratio is -1.0 for order items where status is 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measured the overall margin ratio for Complete items.",
+                "reason": "The SQL query only selects the aggregate cost_proxy_margin_ratio for items with status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure transaction volume, total revenue, or individual product performance.",
+                "reason": "The SQL query only calculates the aggregate margin ratio and does not select transaction counts, total revenue, or group by individual products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The execution scope automatically restricts the underlying data to authorized products.",
+                "reason": "The execution scope metadata shows enforcement is 'executor_bound_views' for authorized_products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "No explicit product filter was required in the logical SQL.",
+                "reason": "The logical SQL does not contain a WHERE clause filtering by product_id, as the restriction is handled by the executor-bound views.",
+                "verdict": 1
+              },
+              {
+                "statement": "The negative ratio indicates sales below cost.",
+                "reason": "A negative margin ratio calculated as (sale_price - cost) / sale_price mathematically indicates that the total cost exceeded the total sale price (sales below cost).",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size and timeframe were not queried.",
+                "reason": "The SQL query does not select or filter by timeframe (e.g., dates) or count the sample size (e.g., COUNT(*)).",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.8894513380000717
+        }
+      }
+    },
+    {
+      "id": "catalog-reference-gap-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The provided table displays the average difference between the current catalogue retail price and the realized sale price for Complete items.",
+                "reason": "The SQL query calculates AVG(`p`.`retail_price` - `i`.`sale_price`) as `current_reference_gap` where `i`.`status` = 'Complete', which represents this average difference.",
+                "verdict": 1
+              },
+              {
+                "statement": "The average difference between the current catalogue retail price and the realized sale price for Complete items is 90.0 for product ID 1.",
+                "reason": "The rows show that for id 1, the current_reference_gap is 90.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The average difference between the current catalogue retail price and the realized sale price for Complete items is 60.0 for product ID 2.",
+                "reason": "The rows show that for id 2, the current_reference_gap is 60.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL query measured the average gap using the current catalogue retail price against the realized sale price for items with a 'Complete' status.",
+                "reason": "The SQL query explicitly calculates AVG(`p`.`retail_price` - `i`.`sale_price`) with the condition `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL query did not measure transaction counts, so the sample size for the averages is unknown.",
+                "reason": "The SQL query only selects `id` and the average gap, without selecting COUNT(*) or any transaction counts, making the sample size unknown from the output.",
+                "verdict": 1
+              },
+              {
+                "statement": "The timeframe of the sales was not queried.",
+                "reason": "The SQL query does not contain any date or time filters or selections.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical catalogue prices at the time of sale were not evaluated.",
+                "reason": "The query uses the current product retail price (`p`.`retail_price`) rather than a historical price from the order items table, meaning historical catalogue prices at the time of sale were not evaluated.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the count of Complete items per product to determine the transaction volume supporting the average gaps.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to group the reference gap by month or quarter to observe if the realized price is trending further away from the current catalogue price over time.",
+                "reason": "There is no mention of proposed action items or grouping by month/quarter in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.727700044000812
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The average difference between the current catalogue retail price and the realized sale price for Complete items is 90.0 for product ID 1.",
+                "reason": "The returned row for id 1 shows a current_reference_gap of 90.0, which is calculated as the average of retail_price minus sale_price for Complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The average difference between the current catalogue retail price and the realized sale price for Complete items is 60.0 for product ID 2.",
+                "reason": "The returned row for id 2 shows a current_reference_gap of 60.0, which is calculated as the average of retail_price minus sale_price for Complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured the average gap using the current catalogue retail_price against realized sale_price for items with a 'Complete' status.",
+                "reason": "The SQL query calculates AVG(p.retail_price - i.sale_price) with the filter i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure transaction counts.",
+                "reason": "The SQL query does not contain any COUNT() aggregate function or transaction count measurements.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size for the calculated averages is unknown.",
+                "reason": "The query returns the averages but does not return the count of items (sample size) used to compute those averages.",
+                "verdict": 1
+              },
+              {
+                "statement": "The timeframe of the sales was not queried.",
+                "reason": "There are no date or time filters or selections in the SQL query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical catalogue prices at the time of sale were not evaluated.",
+                "reason": "The query uses the current product catalogue price (p.retail_price) rather than any historical price history table.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.499514752998948
+        }
+      }
+    },
+    {
+      "id": "catalog-reference-gap-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7272727272727273,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The provided table shows the average difference between the current catalogue retail price and the realized sale price for Complete items.",
+                "reason": "The SQL query calculates AVG(p.retail_price - i.sale_price) where i.status = 'Complete', which represents the average difference between the retail price and the sale price for completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The table includes the columns 'id' and 'current_reference_gap'.",
+                "reason": "The rows in the context contain the keys 'id' and 'current_reference_gap'.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 2, the current reference gap is 60.0.",
+                "reason": "The row with id 2 has a current_reference_gap of 60.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 3, the current reference gap is 170.0.",
+                "reason": "The row with id 3 has a current_reference_gap of 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis compares historical sale prices against the current catalogue retail price.",
+                "reason": "The SQL query joins order_items (historical sales) with products (current catalogue) and subtracts sale_price from retail_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure historical discounts applied at the time of purchase.",
+                "reason": "The context does not contain information about historical discounts applied at the time of purchase, only the difference between retail_price and sale_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure net profit because product cost was not queried.",
+                "reason": "The SQL query does not select or reference product cost, meaning net profit cannot be measured from this query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction volumes and time periods were not queried, so the sample size and timeframe for the averages are unknown.",
+                "reason": "The SQL query does not select counts (transaction volumes) or date/time fields, so these details are indeed unknown from the query.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the count of Complete items for each product to establish the sample size behind the averages.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to group the reference gap by order creation date to determine if the gap between realized prices and current catalogue prices is changing over time.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare sale price against product cost to evaluate actual gross margins.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.150196440001309
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The average difference between the current catalogue retail price and the realized sale price for Complete items is 60.0 for product ID 2.",
+                "reason": "The SQL query calculates the average difference between retail_price and sale_price for completed order items, grouped by product ID. For product ID 2, the returned current_reference_gap is 60.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The average difference between the current catalogue retail price and the realized sale price for Complete items is 170.0 for product ID 3.",
+                "reason": "The SQL query calculates the average difference between retail_price and sale_price for completed order items, grouped by product ID. For product ID 3, the returned current_reference_gap is 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis compares historical sale prices against the current catalogue retail_price.",
+                "reason": "The SQL query calculates the difference between `p.retail_price` (from the products table, representing current catalogue price) and `i.sale_price` (from historical order items).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure historical discounts applied at the time of purchase.",
+                "reason": "The query only calculates the difference between the current retail price and the historical sale price, which does not measure the actual historical discounts applied relative to the retail price at the time of purchase.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure net profit.",
+                "reason": "Net profit requires product cost or other expenses, which are not queried or present in the results.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product cost was not queried.",
+                "reason": "The SQL query only selects `p.id`, `p.retail_price`, and `i.sale_price`. Product cost is not queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction volumes (counts) and time periods were not queried.",
+                "reason": "The SQL query does not select counts or filter/group by any time periods.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size and timeframe for the calculated averages are unknown.",
+                "reason": "Since transaction volumes (counts) and time periods were not queried, the sample size and timeframe are indeed unknown from the results.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.661033161000887
+        }
+      }
+    },
+    {
+      "id": "unsold-catalog-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.375,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the query [q1], there are no products in the user's authorized catalogue that have zero 'Complete' items.",
+                "reason": "The context contains the SQL query and execution scope but does not provide the actual execution results or rows (the 'rows' field is empty), so we cannot determine if there are zero products with zero 'Complete' items.",
+                "verdict": 0
+              },
+              {
+                "statement": "All authorized products have at least one 'Complete' item in the available history.",
+                "reason": "The context does not provide the query results (the 'rows' list is empty), so this statement cannot be verified.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis only identifies the presence or absence of 'Complete' items.",
+                "reason": "The SQL query counts the number of 'Complete' items and filters for products where this count is 0, which identifies the presence or absence of 'Complete' items, but the context does not state that the analysis *only* identifies this.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure total sales volume, revenue, or profitability.",
+                "reason": "The SQL query only counts 'Complete' items and does not calculate sales volume, revenue, or profitability, which supports this statement.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query spans all available history without a specific time boundary.",
+                "reason": "The SQL query does not contain any WHERE clause or filter restricting the time or date range, meaning it spans all available history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The results are constrained to the user's authorized product scope.",
+                "reason": "The context explicitly defines an 'execution_scope' with 'authorized_products': [1, 2], indicating that results are constrained to this scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the actual count of 'Complete' items per product to identify low-volume sellers.",
+                "reason": "There are no proposed action items mentioned anywhere in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze the frequency of other statuses, such as 'Cancelled' or 'Returned', for these products to understand overall performance.",
+                "reason": "There are no proposed action items or mentions of other statuses like 'Cancelled' or 'Returned' in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.163605353998719
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the query [q1], there are no products in the user's authorized catalogue that have zero 'Complete' items.",
+                "reason": "The query returned 0 rows for products with 0 complete items, meaning there are no such products in the authorized scope (products 1 and 2).",
+                "verdict": 1
+              },
+              {
+                "statement": "All authorized products have at least one 'Complete' item in the available history.",
+                "reason": "Since the query looking for products with 0 complete items returned no rows, all authorized products must have at least 1 complete item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only identifies the presence or absence of 'Complete' items.",
+                "reason": "The query counts complete items per product, which measures the quantity of complete items, not just binary presence or absence.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure total sales volume, revenue, or profitability.",
+                "reason": "The SQL query only counts complete items and does not select or aggregate sales volume, revenue, or profit metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query spans all available history without a specific time boundary.",
+                "reason": "There is no WHERE clause or JOIN condition restricting the order_items by date or time.",
+                "verdict": 1
+              },
+              {
+                "statement": "The results are constrained to the user's authorized product scope.",
+                "reason": "The execution scope restricts the query to authorized_products [1, 2] via executor_bound_views.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 5.00155174900101
+        }
+      }
+    },
+    {
+      "id": "unsold-catalog-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the query results, there are no products in the user's authorized catalogue with zero 'Complete' items.",
+                "reason": "The context shows that the query returned an empty list of rows ('rows': []), which means no products matched the criteria of having exactly 0 'Complete' items.",
+                "verdict": 1
+              },
+              {
+                "statement": "All authorized products have at least one 'Complete' item in the scoped history.",
+                "reason": "Since the query returned no rows for products with 0 'Complete' items, it can be inferred that all products in the scope have at least one 'Complete' item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only checked for the complete absence of 'Complete' items within the authorized product scope.",
+                "reason": "The SQL query specifically filters using 'HAVING COUNT(`i`.`item_key`) = 0' where status is 'Complete', which checks for the complete absence of 'Complete' items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the actual volume of sales, returns, or cancellations for the authorized products.",
+                "reason": "The SQL query only counts 'Complete' items and filters for those with a count of 0; it does not measure other volumes, returns, or cancellations.",
+                "verdict": 1
+              },
+              {
+                "statement": "The timeframe of the query covers all available history as no specific period was requested.",
+                "reason": "The SQL query does not contain any WHERE clause or filters restricting the timeframe, meaning it covers all available history in the table.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total count of 'Complete' items per product to understand the distribution and volume of successful sales.",
+                "reason": "There is no mention of proposed action items or future queries in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to analyze items with statuses other than 'Complete' (such as 'Returned' or 'Cancelled') to identify any potential fulfillment or satisfaction issues.",
+                "reason": "There is no mention of analyzing other statuses or any proposed action items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.2430385049992765
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the query results [q1], there are no products in the user's authorized catalogue with zero 'Complete' items.",
+                "reason": "The query returned 0 rows (empty list) for products with 0 complete items, meaning there are no such products in the authorized scope (products 2 and 3).",
+                "verdict": 1
+              },
+              {
+                "statement": "All authorized products have at least one 'Complete' item in the scoped history.",
+                "reason": "Since the query returned no products with 0 complete items, all authorized products (products 2 and 3) must have at least one complete item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] only checked for the complete absence of 'Complete' items within the authorized product scope.",
+                "reason": "The query filters with HAVING COUNT(...) = 0, which specifically checks for the complete absence of 'Complete' items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] did not measure the actual volume of sales, returns, or cancellations for the authorized products.",
+                "reason": "The query only counts 'Complete' items and does not inspect other statuses like returns, cancellations, or general sales volumes.",
+                "verdict": 1
+              },
+              {
+                "statement": "The timeframe of the query [q1] covers all available history.",
+                "reason": "There is no time filter in the SQL query, so it covers all available history in the database.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.893335519000175
+        }
+      }
+    },
+    {
+      "id": "brand-return-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The returned items by catalogue brand for authorized products show that the brand 'North' has 1 returned item.",
+                "reason": "The context shows a row with brand 'North' and returned_items as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The returned items by catalogue brand for authorized products show that the brand 'South' has 1 returned item.",
+                "reason": "The context shows a row with brand 'South' and returned_items as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] only counts items with a 'Returned' status.",
+                "reason": "The SQL query in the context contains the clause WHERE `i`.`status` = 'Returned' and counts the items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] does not measure total sales volume, return rates, or the timeframe of the returns.",
+                "reason": "The SQL query only counts returned items grouped by brand, and does not calculate total sales volume, return rates, or filter/group by timeframe.",
+                "verdict": 1
+              },
+              {
+                "statement": "The executor binds logical tables to authorized products, so the results are scoped correctly.",
+                "reason": "The context mentions 'execution_scope' with 'authorized_products' and 'enforcement': 'executor_bound_views', which supports this statement.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query total sales volume by brand to calculate return rates.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze returns by time period to identify trends.",
+                "reason": "There is no mention of proposed action items or analyzing returns by time period in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.415630293999129
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The brand 'North' has 1 returned item.",
+                "reason": "The returned rows show that the brand 'North' has 1 returned_item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The brand 'South' has 1 returned item.",
+                "reason": "The returned rows show that the brand 'South' has 1 returned_item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] only counts items with a 'Returned' status.",
+                "reason": "The SQL query contains the clause WHERE `i`.`status` = 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] does not measure total sales volume, return rates, or the timeframe of these returns.",
+                "reason": "The SQL query only counts returned items and does not inspect total sales volume, return rates, or timeframes.",
+                "verdict": 1
+              },
+              {
+                "statement": "The executor binds logical tables to authorized products.",
+                "reason": "The execution scope metadata shows enforcement of 'executor_bound_views' with 'authorized_products'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The results are scoped correctly.",
+                "reason": "The execution scope binds the query to authorized products, ensuring the results are scoped correctly.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.7925471580001613
+        }
+      }
+    },
+    {
+      "id": "brand-return-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.625,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the query results, the brand 'South' has 1 returned item.",
+                "reason": "The context explicitly shows a row with brand 'South' and returned_items as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on the query results, the brand 'West' has 1 returned item.",
+                "reason": "The context explicitly shows a row with brand 'West' and returned_items as 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measured the absolute count of items with a 'Returned' status grouped by brand.",
+                "reason": "The SQL query in the context is 'SELECT `p`.`brand` AS `brand`, COUNT(*) AS `returned_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Returned' GROUP BY `brand` ORDER BY `brand`', which indeed only counts items with status 'Returned' grouped by brand.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure total sales volume, return rates, time periods, or reasons for returns.",
+                "reason": "The SQL query in the context only selects brand and the count of returned items, without selecting sales volume, return rates, time periods, or reasons.",
+                "verdict": 1
+              },
+              {
+                "statement": "The observed sample size is very small, consisting of 1 returned item per brand.",
+                "reason": "The query results show 1 returned item for 'South' and 1 returned item for 'West', which are indeed very small counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total number of sold items for these brands to calculate a return rate.",
+                "reason": "The context contains only the query execution metadata and results, and does not mention any proposed action items or recommendations.",
+                "verdict": 0
+              },
+              {
+                "statement": "Calculating a return rate provides better context than absolute counts.",
+                "reason": "The context does not contain any discussion or comparison of return rates versus absolute counts.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to analyze the time period of these returns to determine if the returns are recent or historical.",
+                "reason": "The context contains only the query execution metadata and results, and does not mention any proposed action items regarding time periods.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.639047716000277
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on the query results, the brand 'South' has 1 returned item.",
+                "reason": "The returned rows show that the brand 'South' has 1 returned item.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on the query results, the brand 'West' has 1 returned item.",
+                "reason": "The returned rows show that the brand 'West' has 1 returned item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only measured the absolute count of items with a 'Returned' status grouped by brand.",
+                "reason": "The SQL query selects the brand and the count of items where status is 'Returned' grouped by brand, which measures exactly this.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure total sales volume, return rates, time periods, or reasons for returns.",
+                "reason": "The SQL query only counts returned items and does not inspect total sales, rates, time filters, or reasons.",
+                "verdict": 1
+              },
+              {
+                "statement": "The observed sample size is very small, consisting of 1 returned item per brand.",
+                "reason": "The returned rows show exactly 1 returned item for 'South' and 1 for 'West', which are very small counts.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.8407492810001713
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 32,
+  "max_provider_calls": 48,
+  "measured_total_tokens": 45924,
+  "usage_responses": 32,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

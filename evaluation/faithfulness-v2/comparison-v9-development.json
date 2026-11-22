@@ -1,0 +1,448 @@
+{
+  "matching_contracts_and_data": true,
+  "baseline": "evaluation/faithfulness-v2/runs/baseline-development/results.json",
+  "candidate": "evaluation/faithfulness-v2/runs/candidate-development/results.json",
+  "comparisons": {
+    "faithfulness": {
+      "complete": true,
+      "paired_cases": 40,
+      "mean_delta": 0.016967893217893222,
+      "delta_ci95": [
+        -0.02180194805194805,
+        0.060644841269841286
+      ],
+      "ci_method": "2000 family-cluster paired bootstrap; seed=20261122",
+      "improved": 22,
+      "regressed": 16,
+      "unchanged": 2,
+      "pairs": [
+        {
+          "id": "catalog-brand-1",
+          "delta": -0.015873015873015817,
+          "family": "catalog-brand"
+        },
+        {
+          "id": "catalog-brand-2",
+          "delta": 0.2142857142857143,
+          "family": "catalog-brand"
+        },
+        {
+          "id": "catalog-category-1",
+          "delta": -0.16666666666666663,
+          "family": "catalog-category"
+        },
+        {
+          "id": "catalog-category-2",
+          "delta": -0.07142857142857145,
+          "family": "catalog-category"
+        },
+        {
+          "id": "catalog-cost-1",
+          "delta": 0.08333333333333337,
+          "family": "catalog-cost"
+        },
+        {
+          "id": "catalog-cost-2",
+          "delta": -0.04761904761904767,
+          "family": "catalog-cost"
+        },
+        {
+          "id": "catalog-count-1",
+          "delta": 0.0535714285714286,
+          "family": "catalog-count"
+        },
+        {
+          "id": "catalog-count-2",
+          "delta": 0.0,
+          "family": "catalog-count"
+        },
+        {
+          "id": "catalog-department-1",
+          "delta": -0.09523809523809523,
+          "family": "catalog-department"
+        },
+        {
+          "id": "catalog-department-2",
+          "delta": -0.1428571428571429,
+          "family": "catalog-department"
+        },
+        {
+          "id": "catalog-price-1",
+          "delta": 0.04761904761904767,
+          "family": "catalog-price"
+        },
+        {
+          "id": "catalog-price-2",
+          "delta": 0.04761904761904767,
+          "family": "catalog-price"
+        },
+        {
+          "id": "complete-revenue-1",
+          "delta": 0.09999999999999998,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "complete-revenue-2",
+          "delta": 0.02857142857142858,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "complete-share-1",
+          "delta": 0.2142857142857143,
+          "family": "complete-share"
+        },
+        {
+          "id": "complete-share-2",
+          "delta": -0.3333333333333333,
+          "family": "complete-share"
+        },
+        {
+          "id": "empty-population-1",
+          "delta": 0.11111111111111116,
+          "family": "empty-population"
+        },
+        {
+          "id": "empty-population-2",
+          "delta": -0.11111111111111116,
+          "family": "empty-population"
+        },
+        {
+          "id": "item-status-1",
+          "delta": -0.13333333333333341,
+          "family": "item-status"
+        },
+        {
+          "id": "item-status-2",
+          "delta": 0.0,
+          "family": "item-status"
+        },
+        {
+          "id": "item-volume-1",
+          "delta": 0.014285714285714346,
+          "family": "item-volume"
+        },
+        {
+          "id": "item-volume-2",
+          "delta": 0.125,
+          "family": "item-volume"
+        },
+        {
+          "id": "limited-ranking-1",
+          "delta": -0.06666666666666665,
+          "family": "limited-ranking"
+        },
+        {
+          "id": "limited-ranking-2",
+          "delta": 0.04761904761904767,
+          "family": "limited-ranking"
+        },
+        {
+          "id": "order-count-1",
+          "delta": 0.125,
+          "family": "order-count"
+        },
+        {
+          "id": "order-count-2",
+          "delta": -0.036363636363636376,
+          "family": "order-count"
+        },
+        {
+          "id": "order-status-1",
+          "delta": 0.04166666666666663,
+          "family": "order-status"
+        },
+        {
+          "id": "order-status-2",
+          "delta": 0.1428571428571429,
+          "family": "order-status"
+        },
+        {
+          "id": "order-value-1",
+          "delta": -0.19999999999999996,
+          "family": "order-value"
+        },
+        {
+          "id": "order-value-2",
+          "delta": 0.0444444444444444,
+          "family": "order-value"
+        },
+        {
+          "id": "price-range-1",
+          "delta": -0.11428571428571432,
+          "family": "price-range"
+        },
+        {
+          "id": "price-range-2",
+          "delta": -0.06666666666666665,
+          "family": "price-range"
+        },
+        {
+          "id": "realized-price-1",
+          "delta": -0.06666666666666665,
+          "family": "realized-price"
+        },
+        {
+          "id": "realized-price-2",
+          "delta": -0.025000000000000022,
+          "family": "realized-price"
+        },
+        {
+          "id": "reference-spread-1",
+          "delta": 0.4920634920634921,
+          "family": "reference-spread"
+        },
+        {
+          "id": "reference-spread-2",
+          "delta": 0.06349206349206349,
+          "family": "reference-spread"
+        },
+        {
+          "id": "return-denominator-1",
+          "delta": 0.09523809523809523,
+          "family": "return-denominator"
+        },
+        {
+          "id": "return-denominator-2",
+          "delta": 0.04166666666666663,
+          "family": "return-denominator"
+        },
+        {
+          "id": "returned-value-1",
+          "delta": 0.015873015873015872,
+          "family": "returned-value"
+        },
+        {
+          "id": "returned-value-2",
+          "delta": 0.2222222222222222,
+          "family": "returned-value"
+        }
+      ],
+      "paired_score_gate_passed": false,
+      "promotable": false,
+      "limitation": "Single-run judge uncertainty is not captured by case bootstrap. Promotion also requires independent review and sealed-test confirmation."
+    },
+    "sql_factual_faithfulness": {
+      "complete": true,
+      "paired_cases": 40,
+      "mean_delta": -0.01083333333333333,
+      "delta_ci95": [
+        -0.03374999999999999,
+        0.0125
+      ],
+      "ci_method": "2000 family-cluster paired bootstrap; seed=20261122",
+      "improved": 1,
+      "regressed": 4,
+      "unchanged": 35,
+      "pairs": [
+        {
+          "id": "catalog-brand-1",
+          "delta": 0.0,
+          "family": "catalog-brand"
+        },
+        {
+          "id": "catalog-brand-2",
+          "delta": 0.0,
+          "family": "catalog-brand"
+        },
+        {
+          "id": "catalog-category-1",
+          "delta": -0.19999999999999996,
+          "family": "catalog-category"
+        },
+        {
+          "id": "catalog-category-2",
+          "delta": 0.0,
+          "family": "catalog-category"
+        },
+        {
+          "id": "catalog-cost-1",
+          "delta": 0.0,
+          "family": "catalog-cost"
+        },
+        {
+          "id": "catalog-cost-2",
+          "delta": 0.0,
+          "family": "catalog-cost"
+        },
+        {
+          "id": "catalog-count-1",
+          "delta": 0.0,
+          "family": "catalog-count"
+        },
+        {
+          "id": "catalog-count-2",
+          "delta": -0.25,
+          "family": "catalog-count"
+        },
+        {
+          "id": "catalog-department-1",
+          "delta": -0.19999999999999996,
+          "family": "catalog-department"
+        },
+        {
+          "id": "catalog-department-2",
+          "delta": -0.033333333333333326,
+          "family": "catalog-department"
+        },
+        {
+          "id": "catalog-price-1",
+          "delta": 0.0,
+          "family": "catalog-price"
+        },
+        {
+          "id": "catalog-price-2",
+          "delta": 0.0,
+          "family": "catalog-price"
+        },
+        {
+          "id": "complete-revenue-1",
+          "delta": 0.0,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "complete-revenue-2",
+          "delta": 0.0,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "complete-share-1",
+          "delta": 0.0,
+          "family": "complete-share"
+        },
+        {
+          "id": "complete-share-2",
+          "delta": 0.0,
+          "family": "complete-share"
+        },
+        {
+          "id": "empty-population-1",
+          "delta": 0.0,
+          "family": "empty-population"
+        },
+        {
+          "id": "empty-population-2",
+          "delta": 0.0,
+          "family": "empty-population"
+        },
+        {
+          "id": "item-status-1",
+          "delta": 0.0,
+          "family": "item-status"
+        },
+        {
+          "id": "item-status-2",
+          "delta": 0.0,
+          "family": "item-status"
+        },
+        {
+          "id": "item-volume-1",
+          "delta": 0.0,
+          "family": "item-volume"
+        },
+        {
+          "id": "item-volume-2",
+          "delta": 0.0,
+          "family": "item-volume"
+        },
+        {
+          "id": "limited-ranking-1",
+          "delta": 0.0,
+          "family": "limited-ranking"
+        },
+        {
+          "id": "limited-ranking-2",
+          "delta": 0.0,
+          "family": "limited-ranking"
+        },
+        {
+          "id": "order-count-1",
+          "delta": 0.0,
+          "family": "order-count"
+        },
+        {
+          "id": "order-count-2",
+          "delta": 0.0,
+          "family": "order-count"
+        },
+        {
+          "id": "order-status-1",
+          "delta": 0.0,
+          "family": "order-status"
+        },
+        {
+          "id": "order-status-2",
+          "delta": 0.0,
+          "family": "order-status"
+        },
+        {
+          "id": "order-value-1",
+          "delta": 0.0,
+          "family": "order-value"
+        },
+        {
+          "id": "order-value-2",
+          "delta": 0.25,
+          "family": "order-value"
+        },
+        {
+          "id": "price-range-1",
+          "delta": 0.0,
+          "family": "price-range"
+        },
+        {
+          "id": "price-range-2",
+          "delta": 0.0,
+          "family": "price-range"
+        },
+        {
+          "id": "realized-price-1",
+          "delta": 0.0,
+          "family": "realized-price"
+        },
+        {
+          "id": "realized-price-2",
+          "delta": 0.0,
+          "family": "realized-price"
+        },
+        {
+          "id": "reference-spread-1",
+          "delta": 0.0,
+          "family": "reference-spread"
+        },
+        {
+          "id": "reference-spread-2",
+          "delta": 0.0,
+          "family": "reference-spread"
+        },
+        {
+          "id": "return-denominator-1",
+          "delta": 0.0,
+          "family": "return-denominator"
+        },
+        {
+          "id": "return-denominator-2",
+          "delta": 0.0,
+          "family": "return-denominator"
+        },
+        {
+          "id": "returned-value-1",
+          "delta": 0.0,
+          "family": "returned-value"
+        },
+        {
+          "id": "returned-value-2",
+          "delta": 0.0,
+          "family": "returned-value"
+        }
+      ],
+      "paired_score_gate_passed": false,
+      "promotable": false,
+      "limitation": "Single-run judge uncertainty is not captured by case bootstrap. Promotion also requires independent review and sealed-test confirmation."
+    }
+  },
+  "automatic_promotion": false,
+  "human_review": "pending",
+  "baseline_expected_cases": 40,
+  "candidate_expected_cases": 40,
+  "boundary": "Same synthetic frozen evidence and judge contracts. Case bootstrap excludes repeated-judge variance. No overall accuracy claim."
+}

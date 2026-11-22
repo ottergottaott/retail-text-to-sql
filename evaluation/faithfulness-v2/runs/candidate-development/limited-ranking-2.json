@@ -1,0 +1,25 @@
+{
+  "id": "limited-ranking-2",
+  "family": "limited-ranking",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| product_id | complete_revenue |\n|---|---|\n| 3 | 210.0 |\n\nBased on the available history, Product ID 3 generated the highest revenue (210.0) among authorized products for items with a 'Complete' status [q1].\n\n### Limitations\n* This analysis measures total revenue for 'Complete' items only; it does not measure the number of items sold or distinct orders.\n* Profitability (such as gross or net profit) and historical discounts were not measured by this query.\n\n### Action items (proposed)\n* Query the item count (`COUNT(item_key)`) for Product ID 3 to determine the sales volume driving this revenue.\n* Analyze revenue from other statuses (e.g., 'Returned' or 'Cancelled') for this product to understand revenue retention.",
+  "status": "generated",
+  "seconds": 13.255958756999462,
+  "usage": {
+    "input_tokens": 2375,
+    "output_tokens": 731,
+    "total_tokens": 3106,
+    "thought_tokens": 507,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

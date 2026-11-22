@@ -1,0 +1,11 @@
+{
+  "dataset_sha256": "8cf6ffc608b6d093f3a2ddf5345f1c11a4d2a34622cab23787b99f178dc44dbb",
+  "prompt_sha256": "8e86bb2ebb0cac15e71e7c938f8f8ea019e8777e118d3ca2d93b76e99a1f4b09",
+  "model": "google/gemini-3.1-pro",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "metric_contract": "standard-faithfulness-unchanged; separate-sql-aware-v1",
+  "batch_size": 8,
+  "max_calls_per_batch": 48,
+  "evidence_boundary": "Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing."
+}

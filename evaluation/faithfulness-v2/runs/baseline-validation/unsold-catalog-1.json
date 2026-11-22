@@ -1,0 +1,25 @@
+{
+  "id": "unsold-catalog-1",
+  "family": "unsold-catalog",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on the query [q1], there are no products in your authorized catalogue that have zero 'Complete' items. All authorized products have at least one 'Complete' item in the available history.\n\n| id | complete_items |\n|---|---|\n| (No data) | (No data) |\n\n### Limitations\n* The analysis only identifies the presence or absence of 'Complete' items; it does not measure total sales volume, revenue, or profitability.\n* The query spans all available history without a specific time boundary.\n* The results are constrained to your authorized product scope.\n\n### Action Items (Proposed)\n* Query the actual count of 'Complete' items per product to identify low-volume sellers.\n* Analyze the frequency of other statuses (such as 'Cancelled' or 'Returned') for these products to understand overall performance.",
+  "status": "generated",
+  "seconds": 13.82333256199854,
+  "usage": {
+    "input_tokens": 2069,
+    "output_tokens": 956,
+    "total_tokens": 3025,
+    "thought_tokens": 736,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

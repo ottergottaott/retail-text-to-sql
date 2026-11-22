@@ -1,0 +1,24 @@
+{
+  "id": "order-status-1",
+  "family": "order-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nHere are the order counts by status for your authorized products [q1]:\n\n| status | orders |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\n### Limitations\nThis analysis only measured distinct order counts grouped by order status. It did not measure revenue, specific time periods, or individual product performance. The executor automatically scoped the results to your authorized products.\n\n### Action Items (Proposed)\n*   **Return Analysis:** Measure the return rate by product category or brand to identify which items are driving the \"Returned\" status.\n*   **Trend Analysis:** Group order statuses by month or quarter to observe if the volume of returns or completed orders is changing over time.",
+  "status": "generated",
+  "seconds": 14.460745323000083,
+  "usage": {
+    "input_tokens": 2041,
+    "output_tokens": 967,
+    "total_tokens": 3008,
+    "thought_tokens": 772,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "catalog-brand-1",
+  "family": "catalog-brand",
+  "split": "development",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7240112509989558,
+  "attempt": 1
+}

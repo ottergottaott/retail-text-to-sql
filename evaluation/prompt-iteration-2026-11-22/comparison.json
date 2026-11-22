@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Standard Ragas faithfulness",
+    "before": 0.5417343073593074,
+    "after": 0.5528183621933622,
+    "better": "higher",
+    "context": "8 paired synthetic review cases; distinct judge contracts"
+  },
+  {
+    "name": "Custom SQL-aware factual faithfulness",
+    "before": 0.9479166666666666,
+    "after": 0.9226190476190477,
+    "better": "higher",
+    "context": "8 paired synthetic review cases; distinct judge contracts"
+  }
+]

@@ -1,0 +1,229 @@
+{
+  "comparison": [
+    {
+      "name": "faithfulness",
+      "before": 0.60625,
+      "after": 0.7138888888888889,
+      "better": "higher",
+      "context": "4 identical recorded evidence sets (1 live, 3 fixture); v5 replay, not fresh v6"
+    },
+    {
+      "name": "factual_faithfulness",
+      "before": 0.8625,
+      "after": 0.925,
+      "better": "higher",
+      "context": "4 identical recorded evidence sets (1 live, 3 fixture); v5 replay, not fresh v6"
+    }
+  ],
+  "calibration": [
+    {
+      "name": "supported",
+      "value": 1.0,
+      "status": "passed"
+    },
+    {
+      "name": "contradicted",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "unsupported-cause",
+      "value": 0.5,
+      "status": "passed"
+    },
+    {
+      "name": "hidden-premise",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "invented-sample",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "discount-overclaim",
+      "value": 0.6666666666666666,
+      "status": "passed"
+    }
+  ],
+  "business": {
+    "status": "passed",
+    "passed": 12,
+    "total": 12
+  },
+  "fresh": {
+    "status": "tested",
+    "means": {
+      "faithfulness": 0.5254629629629629,
+      "factual_faithfulness": 0.7181878306878308
+    },
+    "coverage": {
+      "faithfulness": {
+        "ragas_scored": 12,
+        "rule_scored": 0,
+        "applicable": 12,
+        "total_samples": 12
+      },
+      "factual_faithfulness": {
+        "ragas_scored": 12,
+        "rule_scored": 0,
+        "applicable": 12,
+        "total_samples": 12
+      }
+    }
+  },
+  "sql_aware": {
+    "full_run": {
+      "mean": 0.9715909090909091,
+      "scored": 12,
+      "total": 12
+    },
+    "focused_rechecks": {
+      "mean": 0.8125,
+      "scored": 2,
+      "total": 2
+    }
+  },
+  "sql_calibration": [
+    {
+      "name": "supported",
+      "value": 1.0,
+      "status": "passed"
+    },
+    {
+      "name": "contradicted",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "unsupported-cause",
+      "value": 0.5,
+      "status": "passed"
+    },
+    {
+      "name": "hidden-premise",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "invented-sample",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "discount-overclaim",
+      "value": 0.6666666666666666,
+      "status": "passed"
+    },
+    {
+      "name": "supported-scoped-groups",
+      "value": 1.0,
+      "status": "passed"
+    },
+    {
+      "name": "supported-unmeasured",
+      "value": 1.0,
+      "status": "passed"
+    },
+    {
+      "name": "wrong-customer-grain",
+      "value": 0.3333333333333333,
+      "status": "passed"
+    },
+    {
+      "name": "truncated-population-overclaim",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "invented-global-scope",
+      "value": 0.0,
+      "status": "passed"
+    },
+    {
+      "name": "invented-system-absence",
+      "value": 0.0,
+      "status": "passed"
+    }
+  ],
+  "final_pro": {
+    "business_status": "passed",
+    "attempts": {
+      "original_status": "incomplete",
+      "original_passed": 11,
+      "original_total": 12,
+      "recheck_passed": 1,
+      "recheck_total": 1,
+      "total_requests": 13,
+      "note": "12 latest reports pass SQL/save/structure; one original reviewer dependency failure remains recorded. This is not a first-attempt 12/12 pass."
+    },
+    "business_passed": 12,
+    "total": 12,
+    "judge_status": "tested",
+    "means": {
+      "faithfulness": 0.5342592592592593,
+      "sql_factual_faithfulness": 0.843037518037518
+    },
+    "coverage": {
+      "faithfulness": {
+        "ragas_scored": 12,
+        "rule_scored": 0,
+        "applicable": 12,
+        "total_samples": 12
+      },
+      "sql_factual_faithfulness": {
+        "ragas_scored": 12,
+        "rule_scored": 0,
+        "applicable": 12,
+        "total_samples": 12
+      }
+    }
+  },
+  "quality_status": "human_review_required",
+  "known_flags": [
+    "Focused Flash recheck reintroduced the unsupported no-discounts inference; it is a report-quality failure despite matching SQL and saving.",
+    "Automatic review and judge scores are fallible; no general hallucination-free claim."
+  ],
+  "sources": {
+    "comparison": {
+      "file": "faithfulness-comparison-results-2026-11-21.json",
+      "sha256": "67184c922780584787c416d5e8cd2b609e729c0b56f9e0462d1125f1fa007ede"
+    },
+    "calibration": {
+      "file": "faithfulness-calibration-results-2026-11-21.json",
+      "sha256": "68024d55eaca89c49877b466f11010f785a0c98dce15e0c5a0564d4af03bf2ef"
+    },
+    "business": {
+      "file": "live-business-grounded-v7-2026-11-21.json",
+      "sha256": "d578e64771ea29b1f0c63ee832cccddb1570f7cbe1ca630bce5c7fa649be6e34"
+    },
+    "fresh": {
+      "file": "faithfulness-live-results-2026-11-21.json",
+      "sha256": "9d1a651632e4622f844ac1f5db811d2f831dae30b6ba577bcc8acbcac559d046"
+    },
+    "sql_calibration": {
+      "file": "faithfulness-sql-calibration-results-2026-11-21.json",
+      "sha256": "04b80f555809389c7790385cd8487b3aa602a6d259d41d807b9167236e0c8b03"
+    },
+    "sql_live": {
+      "file": "faithfulness-sql-live-results-2026-11-21.json",
+      "sha256": "74d4930377559e7f080e29427c5fa5964216c58f8e834f8c8c8372cccfa9e29a"
+    },
+    "final_business": {
+      "file": "live-business-pro-final-2026-11-21.json",
+      "sha256": "a7b006186802a28be004d9a30b4e36b55dbeeb789e08d1c25be9c52b64bca1a8"
+    },
+    "final_judge": {
+      "file": "faithfulness-pro-live-results-2026-11-21.json",
+      "sha256": "675f5f82a8560a183992cbb6e222db4330fb62158abd3bb9dbc936617a907b11"
+    }
+  },
+  "limitations": [
+    "Advisory LLM judging; same Gemini judge and application family introduces self-judge bias.",
+    "Four-record comparison and twelve live business cases are small samples, not a statistical benchmark.",
+    "Whole-response and scoped factual metrics differ; neither proves SQL correctness or human acceptance.",
+    "Live public data changed between historical and fresh runs; only replay uses identical contexts.",
+    "Preserve failed v5/v6 runs. A successful later run does not erase their reliability failures."
+  ]
+}

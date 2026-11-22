@@ -1,0 +1,153 @@
+[
+  {
+    "id": "live-product-report",
+    "question": "Compare completed-item revenue for authorized products across history and save the report.",
+    "response": "### Completed-Item Revenue by Authorized Product\n\n| Product ID | Completed Items | Completed Revenue |\n| :--- | :--- | :--- |\n| 1 | 2 | $98.00 |\n| 2 | 1 | $69.50 |\n\n### Limitations\n1. **Limited Scope of Authorized Products**: This analysis only covers authorized product IDs 1 and 2. It does not reflect the performance of the entire product catalog.\n2. **No Temporal Context**: The metrics are aggregated across all available history, which masks seasonal trends, recent performance shifts, or changes in product popularity over time.\n\n### Action Items\n1. **Perform a Trend Analysis**: Break down the completed revenue for these products by month or quarter to identify whether sales are growing, stable, or declining.\n2. **Evaluate Inventory and Stocking**: Ensure that products 1 and 2 have adequate stock levels to support ongoing demand, given their established history of completed sales.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n| product_id | completed_items | completed_revenue |\n| --- | --- | --- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |\n\nSaved report **Completed Item Revenue for Authorized Products Across History** (`rep_8364de063044833c`).",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN 1 ELSE 0 END) AS `completed_items`, SUM(CASE WHEN `order_items`.`status` = 'Complete' THEN `order_items`.`sale_price` ELSE 0.0 END) AS `completed_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`product_id` IN (1, 2) GROUP BY `product_id` ORDER BY `product_id`\", \"rows\": [{\"product_id\": 1, \"completed_items\": 2, \"completed_revenue\": 98.0}, {\"product_id\": 2, \"completed_items\": 1, \"completed_revenue\": 69.5}], \"mode\": \"live\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}",
+      "{\"verified_management\": {\"report_id\": \"rep_8364de063044833c\"}}"
+    ],
+    "retrieved_contexts": [],
+    "source": "bigquery-live-agent-v3.json",
+    "data_mode": "live"
+  },
+  {
+    "id": "fixture-monthly",
+    "question": "Compare completed-item revenue for January and February 2026, using only authorized products. Return one row per month with columns month (start-of-month UTC date) and revenue, then explain limitations and action items.",
+    "response": "### Completed-Item Revenue Comparison (Jan vs. Feb 2026)\n\nBased on the authorized product scope (Product IDs: 1, 2) and completed items, here is the monthly revenue comparison:\n\n| Month | Revenue |\n| :--- | :--- |\n| 2026-01-01 | $100.00 |\n| 2026-02-01 | $110.00 |\n\n### Limitations\n* **Product Scope Constraint:** This analysis is strictly limited to authorized products (IDs 1 and 2). It does not reflect the overall store or brand performance across all products.\n* **Status Definition:** Revenue is calculated strictly using completed items (`status = 'Complete'`). Any pending, cancelled, or returned orders are excluded, which may underrepresent total order volume or cash flow during these periods.\n* **Short Timeframe:** A two-month comparison cannot establish long-term seasonal trends or cyclical patterns.\n\n### Action Items\n* **Investigate Volume vs. Price:** Determine whether the $10.00 (10%) revenue increase in February was driven by higher unit sales of the authorized products or an increase in their average sale price.\n* **Expand Product Authorization:** If these products are performing well, evaluate whether to authorize additional product IDs for a more comprehensive portfolio analysis.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| month | revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT DATE_TRUNC(DATE(`order_items`.`created_at`), MONTH) AS `month`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`product_id` IN (1, 2) AND DATE(`order_items`.`created_at`) >= DATE('2026-01-01') AND DATE(`order_items`.`created_at`) < DATE('2026-03-01') GROUP BY `month` ORDER BY `month`\", \"rows\": [{\"month\": \"2026-01-01 00:00:00\", \"revenue\": 100.0}, {\"month\": \"2026-02-01 00:00:00\", \"revenue\": 110.0}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "agent-retrieval-live-fixture-v2.json",
+    "data_mode": "fixture"
+  },
+  {
+    "id": "fixture-returns",
+    "question": "For each authorized product, calculate returned items / (Complete + Returned items) across all available history. Return columns product_id, finalized_items, returned_items, return_rate. Explain why this is not a refund rate and suggest follow-up actions.",
+    "response": "### Product Return Rates (Authorized Products)\n\n| product_id | finalized_items | returned_items | return_rate |\n| :--- | :--- | :--- | :--- |\n| 1 | 8 | 1 | 12.5% |\n| 2 | 8 | 1 | 12.5% |\n\n### Why This is Not a Refund Rate\n1. **Scope of Denominator**: This metric only considers items that have reached a finalized state of either `Complete` or `Returned`. It excludes pending, processing, or cancelled orders which may eventually result in refunds or successful completions.\n2. **Financial vs. Unit Metric**: A refund rate is typically calculated based on monetary value (refunded revenue / total revenue), whereas this is a unit-based return rate. Differences in item pricing, partial refunds, or restocking fees are not captured here.\n3. **Status Definition**: In some systems, an item can be refunded without being physically returned (e.g., customer service concessions, lost packages), which would not be captured by the `Returned` status alone.\n\n### Suggested Follow-up Actions\n* **Analyze Return Reasons**: Investigate customer feedback or support tickets associated with these specific product IDs to understand why 12.5% of finalized units are being returned.\n* **Monitor Volume Trends**: Since the current sample size is small (8 finalized items per product), monitor these metrics as sales volume increases to see if the return rate stabilizes or changes.\n* **Compare Against Category Benchmarks**: Compare these product-level return rates against their broader category averages to determine if a 12.5% return rate is typical or anomalous.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| product_id | finalized_items | returned_items | return_rate |\n| --- | --- | --- | --- |\n| 1 | 8 | 1 | 0.125 |\n| 2 | 8 | 1 | 0.125 |",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END) AS `finalized_items`, SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) AS `returned_items`, SAFE_DIVIDE(SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END), SUM(CASE WHEN `order_items`.`status` IN ('Complete', 'Returned') THEN 1 ELSE 0 END)) AS `return_rate` FROM `order_items` AS `order_items` WHERE `order_items`.`product_id` IN (1, 2) GROUP BY `product_id` ORDER BY `product_id`\", \"rows\": [{\"product_id\": 1, \"finalized_items\": 8, \"returned_items\": 1, \"return_rate\": 0.125}, {\"product_id\": 2, \"finalized_items\": 8, \"returned_items\": 1, \"return_rate\": 0.125}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "agent-retrieval-live-fixture-v2.json",
+    "data_mode": "fixture"
+  },
+  {
+    "id": "fixture-margin",
+    "question": "Across all authorized Complete items and all available history, calculate total sale price minus product cost, excluding other expenses. Return one row with columns completed_revenue, product_cost_proxy, margin_proxy. Explain limitations and suggest actions; do not call this net profit.",
+    "response": "### Completed Items Margin Proxy Analysis\n\nBased on all available historical data for completed items, the aggregate revenue, product cost proxy, and margin proxy are summarized below:\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| :--- | :--- | :--- |\n| 210.00 | 490.00 | -280.00 |\n\n### Key Observations & Limitations\n* **Negative Margin Proxy:** The margin proxy is negative (-280.00), indicating that the recorded product cost (490.00) exceeds the completed sale price revenue (210.00) for these items.\n* **Not Net Profit:** This metric is strictly a limited margin proxy. It only subtracts the recorded product cost from the completed item sale price. It does not account for other critical business expenses such as shipping, taxes, customer acquisition costs, marketing, returns processing, or general overhead.\n* **Scope:** This analysis is restricted to items with a status of 'Complete'.\n\n### Actionable Suggestions\n1. **Audit Product Costing and Pricing:** Investigate the pricing structure and supplier costs for these products, as the current sale prices do not cover the recorded product costs.\n2. **Review Data Integrity:** Verify if the product cost values in the database are accurate or if there are promotional discounts applied to these completed orders that heavily depressed the sale price.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| --- | --- | --- |\n| 210.0 | 490.0 | -280.0 |",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT SUM(`i`.`sale_price`) AS `completed_revenue`, SUM(`p`.`cost`) AS `product_cost_proxy`, SUM(`i`.`sale_price` - `p`.`cost`) AS `margin_proxy` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = 'Complete'\", \"rows\": [{\"completed_revenue\": 210.0, \"product_cost_proxy\": 490.0, \"margin_proxy\": -280.0}], \"mode\": \"fixture\", \"truncated\": false, \"definitions\": \"Complete-item revenue is not net revenue; product cost is a margin proxy, not net profit; observations do not establish causes.\"}"
+    ],
+    "retrieved_contexts": [],
+    "source": "agent-retrieval-live-fixture-v2.json",
+    "data_mode": "fixture"
+  },
+  {
+    "id": "retrieval-monthly-revenue-change-en-1",
+    "question": "Compare completed sales revenue with the previous observed month",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How does completed-item revenue change from month to month?\nrevenue month window comparison lag incomplete period\nCompare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.\nWITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month",
+      "How did monthly revenue change?\nrevenue sales month time trend\nCompare complete equal-length periods, inspect item counts and average item price, and separate facts from causal hypotheses. Revenue uses Complete items; not net revenue after all returns.\nSELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month"
+    ],
+    "reference_logic": "Compare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.\nWITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "en",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-monthly-revenue-change-ru-1",
+    "question": "Сравни выручку по завершённым товарам с предыдущим наблюдаемым месяцем",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How does completed-item revenue change from month to month?\nrevenue month window comparison lag incomplete period\nCompare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.\nWITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month"
+    ],
+    "reference_logic": "Compare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.\nWITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "ru",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-revenue-period-completeness-en-1",
+    "question": "Flag months whose revenue comparison may be distorted by incomplete activity",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How does completed-item revenue change from month to month?\nrevenue month window comparison lag incomplete period\nCompare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.\nWITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month",
+      "Which revenue periods may be incomplete or have sparse activity?\nrevenue coverage freshness incomplete period active days data quality\nInspect observed activity dates before comparing monthly completed-item revenue. Active days are not calendar coverage: missing dates may represent no sales or missing data. Confirm the data freshness timestamp and period boundaries, exclude or flag incomplete periods, and only then recommend trend analysis or further data-quality investigation.\nSELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, MIN(DATE(created_at)) AS first_activity_date, MAX(DATE(created_at)) AS last_activity_date, COUNT(DISTINCT DATE(created_at)) AS active_days, SUM(sale_price) AS completed_revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month"
+    ],
+    "reference_logic": "Inspect observed activity dates before comparing monthly completed-item revenue. Active days are not calendar coverage: missing dates may represent no sales or missing data. Confirm the data freshness timestamp and period boundaries, exclude or flag incomplete periods, and only then recommend trend analysis or further data-quality investigation.\nSELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, MIN(DATE(created_at)) AS first_activity_date, MAX(DATE(created_at)) AS last_activity_date, COUNT(DISTINCT DATE(created_at)) AS active_days, SUM(sale_price) AS completed_revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "en",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-revenue-period-completeness-ru-1",
+    "question": "Отметь месяцы, для которых сравнение выручки может искажаться из-за неполного периода",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How does completed-item revenue change from month to month?\nrevenue month window comparison lag incomplete period\nCompare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.\nWITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month"
+    ],
+    "reference_logic": "Inspect observed activity dates before comparing monthly completed-item revenue. Active days are not calendar coverage: missing dates may represent no sales or missing data. Confirm the data freshness timestamp and period boundaries, exclude or flag incomplete periods, and only then recommend trend analysis or further data-quality investigation.\nSELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, MIN(DATE(created_at)) AS first_activity_date, MAX(DATE(created_at)) AS last_activity_date, COUNT(DISTINCT DATE(created_at)) AS active_days, SUM(sale_price) AS completed_revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "ru",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-orders-items-grain-en-1",
+    "question": "Distinguish the number of distinct orders from the number of purchased units",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How do order counts differ from item counts and items per order?\norders items grain items per order distinct count\nKeep order and item grains explicit: distinct order keys count orders, while distinct item keys count purchased items. Items per order is a ratio of those distinct counts, not an order total or monetary basket value. Break down the ratio by status, product, and period before recommending assortment or basket-analysis follow-up.\nSELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT item_key) AS items, SAFE_DIVIDE(COUNT(DISTINCT item_key), COUNT(DISTINCT order_key)) AS items_per_order FROM order_items",
+      "What share of distinct orders has Cancelled status?\norders cancellation cancelled denominator status order grain\nCalculate cancellation share at the order grain with distinct order keys, not from item rows. Confirm whether order status is current or historical and compare equivalent observation windows. Segment by period and authorized products before suggesting investigation; this schema does not identify cancellation reasons.\nSELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT CASE WHEN status='Cancelled' THEN order_key END) AS cancelled_orders, SAFE_DIVIDE(COUNT(DISTINCT CASE WHEN status='Cancelled' THEN order_key END), COUNT(DISTINCT order_key)) AS cancelled_order_share FROM orders"
+    ],
+    "reference_logic": "Keep order and item grains explicit: distinct order keys count orders, while distinct item keys count purchased items. Items per order is a ratio of those distinct counts, not an order total or monetary basket value. Break down the ratio by status, product, and period before recommending assortment or basket-analysis follow-up.\nSELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT item_key) AS items, SAFE_DIVIDE(COUNT(DISTINCT item_key), COUNT(DISTINCT order_key)) AS items_per_order FROM order_items",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "en",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-orders-items-grain-ru-1",
+    "question": "Отдельно посчитай уникальные заказы и купленные товарные позиции",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How do order counts differ from item counts and items per order?\norders items grain items per order distinct count\nKeep order and item grains explicit: distinct order keys count orders, while distinct item keys count purchased items. Items per order is a ratio of those distinct counts, not an order total or monetary basket value. Break down the ratio by status, product, and period before recommending assortment or basket-analysis follow-up.\nSELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT item_key) AS items, SAFE_DIVIDE(COUNT(DISTINCT item_key), COUNT(DISTINCT order_key)) AS items_per_order FROM order_items"
+    ],
+    "reference_logic": "Keep order and item grains explicit: distinct order keys count orders, while distinct item keys count purchased items. Items per order is a ratio of those distinct counts, not an order total or monetary basket value. Break down the ratio by status, product, and period before recommending assortment or basket-analysis follow-up.\nSELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT item_key) AS items, SAFE_DIVIDE(COUNT(DISTINCT item_key), COUNT(DISTINCT order_key)) AS items_per_order FROM order_items",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "ru",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-order-item-status-reconciliation-en-1",
+    "question": "Reconcile order-level statuses with the statuses of their item rows",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [
+      "How should order statuses and item statuses be reconciled?\norders items status reconciliation grain mixed status\nCompare order-level and item-level status combinations without adding counts across grains. A mixed-status order can appear with more than one item status, so order counts in different rows need not be mutually exclusive. Define the reporting grain and denominator first, then investigate unexpected combinations before recommending operational follow-up.\nSELECT o.status AS order_status, i.status AS item_status, COUNT(DISTINCT o.order_key) AS orders, COUNT(DISTINCT i.item_key) AS items FROM orders o JOIN order_items i ON o.order_key=i.order_key GROUP BY o.status, i.status ORDER BY o.status, i.status",
+      "What share of distinct orders has Cancelled status?\norders cancellation cancelled denominator status order grain\nCalculate cancellation share at the order grain with distinct order keys, not from item rows. Confirm whether order status is current or historical and compare equivalent observation windows. Segment by period and authorized products before suggesting investigation; this schema does not identify cancellation reasons.\nSELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT CASE WHEN status='Cancelled' THEN order_key END) AS cancelled_orders, SAFE_DIVIDE(COUNT(DISTINCT CASE WHEN status='Cancelled' THEN order_key END), COUNT(DISTINCT order_key)) AS cancelled_order_share FROM orders"
+    ],
+    "reference_logic": "Compare order-level and item-level status combinations without adding counts across grains. A mixed-status order can appear with more than one item status, so order counts in different rows need not be mutually exclusive. Define the reporting grain and denominator first, then investigate unexpected combinations before recommending operational follow-up.\nSELECT o.status AS order_status, i.status AS item_status, COUNT(DISTINCT o.order_key) AS orders, COUNT(DISTINCT i.item_key) AS items FROM orders o JOIN order_items i ON o.order_key=i.order_key GROUP BY o.status, i.status ORDER BY o.status, i.status",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "en",
+    "data_mode": "synthetic_golden_logic"
+  },
+  {
+    "id": "retrieval-order-item-status-reconciliation-ru-1",
+    "question": "Сопоставь статусы заказов со статусами их товарных строк",
+    "response": "",
+    "sql_contexts": [],
+    "retrieved_contexts": [],
+    "reference_logic": "Compare order-level and item-level status combinations without adding counts across grains. A mixed-status order can appear with more than one item status, so order counts in different rows need not be mutually exclusive. Define the reporting grain and denominator first, then investigate unexpected combinations before recommending operational follow-up.\nSELECT o.status AS order_status, i.status AS item_status, COUNT(DISTINCT o.order_key) AS orders, COUNT(DISTINCT i.item_key) AS items FROM orders o JOIN order_items i ON o.order_key=i.order_key GROUP BY o.status, i.status ORDER BY o.status, i.status",
+    "source": "retrieval-expanded-live-v2.json",
+    "language": "ru",
+    "data_mode": "synthetic_golden_logic"
+  }
+]

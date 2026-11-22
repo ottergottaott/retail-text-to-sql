@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-1",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "The table gives the query results [q1]. No causal analysis was performed.\n\n| brand | complete_items | returned_items |\n|---|---|---|\n| North | 7 | 1 |\n| South | 7 | 1 |\n\n**Limitations:**\n* The query measured item counts for 'Complete' and 'Returned' statuses by brand.\n* It did not measure time periods, revenue, or reasons for returns.\n\n**Action Items (Proposed):**\n* Measure return rates over time to identify potential seasonal trends.\n* Query specific products within these brands to see if returns are concentrated in specific items.",
+  "status": "generated",
+  "seconds": 12.045092596999893,
+  "usage": {
+    "input_tokens": 2127,
+    "output_tokens": 928,
+    "total_tokens": 3055,
+    "thought_tokens": 755,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

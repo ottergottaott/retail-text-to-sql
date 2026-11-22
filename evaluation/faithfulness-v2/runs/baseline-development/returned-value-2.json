@@ -1,0 +1,24 @@
+{
+  "id": "returned-value-2",
+  "family": "returned-value",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nFor your authorized products, the recorded sale value of items with a 'Returned' status is $50.00 across 2 items [q1]. \n\n| returned_recorded_value | returned_items |\n|---|---|\n| 50.0 | 2 |\n\n### Limitations\n* This query only measured the recorded `sale_price` and count of items currently marked as 'Returned'. \n* It does not measure actual refunded amounts, net profit, or whether discounts were applied.\n* The sample size is very small (2 items), so these results cannot establish broader return trends.\n\n### Action Items (Proposed)\n* **Discount Analysis:** Compare `sale_price` to `retail_price` for these returned items to determine if they were purchased at a discount.\n* **Return Drivers:** Group returned items by `product_id` or `category` to identify which specific products are driving the returns.\n* **Time Trend:** Analyze the `created_at` dates of the returned items to see if they correspond to a specific period.",
+  "status": "generated",
+  "seconds": 13.172766510999281,
+  "usage": {
+    "input_tokens": 2045,
+    "output_tokens": 831,
+    "total_tokens": 2876,
+    "thought_tokens": 563,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

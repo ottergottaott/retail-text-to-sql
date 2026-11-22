@@ -1,0 +1,3003 @@
+{
+  "note": "Previously used synthetic benchmark; not a pristine independent test set.",
+  "variants": {
+    "baseline": {
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.9,
+            "precision": 0.9,
+            "mrr": 0.9,
+            "ndcg": 0.9
+          },
+          "2": {
+            "recall": 1.0,
+            "precision": 0.5,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          },
+          "5": {
+            "recall": 1.0,
+            "precision": 0.2,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          }
+        },
+        "negative_false_match_rate": 0.8,
+        "negative_no_result_rate": 0.2,
+        "mean_latency_ms": 11.141400160267949,
+        "p50_latency_ms": 10.769435990368947,
+        "p95_latency_ms": 15.61744199716486,
+        "recall_at_2": 1.0,
+        "mrr": 0.95,
+        "irrelevant_example_rate": 0.8305084745762712
+      },
+      "cases": [
+        {
+          "id": "monthly-revenue-change-en-2",
+          "question": "Show month-over-month movement in revenue from Complete items",
+          "relevant": [
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 0.0,
+              "precision": 0.0,
+              "rr": 0.0,
+              "ndcg": 0.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "monthly-revenue",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 0.5,
+          "irrelevant_results": 4,
+          "latency_ms": 9.1930259950459
+        },
+        {
+          "id": "revenue-period-completeness-en-2",
+          "question": "Show first and last sales activity dates and active-day coverage for each month",
+          "relevant": [
+            {
+              "id": "revenue-period-completeness",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "revenue-period-completeness",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "monthly-revenue",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 13.764867006102577
+        },
+        {
+          "id": "orders-items-grain-en-2",
+          "question": "Calculate average items per order without confusing order and item grain",
+          "relevant": [
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03200204813108039
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 3,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 9.15161898592487
+        },
+        {
+          "id": "order-item-status-reconciliation-en-2",
+          "question": "Show combinations of order status and item status while preserving both grains",
+          "relevant": [
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 1,
+              "score": 0.032266458495966696
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 2,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 3,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 8.976008015451953
+        },
+        {
+          "id": "returned-item-rate-finalized-en-2",
+          "question": "Compare product return rates using only the finalized-item denominator",
+          "relevant": [
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03200204813108039
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 3,
+              "score": 0.030798389007344232
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 4,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015625
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 18.352754006627947
+        },
+        {
+          "id": "completed-item-share-all-statuses-en-2",
+          "question": "Use all item statuses as the denominator for the completed-item share",
+          "relevant": [
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03225806451612903
+            },
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 15.61744199716486
+        },
+        {
+          "id": "cancelled-order-share-en-2",
+          "question": "Measure order cancellation share at order grain rather than item grain",
+          "relevant": [
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 12.778378004441038
+        },
+        {
+          "id": "discount-vs-retail-proxy-en-2",
+          "question": "Estimate the gap between realized selling price and retail price by product",
+          "relevant": [
+            {
+              "id": "discount-vs-retail-proxy",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "discount-vs-retail-proxy",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 13.511842989828438
+        },
+        {
+          "id": "category-price-realization-en-2",
+          "question": "Show aggregate price realization for each product category",
+          "relevant": [
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 11.151839018566534
+        },
+        {
+          "id": "cost-proxy-margin-en-2",
+          "question": "Show completed revenue, product cost proxy, and their difference without calling it net profit",
+          "relevant": [
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 11.271125986240804
+        },
+        {
+          "id": "product-margin-rate-proxy-en-2",
+          "question": "Rank product margin-rate proxies with the correct revenue denominator",
+          "relevant": [
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 9.603218000847846
+        },
+        {
+          "id": "category-revenue-returns-en-2",
+          "question": "Break down category performance into completed revenue and returns",
+          "relevant": [
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 11.21453900123015
+        },
+        {
+          "id": "brand-product-performance-en-2",
+          "question": "Show brand sales contribution together with authorized catalog breadth",
+          "relevant": [
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "monthly-revenue",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 10.319697990780696
+        },
+        {
+          "id": "customer-cohort-repeat-en-2",
+          "question": "Compare customer cohorts while accounting for different repeat-purchase follow-up windows",
+          "relevant": [
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03225806451612903
+            },
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "customer-spend",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 9.12604300538078
+        },
+        {
+          "id": "customer-purchase-frequency-en-2",
+          "question": "Group pseudonymous customers by observed purchase frequency instead of reporting only an average",
+          "relevant": [
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 0.0,
+              "precision": 0.0,
+              "rr": 0.0,
+              "ndcg": 0.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "rank": 3,
+              "score": 0.031746031746031744
+            },
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "customer-spend",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 0.5,
+          "irrelevant_results": 4,
+          "latency_ms": 9.015221003210172
+        },
+        {
+          "id": "state-purchaser-demographics-en-2",
+          "question": "Break down regional purchasing activity by coarse recorded state",
+          "relevant": [
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 1,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "customer-spend",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 8.553770981961861
+        },
+        {
+          "id": "age-country-purchaser-mix-en-2",
+          "question": "Compare coarse age-band and country segments without individual profiling",
+          "relevant": [
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 13.105605001328513
+        },
+        {
+          "id": "active-day-revenue-gaps-en-2",
+          "question": "Investigate missing daily rows without automatically treating them as zero sales",
+          "relevant": [
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "monthly-revenue",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 8.653867000248283
+        },
+        {
+          "id": "customer-spend-outliers-en-2",
+          "question": "Review average and extreme pseudonymous customer spending without exposing identities",
+          "relevant": [
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "rank": 2,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "customer-spend",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 10.769435990368947
+        },
+        {
+          "id": "monthly-product-diagnostic-en-2",
+          "question": "Run a stepwise monthly product diagnostic before suggesting pricing or returns actions",
+          "relevant": [
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "discount-vs-retail-proxy",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 4,
+          "latency_ms": 13.031895010499284
+        },
+        {
+          "id": "negative-football-en",
+          "question": "Who won the football match last night",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 0,
+          "returned": [],
+          "no_result": true,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 0,
+          "latency_ms": 14.76339899818413
+        },
+        {
+          "id": "negative-web-conversion-en",
+          "question": "Which website traffic source has the best visitor conversion rate",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 1,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 5,
+          "latency_ms": 8.266852993983775
+        },
+        {
+          "id": "negative-inventory-en",
+          "question": "Show current warehouse stock on hand and replenishment needs",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 3,
+          "returned": [
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 1,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            }
+          ],
+          "no_result": false,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 3,
+          "latency_ms": 8.143984014168382
+        },
+        {
+          "id": "negative-shipping-tax-en",
+          "question": "Calculate shipping charges and sales tax totals for each order",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 1,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "monthly-revenue",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 5,
+          "latency_ms": 7.952971995109692
+        },
+        {
+          "id": "negative-pii-email-en",
+          "question": "List customer names and email addresses",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 5,
+          "returned": [
+            {
+              "id": "customer-spend",
+              "version": 1,
+              "rank": 1,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 5,
+              "score": 0.015384615384615385
+            }
+          ],
+          "no_result": false,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 5,
+          "latency_ms": 12.245601014001295
+        }
+      ]
+    },
+    "candidate": {
+      "metrics": {
+        "positive_cases": 20,
+        "negative_cases": 5,
+        "by_k": {
+          "1": {
+            "recall": 0.9,
+            "precision": 0.9,
+            "mrr": 0.9,
+            "ndcg": 0.9
+          },
+          "2": {
+            "recall": 1.0,
+            "precision": 0.5,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          },
+          "5": {
+            "recall": 1.0,
+            "precision": 0.2,
+            "mrr": 0.95,
+            "ndcg": 0.9630929753571458
+          }
+        },
+        "negative_false_match_rate": 0.0,
+        "negative_no_result_rate": 1.0,
+        "mean_latency_ms": 23.159106598468497,
+        "p50_latency_ms": 22.13321698945947,
+        "p95_latency_ms": 29.72777298418805,
+        "recall_at_2": 1.0,
+        "mrr": 0.95,
+        "irrelevant_example_rate": 0.48717948717948717
+      },
+      "cases": [
+        {
+          "id": "monthly-revenue-change-en-2",
+          "question": "Show month-over-month movement in revenue from Complete items",
+          "relevant": [
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 0.0,
+              "precision": 0.0,
+              "rr": 0.0,
+              "ndcg": 0.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            }
+          },
+          "positive": true,
+          "returned_count": 3,
+          "returned": [
+            {
+              "id": "monthly-revenue",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "monthly-revenue-change",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 0.5,
+          "irrelevant_results": 2,
+          "latency_ms": 22.112484002718702
+        },
+        {
+          "id": "revenue-period-completeness-en-2",
+          "question": "Show first and last sales activity dates and active-day coverage for each month",
+          "relevant": [
+            {
+              "id": "revenue-period-completeness",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "revenue-period-completeness",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 20.59448600630276
+        },
+        {
+          "id": "orders-items-grain-en-2",
+          "question": "Calculate average items per order without confusing order and item grain",
+          "relevant": [
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03225806451612903
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 19.230737001635134
+        },
+        {
+          "id": "order-item-status-reconciliation-en-2",
+          "question": "Show combinations of order status and item status while preserving both grains",
+          "relevant": [
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 3,
+          "returned": [
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 1,
+              "score": 0.032266458495966696
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 2,
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "orders-items-grain",
+              "version": 1,
+              "rank": 3,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 2,
+          "latency_ms": 18.160284002078697
+        },
+        {
+          "id": "returned-item-rate-finalized-en-2",
+          "question": "Compare product return rates using only the finalized-item denominator",
+          "relevant": [
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 3,
+          "returned": [
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03225806451612903
+            },
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 3,
+              "score": 0.031746031746031744
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 2,
+          "latency_ms": 19.03630801825784
+        },
+        {
+          "id": "completed-item-share-all-statuses-en-2",
+          "question": "Use all item statuses as the denominator for the completed-item share",
+          "relevant": [
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 3,
+          "returned": [
+            {
+              "id": "completed-item-share-all-statuses",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "returned-item-rate-finalized",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03225806451612903
+            },
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 3,
+              "score": 0.015873015873015872
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 2,
+          "latency_ms": 27.840556984301656
+        },
+        {
+          "id": "cancelled-order-share-en-2",
+          "question": "Measure order cancellation share at order grain rather than item grain",
+          "relevant": [
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "cancelled-order-share",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "order-item-status-reconciliation",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 22.593218978727236
+        },
+        {
+          "id": "discount-vs-retail-proxy-en-2",
+          "question": "Estimate the gap between realized selling price and retail price by product",
+          "relevant": [
+            {
+              "id": "discount-vs-retail-proxy",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "discount-vs-retail-proxy",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 23.64871700410731
+        },
+        {
+          "id": "category-price-realization-en-2",
+          "question": "Show aggregate price realization for each product category",
+          "relevant": [
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "category-price-realization",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 20.941561000654474
+        },
+        {
+          "id": "cost-proxy-margin-en-2",
+          "question": "Show completed revenue, product cost proxy, and their difference without calling it net profit",
+          "relevant": [
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "cost-proxy-margin",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 23.598999017849565
+        },
+        {
+          "id": "product-margin-rate-proxy-en-2",
+          "question": "Rank product margin-rate proxies with the correct revenue denominator",
+          "relevant": [
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "product-margin-rate-proxy",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 22.13321698945947
+        },
+        {
+          "id": "category-revenue-returns-en-2",
+          "question": "Break down category performance into completed revenue and returns",
+          "relevant": [
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "category-revenue-returns",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "product-comparison",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 20.942045986885205
+        },
+        {
+          "id": "brand-product-performance-en-2",
+          "question": "Show brand sales contribution together with authorized catalog breadth",
+          "relevant": [
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "brand-product-performance",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 26.19609099929221
+        },
+        {
+          "id": "customer-cohort-repeat-en-2",
+          "question": "Compare customer cohorts while accounting for different repeat-purchase follow-up windows",
+          "relevant": [
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03225806451612903
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 21.675860014511272
+        },
+        {
+          "id": "customer-purchase-frequency-en-2",
+          "question": "Group pseudonymous customers by observed purchase frequency instead of reporting only an average",
+          "relevant": [
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 0.0,
+              "precision": 0.0,
+              "rr": 0.0,
+              "ndcg": 0.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 0.5,
+              "ndcg": 0.6309297535714575
+            }
+          },
+          "positive": true,
+          "returned_count": 4,
+          "returned": [
+            {
+              "id": "customer-cohort-repeat",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "customer-purchase-frequency",
+              "version": 1,
+              "rank": 2,
+              "score": 0.03252247488101534
+            },
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "rank": 3,
+              "score": 0.031746031746031744
+            },
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "rank": 4,
+              "score": 0.015625
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 0.5,
+          "irrelevant_results": 3,
+          "latency_ms": 21.745945006841794
+        },
+        {
+          "id": "state-purchaser-demographics-en-2",
+          "question": "Break down regional purchasing activity by coarse recorded state",
+          "relevant": [
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "state-purchaser-demographics",
+              "version": 1,
+              "rank": 1,
+              "score": 0.01639344262295082
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 21.502568997675553
+        },
+        {
+          "id": "age-country-purchaser-mix-en-2",
+          "question": "Compare coarse age-band and country segments without individual profiling",
+          "relevant": [
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "age-country-purchaser-mix",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 29.72777298418805
+        },
+        {
+          "id": "active-day-revenue-gaps-en-2",
+          "question": "Investigate missing daily rows without automatically treating them as zero sales",
+          "relevant": [
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 2,
+          "returned": [
+            {
+              "id": "active-day-revenue-gaps",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            },
+            {
+              "id": "revenue-period-completeness",
+              "version": 1,
+              "rank": 2,
+              "score": 0.016129032258064516
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 1,
+          "latency_ms": 31.440324994036928
+        },
+        {
+          "id": "customer-spend-outliers-en-2",
+          "question": "Review average and extreme pseudonymous customer spending without exposing identities",
+          "relevant": [
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "customer-spend-outliers",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 25.271092978073284
+        },
+        {
+          "id": "monthly-product-diagnostic-en-2",
+          "question": "Run a stepwise monthly product diagnostic before suggesting pricing or returns actions",
+          "relevant": [
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "grade": 1
+            }
+          ],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "2": {
+              "recall": 1.0,
+              "precision": 0.5,
+              "rr": 1.0,
+              "ndcg": 1.0
+            },
+            "5": {
+              "recall": 1.0,
+              "precision": 0.2,
+              "rr": 1.0,
+              "ndcg": 1.0
+            }
+          },
+          "positive": true,
+          "returned_count": 1,
+          "returned": [
+            {
+              "id": "monthly-product-diagnostic",
+              "version": 1,
+              "rank": 1,
+              "score": 0.03278688524590164
+            }
+          ],
+          "no_result": false,
+          "recall": 1.0,
+          "reciprocal_rank": 1.0,
+          "irrelevant_results": 0,
+          "latency_ms": 22.58940300089307
+        },
+        {
+          "id": "negative-football-en",
+          "question": "Who won the football match last night",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 0,
+          "returned": [],
+          "no_result": true,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 0,
+          "latency_ms": 21.916327998042107
+        },
+        {
+          "id": "negative-web-conversion-en",
+          "question": "Which website traffic source has the best visitor conversion rate",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 0,
+          "returned": [],
+          "no_result": true,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 0,
+          "latency_ms": 21.874013997148722
+        },
+        {
+          "id": "negative-inventory-en",
+          "question": "Show current warehouse stock on hand and replenishment needs",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 0,
+          "returned": [],
+          "no_result": true,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 0,
+          "latency_ms": 25.31274501234293
+        },
+        {
+          "id": "negative-shipping-tax-en",
+          "question": "Calculate shipping charges and sales tax totals for each order",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 0,
+          "returned": [],
+          "no_result": true,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 0,
+          "latency_ms": 25.130063004326075
+        },
+        {
+          "id": "negative-pii-email-en",
+          "question": "List customer names and email addresses",
+          "relevant": [],
+          "language": "en",
+          "at_k": {
+            "1": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "2": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            },
+            "5": {
+              "recall": null,
+              "precision": null,
+              "rr": null,
+              "ndcg": null
+            }
+          },
+          "positive": false,
+          "returned_count": 0,
+          "returned": [],
+          "no_result": true,
+          "recall": null,
+          "reciprocal_rank": null,
+          "irrelevant_results": 0,
+          "latency_ms": 23.762840981362388
+        }
+      ]
+    }
+  }
+}

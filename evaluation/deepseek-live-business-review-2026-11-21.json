@@ -1,0 +1,204 @@
+{
+  "evidence_boundary": "Reviewer read only the named results file. I did NOT re-execute BigQuery SQL, did not access providers or secrets, and did not recompute reference results. Checks compare each answer's prose/table against (a) its embedded actual evidence rows and (b) the file's independent reference_rows. Reference rows are treated as given ground truth, not independently verified. human_review is 'pending'; no human acceptance is claimed. Where a report's own SQL text differs in scope from the reference, that is a text-level observation, not a recomputation.",
+  "summary": "11 of 12 cases are numerically faithful: answer table values equal both the embedded evidence and the independent reference rows, with correct grain, Complete-status framing, all-history window, return denominator Returned/(Complete+Returned), and non-net-profit margin caveats. Two cross-cutting defects: (1) realized-price is a FAILURE mislabeled as success \u2014 the answer only asks for clarification, gives no table, limitations or action items, yet outcome='succeeded', saved=true, query_oracle_passed=true, case status='passed', and the suite status='passed'. (2) Several generator SQL statements (status-mix q1, category-revenue, margin-proxy, state-customers, country-customers, age-band) omit the product/authorization filter shown in the reference SQL, yet return the authorized-scoped figures; the numbers still match the reference, so this is a scope-enforcement concern (correctness depends on a pre-scoped table/view) rather than a numeric error, and it cannot be resolved without recomputation. Residual issues are minor: speculative-but-framed causal action items, an items-vs-orders conflation in state-customers, fragile order-status derivation in scoped-orders, and an incomplete partial-year flag in yearly-comparison.",
+  "reviews": [
+    {
+      "id": "product-revenue",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "low",
+          "claim": "Action: 'Monitor stock levels for Product 1, as it shows higher completed item volume compared to Product 2.'",
+          "reason": "Grounded only in 2 vs 1 completed items; the stock-monitoring inference implies demand pressure not evidenced. Numbers, aliases (product_id, completed_items, revenue), scope, save id rep_6c40785469bea5cb all match reference/management.",
+          "recommendation": "Qualify the 2-vs-1 difference as a tiny sample; avoid implying stock risk."
+        }
+      ]
+    },
+    {
+      "id": "status-mix",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "medium",
+          "claim": "Table Shipped 5 / Complete 3 / Returned 3 / Processing 1, stated as authorized-products scope.",
+          "reason": "Values match reference and q2 (product-filtered) SQL. But evidence q1 SQL is 'SELECT status, COUNT(*) FROM order_items GROUP BY status' with NO product_id filter yet returns the identical authorized-scoped rows, and q1/q2 are duplicates. As written the unfiltered query would not honor the scope; correctness relies on a pre-scoped table/view.",
+          "recommendation": "Drop the redundant unfiltered query and ensure all evidence SQL carries the product scope, or document the pre-scoped view."
+        },
+        {
+          "severity": "low",
+          "claim": "Action: investigate return root causes; ensure the single Processing item is fulfilled within SLA.",
+          "reason": "Return investigation is framed as follow-up (acceptable); SLA action is reasonable but rests on one item.",
+          "recommendation": "None material."
+        }
+      ]
+    },
+    {
+      "id": "monthly-revenue",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "low",
+          "claim": "Values 2020-12 (1,$49), 2025-08 (1,$49), 2026-03 (1,$69.5); '3 completed items ... December 2020 to March 2026'.",
+          "reason": "Matches reference and evidence exactly; month grain, Complete status and filters correct; COUNT(item_key) is a valid item count. Caveats on low volume and gaps are strong.",
+          "recommendation": "None on numerics."
+        },
+        {
+          "severity": "low",
+          "claim": "Action: investigate low volume '(e.g., check stock levels, listing visibility, or catalog status)' and whether unmet demand is failing to complete.",
+          "reason": "Speculative causes not supported by the queried data, though framed as investigation.",
+          "recommendation": "Label as hypotheses to test."
+        }
+      ]
+    },
+    {
+      "id": "category-revenue",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "medium",
+          "claim": "Table Tops & Tees / 3 items / $167.50.",
+          "reason": "Matches reference and evidence. However the executed SQL is 'WHERE status=\\'Complete\\'' only (no product_id filter), while the reference is authorized-scoped; the answer also omits a product-authorization caveat (it states only status scope). Numbers happen to equal the scoped reference, implying a pre-scoped table or duplicated rows.",
+          "recommendation": "Add the product filter to the SQL and state the product scope in limitations."
+        },
+        {
+          "severity": "low",
+          "claim": "Action: 'Audit Status Transitions ... average time to Transition to Complete'.",
+          "reason": "Requires timestamp/transition data not queried; framed as follow-up but not grounded in the evidence.",
+          "recommendation": "Mark as a new analysis needing additional data."
+        }
+      ]
+    },
+    {
+      "id": "margin-proxy",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "low",
+          "claim": "Table $167.50 / $90.72 / $76.78, correctly labelled a proxy, not net profit.",
+          "reason": "Rounded from 167.5 / 90.7225 / 76.7775; rounding is faithful and matches reference. Net-profit disclaimer and cost-assumption caveat are present and correct.",
+          "recommendation": "None on numerics."
+        },
+        {
+          "severity": "medium",
+          "claim": "Scope of the margin figure.",
+          "reason": "Executed SQL joins products with 'WHERE i.status=\\'Complete\\'' and NO product_id filter, while the reference is authorized-scoped; equality is presumed via a pre-scoped table. Scope is not enforced in the shown SQL.",
+          "recommendation": "Add the product filter or document the scoped view."
+        }
+      ]
+    },
+    {
+      "id": "state-customers",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "medium",
+          "claim": "Table Hebei 1/$69.5, Virginia 1/$49, Washington 1/$49.",
+          "reason": "Values match reference and evidence (distinct customer per state, revenue per state). But the SQL joins users on customer_key with 'WHERE status=\\'Complete\\'' and no product_id filter, so scope is not enforced in the shown query.",
+          "recommendation": "Add product scope to the SQL/document the view."
+        },
+        {
+          "severity": "low",
+          "claim": "'3 orders across 3 states'.",
+          "reason": "The data are 3 completed items, not necessarily 3 distinct orders; item-vs-order grain is conflated.",
+          "recommendation": "Say '3 completed items' unless an order count is queried."
+        }
+      ]
+    },
+    {
+      "id": "country-customers",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "medium",
+          "claim": "Table United States 2/$98, China 1/$69.5.",
+          "reason": "Values match reference and evidence and totals reconcile (3 customers, $167.5). The executed SQL has no product_id filter (status='Complete' only) while the reference is authorized-scoped; scope is not enforced in the shown SQL.",
+          "recommendation": "Add the product filter/document the scoped view."
+        },
+        {
+          "severity": "info",
+          "claim": "Caveat 'Customer keys are treated as pseudonyms; no further PII inferred.'",
+          "reason": "Appropriate privacy handling; no discrepancy detected in reviewed evidence.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "id": "age-band",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "medium",
+          "claim": "Table 30s 2/$118.5, 60s 1/$49.",
+          "reason": "Values match reference and evidence; totals reconcile to 3 items/$167.5. Executed SQL filters status='Complete' but not product_id, versus an authorized reference; scope not enforced in the shown query.",
+          "recommendation": "Add product filter/document the scoped view."
+        },
+        {
+          "severity": "low",
+          "claim": "Action: 'Targeted Campaigns ... 30s represents highest completed revenue and volume, consider pilot marketing campaigns tailored to this demographic.'",
+          "reason": "Recommends targeting from a 2-vs-1 comparison over 3 items; overreach despite a small-sample caveat.",
+          "recommendation": "Soften to a hypothesis pending larger samples."
+        }
+      ]
+    },
+    {
+      "id": "scoped-orders",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "medium",
+          "claim": "Table Complete 3 / Shipped 5 / Processing 1 / Returned 3, described as '12 total orders'.",
+          "reason": "Values match the reference (orders-table with EXISTS). But the executed SQL derives status from order_items.status and counts DISTINCT order_key per item-status, not from the orders table; an order spanning multiple item statuses could be counted in more than one bucket, and '12 total orders' assumes no such duplication. Matches here, but the grain is fragile.",
+          "recommendation": "Derive order status from the orders table (or explicitly dedupe per order) to guarantee order grain."
+        },
+        {
+          "severity": "low",
+          "claim": "Action: 'investigate if there are quality or description issues with Product IDs 1 and 2' and promotional push.",
+          "reason": "Causal speculation from counts, though framed as investigation.",
+          "recommendation": "Label as hypotheses."
+        }
+      ]
+    },
+    {
+      "id": "realized-price",
+      "verdict": "fail",
+      "findings": [
+        {
+          "severity": "high",
+          "claim": "Answer is only 'Please clarify the metric and period you want analyzed.' with no results table, limitations, or action items.",
+          "reason": "The requested avg/min/max price table was produced in evidence (product 1 all 49.0; product 2 all 69.5, matching the reference) and the question already specified metric/period, so the clarification request is unnecessary. The report does not answer the question, yet outcome='succeeded', saved=true, query_oracle_passed=true and the case/suite status='passed' \u2014 an incorrect success claim.",
+          "recommendation": "Fail this case; render the computed table with caveats/actions, and gate 'passed' on answer content, not only row-oracle equality."
+        },
+        {
+          "severity": "medium",
+          "claim": "Top-level status 'passed' over all 12 cases.",
+          "reason": "Includes this clarification-only, non-answering report, so the suite success claim is not supported by the case contents.",
+          "recommendation": "Recompute acceptance status excluding non-answering reports."
+        }
+      ]
+    },
+    {
+      "id": "return-rate",
+      "verdict": "no_discrepancy_detected",
+      "findings": [
+        {
+          "severity": "info",
+          "claim": "Product 1 2/0/0.00%, Product 2 4/3/75.00%; denominator = Complete+Returned, other statuses excluded.",
+          "reason": "Matches reference and evidence exactly; the Returned/(Complete+Returned) denominator is implemented and stated correctly, totals cross-check with product-revenue (Complete 3) and status-mix (Returned 3). No discrepancy detected in reviewed evidence.",
+          "recommendation": "None."
+        }
+      ]
+    },
+    {
+      "id": "yearly-comparison",
+      "verdict": "pass_with_minor_notes",
+      "findings": [
+        {
+          "severity": "low",
+          "claim": "Table 2020 1/$49, 2025 1/$49, 2026 1/$69.5; 'current year (2026) is likely a partial year'.",
+          "reason": "Values match reference/evidence and year grain is correct. The question asked to flag partial years; only 2026 is explicitly flagged, although 2020 (single December item) and 2025 (single August item) are equally partial single-month observations.",
+          "recommendation": "Flag 2020 and 2025 as partial/single-month coverage too."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "complete-share-1",
+  "family": "complete-share",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nBased on the available data [q1], the share of items with a 'Complete' status is 87.5% across the scoped products.\n\n| complete_item_share | all_items |\n|---|---|\n| 0.875 | 16 |\n\n### Limitations\n* The total volume of items evaluated is very small (16 items), which limits the statistical significance of this share.\n* The analysis spans all available history without a defined time period or cohort.\n* The query only measures the overall share and does not identify the specific statuses of the remaining 12.5% of items.\n\n### Action Items (Proposed)\n* Query the distribution of non-complete statuses (e.g., Cancelled, Returned, Processing) to understand where the remaining items fall.\n* Analyze the complete share grouped by `created_at` (e.g., by month) to identify any temporal trends.\n* Break down the complete share by `product_id` or `category` to determine if specific products have lower completion rates.",
+  "status": "generated",
+  "seconds": 15.776671218000047,
+  "usage": {
+    "input_tokens": 2063,
+    "output_tokens": 999,
+    "total_tokens": 3062,
+    "thought_tokens": 731,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

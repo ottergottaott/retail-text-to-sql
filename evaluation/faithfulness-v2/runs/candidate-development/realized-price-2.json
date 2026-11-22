@@ -1,0 +1,25 @@
+{
+  "id": "realized-price-2",
+  "family": "realized-price",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| mean_price |\n|---|\n| 25.0 |\n\nThe mean realized price for Complete items within the authorized product scope is 25.0 [q1].\n\n### Limitations\nThis analysis did not measure the total volume (count) of items sold or the distribution of prices across different product categories.\n\n### Action items (proposed)\n* What is the total count of Complete items and total revenue to understand the scale of these sales?\n* How does the mean `sale_price` compare to the catalogue `retail_price` for these products?",
+  "status": "generated",
+  "seconds": 11.493635269000151,
+  "usage": {
+    "input_tokens": 2327,
+    "output_tokens": 653,
+    "total_tokens": 2980,
+    "thought_tokens": 487,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

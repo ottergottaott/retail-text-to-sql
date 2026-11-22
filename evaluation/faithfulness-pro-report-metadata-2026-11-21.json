@@ -1,0 +1,74 @@
+{
+  "rep_e160a7f8e91f56fc": {
+    "id": "rep_e160a7f8e91f56fc",
+    "title": "Acceptance product-revenue",
+    "version": "0cb41bf8af14",
+    "source": "Independently persisted Store report"
+  },
+  "rep_10b2e2dc75098e84": {
+    "id": "rep_10b2e2dc75098e84",
+    "title": "Acceptance status-mix",
+    "version": "8444f63755b4",
+    "source": "Independently persisted Store report"
+  },
+  "rep_67a2ca7fd4577e39": {
+    "id": "rep_67a2ca7fd4577e39",
+    "title": "Acceptance monthly-revenue",
+    "version": "033d6d25ba37",
+    "source": "Independently persisted Store report"
+  },
+  "rep_2e3edd91807a3145": {
+    "id": "rep_2e3edd91807a3145",
+    "title": "Acceptance category-revenue",
+    "version": "9c95bb874190",
+    "source": "Independently persisted Store report"
+  },
+  "rep_774243a56ff8b247": {
+    "id": "rep_774243a56ff8b247",
+    "title": "Acceptance margin-proxy",
+    "version": "3f337fc84ff2",
+    "source": "Independently persisted Store report"
+  },
+  "rep_346f7ccbfefca371": {
+    "id": "rep_346f7ccbfefca371",
+    "title": "Acceptance state-customers",
+    "version": "7c852b23370e",
+    "source": "Independently persisted Store report"
+  },
+  "rep_f07cccf14d79dccf": {
+    "id": "rep_f07cccf14d79dccf",
+    "title": "Acceptance country-customers",
+    "version": "dfd1a68571f2",
+    "source": "Independently persisted Store report"
+  },
+  "rep_1c11e84bf0c072b4": {
+    "id": "rep_1c11e84bf0c072b4",
+    "title": "Acceptance age-band",
+    "version": "aba4c881b381",
+    "source": "Independently persisted Store report"
+  },
+  "rep_dc9480608f288ca6": {
+    "id": "rep_dc9480608f288ca6",
+    "title": "Acceptance scoped-orders",
+    "version": "7605b51ee91d",
+    "source": "Independently persisted Store report"
+  },
+  "rep_ca48aaa3ad3a7a0b": {
+    "id": "rep_ca48aaa3ad3a7a0b",
+    "title": "Acceptance realized-price",
+    "version": "dc98ab26008c",
+    "source": "Independently persisted Store report"
+  },
+  "rep_098d00a59aa1fed2": {
+    "id": "rep_098d00a59aa1fed2",
+    "title": "Acceptance return-rate",
+    "version": "5ba48efe7f11",
+    "source": "Independently persisted Store report"
+  },
+  "rep_c6400b405845783c": {
+    "id": "rep_c6400b405845783c",
+    "title": "Acceptance yearly-comparison",
+    "version": "945e91fd4d5d",
+    "source": "Independently persisted Store report"
+  }
+}

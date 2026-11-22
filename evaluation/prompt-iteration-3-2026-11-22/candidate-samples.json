@@ -1,0 +1,66 @@
+[
+  {
+    "id": "save-claim",
+    "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+    "response": "### Findings\n* Total authorized Complete-item revenue is 98 [q1].\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The analysis only measured total revenue for Complete items. It did not measure transaction volume, time periods, or product-level details.\n* Saving is not confirmed.\n\n### Action Items\n* Propose querying item counts to understand transaction volume.\n* Propose grouping revenue by `created_at` (e.g., month or year) to observe trends over time.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-reviewed-save",
+    "question": "Show authorized catalogue product count in a table, then save the completed report.",
+    "response": "### Findings\n\n| products |\n|---|\n| 2 |\n\n* There are 2 authorized products in the catalog [q1].\n\n### Limitations\n* Only the total product count was queried. No other dimensions such as category, brand, or pricing were measured.\n\n### Action Items (Proposed)\n* Query the distribution of these products by category or brand to better understand the catalog composition.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS products FROM products\", \"rows\": [{\"products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-items",
+    "question": "Return authorized Complete items as a Markdown table and save this analysis.",
+    "response": "**Findings**\nThere are 5 Complete items in the authorized scope [q1].\n\n| complete_items |\n|---|\n| 5 |\n\n**Limitations**\nOnly the total count of Complete items was queried. Timeframes, revenue, and product details were not measured.\n\n**Action Items**\n* Propose querying the revenue and product category breakdown for these Complete items to understand sales distribution.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS complete_items FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_items\": 5}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "confirmed-existing-report",
+    "question": "Open my previously saved analysis; reproduce its revenue table and confirmed report identifier.",
+    "response": "Here is the revenue table from your previously saved analysis (Report ID: `rep_0123456789abcdef`):\n\n| revenue |\n|---|\n| 73 |\n\n**Limitations:**\nThis analysis only measured total revenue for items with a 'Complete' status [q1].",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"open_report\", \"result\": {\"report_id\": \"rep_0123456789abcdef\", \"title\": \"Completed revenue\", \"content\": \"Revenue is 73 [q1].\", \"provenance\": [{\"query_id\": \"q1\", \"rows\": [{\"revenue\": 73}]}]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "missing-save-receipt",
+    "question": "Show authorized Complete revenue as a table and save the analysis.",
+    "response": "### Findings\n\n| complete_revenue |\n|---|\n| 73 |\n\nSaving is not confirmed.\n\n### Limitations\nOnly total complete revenue was queried. Transaction volume, time periods, and product distribution were not measured.\n\n### Action Items\n* Query the count of complete items to determine transaction volume.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-prose-preference",
+    "question": "Return a Markdown table of authorized catalogue products and save it; use one sentence of interpretation.",
+    "response": "### Findings\n| catalogue_products |\n|---|\n| 2 |\n\nThere are 2 authorized products in the catalogue [q1].\n\n### Limitations\nOnly the total count of authorized products was queried, without details on categories, brands, or pricing.\n\n### Action items (proposed)\n* Query the product names and categories to understand the composition of the authorized catalogue.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS catalogue_products FROM products\", \"rows\": [{\"catalogue_products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  }
+]

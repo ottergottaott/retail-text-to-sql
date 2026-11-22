@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-1",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| category | complete_revenue | complete_items |\n|---|---|---|\n| Outerwear | 210.0 | 14 |\n\nThis analysis measures item-grain revenue (`SUM(sale_price)`) and volume (`COUNT(*)`) exclusively for items with a 'Complete' status [q1]. The data is restricted to your executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure distinct customer counts or order-level metrics.\n* It did not evaluate items with statuses other than 'Complete' (such as returned or cancelled items), so total gross demand is not represented here.\n\n### Action items (proposed)\n* What is the distribution of these Complete items across different `age_band` or `state` demographics in the `users` table?\n* How does the `complete_revenue` compare to the catalogue `cost` proxy for these Outerwear items to estimate a reference margin?",
+  "status": "generated",
+  "seconds": 14.323471976000292,
+  "usage": {
+    "input_tokens": 2615,
+    "output_tokens": 1178,
+    "total_tokens": 3793,
+    "thought_tokens": 922,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

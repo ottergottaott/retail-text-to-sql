@@ -1,0 +1,66 @@
+{
+  "mode": "fixture",
+  "target": "http://127.0.0.1:8000",
+  "checks": [
+    {
+      "name": "Running API explicitly uses fixture mode",
+      "status": "passed"
+    },
+    {
+      "name": "New report created by this verification",
+      "status": "passed"
+    },
+    {
+      "name": "Other owner cannot open report",
+      "status": "passed"
+    },
+    {
+      "name": "Preview targets only this run's report",
+      "status": "passed"
+    },
+    {
+      "name": "Other owner cannot confirm proposal",
+      "status": "passed"
+    },
+    {
+      "name": "String confirmation rejected",
+      "status": "passed"
+    },
+    {
+      "name": "Wrong conversation rejected",
+      "status": "passed"
+    },
+    {
+      "name": "Cancellation deletes nothing",
+      "status": "passed"
+    },
+    {
+      "name": "Report remains after cancellation",
+      "status": "passed"
+    },
+    {
+      "name": "Preview targets only this run's report",
+      "status": "passed"
+    },
+    {
+      "name": "Concurrent confirmation returns handled results",
+      "status": "passed"
+    },
+    {
+      "name": "Concurrent confirmations delete exactly once",
+      "status": "passed"
+    },
+    {
+      "name": "Replay deletes nothing",
+      "status": "passed"
+    },
+    {
+      "name": "Deleted report is inaccessible",
+      "status": "passed"
+    },
+    {
+      "name": "Existing reports preserved",
+      "status": "passed"
+    }
+  ]
+}

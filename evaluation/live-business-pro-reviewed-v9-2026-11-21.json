@@ -1,0 +1,770 @@
+{
+  "status": "incomplete",
+  "cases": [
+    {
+      "id": "product-revenue",
+      "question": "Compare all-history Complete-item revenue and item counts by authorized product. Return exactly these table column aliases: product_id, completed_items, revenue. State limitations and action items, then save this analysis as Acceptance product-revenue.",
+      "reference_sql": "SELECT i.product_id,COUNT(*) AS completed_items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY i.product_id",
+      "reference_rows": [
+        {
+          "product_id": 1,
+          "completed_items": 1,
+          "revenue": 49.0
+        },
+        {
+          "product_id": 2,
+          "completed_items": 1,
+          "revenue": 69.5
+        }
+      ],
+      "reference_job_id": "66cbf6cc-5155-48d9-9fe1-7305b3ee18de",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_c662a31a6c3c7167",
+        "trace_id": "58a07c9753064c23b0ce0c5c19fa1c58",
+        "mode": "live",
+        "answer": "### Findings\nBased on the query of all-history Complete-item records [q1], the metrics by authorized product are:\n\n| product_id | completed_items | revenue |\n| :--- | :--- | :--- |\n| 1 | 1 | 49.0 |\n| 2 | 1 | 69.5 |\n\n### Limitations\n* **Small Sample Size:** The dataset contains only 1 completed item per product, which is too small to establish long-term demand or performance trends.\n* **Completeness & Coverage:** Data completeness, historical coverage, and potential exclusions of other statuses (e.g., cancelled, returned) were not measured.\n\n### Action Items (Proposed)\n* **Verify Status Distribution:** Propose a query to check the volume of items in other statuses (e.g., 'Processing', 'Shipped', 'Returned') for these products to understand the full lifecycle.\n* **Expand Product Scope:** Propose checking if additional product IDs are authorized or active in other periods.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_id: 1; completed_items: 1; revenue: 49.0\n- product_id: 2; completed_items: 1; revenue: 69.5\n\nSaved report **Acceptance product-revenue** (`rep_e160a7f8e91f56fc`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "product_id": 1,
+                "completed_items": 1,
+                "revenue": 49.0
+              },
+              {
+                "product_id": 2,
+                "completed_items": 1,
+                "revenue": 69.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "5cdc3505-069d-48c3-9c0d-79497fe11307",
+            "bytes_processed": 4762255,
+            "estimated_bytes": 4762255,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `completed_items`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `order_items`.`product_id`",
+            "truncated": false,
+            "seconds": 4.40145328300423,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_e160a7f8e91f56fc"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 29.94221135499538
+    },
+    {
+      "id": "status-mix",
+      "question": "Count all-history authorized order items by status. Return exactly these table column aliases: status, items. State limitations and action items, then save this analysis as Acceptance status-mix.",
+      "reference_sql": "SELECT i.status,COUNT(*) AS items FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) GROUP BY i.status",
+      "reference_rows": [
+        {
+          "status": "Cancelled",
+          "items": 1
+        },
+        {
+          "status": "Complete",
+          "items": 2
+        },
+        {
+          "status": "Processing",
+          "items": 5
+        },
+        {
+          "status": "Returned",
+          "items": 2
+        },
+        {
+          "status": "Shipped",
+          "items": 5
+        }
+      ],
+      "reference_job_id": "58b5af73-452f-49a9-a003-ad38c23cd86e",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_f82c8035520dc587",
+        "trace_id": "4d57d3e1d8bd49508c79c41c5a007e91",
+        "mode": "live",
+        "answer": "### Findings\n* Based on the all-history query of authorized order items [q1], the distribution of items by status is as follows:\n\n| status | items |\n| :--- | :--- |\n| Processing | 5 |\n| Shipped | 5 |\n| Complete | 2 |\n| Returned | 2 |\n| Cancelled | 1 |\n\n### Limitations\n* **Sample Size:** The observed sample is very small (15 total items), so these counts do not establish a stable status distribution.\n* **Scope & Coverage:** The analysis reflects only authorized products within the execution scope. The completeness and coverage of the historical period were not measured.\n\n### Action Items (Proposed)\n* **Observation Window:** Propose querying the minimum and maximum `created_at` dates to establish the timeframe for these items, which may explain the high proportion of 'Processing' and 'Shipped' items.\n* **Return & Cancellation Review:** Propose checking if specific product categories or brands within the authorized scope correlate with the 'Returned' or 'Cancelled' statuses.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- status: Processing; items: 5\n- status: Shipped; items: 5\n- status: Complete; items: 2\n- status: Returned; items: 2\n- status: Cancelled; items: 1\n\nSaved report **Acceptance status-mix** (`rep_10b2e2dc75098e84`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "status": "Processing",
+                "items": 5
+              },
+              {
+                "status": "Shipped",
+                "items": 5
+              },
+              {
+                "status": "Complete",
+                "items": 2
+              },
+              {
+                "status": "Returned",
+                "items": 2
+              },
+              {
+                "status": "Cancelled",
+                "items": 1
+              }
+            ],
+            "mode": "live",
+            "job_id": "349e5206-ebe6-4761-88d2-6d9dd8aa22c7",
+            "bytes_processed": 0,
+            "estimated_bytes": 3311071,
+            "sql": "SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `items` DESC",
+            "truncated": false,
+            "seconds": 4.141531090019271,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_10b2e2dc75098e84"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 43.04975183701026
+    },
+    {
+      "id": "monthly-revenue",
+      "question": "Show Complete-item revenue and item counts per calendar month across all available history for authorized products. Return exactly these table column aliases: month, items, revenue. State limitations and action items, then save this analysis as Acceptance monthly-revenue.",
+      "reference_sql": "SELECT DATE_TRUNC(DATE(i.created_at),MONTH) AS month,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY month",
+      "reference_rows": [
+        {
+          "month": "2024-05-01",
+          "items": 1,
+          "revenue": 49.0
+        },
+        {
+          "month": "2026-06-01",
+          "items": 1,
+          "revenue": 69.5
+        }
+      ],
+      "reference_job_id": "51660e89-dd3c-48df-a6bf-872cb06089d9",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_6984d00eb3f1dd23",
+        "trace_id": "6b9ca238731d41b3a8a50def1d1e5ad0",
+        "mode": "live",
+        "answer": "### Findings\nBased on the historical data for authorized products, here is the monthly breakdown of completed items and revenue [q1]:\n\n| month | items | revenue |\n| :--- | :--- | :--- |\n| 2024-05-01 | 1 | 49.0 |\n| 2026-06-01 | 1 | 69.5 |\n\n### Limitations\n* **Small Sample Size:** The analysis is based on a very small sample of only 2 completed items across the entire history [q1].\n* **Data Completeness:** Coverage and completeness of the historical timeline were not measured; we cannot assume missing months represent zero activity or missing data.\n* **Scope:** This analysis only includes items with a status of 'Complete'.\n\n### Action Items (Proposed)\n* **Verify Product Coverage:** Propose checking if other authorized products have transactions that are pending or in other non-complete statuses.\n* **Investigate Timeline Gaps:** Propose a comparison with overall order volumes to determine if the gap between 2024 and 2026 is due to data coverage or actual transaction patterns.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- month: 2024-05-01; items: 1; revenue: 49.0\n- month: 2026-06-01; items: 1; revenue: 69.5\n\nSaved report **Acceptance monthly-revenue** (`rep_67a2ca7fd4577e39`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "month": "2024-05-01",
+                "items": 1,
+                "revenue": 49.0
+              },
+              {
+                "month": "2026-06-01",
+                "items": 1,
+                "revenue": 69.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "cef1a69a-4761-41ba-9733-26f3e60b142f",
+            "bytes_processed": 0,
+            "estimated_bytes": 6213439,
+            "sql": "SELECT DATE_TRUNC(DATE(`order_items`.`created_at`), MONTH) AS `month`, COUNT(*) AS `items`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `month` ORDER BY `month`",
+            "truncated": false,
+            "seconds": 3.21851652499754,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_67a2ca7fd4577e39"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 25.93063196798903
+    },
+    {
+      "id": "category-revenue",
+      "question": "Compare Complete-item revenue by product category across all available history. Return exactly these table column aliases: category, items, revenue. State limitations and action items, then save this analysis as Acceptance category-revenue.",
+      "reference_sql": "SELECT p.category,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.products` p ON p.id=i.product_id WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY p.category",
+      "reference_rows": [
+        {
+          "category": "Tops & Tees",
+          "items": 2,
+          "revenue": 118.5
+        }
+      ],
+      "reference_job_id": "51041ca5-939b-4851-bafd-2c0feda6be59",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_5041e2410e525051",
+        "trace_id": "a7ddbc03b12c4646a28603343fd482d9",
+        "mode": "live",
+        "answer": "### Findings\nBased on all available history for completed items [q1]:\n* **Tops & Tees** is the only category with completed sales in the current scope, generating **118.5** in revenue from **2** items.\n* *Note: This observation is based on a very small sample size.*\n\n| category | items | revenue |\n| :--- | :--- | :--- |\n| Tops & Tees | 2 | 118.5 |\n\n### Limitations\n* **Sample Size**: Only 2 completed items were observed, which cannot establish broader category trends.\n* **Scope**: Analysis is restricted to authorized products. Completeness of historical coverage was not measured.\n* **Pricing Context**: The query measures realized `sale_price` but does not evaluate discounts or original retail prices.\n\n### Action Items (Proposed)\n* **Verify Catalog Breadth**: Check if other product categories exist within the authorized scope but currently lack completed sales.\n* **Investigate Volume**: Determine if the small sample size is due to limited authorization, a recent product launch, or data filtering.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- category: Tops & Tees; items: 2; revenue: 118.5\n\nSaved report **Acceptance category-revenue** (`rep_2e3edd91807a3145`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "category": "Tops & Tees",
+                "items": 2,
+                "revenue": 118.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "d9276dc6-1bce-49c4-8139-4476d7968d7d",
+            "bytes_processed": 0,
+            "estimated_bytes": 5356416,
+            "sql": "SELECT `p`.`category` AS `category`, COUNT(*) AS `items`, SUM(`i`.`sale_price`) AS `revenue` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = 'Complete' GROUP BY `category` ORDER BY `revenue` DESC",
+            "truncated": false,
+            "seconds": 3.8363474989891984,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_2e3edd91807a3145"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 40.72283929999685
+    },
+    {
+      "id": "margin-proxy",
+      "question": "Calculate total Complete-item revenue, product-cost proxy and margin proxy, excluding other expenses, across all history. Do not call this net profit. Return exactly these table column aliases: completed_revenue, product_cost_proxy, margin_proxy. State limitations and action items, then save this analysis as Acceptance margin-proxy.",
+      "reference_sql": "SELECT SUM(i.sale_price) AS completed_revenue,SUM(p.cost) AS product_cost_proxy,SUM(i.sale_price-p.cost) AS margin_proxy FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.products` p ON p.id=i.product_id WHERE i.product_id IN UNNEST(@products) AND i.status='Complete'",
+      "reference_rows": [
+        {
+          "completed_revenue": 118.5,
+          "product_cost_proxy": 63.67449983488768,
+          "margin_proxy": 54.82550016511232
+        }
+      ],
+      "reference_job_id": "d30ff17d-16bb-48b2-a5e5-d2671cd931cf",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_9dc93fa1dc9fdb58",
+        "trace_id": "7eae28329c264190b57c514192f1a730",
+        "mode": "live",
+        "answer": "### Findings\nBased on all available historical order items with a status of 'Complete' [q1]:\n* **Completed Revenue**: 118.50\n* **Product Cost Proxy**: 63.67\n* **Margin Proxy**: 54.83\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| :--- | :--- | :--- |\n| 118.50 | 63.67 | 54.83 |\n\n### Limitations\n* **Scope of Costs**: This margin proxy only accounts for recorded product cost and excludes other expenses such as shipping, taxes, acquisition spend, overhead, and returns beyond the 'Complete' status. It is not net profit.\n* **Data Coverage**: The completeness of the cost records and potential negative outliers were not measured.\n\n### Action Items (Proposed)\n* Propose a review of product-level cost records to verify cost coverage and identify any negative margin outliers.\n* Propose comparing this proxy against actual financial statements to evaluate the variance introduced by excluded expenses.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- completed_revenue: 118.5; product_cost_proxy: 63.67449983488768; margin_proxy: 54.82550016511232\n\nSaved report **Acceptance margin-proxy** (`rep_774243a56ff8b247`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "completed_revenue": 118.5,
+                "product_cost_proxy": 63.67449983488768,
+                "margin_proxy": 54.82550016511232
+              }
+            ],
+            "mode": "live",
+            "job_id": "805cbce4-47b5-4f91-a51d-063fab4725ff",
+            "bytes_processed": 0,
+            "estimated_bytes": 5228175,
+            "sql": "SELECT SUM(`i`.`sale_price`) AS `completed_revenue`, SUM(`p`.`cost`) AS `product_cost_proxy`, SUM(`i`.`sale_price` - `p`.`cost`) AS `margin_proxy` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = 'Complete'",
+            "truncated": false,
+            "seconds": 3.4362746750121005,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_774243a56ff8b247"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 37.26344858200173
+    },
+    {
+      "id": "state-customers",
+      "question": "For authorized Complete purchases across all history, show revenue and distinct purchasing customers by state. Return exactly these table column aliases: state, customers, revenue. State limitations and action items, then save this analysis as Acceptance state-customers.",
+      "reference_sql": "SELECT u.state,COUNT(DISTINCT i.user_id) AS customers,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY u.state",
+      "reference_rows": [
+        {
+          "state": "Fujian",
+          "customers": 1,
+          "revenue": 49.0
+        },
+        {
+          "state": "Zhejiang",
+          "customers": 1,
+          "revenue": 69.5
+        }
+      ],
+      "reference_job_id": "eb96bd9e-a368-4666-b4f1-bef61c336275",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_a2b3480a43121944",
+        "trace_id": "5bb608690753459ea00d45867ce1639c",
+        "mode": "live",
+        "answer": "### Findings\nBased on all available history for authorized Complete purchases [q1]:\n\n| state | customers | revenue |\n| :--- | :--- | :--- |\n| Zhejiang | 1 | 69.5 |\n| Fujian | 1 | 49.0 |\n\n### Limitations\n* **Small Sample Size:** The analysis is based on a very small sample of only 2 distinct customers across 2 states [q1]. These findings cannot establish broader regional demand or trends.\n* **Scope Constraints:** The data is restricted to authorized products and completed transactions. We did not measure overall customer coverage, product mix, or other order statuses (e.g., returns or cancellations).\n* **Completeness:** Historical coverage and data completeness over time were not evaluated.\n\n### Action Items (Proposed)\n* **Verify Regional Coverage:** Propose checking if the low customer counts in these states are due to limited regional marketing, distribution constraints, or data logging issues.\n* **Expand Status Analysis:** Propose comparing these completed metrics against other order statuses to understand the full transaction lifecycle in these regions.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- state: Zhejiang; customers: 1; revenue: 69.5\n- state: Fujian; customers: 1; revenue: 49.0\n\nSaved report **Acceptance state-customers** (`rep_346f7ccbfefca371`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "state": "Zhejiang",
+                "customers": 1,
+                "revenue": 69.5
+              },
+              {
+                "state": "Fujian",
+                "customers": 1,
+                "revenue": 49.0
+              }
+            ],
+            "mode": "live",
+            "job_id": "dc41c49b-6f9a-4d18-ad74-97f70d0b8d07",
+            "bytes_processed": 0,
+            "estimated_bytes": 8165209,
+            "sql": "SELECT `u`.`state` AS `state`, COUNT(DISTINCT `i`.`customer_key`) AS `customers`, SUM(`i`.`sale_price`) AS `revenue` FROM `order_items` AS `i` JOIN `users` AS `u` ON `i`.`customer_key` = `u`.`customer_key` WHERE `i`.`status` = 'Complete' GROUP BY `state` ORDER BY `revenue` DESC",
+            "truncated": false,
+            "seconds": 3.2991001429909375,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_346f7ccbfefca371"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 39.90063377597835
+    },
+    {
+      "id": "country-customers",
+      "question": "For authorized Complete purchases across all history, show revenue and distinct purchasing customers by country. Return exactly these table column aliases: country, customers, revenue. State limitations and action items, then save this analysis as Acceptance country-customers.",
+      "reference_sql": "SELECT u.country,COUNT(DISTINCT i.user_id) AS customers,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY u.country",
+      "reference_rows": [
+        {
+          "country": "China",
+          "customers": 2,
+          "revenue": 118.5
+        }
+      ],
+      "reference_job_id": "afca6904-2709-4df0-9fde-1fc83b0473c1",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_d219b2cc8ee85df7",
+        "trace_id": "39901908395f4885985bd738148ca7e7",
+        "mode": "live",
+        "answer": "### Findings\n* Based on all available history for authorized Complete purchases [q1]:\n\n| country | customers | revenue |\n| :--- | :--- | :--- |\n| China | 2 | 118.5 |\n\n### Limitations\n* **Small Sample Size**: The analysis is based on only 2 distinct customers in a single country [q1].\n* **Data Coverage**: Completeness and historical coverage of the dataset were not measured.\n* **Status Scope**: Limited strictly to items with a 'Complete' status.\n\n### Action Items (Proposed)\n* **Verify Regional Coverage**: Check if other countries are present in the dataset but excluded due to authorization filters or missing user records.\n* **Investigate Status Distribution**: Compare 'Complete' status rates against other statuses to understand fulfillment patterns.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- country: China; customers: 2; revenue: 118.5\n\nSaved report **Acceptance country-customers** (`rep_f07cccf14d79dccf`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "country": "China",
+                "customers": 2,
+                "revenue": 118.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "bcacb0d4-1510-42af-83b8-a6c2050f98ba",
+            "bytes_processed": 8007195,
+            "estimated_bytes": 8007195,
+            "sql": "SELECT `u`.`country` AS `country`, COUNT(DISTINCT `oi`.`customer_key`) AS `customers`, SUM(`oi`.`sale_price`) AS `revenue` FROM `order_items` AS `oi` JOIN `users` AS `u` ON `oi`.`customer_key` = `u`.`customer_key` WHERE `oi`.`status` = 'Complete' GROUP BY `country` ORDER BY `revenue` DESC",
+            "truncated": false,
+            "seconds": 3.59769208097714,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_f07cccf14d79dccf"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 36.853329211007804
+    },
+    {
+      "id": "age-band",
+      "question": "Show authorized Complete-item revenue by customer age decade across all history; use age_band labels like 30s. Return exactly these table column aliases: age_band, items, revenue. State limitations and action items, then save this analysis as Acceptance age-band.",
+      "reference_sql": "SELECT CONCAT(CAST(DIV(u.age,10)*10 AS STRING),'s') AS age_band,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY age_band",
+      "reference_rows": [
+        {
+          "age_band": "20s",
+          "items": 1,
+          "revenue": 49.0
+        },
+        {
+          "age_band": "10s",
+          "items": 1,
+          "revenue": 69.5
+        }
+      ],
+      "reference_job_id": "523b061a-63ee-46df-a64e-f858d6c0e156",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_e9ec579a302e0e43",
+        "trace_id": "d4cd39ec4d7f4917bd4e2714eaffcc91",
+        "mode": "live",
+        "answer": "### Findings\nBased on the historical analysis of authorized Complete-item revenue by customer age decade [q1]:\n\n| age_band | items | revenue |\n| :--- | :--- | :--- |\n| 10s | 1 | 69.5 |\n| 20s | 1 | 49.0 |\n\n* **Revenue Distribution**: The 10s age band generated 69.5 in revenue from 1 completed item, while the 20s age band generated 49.0 in revenue from 1 completed item.\n\n### Limitations\n* **Small Sample Size**: The findings are based on an extremely small sample size of only 2 completed items across all history [q1]. These results cannot establish broader demographic trends or demand patterns.\n* **Scope and Coverage**: The analysis is restricted to authorized products and completed items only. We did not measure overall customer coverage, registration dates, or the completeness of the age data.\n\n### Action Items (Proposed)\n* **Verify Age Data Completeness**: Propose checking the proportion of users with missing or unpopulated `age_band` values to determine if demographic coverage is representative.\n* **Monitor Transaction Volume**: Propose a follow-up check in a future period to see if completed item volume increases sufficiently to support statistical significance.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- age_band: 10s; items: 1; revenue: 69.5\n- age_band: 20s; items: 1; revenue: 49.0\n\nSaved report **Acceptance age-band** (`rep_1c11e84bf0c072b4`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "age_band": "10s",
+                "items": 1,
+                "revenue": 69.5
+              },
+              {
+                "age_band": "20s",
+                "items": 1,
+                "revenue": 49.0
+              }
+            ],
+            "mode": "live",
+            "job_id": "35f8fb67-a690-4e17-813d-13bb5e8cc19d",
+            "bytes_processed": 0,
+            "estimated_bytes": 7813439,
+            "sql": "SELECT `u`.`age_band` AS `age_band`, COUNT(*) AS `items`, SUM(`oi`.`sale_price`) AS `revenue` FROM `order_items` AS `oi` JOIN `users` AS `u` ON `oi`.`customer_key` = `u`.`customer_key` WHERE `oi`.`status` = 'Complete' GROUP BY `age_band` ORDER BY `age_band`",
+            "truncated": false,
+            "seconds": 3.168825729022501,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_1c11e84bf0c072b4"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 40.59342146900599
+    },
+    {
+      "id": "scoped-orders",
+      "question": "Count distinct orders containing at least one authorized product, grouped by the order status across all history. Do not count items as orders. Return exactly these table column aliases: status, orders. State limitations and action items, then save this analysis as Acceptance scoped-orders.",
+      "reference_sql": "SELECT o.status,COUNT(DISTINCT o.order_id) AS orders FROM `bigquery-public-data.thelook_ecommerce.orders` o WHERE EXISTS (SELECT 1 FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.order_id=o.order_id AND i.product_id IN UNNEST(@products)) GROUP BY o.status",
+      "reference_rows": [
+        {
+          "status": "Cancelled",
+          "orders": 1
+        },
+        {
+          "status": "Complete",
+          "orders": 2
+        },
+        {
+          "status": "Processing",
+          "orders": 5
+        },
+        {
+          "status": "Returned",
+          "orders": 2
+        },
+        {
+          "status": "Shipped",
+          "orders": 5
+        }
+      ],
+      "reference_job_id": "064034bb-30a5-485c-b69c-bcc732ca5120",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_a8b207e28aea77cd",
+        "trace_id": "9053fbfcda484d639a99ae1e453231c9",
+        "mode": "live",
+        "answer": "### Findings\n* The distribution of distinct orders by item status for authorized products is as follows [q1]:\n\n| status | orders |\n| :--- | :--- |\n| Cancelled | 1 |\n| Complete | 2 |\n| Processing | 5 |\n| Returned | 2 |\n| Shipped | 5 |\n\n### Limitations\n* The query evaluated status at the item level (`order_items.status`), not the order level (`orders.status`).\n* The total number of unique orders across all statuses was not queried; the sum of the counts may exceed the total distinct orders if mixed-status orders exist.\n* No date filters were applied; results represent all available history.\n\n### Action Items (Proposed)\n* Propose comparing item-level statuses against order-level statuses to identify any mixed-status orders.\n* Propose querying the total distinct orders overall to determine the true denominator for percentage shares.\n* Propose analyzing the time in status for Processing and Shipped orders to evaluate fulfillment timelines.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- status: Cancelled; orders: 1\n- status: Complete; orders: 2\n- status: Processing; orders: 5\n- status: Returned; orders: 2\n- status: Shipped; orders: 5\n\nSaved report **Acceptance scoped-orders** (`rep_dc9480608f288ca6`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "status": "Cancelled",
+                "orders": 1
+              },
+              {
+                "status": "Complete",
+                "orders": 2
+              },
+              {
+                "status": "Processing",
+                "orders": 5
+              },
+              {
+                "status": "Returned",
+                "orders": 2
+              },
+              {
+                "status": "Shipped",
+                "orders": 5
+              }
+            ],
+            "mode": "live",
+            "job_id": "24d90905-0223-479c-86ab-b6bb27ba22e3",
+            "bytes_processed": 4762255,
+            "estimated_bytes": 4762255,
+            "sql": "SELECT `order_items`.`status` AS `status`, COUNT(DISTINCT `order_items`.`order_key`) AS `orders` FROM `order_items` AS `order_items` GROUP BY `order_items`.`status`",
+            "truncated": false,
+            "seconds": 3.285920283989981,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_dc9480608f288ca6"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 32.99148077101563
+    },
+    {
+      "id": "realized-price",
+      "question": "Compare Complete-item average, minimum and maximum realized sale price per authorized product across all history. Return exactly these table column aliases: product_id, avg_price, min_price, max_price. State limitations and action items, then save this analysis as Acceptance realized-price.",
+      "reference_sql": "SELECT i.product_id,AVG(i.sale_price) AS avg_price,MIN(i.sale_price) AS min_price,MAX(i.sale_price) AS max_price FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY i.product_id",
+      "reference_rows": [
+        {
+          "product_id": 1,
+          "avg_price": 49.0,
+          "min_price": 49.0,
+          "max_price": 49.0
+        },
+        {
+          "product_id": 2,
+          "avg_price": 69.5,
+          "min_price": 69.5,
+          "max_price": 69.5
+        }
+      ],
+      "reference_job_id": "f0532932-fea8-4af2-b9a2-8095f8205742",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_e7cf98159f60332f",
+        "trace_id": "07a233c3ffcb466aab155a10afe193db",
+        "mode": "live",
+        "answer": "Model unavailable or returned an invalid decision; no result was inferred.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_id: 1; avg_price: 49.0; min_price: 49.0; max_price: 49.0\n- product_id: 2; avg_price: 69.5; min_price: 69.5; max_price: 69.5",
+        "outcome": "dependency_error",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "product_id": 1,
+                "avg_price": 49.0,
+                "min_price": 49.0,
+                "max_price": 49.0
+              },
+              {
+                "product_id": 2,
+                "avg_price": 69.5,
+                "min_price": 69.5,
+                "max_price": 69.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "516a846e-2eba-421d-9d94-a3f1121cb686",
+            "bytes_processed": 0,
+            "estimated_bytes": 4762255,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, AVG(`order_items`.`sale_price`) AS `avg_price`, MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`",
+            "truncated": false,
+            "seconds": 2.950347056001192,
+            "query_id": "q1"
+          }
+        ],
+        "management": null
+      },
+      "query_oracle_passed": true,
+      "saved": false,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": false,
+        "action_items_present": false
+      },
+      "status": "failed",
+      "seconds": 21.30065767499036
+    },
+    {
+      "id": "return-rate",
+      "question": "For each authorized product across all history calculate finalized_items, returned_items and return_rate, defined as Returned/(Complete+Returned). Exclude other statuses from the denominator. Return exactly these table column aliases: product_id, finalized_items, returned_items, return_rate. State limitations and action items, then save this analysis as Acceptance return-rate.",
+      "reference_sql": "SELECT i.product_id,COUNT(*) AS finalized_items,SUM(CASE WHEN i.status='Returned' THEN 1 ELSE 0 END) AS returned_items,SAFE_DIVIDE(SUM(CASE WHEN i.status='Returned' THEN 1 ELSE 0 END),COUNT(*)) AS return_rate FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status IN ('Complete','Returned') GROUP BY i.product_id",
+      "reference_rows": [
+        {
+          "product_id": 1,
+          "finalized_items": 3,
+          "returned_items": 2,
+          "return_rate": 0.6666666666666666
+        },
+        {
+          "product_id": 2,
+          "finalized_items": 1,
+          "returned_items": 0,
+          "return_rate": 0.0
+        }
+      ],
+      "reference_job_id": "a3895dd5-397a-49f7-b66b-400f073cb871",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_95ffd5aa2b42d8d1",
+        "trace_id": "2b8fc0be7bf340c6b27231625718c77a",
+        "mode": "live",
+        "answer": "### Findings\nBased on all available history, the return rates for the authorized products are as follows [q1]:\n\n| product_id | finalized_items | returned_items | return_rate |\n| :--- | :--- | :--- | :--- |\n| 1 | 3 | 2 | 0.6667 |\n| 2 | 1 | 0 | 0.0000 |\n\n### Limitations\n* **Small Sample Size**: The analysis is based on a very small number of finalized items (3 for product 1, and 1 for product 2) [q1]. These counts are insufficient to establish reliable return rate trends.\n* **Scope of Statuses**: This analysis only considers items with 'Complete' or 'Returned' statuses in the denominator, excluding other statuses.\n* **Data Completeness**: The completeness of the historical window and whether it covers partial periods was not measured.\n\n### Action Items (Proposed)\n* **Monitor Volume**: Propose checking if additional transaction data becomes available to increase the sample size for these products.\n* **Status Distribution Review**: Propose a broader status-mix analysis to understand the volume of cancelled or pending orders relative to finalized ones.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_id: 1; finalized_items: 3; returned_items: 2; return_rate: 0.6666666666666666\n- product_id: 2; finalized_items: 1; returned_items: 0; return_rate: 0.0\n\nSaved report **Acceptance return-rate** (`rep_098d00a59aa1fed2`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "product_id": 1,
+                "finalized_items": 3,
+                "returned_items": 2,
+                "return_rate": 0.6666666666666666
+              },
+              {
+                "product_id": 2,
+                "finalized_items": 1,
+                "returned_items": 0,
+                "return_rate": 0.0
+              }
+            ],
+            "mode": "live",
+            "job_id": "069839df-2edd-41ab-aed7-7c58057dec35",
+            "bytes_processed": 0,
+            "estimated_bytes": 3311071,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `finalized_items`, SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END) AS `returned_items`, SAFE_DIVIDE(SUM(CASE WHEN `order_items`.`status` = 'Returned' THEN 1 ELSE 0 END), COUNT(*)) AS `return_rate` FROM `order_items` AS `order_items` WHERE `order_items`.`status` IN ('Complete', 'Returned') GROUP BY `product_id` ORDER BY `product_id`",
+            "truncated": false,
+            "seconds": 3.106932308000978,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_098d00a59aa1fed2"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 31.482638211979065
+    },
+    {
+      "id": "yearly-comparison",
+      "question": "Compare Complete-item revenue and counts by calendar year across all available history for authorized products; flag partial years rather than assuming equal periods. Return exactly these table column aliases: year, items, revenue. State limitations and action items, then save this analysis as Acceptance yearly-comparison.",
+      "reference_sql": "SELECT EXTRACT(YEAR FROM i.created_at) AS year,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY year",
+      "reference_rows": [
+        {
+          "year": 2024,
+          "items": 1,
+          "revenue": 49.0
+        },
+        {
+          "year": 2026,
+          "items": 1,
+          "revenue": 69.5
+        }
+      ],
+      "reference_job_id": "bd6c661b-a573-4419-a2f5-8e8b08eb0b0a",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_6ff2e2e96b0c6768",
+        "trace_id": "6cc1a952cbf34cc8b35e0a789734a3ea",
+        "mode": "live",
+        "answer": "### Findings\nBased on the query results [q1] for completed items across authorized products:\n* **2024**: 1 item completed, generating 49.0 in revenue.\n* **2026**: 1 item completed, generating 69.5 in revenue.\n\n| year | items | revenue |\n| :--- | :--- | :--- |\n| 2024 | 1 | 49.0 |\n| 2026 | 1 | 69.5 |\n\n### Limitations\n* **Small Sample Size**: The analysis is based on only 2 items total [q1].\n* **Period Completeness**: Coverage and completeness for 2024 and 2026 were not measured, so they may be partial years. There is no completed item data for 2025.\n* **Pricing Context**: The query measured sale price but not discount history or retail prices.\n\n### Action Items (Proposed)\n* Propose checking total order counts across all statuses to determine if 2025 had activity that did not reach 'Complete' status.\n* Propose reviewing the specific products sold to understand the price difference between the two years.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- year: 2024; items: 1; revenue: 49.0\n- year: 2026; items: 1; revenue: 69.5\n\nSaved report **Acceptance yearly-comparison** (`rep_c6400b405845783c`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "year": 2024,
+                "items": 1,
+                "revenue": 49.0
+              },
+              {
+                "year": 2026,
+                "items": 1,
+                "revenue": 69.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "31f51767-e9d7-400f-8dec-ebb036991e1e",
+            "bytes_processed": 0,
+            "estimated_bytes": 6213439,
+            "sql": "SELECT EXTRACT(YEAR FROM DATE(`order_items`.`created_at`)) AS `year`, COUNT(*) AS `items`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `year` ORDER BY `year`",
+            "truncated": false,
+            "seconds": 3.0584787740081083,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_c6400b405845783c"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 34.962684169004206
+    }
+  ],
+  "human_review": "pending",
+  "model": "google/gemini-3.5-flash",
+  "data_mode": "live",
+  "reference_sql": "physical BigQuery, independent of Analytics.bind",
+  "version": "live-business-v1"
+}

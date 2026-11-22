@@ -1,0 +1,25 @@
+{
+  "id": "brand-return-1",
+  "family": "brand-return",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| brand | returned_items |\n|---|---|\n| North | 1 |\n| South | 1 |\n\nThis analysis counts the number of returned items (`COUNT(*)`) at the item grain [q1]. The population is filtered to items where `status = 'Returned'`. The product scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure the total volume of items sold per brand, so a return rate cannot be established.\n* The temporal distribution of these returns (e.g., specific months or years) was not measured.\n\n### Action items (proposed)\n* Query the total number of completed items (`status = 'Complete'`) alongside returned items to calculate a comparative return rate per brand.\n* Group the returned items by `created_at` month to check if returns are concentrated in specific periods.",
+  "status": "generated",
+  "seconds": 15.877888448001613,
+  "usage": {
+    "input_tokens": 2600,
+    "output_tokens": 1070,
+    "total_tokens": 3670,
+    "thought_tokens": 830,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

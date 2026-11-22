@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-22",
+  "serving_prompt": "retail-v8",
+  "surface": "Open WebUI 0.13.4 / local headless Chrome",
+  "status": "scoped_acceptance_passed_with_limits",
+  "checks": [
+    {
+      "id": "live_chat_progress",
+      "status": "passed",
+      "evidence": "Observed Running requested operation, Reviewing report against query evidence, Complete \u00b7 live."
+    },
+    {
+      "id": "live_analysis_table_save",
+      "status": "passed",
+      "evidence": "Actual BigQuery job 0db6fed0-d344-4331-b113-d0aef3295992; persisted rep_6f502bbf85fa399b, matching table and receipt."
+    },
+    {
+      "id": "embedded_preview_and_artifact",
+      "status": "passed",
+      "evidence": "Embedded card and separate Artifacts panel display saved analysis/chart/table."
+    },
+    {
+      "id": "library_search_and_open",
+      "status": "passed",
+      "evidence": "Reports sidebar; filtered Final browser acceptance; opened matching saved report."
+    },
+    {
+      "id": "separate_report_tab",
+      "status": "passed",
+      "evidence": "Open tab created distinct browser page with report hash and loaded report."
+    },
+    {
+      "id": "reload_persistence",
+      "status": "passed",
+      "evidence": "Reloaded library URL with report hash; same report restored."
+    },
+    {
+      "id": "query_evidence_navigation",
+      "status": "passed",
+      "evidence": "Clicked section anchor in library report; Behind the numbers remained, no nested library loading."
+    },
+    {
+      "id": "highlighted_sql",
+      "status": "passed",
+      "evidence": "Expanded SQL & execution details in library; SQL, job and measured bytes visible; 18 .sql-keyword spans."
+    },
+    {
+      "id": "desktop_visual",
+      "status": "passed",
+      "evidence": "Inspected real 1280px screenshot: chat/Artifact split, report header and evidence chart."
+    },
+    {
+      "id": "narrow_library_visual",
+      "status": "passed",
+      "evidence": "Inspected real 430x900 screenshot; library/viewer stack; document width 430; no outer horizontal overflow. Not a physical-device test."
+    },
+    {
+      "id": "explicit_table_over_preference",
+      "status": "passed",
+      "evidence": "Account preference bullets/concise; explicit Markdown table retained in new live report."
+    },
+    {
+      "id": "preferences_persistence_restore",
+      "status": "passed",
+      "evidence": "Changed to tables/detailed, saved v6, reloaded persisted values; restored bullets/concise."
+    },
+    {
+      "id": "feedback_response_mapping",
+      "status": "passed",
+      "evidence": "Native Give feedback opened selected question/answer; submitted explicitly automated test feedback fee_9501215f2a8bae5a, awaiting analyst review."
+    },
+    {
+      "id": "deletion_cancel",
+      "status": "passed",
+      "evidence": "Disposable rep_1e766cee8554895e previewed; /cancel returned 0 deletions; second preview still selected that report."
+    },
+    {
+      "id": "deletion_confirmation",
+      "status": "passed",
+      "evidence": "Second preview contained only disposable ID; exact /confirm returned 1 deletion."
+    },
+    {
+      "id": "report_survives_webui_chat_delete",
+      "status": "passed",
+      "evidence": "Deleted only newly created WebUI chat 9857cfea-874c-4d57-9045-01c6c209e59a through its confirmation dialog; primary report retained."
+    },
+    {
+      "id": "reopen_from_new_chat",
+      "status": "passed",
+      "evidence": "New chat requested open rep_6f502bbf85fa399b; saved report rendered again."
+    },
+    {
+      "id": "download_file_persistence",
+      "status": "untested",
+      "evidence": "Download HTML clicked; OS file persistence not established. Earlier Blob mechanism evidence is separate."
+    },
+    {
+      "id": "native_fullscreen",
+      "status": "untested",
+      "evidence": "Clicked native Open in full screen; document.fullscreenElement false in headless Chrome. Separate report tab verified."
+    },
+    {
+      "id": "cross_user_browser_session",
+      "status": "untested",
+      "evidence": "Covered by API/CLI controlled tests; no second-user browser login in this pass."
+    },
+    {
+      "id": "live_fault_injection",
+      "status": "untested",
+      "evidence": "Controlled regression coverage only; did not disrupt live providers."
+    }
+  ],
+  "report_id": "rep_6f502bbf85fa399b",
+  "disposable_report_id": "rep_1e766cee8554895e",
+  "evidence_boundary": "Observed browser interactions and inspected screenshots. One new live analysis; no independent reference SQL recomputation. Human acceptance pending. WebUI chat deletion does not assert backend conversation erasure. No existing user reports/chats deleted.",
+  "screenshots": [
+    "../docs/browser-screenshots.html#artifact",
+    "../docs/browser-screenshots.html#narrow"
+  ],
+  "human_review": "pending"
+}

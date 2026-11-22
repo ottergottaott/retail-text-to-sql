@@ -1,0 +1,133 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.5422222222222222,
+    "sql_factual_faithfulness": 0.8423376623376623
+  },
+  "combined_means": {
+    "faithfulness": 0.5422222222222222,
+    "sql_factual_faithfulness": 0.8423376623376623
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 5,
+      "rule_scored": 0,
+      "applicable": 5,
+      "total_samples": 5
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 5,
+      "rule_scored": 0,
+      "applicable": 5,
+      "total_samples": 5
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "age-band",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.4444444444444444,
+          "source": "ragas",
+          "seconds": 6.37217954301741
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 4.055418686999474
+        }
+      }
+    },
+    {
+      "id": "scoped-orders",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "seconds": 5.03958830999909
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.9,
+          "source": "ragas",
+          "seconds": 4.995703774999129
+        }
+      }
+    },
+    {
+      "id": "realized-price",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "seconds": 4.797672209999291
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 5.121561439009383
+        }
+      }
+    },
+    {
+      "id": "return-rate",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.3333333333333333,
+          "source": "ragas",
+          "seconds": 4.992632915993454
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.45454545454545453,
+          "source": "ragas",
+          "seconds": 5.049090251995949
+        }
+      }
+    },
+    {
+      "id": "yearly-comparison",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "seconds": 5.585240819986211
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8571428571428571,
+          "source": "ragas",
+          "seconds": 3.7265013509895653
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 20,
+  "max_provider_calls": 48,
+  "measured_total_tokens": 36311,
+  "usage_responses": 20,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  }
+}

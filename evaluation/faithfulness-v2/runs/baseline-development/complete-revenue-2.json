@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-2",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| complete_revenue |\n|---|\n| 350.0 |\n\n### Limitations\n* The query measured total revenue for items with a 'Complete' status. It did not measure item counts, distinct customers, or time periods.\n* The executor automatically scoped the query to authorized products.\n\n### Action items (proposed)\n* Query the count of complete items to understand the volume driving this revenue.\n* Group revenue by product category or brand to identify top performers.\n* Analyze revenue over time (e.g., by month) to observe trends.",
+  "status": "generated",
+  "seconds": 12.023465109999961,
+  "usage": {
+    "input_tokens": 2023,
+    "output_tokens": 850,
+    "total_tokens": 2873,
+    "thought_tokens": 688,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 2
+}

@@ -1,0 +1,9 @@
+{
+  "id": "category-price-2",
+  "family": "category-price",
+  "split": "validation",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.845597416999226,
+  "attempt": 1
+}

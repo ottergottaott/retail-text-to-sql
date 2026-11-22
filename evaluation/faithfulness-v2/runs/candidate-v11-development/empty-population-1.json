@@ -1,0 +1,9 @@
+{
+  "id": "empty-population-1",
+  "family": "empty-population",
+  "split": "development",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7040792370007694,
+  "attempt": 1
+}

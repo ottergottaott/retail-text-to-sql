@@ -1,0 +1,122 @@
+[
+  {
+    "id": "supported",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 98. Proposed next check: count completed items.",
+    "sql_contexts": [
+      "Complete-item revenue is 98."
+    ],
+    "retrieved_contexts": [],
+    "expected": "supported"
+  },
+  {
+    "id": "contradicted",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 9800.",
+    "sql_contexts": [
+      "Complete-item revenue is 98."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "unsupported-cause",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 98 because discounts caused sales to fall.",
+    "sql_contexts": [
+      "Complete-item revenue is 98. No discount or comparison-period data was queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "hidden-premise",
+    "question": "What follows from these query results?",
+    "response": "Proposed: fix stock because customer demand doubled.",
+    "sql_contexts": [
+      "Completed-item revenue is 98. No demand, inventory or comparison-period data was queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "invented-sample",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 98 and the sample is tiny.",
+    "sql_contexts": [
+      "Query: SELECT SUM(sale_price) AS revenue FROM order_items. Result: revenue=98. No item or order counts were queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "discount-overclaim",
+    "question": "What follows from these query results?",
+    "response": "Min and max realized prices are both 49, proving no promotional discounts occurred.",
+    "sql_contexts": [
+      "Minimum sale_price=49 and maximum sale_price=49 in two completed items. No list-price history or promotions data was queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "supported-scoped-groups",
+    "question": "Analyze my authorized product data.",
+    "response": "China is the only country with Complete purchases in the authorized products 1 and 2 population returned by this analysis.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT country, COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items JOIN users USING(customer_key) WHERE status='Complete' GROUP BY country\", \"rows\": [{\"country\": \"China\", \"customers\": 2, \"revenue\": 118.5}], \"truncated\": false, \"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"Trusted executor binds every logical SQL source to authorized physical subqueries.\"}}"
+    ],
+    "retrieved_contexts": [],
+    "reference_logic": ""
+  },
+  {
+    "id": "supported-unmeasured",
+    "question": "Analyze my authorized product data.",
+    "response": "This analysis did not measure promotional history or historical coverage completeness.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT country, COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items JOIN users USING(customer_key) WHERE status='Complete' GROUP BY country\", \"rows\": [{\"country\": \"China\", \"customers\": 2, \"revenue\": 118.5}], \"truncated\": false, \"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"Trusted executor binds every logical SQL source to authorized physical subqueries.\"}}"
+    ],
+    "retrieved_contexts": [],
+    "reference_logic": ""
+  },
+  {
+    "id": "wrong-customer-grain",
+    "question": "Analyze my authorized product data.",
+    "response": "Exactly two transactions occurred because there were two distinct customers.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT country, COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items JOIN users USING(customer_key) WHERE status='Complete' GROUP BY country\", \"rows\": [{\"country\": \"China\", \"customers\": 2, \"revenue\": 118.5}], \"truncated\": false, \"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"Trusted executor binds every logical SQL source to authorized physical subqueries.\"}}"
+    ],
+    "retrieved_contexts": [],
+    "reference_logic": ""
+  },
+  {
+    "id": "truncated-population-overclaim",
+    "question": "Analyze my authorized product data.",
+    "response": "China is the only country with Complete purchases in the authorized product population.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT country, COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items JOIN users USING(customer_key) WHERE status='Complete' GROUP BY country\", \"rows\": [{\"country\": \"China\", \"customers\": 2, \"revenue\": 118.5}], \"truncated\": true, \"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"Trusted executor binds every logical SQL source to authorized physical subqueries.\"}}"
+    ],
+    "retrieved_contexts": [],
+    "reference_logic": ""
+  },
+  {
+    "id": "invented-global-scope",
+    "question": "Analyze my authorized product data.",
+    "response": "These results prove China is the only country with purchases across the entire company catalog, including unauthorized products.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT country, COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items JOIN users USING(customer_key) WHERE status='Complete' GROUP BY country\", \"rows\": [{\"country\": \"China\", \"customers\": 2, \"revenue\": 118.5}], \"truncated\": false, \"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"Trusted executor binds every logical SQL source to authorized physical subqueries.\"}}"
+    ],
+    "retrieved_contexts": [],
+    "reference_logic": ""
+  },
+  {
+    "id": "invented-system-absence",
+    "question": "Analyze my authorized product data.",
+    "response": "No promotion data exists anywhere in the company systems.",
+    "sql_contexts": [
+      "{\"sql\": \"SELECT country, COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items JOIN users USING(customer_key) WHERE status='Complete' GROUP BY country\", \"rows\": [{\"country\": \"China\", \"customers\": 2, \"revenue\": 118.5}], \"truncated\": false, \"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"Trusted executor binds every logical SQL source to authorized physical subqueries.\"}}"
+    ],
+    "retrieved_contexts": [],
+    "reference_logic": ""
+  }
+]

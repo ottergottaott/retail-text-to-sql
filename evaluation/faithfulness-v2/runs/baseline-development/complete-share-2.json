@@ -1,0 +1,24 @@
+{
+  "id": "complete-share-2",
+  "family": "complete-share",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| complete_item_share | all_items |\n|---|---|\n| 0.875 | 16 |\n\nBased on query [q1], the complete item share for your authorized products is 87.5%. Please note that this finding is supported by a very small sample size of only 16 total items.\n\n### Limitations\nThe query measured the aggregate completion ratio and total item count for authorized products across all available history. It did not measure specific time periods, individual product performance, or the specific categories of non-complete statuses.\n\n### Action items (proposed)\n* Query the distribution of non-complete statuses (e.g., Returned, Cancelled, Processing) to understand the remaining 12.5% of items.\n* Evaluate completion rates over time or by specific product ID to identify any trends, though a larger transaction volume would be needed to establish reliable patterns.",
+  "status": "generated",
+  "seconds": 17.698661149001055,
+  "usage": {
+    "input_tokens": 2060,
+    "output_tokens": 1190,
+    "total_tokens": 3250,
+    "thought_tokens": 954,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

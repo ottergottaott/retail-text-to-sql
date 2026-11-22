@@ -1,0 +1,9 @@
+{
+  "id": "country-customers-2",
+  "family": "country-customers",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.695112273999257,
+  "attempt": 1
+}

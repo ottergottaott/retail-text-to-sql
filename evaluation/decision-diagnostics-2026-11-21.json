@@ -1,0 +1,66 @@
+[
+  {
+    "http_status": 200,
+    "finish_reason": "stop",
+    "content_type": "str",
+    "usage": {
+      "prompt_tokens": 2039,
+      "total_tokens": 2079,
+      "completion_tokens": 40,
+      "estimated_cost": 0.0034184999999999992,
+      "prompt_tokens_details": null,
+      "extra_properties": {
+        "google": {
+          "traffic_type": "ON_DEMAND"
+        }
+      }
+    },
+    "field_names": [
+      "action",
+      "format",
+      "depth",
+      "title"
+    ],
+    "field_lengths": {
+      "action": 6,
+      "format": 6,
+      "depth": 7,
+      "title": 26
+    },
+    "valid": true,
+    "case_id": "monthly-revenue",
+    "action": "answer"
+  },
+  {
+    "http_status": 200,
+    "finish_reason": "stop",
+    "content_type": "str",
+    "usage": {
+      "prompt_tokens": 2078,
+      "total_tokens": 2386,
+      "completion_tokens": 308,
+      "estimated_cost": 0.005889,
+      "prompt_tokens_details": null,
+      "extra_properties": {
+        "google": {
+          "traffic_type": "ON_DEMAND"
+        }
+      }
+    },
+    "field_names": [
+      "action",
+      "format",
+      "depth",
+      "text"
+    ],
+    "field_lengths": {
+      "action": 6,
+      "format": 6,
+      "depth": 7,
+      "text": 992
+    },
+    "valid": true,
+    "case_id": "margin-proxy",
+    "action": "answer"
+  }
+]

@@ -1,0 +1,253 @@
+{
+  "mode": "offline_fixture_real_http_cli",
+  "checks": [
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "CLI query has known fixture monthly results",
+      "status": "passed"
+    },
+    {
+      "name": "Report includes action items",
+      "status": "passed"
+    },
+    {
+      "name": "Bob cannot open Alice's report",
+      "status": "passed"
+    },
+    {
+      "name": "Unauthenticated report access denied",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Report survives actual API process restart and fresh chat",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Saved report opens from a new chat",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Deletion preview identifies exact saved report",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Cancellation reports zero deletion",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Cancelled report remains available",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Confirmation deletes exactly one report",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Confirmation replay deletes nothing further",
+      "status": "passed"
+    },
+    {
+      "name": "CLI received fixture response and trace",
+      "status": "passed"
+    },
+    {
+      "name": "Deleted report no longer listed",
+      "status": "passed"
+    }
+  ],
+  "responses": [
+    {
+      "conversation_id": "con_82eed26ef30131b9",
+      "trace_id": "4dca2d9ae5284307941fac23d135a026",
+      "mode": "fixture",
+      "answer": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| month | revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |\n\nSaved report **Analysis report** (`rep_83993606b8851bfb`).",
+      "outcome": "succeeded",
+      "evidence": [
+        {
+          "rows": [
+            {
+              "month": "2026-01-01 00:00:00",
+              "revenue": 100.0
+            },
+            {
+              "month": "2026-02-01 00:00:00",
+              "revenue": 110.0
+            }
+          ],
+          "mode": "fixture",
+          "job_id": null,
+          "bytes_processed": null,
+          "sql": "SELECT DATE_TRUNC(DATE(`order_items`.`created_at`), MONTH) AS `month`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `month` ORDER BY `month`",
+          "truncated": false,
+          "seconds": 0.1224036649982736,
+          "query_id": "q1"
+        }
+      ],
+      "management": {
+        "report_id": "rep_83993606b8851bfb"
+      }
+    },
+    {
+      "conversation_id": "con_e398fd541b877dd2",
+      "trace_id": "cdb5d3746bd1481b9d17757b48a95666",
+      "mode": "fixture",
+      "answer": "| id | title |\n| --- | --- |\n| rep_83993606b8851bfb | Analysis report |",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": [
+        {
+          "id": "rep_83993606b8851bfb",
+          "title": "Analysis report"
+        }
+      ]
+    },
+    {
+      "conversation_id": "con_120bab414f4038b0",
+      "trace_id": "1cf9effe2aa2445a8216d76b57c6e0b7",
+      "mode": "fixture",
+      "answer": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| month | revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": {
+        "report_id": "rep_83993606b8851bfb"
+      }
+    },
+    {
+      "conversation_id": "con_82eed26ef30131b9",
+      "trace_id": "7efe71efa8834b8e876e7b565dc9929a",
+      "mode": "fixture",
+      "answer": "Deletion preview:\n\n| id | title |\n| --- | --- |\n| rep_83993606b8851bfb | Analysis report |\n\nConfirm with `/confirm pro_634ab6124698e8b9` or cancel with `/cancel pro_634ab6124698e8b9`. Nothing has been deleted.",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": {
+        "proposal_id": "pro_634ab6124698e8b9",
+        "reports": [
+          {
+            "id": "rep_83993606b8851bfb",
+            "title": "Analysis report"
+          }
+        ],
+        "expires": 1795132108.403598
+      }
+    },
+    {
+      "conversation_id": "con_82eed26ef30131b9",
+      "trace_id": "8f0e940967ae4b478899cf7c8e8ec3ea",
+      "mode": "fixture",
+      "answer": "Deletion cancelled; 0 reports deleted.",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": {
+        "status": "cancelled",
+        "deleted": 0
+      }
+    },
+    {
+      "conversation_id": "con_d747d74001dce4e8",
+      "trace_id": "078734dc730c4608af748acc36190b5b",
+      "mode": "fixture",
+      "answer": "| id | title |\n| --- | --- |\n| rep_83993606b8851bfb | Analysis report |",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": [
+        {
+          "id": "rep_83993606b8851bfb",
+          "title": "Analysis report"
+        }
+      ]
+    },
+    {
+      "conversation_id": "con_82eed26ef30131b9",
+      "trace_id": "a1f0e18cce8447bd97e0c98337780a4c",
+      "mode": "fixture",
+      "answer": "Deletion preview:\n\n| id | title |\n| --- | --- |\n| rep_83993606b8851bfb | Analysis report |\n\nConfirm with `/confirm pro_bebeacb80022d8bd` or cancel with `/cancel pro_bebeacb80022d8bd`. Nothing has been deleted.",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": {
+        "proposal_id": "pro_bebeacb80022d8bd",
+        "reports": [
+          {
+            "id": "rep_83993606b8851bfb",
+            "title": "Analysis report"
+          }
+        ],
+        "expires": 1795132109.656517
+      }
+    },
+    {
+      "conversation_id": "con_82eed26ef30131b9",
+      "trace_id": "d3ff649c788e4b2ba6c91b7513ef9dc8",
+      "mode": "fixture",
+      "answer": "Deletion deleted; 1 reports deleted.",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": {
+        "status": "deleted",
+        "deleted": 1
+      }
+    },
+    {
+      "conversation_id": "con_82eed26ef30131b9",
+      "trace_id": "e6604c5e3df7470aaf40739f47c94efe",
+      "mode": "fixture",
+      "answer": "Deletion deleted; 0 reports deleted.",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": {
+        "status": "deleted",
+        "deleted": 0
+      }
+    },
+    {
+      "conversation_id": "con_517f1d20f5846882",
+      "trace_id": "745ff1b8d8ad46b88c0be1b59fce3a60",
+      "mode": "fixture",
+      "answer": "You have no saved reports.",
+      "outcome": "succeeded",
+      "evidence": [],
+      "management": []
+    }
+  ],
+  "not_verified": [
+    "Gemini",
+    "BigQuery",
+    "semantic embeddings",
+    "Docker/PostgreSQL",
+    "Open WebUI browser"
+  ]
+}

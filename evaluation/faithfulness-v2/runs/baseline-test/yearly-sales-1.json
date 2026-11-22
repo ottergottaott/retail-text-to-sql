@@ -1,0 +1,9 @@
+{
+  "id": "yearly-sales-1",
+  "family": "yearly-sales",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.6944062050006323,
+  "attempt": 1
+}

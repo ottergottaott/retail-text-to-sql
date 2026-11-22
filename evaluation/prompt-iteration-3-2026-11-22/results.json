@@ -1,0 +1,403 @@
+{
+  "status": "tested",
+  "model": "google/gemini-3.1-pro",
+  "judge_model": "google/gemini-3.5-flash",
+  "data_source": "frozen synthetic SQL evidence; no query executed",
+  "live_bigquery_verified": false,
+  "production_changed": false,
+  "repetitions": 1,
+  "selection": {
+    "split_counts": {
+      "calibration": 2,
+      "validation": 4
+    },
+    "protocol": "Inputs fixed before calls; prior exposure must be documented by the experiment author."
+  },
+  "cases_sha256": "2a46689a99f3923c0053131cfc4e5d54bb96ae6ebe06417e849c58852caf6365",
+  "variants": {
+    "baseline": {
+      "prompt_sha256": "9a3cbd9b78c773680a6bd6ce588abd19959a4956e89bdb223920a9bd6f275717",
+      "responses": [
+        {
+          "id": "save-claim",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* Total revenue for Complete items is 98 [q1].\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The query only measured total revenue for Complete items. It did not measure item counts, time periods, or customer demographics.\n* The report was not saved because the save action was not executed prior to this review.\n\n### Action items (proposed)\n* Query the total count of Complete items to understand transaction volume.\n* Analyze revenue by product category or time period to identify trends.\n* Save the report in a subsequent request if still desired.",
+          "seconds": 15.535137123999448,
+          "usage": {
+            "input_tokens": 1895,
+            "output_tokens": 985,
+            "total_tokens": 2880,
+            "thought_tokens": 816,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-reviewed-save",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* There are 2 authorized products in the catalogue [q1].\n* The report is being saved as requested.\n\n| products |\n|---|\n| 2 |\n\n### Limitations\n* Only the total count of authorized products was queried. No details on categories, brands, or pricing were retrieved.\n\n### Action items (proposed)\n* Query product details (e.g., category, brand, retail price) to understand the composition of the authorized catalogue.\n* Analyze sales performance for these specific products.",
+          "seconds": 11.878624926001066,
+          "usage": {
+            "input_tokens": 1919,
+            "output_tokens": 748,
+            "total_tokens": 2667,
+            "thought_tokens": 596,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-items",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings:**\n* A total of 5 Complete items were found [q1].\n\n| complete_items |\n|---|\n| 5 |\n\nThis analysis has been submitted to be saved.\n\n**Limitations:**\n* Only the aggregate count of Complete items was queried. No revenue, product details, or time periods were measured.\n\n**Action Items (Proposed):**\n* Query the `sale_price` and `product_id` for these Complete items to analyze revenue and product distribution.",
+          "seconds": 12.502472445999956,
+          "usage": {
+            "input_tokens": 1928,
+            "output_tokens": 847,
+            "total_tokens": 2775,
+            "thought_tokens": 696,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "confirmed-existing-report",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "The saved report \"Completed revenue\" (ID: `rep_0123456789abcdef`) has been opened. \n\n| revenue |\n|---|\n| 73 |\n\n**Findings**\n* The total completed revenue is 73 [q1].\n\n**Limitations**\n* The query only measured total revenue for complete items; no other dimensions, timeframes, or metrics were evaluated.",
+          "seconds": 15.98628239899881,
+          "usage": {
+            "input_tokens": 1967,
+            "output_tokens": 840,
+            "total_tokens": 2807,
+            "thought_tokens": 706,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "missing-save-receipt",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings**\nTotal authorized Complete revenue is 73 [q1]. Note that the report was not saved as there is no tool evidence of a successful save operation.\n\n| complete_revenue |\n|---|\n| 73 |\n\n**Limitations**\nOnly total revenue for Complete items was queried. Transaction volume, time periods, and customer counts were not measured.\n\n**Action Items**\n* Propose querying the number of items and distinct customers to understand the composition of this revenue.",
+          "seconds": 15.868152388000453,
+          "usage": {
+            "input_tokens": 1892,
+            "output_tokens": 887,
+            "total_tokens": 2779,
+            "thought_tokens": 741,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-prose-preference",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "| catalogue_products |\n|---|\n| 2 |\n\nThe catalogue currently contains 2 authorized products [q1], and this report has been successfully saved.",
+          "seconds": 13.88746731199899,
+          "usage": {
+            "input_tokens": 1925,
+            "output_tokens": 689,
+            "total_tokens": 2614,
+            "thought_tokens": 619,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "generation_summary": {
+        "mean_seconds": 14.276356099166454,
+        "measured_input_tokens": 11526,
+        "measured_output_tokens": 4996
+      },
+      "judge_summary": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.6648148148148149,
+          "sql_factual_faithfulness": 0.7638888888888888
+        },
+        "combined_means": {
+          "faithfulness": 0.6648148148148149,
+          "sql_factual_faithfulness": 0.7638888888888888
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 6,
+            "rule_scored": 0,
+            "applicable": 6,
+            "total_samples": 6
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 6,
+            "rule_scored": 0,
+            "applicable": 6,
+            "total_samples": 6
+          }
+        }
+      },
+      "calibration": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.6111111111111112,
+          "sql_factual_faithfulness": 0.75
+        },
+        "combined_means": {
+          "faithfulness": 0.6111111111111112,
+          "sql_factual_faithfulness": 0.75
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 2,
+            "rule_scored": 0,
+            "applicable": 2,
+            "total_samples": 2
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 2,
+            "rule_scored": 0,
+            "applicable": 2,
+            "total_samples": 2
+          }
+        }
+      },
+      "validation": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.6916666666666667,
+          "sql_factual_faithfulness": 0.7708333333333334
+        },
+        "combined_means": {
+          "faithfulness": 0.6916666666666667,
+          "sql_factual_faithfulness": 0.7708333333333334
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          }
+        }
+      }
+    },
+    "candidate": {
+      "prompt_sha256": "8e86bb2ebb0cac15e71e7c938f8f8ea019e8777e118d3ca2d93b76e99a1f4b09",
+      "responses": [
+        {
+          "id": "save-claim",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* Total authorized Complete-item revenue is 98 [q1].\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The analysis only measured total revenue for Complete items. It did not measure transaction volume, time periods, or product-level details.\n* Saving is not confirmed.\n\n### Action Items\n* Propose querying item counts to understand transaction volume.\n* Propose grouping revenue by `created_at` (e.g., month or year) to observe trends over time.",
+          "seconds": 14.450981631000104,
+          "usage": {
+            "input_tokens": 1969,
+            "output_tokens": 880,
+            "total_tokens": 2849,
+            "thought_tokens": 724,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-reviewed-save",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n\n| products |\n|---|\n| 2 |\n\n* There are 2 authorized products in the catalog [q1].\n\n### Limitations\n* Only the total product count was queried. No other dimensions such as category, brand, or pricing were measured.\n\n### Action Items (Proposed)\n* Query the distribution of these products by category or brand to better understand the catalog composition.",
+          "seconds": 12.873974983000153,
+          "usage": {
+            "input_tokens": 1993,
+            "output_tokens": 672,
+            "total_tokens": 2665,
+            "thought_tokens": 545,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-items",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings**\nThere are 5 Complete items in the authorized scope [q1].\n\n| complete_items |\n|---|\n| 5 |\n\n**Limitations**\nOnly the total count of Complete items was queried. Timeframes, revenue, and product details were not measured.\n\n**Action Items**\n* Propose querying the revenue and product category breakdown for these Complete items to understand sales distribution.",
+          "seconds": 13.503823582999757,
+          "usage": {
+            "input_tokens": 2002,
+            "output_tokens": 805,
+            "total_tokens": 2807,
+            "thought_tokens": 676,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "confirmed-existing-report",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Here is the revenue table from your previously saved analysis (Report ID: `rep_0123456789abcdef`):\n\n| revenue |\n|---|\n| 73 |\n\n**Limitations:**\nThis analysis only measured total revenue for items with a 'Complete' status [q1].",
+          "seconds": 12.01216028700037,
+          "usage": {
+            "input_tokens": 2041,
+            "output_tokens": 763,
+            "total_tokens": 2804,
+            "thought_tokens": 655,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "missing-save-receipt",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n\n| complete_revenue |\n|---|\n| 73 |\n\nSaving is not confirmed.\n\n### Limitations\nOnly total complete revenue was queried. Transaction volume, time periods, and product distribution were not measured.\n\n### Action Items\n* Query the count of complete items to determine transaction volume.",
+          "seconds": 14.411813488999542,
+          "usage": {
+            "input_tokens": 1966,
+            "output_tokens": 748,
+            "total_tokens": 2714,
+            "thought_tokens": 637,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-prose-preference",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n| catalogue_products |\n|---|\n| 2 |\n\nThere are 2 authorized products in the catalogue [q1].\n\n### Limitations\nOnly the total count of authorized products was queried, without details on categories, brands, or pricing.\n\n### Action items (proposed)\n* Query the product names and categories to understand the composition of the authorized catalogue.",
+          "seconds": 13.894225525000365,
+          "usage": {
+            "input_tokens": 1999,
+            "output_tokens": 778,
+            "total_tokens": 2777,
+            "thought_tokens": 655,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "generation_summary": {
+        "mean_seconds": 13.52449658300005,
+        "measured_input_tokens": 11970,
+        "measured_output_tokens": 4646
+      },
+      "judge_summary": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.7648809523809524,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.7648809523809524,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 6,
+            "rule_scored": 0,
+            "applicable": 6,
+            "total_samples": 6
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 6,
+            "rule_scored": 0,
+            "applicable": 6,
+            "total_samples": 6
+          }
+        }
+      },
+      "calibration": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.6875,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.6875,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 2,
+            "rule_scored": 0,
+            "applicable": 2,
+            "total_samples": 2
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 2,
+            "rule_scored": 0,
+            "applicable": 2,
+            "total_samples": 2
+          }
+        }
+      },
+      "validation": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.8035714285714286,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.8035714285714286,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          }
+        }
+      }
+    }
+  },
+  "seconds": 233.58504201300093,
+  "coverage": {
+    "expected_answers": 12,
+    "generated_answers": 12,
+    "scored_answers": 12,
+    "missing_ids": []
+  },
+  "human_review": "pending",
+  "limitations": [
+    "Small targeted adversarial set, not overall product accuracy.",
+    "Temperature zero is not deterministic.",
+    "No planner/tool-routing, retrieval or real BigQuery quality measured.",
+    "Standard and custom scores are distinct contracts."
+  ],
+  "judge_calls": 48,
+  "cost": null
+}

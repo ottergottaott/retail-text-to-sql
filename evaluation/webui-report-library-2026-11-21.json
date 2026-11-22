@@ -1,0 +1,37 @@
+{
+  "feature": "Reports navigation and native Action",
+  "webui_version": "0.13.4-slim",
+  "implemented": [
+    "model-specific My reports Action",
+    "persistent compact and expanded Reports sidebar navigation",
+    "authenticated metadata-only list and HTML proxy",
+    "search/date/newest-first/refresh",
+    "scriptless viewer",
+    "HTML snapshot download control",
+    "separate browser-tab viewer"
+  ],
+  "checked": {
+    "native_action_clicked": true,
+    "library_loaded_live_saved_reports": 59,
+    "search_filtered_report": true,
+    "saved_report_opened": "rep_3c595b29bfd416bd",
+    "separate_browser_tab_created": true,
+    "unauthenticated_proxy_status": 401,
+    "service_unavailable_message": true,
+    "sidebar_link_clicked": true,
+    "full_test_suite_passed": 183,
+    "strict_openspec": "passed",
+    "independent_code_review": "CSP and navigation anchor findings fixed",
+    "final_image_restart_library_loaded": true
+  },
+  "evidence": {
+    "screenshot": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/report-library-desktop.jpg",
+    "tests": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/report-library-tests.xml"
+  },
+  "boundaries": [
+    "No new model or BigQuery quality evaluation performed",
+    "Cross-user authorization covered by tests; no second live WebUI user created",
+    "Download control present; OS file persistence not verified in this change",
+    "Human UX acceptance pending"
+  ]
+}

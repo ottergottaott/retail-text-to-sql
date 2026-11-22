@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-22",
+  "status": "passed",
+  "candidate_archive_sha256": "92eb139f6399cfc303cf0f325c0bbd53814ede8bb34de9d3860c3a303a5ffb82",
+  "manifest_files_verified": 293,
+  "excluded_private_state": true,
+  "installation": "uv sync --frozen --extra dev, fresh extracted directory, new virtualenv, isolated empty uv cache",
+  "cli_help_exit": 0,
+  "cli_tests_passed": 5,
+  "cli_tests_total": 5,
+  "seconds": 39.65,
+  "runtime_files_unchanged_since_tested_archive": 80,
+  "evidence_boundary": "Same host, fresh archive/environment/cache. Installed executable plus five subprocess/HTTP/SSE fixture workflow tests. No live providers, no full Docker/bootstrap walkthrough, no other-machine installation claim."
+}

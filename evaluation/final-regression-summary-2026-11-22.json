@@ -1,0 +1,7 @@
+{
+  "source": "pytest final run and focused evaluator checks",
+  "tests": 197,
+  "failures": 0,
+  "errors": 0,
+  "evidence_boundary": "Controlled regression tests; not semantic accuracy."
+}

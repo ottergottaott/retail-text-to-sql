@@ -1,0 +1,88 @@
+{
+  "status": "submitted_not_yet_verified",
+  "run": "baseline-v8-validation",
+  "dataset": "retail-faithfulness-v2-validation",
+  "records": [
+    {
+      "trace_id": "5d896b529169741fc2df995ac1ea12e4",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ab7770fd1f14f692509b57bfe3c01bc7",
+      "score_count": 2
+    },
+    {
+      "trace_id": "215a39f00fa0a2ee45f01c18ae379927",
+      "score_count": 2
+    },
+    {
+      "trace_id": "1ab3d4771d966cab76fd49bba8a3d2a9",
+      "score_count": 2
+    },
+    {
+      "trace_id": "1560394838817feed80303783b696366",
+      "score_count": 2
+    },
+    {
+      "trace_id": "5ac34accfb0c899caf661fcb74fdb47c",
+      "score_count": 2
+    },
+    {
+      "trace_id": "a40813bb7bd0bcad0810cee76ee60104",
+      "score_count": 2
+    },
+    {
+      "trace_id": "91e19866ae9aca875761a400151d6b31",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ba4a1f70b6263eb4da431b1b37ccaa24",
+      "score_count": 2
+    },
+    {
+      "trace_id": "7c238eff3433e9d4635687107e307643",
+      "score_count": 2
+    },
+    {
+      "trace_id": "e198aadeb7dbd7f602489434cf13eacf",
+      "score_count": 2
+    },
+    {
+      "trace_id": "9847ecbbf088a5bdf716b6f892538dda",
+      "score_count": 2
+    },
+    {
+      "trace_id": "32d356197706e9b4c7d7f05fb5b14e3a",
+      "score_count": 2
+    },
+    {
+      "trace_id": "b6cad514edaa056ff3743e107cbcd280",
+      "score_count": 2
+    },
+    {
+      "trace_id": "500d9d507c18156d2a8214cb84206965",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ef4585af247353d6ae309b77931b7a9b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ea77fb1d4e482cf9470e4ea29db5c769",
+      "score_count": 2
+    },
+    {
+      "trace_id": "fc38d24147eb58d0956f96692ec97be2",
+      "score_count": 2
+    },
+    {
+      "trace_id": "bfd85eaaef7ad15d321603560ac20ea8",
+      "score_count": 2
+    },
+    {
+      "trace_id": "310e239e4a384e1462a3e945e1369ea9",
+      "score_count": 2
+    }
+  ],
+  "capture": "synthetic"
+}

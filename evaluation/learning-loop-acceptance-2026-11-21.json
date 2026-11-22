@@ -1,0 +1,55 @@
+{
+  "scope": "bounded learning workflow acceptance, 2026-11-21",
+  "unit_integration_tests": {
+    "passed": 195,
+    "junit": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/learning-loop-junit.xml"
+  },
+  "browser": {
+    "source": "actual local Open WebUI 0.13.4 + live retail API",
+    "feedback_action": "passed",
+    "preferences_action": "passed",
+    "response_snapshot": "Show the approved analytics schema.",
+    "feedback_id": "fee_1c077e32586ddcbd",
+    "stored_status": "unreviewed",
+    "stored_owner_and_trace_match": true,
+    "automatic_publication": false,
+    "reset_persists_reload": true,
+    "restored_preferences": {
+      "format": "bullets",
+      "depth": "concise",
+      "version": 5
+    },
+    "preferences_persist_reload_and_API_restart": true,
+    "screenshot": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/learning-loop-webui.jpg"
+  },
+  "learning_demo": {
+    "report": "evaluation/learning-loop-live-v2-2026-11-21.json",
+    "model_source": "live",
+    "sql_source": "fixture",
+    "before": "clarification",
+    "wrong_oracle_blocks_publication": true,
+    "reviewed_two_user_oracles": "passed",
+    "new_index_documents": 1,
+    "after": "succeeded",
+    "expected_rows": [
+      {
+        "products": 2
+      }
+    ],
+    "oracle_passed": true,
+    "human_report_review": "pending"
+  },
+  "review": {
+    "finding": "failed regeneration kept previous feedback target",
+    "fixed": true,
+    "regression_test": "test_failed_regeneration_retires_previous_feedback_target",
+    "red_then_green": true
+  },
+  "limitations": [
+    "One synthetic definition is not a general answer-accuracy benchmark.",
+    "Native WebUI thumbs are not bridged; use Give feedback.",
+    "Older responses have no feedback mapping.",
+    "Preference inference and chart preference remain design scope.",
+    "This acceptance run did not re-execute live BigQuery business scenarios."
+  ]
+}

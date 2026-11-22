@@ -1,0 +1,460 @@
+{
+  "status": "incomplete",
+  "model": "google/gemini-3.1-pro",
+  "judge_model": "google/gemini-3.5-flash",
+  "data_source": "frozen synthetic SQL evidence; no query executed",
+  "live_bigquery_verified": false,
+  "production_changed": false,
+  "repetitions": 1,
+  "selection": {
+    "split_counts": {
+      "calibration": 4,
+      "validation": 4
+    },
+    "protocol": "Inputs fixed before calls; prior exposure must be documented by the experiment author."
+  },
+  "cases_sha256": "bf36291abaa6b254403cc2142b10da90d41f3f5fef1c7b39b3a3794f1b3f8e48",
+  "variants": {
+    "baseline": {
+      "prompt_sha256": "9a3cbd9b78c773680a6bd6ce588abd19959a4956e89bdb223920a9bd6f275717",
+      "responses": [
+        {
+          "id": "equal-prices",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* The observed minimum and maximum sale prices for Complete items are identical [q1].\n\n| min_price | max_price |\n|---|---|\n| 49 | 49 |\n\n### Limitations\n* **Sample Size Unknown:** The query did not measure the count of items, so the volume of transactions supporting this price point is unknown.\n* **Discount Status:** Equal minimum and maximum prices mean there was no variation in the observed records. This does not confirm the absence of discounts, as the original retail prices were not queried for comparison.\n* **Scope:** Results are limited to authorized products, which is enforced by the executor.\n\n### Action Items (Proposed)\n* Query the `COUNT(*)` of these items to establish the sample size.\n* Join with the `products` table to compare `sale_price` against `retail_price` to measure actual discount activity.",
+          "seconds": 14.574027605000083,
+          "usage": {
+            "input_tokens": 1925,
+            "output_tokens": 851,
+            "total_tokens": 2776,
+            "thought_tokens": 620,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "customer-grain",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* There was 1 distinct customer who generated a total revenue of 98 for Complete items [q1].\n\n### Limitations\n* The query measured distinct customers and total revenue; it did not measure the number of orders, individual items purchased, or the timeframe of the activity.\n\n### Action items (proposed)\n* Query the number of distinct orders and items to determine the transaction volume for this customer.\n* Analyze the specific products purchased to understand the composition of the revenue.",
+          "seconds": 13.348590370998863,
+          "usage": {
+            "input_tokens": 1914,
+            "output_tokens": 698,
+            "total_tokens": 2612,
+            "thought_tokens": 557,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "save-claim",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* Total authorized Complete-item revenue is 98 [q1].\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The query only measured total revenue for Complete items. It did not measure transaction volume, customer counts, or time periods.\n\n### Action Items\n* Measure the number of items and distinct customers to determine the sample size.\n* Analyze revenue by date to identify trends over time.",
+          "seconds": 13.942203052998593,
+          "usage": {
+            "input_tokens": 1895,
+            "output_tokens": 953,
+            "total_tokens": 2848,
+            "thought_tokens": 817,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "supported-small-count",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings**\n* Product 1 has 2 Complete items, generating a total revenue of 98 [q1].\n\n| product_id | items | revenue |\n|---|---|---|\n| 1 | 2 | 98 |\n\n**Limitations**\n* The observation count is very small (only 2 items); this does not establish reliable demand or a broader trend.\n* The query only measured Complete items and did not evaluate other statuses, time periods, or customer demographics.\n\n**Action items (proposed)**\n* Query a broader time period or include other statuses (e.g., Processing, Shipped) to determine if more transaction data is available for authorized products.",
+          "seconds": 16.05807245000142,
+          "usage": {
+            "input_tokens": 1931,
+            "output_tokens": 950,
+            "total_tokens": 2881,
+            "thought_tokens": 763,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-reviewed-save",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* There are 2 authorized products in the catalogue [q1].\n\n| products |\n|---|\n| 2 |\n\n* The report containing this analysis has been saved.\n\n### Limitations\n* Only the total count of authorized products was queried. No details regarding categories, brands, or pricing were retrieved.\n\n### Action items (proposed)\n* Query product details (such as category, brand, and retail price) to understand the composition of the authorized catalogue.",
+          "seconds": 13.582978875001572,
+          "usage": {
+            "input_tokens": 1919,
+            "output_tokens": 657,
+            "total_tokens": 2576,
+            "thought_tokens": 513,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "detailed-explicit-table",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* Product 1 generated 120 in Complete revenue across 4 items [q1].\n* Product 2 generated 70 in Complete revenue across 2 items [q1].\n\n| product_id | complete_items | complete_revenue |\n|---|---|---|\n| 1 | 4 | 120 |\n| 2 | 2 | 70 |\n\n### Limitations\n* The query measured only Complete item revenue and counts for authorized products.\n* The sample size is very small (6 total items), which cannot establish reliable demand trends.\n* No time period was specified or queried, so it is unknown when these sales occurred.\n* Inventory levels, traffic, and conversion rates were not measured; therefore, we cannot conclude that stock should be increased.\n\n### Action Items (Proposed)\n* Query the `created_at` dates for these items to determine the timeframe of the sales.\n* Review customer counts to see if these purchases were made by distinct users or a single buyer.\n* Cross-reference with external inventory systems before making stock adjustments.",
+          "seconds": 19.63150640599997,
+          "usage": {
+            "input_tokens": 1972,
+            "output_tokens": 1222,
+            "total_tokens": 3194,
+            "thought_tokens": 947,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "catalogue-gap",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings**\n* For Product 1, the average sale price for Complete items is 45, while the current catalogue reference price is 60 [q1].\n* This represents a measured gap of 15 (25% below the current reference).\n\n**Limitations**\n* The query did not measure the number of items sold, so the sample size supporting this average is unknown.\n* Comparing historical sale prices to the *current* catalogue price does not confirm a discount was applied at the time of sale; the catalogue price may have increased since the transactions occurred.\n* Product 2 did not appear in the results, indicating no Complete items were found for it in this query.\n\n**Action Items**\n* Query the count of Complete items for Product 1 to establish the transaction volume.\n* Compare sale prices against historical retail prices at the time of the order (if available) rather than the current catalogue price to verify actual discount rates.",
+          "seconds": 15.234610321000218,
+          "usage": {
+            "input_tokens": 1968,
+            "output_tokens": 922,
+            "total_tokens": 2890,
+            "thought_tokens": 684,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "distinct-orders",
+          "split": "validation",
+          "status": "failed",
+          "error_category": "ModelError",
+          "seconds": 2.392180885999551
+        }
+      ],
+      "generation_summary": {
+        "mean_seconds": 13.595521245875034,
+        "measured_input_tokens": 13524,
+        "measured_output_tokens": 6253
+      },
+      "judge_summary": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.6151931401931402,
+          "sql_factual_faithfulness": 0.9642857142857143
+        },
+        "combined_means": {
+          "faithfulness": 0.6151931401931402,
+          "sql_factual_faithfulness": 0.9642857142857143
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 7,
+            "rule_scored": 0,
+            "applicable": 7,
+            "total_samples": 7
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 7,
+            "rule_scored": 0,
+            "applicable": 7,
+            "total_samples": 7
+          }
+        }
+      },
+      "calibration": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.6235576923076923,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.6235576923076923,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          }
+        }
+      },
+      "validation": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.604040404040404,
+          "sql_factual_faithfulness": 0.9166666666666666
+        },
+        "combined_means": {
+          "faithfulness": 0.604040404040404,
+          "sql_factual_faithfulness": 0.9166666666666666
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 3,
+            "rule_scored": 0,
+            "applicable": 3,
+            "total_samples": 3
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 3,
+            "rule_scored": 0,
+            "applicable": 3,
+            "total_samples": 3
+          }
+        }
+      }
+    },
+    "candidate": {
+      "prompt_sha256": "856da59c23dda0e5f93f917d7fe2cf7c4815f304b86afb90c0736dbcc394b328",
+      "responses": [
+        {
+          "id": "equal-prices",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* The minimum and maximum sale prices for Complete items are both 49 [q1].\n\n| min_price | max_price |\n|---|---|\n| 49 | 49 |\n\n### Limitations\n* Equal minimum and maximum prices indicate no variation in the observed records; this does not prove an absence of discounts.\n* The total count of items was not queried, so the sample size cannot be determined.\n* The analysis is restricted to authorized products and items with a 'Complete' status.\n\n### Action Items (Proposed)\n* Query the total count of Complete items to establish the volume of transactions behind these prices.\n* Compare `sale_price` against `products.retail_price` to measure any gap between the sale price and the current catalogue reference price.",
+          "seconds": 16.469340911000472,
+          "usage": {
+            "input_tokens": 2081,
+            "output_tokens": 1051,
+            "total_tokens": 3132,
+            "thought_tokens": 841,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "customer-grain",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings**\n* There was 1 distinct customer with a total revenue of 98 for Complete items [q1].\n\n**Limitations**\n* The query measured distinct customers and total revenue, but did not measure the number of orders, the number of items purchased, or the timeframe of these sales.\n\n**Action items (proposed)**\n* Query the number of distinct orders (`order_key`) and total items to determine if this revenue came from a single transaction or multiple purchases.\n* Analyze the `created_at` dates to establish the timeframe of this activity.\n* Review the specific products purchased to understand the composition of the 98 in revenue.",
+          "seconds": 11.47140011099873,
+          "usage": {
+            "input_tokens": 2070,
+            "output_tokens": 665,
+            "total_tokens": 2735,
+            "thought_tokens": 488,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "save-claim",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* Total authorized Complete-item revenue is 98 [q1].\n* Saving is not confirmed.\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The query only measured total revenue for Complete items. No time periods, product categories, or order counts were evaluated.\n\n### Action items (proposed)\n* Analyze revenue by product category or brand to identify top performers.\n* Evaluate revenue trends over time to understand seasonality or growth.",
+          "seconds": 10.603376986000512,
+          "usage": {
+            "input_tokens": 2051,
+            "output_tokens": 819,
+            "total_tokens": 2870,
+            "thought_tokens": 676,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "supported-small-count",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n\n*   **Product Performance:** Product 1 has 2 Complete items totaling 98 in revenue [q1]. \n*   **Sample Size:** This is a small observation count; it does not establish demand.\n\n| product_id | items | revenue |\n|---|---|---|\n| 1 | 2 | 98 |\n\n### Limitations\n*   Only item counts and revenue for the 'Complete' status were queried.\n*   Timeframes, customer counts, and other product dimensions were not measured.\n\n### Action Items (Proposed)\n*   Query a broader timeframe or include additional statuses (e.g., Processing, Shipped) to determine if overall volume is higher.\n*   Query the number of distinct customers purchasing this product to understand if the 2 items represent one or multiple buyers.",
+          "seconds": 15.069271157999538,
+          "usage": {
+            "input_tokens": 2087,
+            "output_tokens": 837,
+            "total_tokens": 2924,
+            "thought_tokens": 620,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "pending-reviewed-save",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* There are 2 authorized products in the catalogue [q1].\n\n| products |\n|---|\n| 2 |\n\n### Limitations\n* The query only measured the total count of authorized products. No other product attributes, such as category or brand, were evaluated.\n\n### Action items (proposed)\n* Break down the product count by category or department to understand the composition of the authorized catalogue.\n* Analyze historical sales volume and revenue for these products to assess their performance.",
+          "seconds": 14.433263842998713,
+          "usage": {
+            "input_tokens": 2075,
+            "output_tokens": 828,
+            "total_tokens": 2903,
+            "thought_tokens": 683,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "detailed-explicit-table",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n* **Product 1:** Generated 120 in Complete revenue from 4 items [q1].\n* **Product 2:** Generated 70 in Complete revenue from 2 items [q1].\n\n### Complete Item Revenue by Product\n| product_id | complete_items | complete_revenue |\n|---|---|---|\n| 1 | 4 | 120 |\n| 2 | 2 | 70 |\n\n### Limitations\n* **Small Sample Size:** The analysis is based on a total of only 6 items [q1]. This is too small to establish reliable demand trends or make definitive business decisions.\n* **Unmeasured Metrics:** The query measured only Complete item revenue and counts. It did not measure inventory levels, profit margins, or traffic/conversion rates.\n* **Timeframe:** No specific timeframe was requested, so these totals represent all available history for these products without indicating when the sales occurred.\n* **Scope:** The data is restricted to authorized products only.\n\n### Action Items (Proposed)\n* **Verify Inventory:** Before increasing stock for Product 1, check current inventory levels and restock lead times, as revenue alone does not confirm stock depletion.\n* **Expand Analysis:** Query a larger historical period or compare these products against category averages to determine if the observed revenue differences are statistically significant.",
+          "seconds": 16.44549865100089,
+          "usage": {
+            "input_tokens": 2128,
+            "output_tokens": 1033,
+            "total_tokens": 3161,
+            "thought_tokens": 704,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "catalogue-gap",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "**Findings**\n* For Product 1, the average sale price for Complete items is $45 [q1].\n* The current catalogue reference price for Product 1 is $60 [q1].\n* The measured gap between the historical average sale price and the current reference price is $15 (a 25% difference).\n\n**Limitations**\n* The query compared sale prices to the *current* catalogue reference price (`retail_price`), not the historical list price at the time of sale. This measures a current-reference price gap, not actual past discounts.\n* The query did not measure transaction counts or dates, so the sample size and timeframe of these sales are unknown.\n* Product 2 had no Complete item sales returned in this query.\n\n**Action Items (Proposed)**\n* Query the transaction count and date range for Product 1 to determine the volume and timing of these sales.\n* Investigate if historical pricing data is available to measure actual past discount rates rather than gaps against the current reference price.",
+          "seconds": 18.37901218300067,
+          "usage": {
+            "input_tokens": 2124,
+            "output_tokens": 1352,
+            "total_tokens": 3476,
+            "thought_tokens": 1096,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "id": "distinct-orders",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "### Findings\n\n| orders | items |\n|---|---|\n| 3 | 7 |\n\nThere were 3 distinct orders and 7 total items with a 'Complete' status [q1].\n\n### Limitations\nThis analysis only measured order and item counts for Complete items. It did not measure distinct customers, revenue, or the timeframe of these transactions.\n\n### Action items (proposed)\n* Analyze the distribution of items per order to understand typical basket sizes.",
+          "seconds": 13.736460068999804,
+          "usage": {
+            "input_tokens": 2068,
+            "output_tokens": 885,
+            "total_tokens": 2953,
+            "thought_tokens": 743,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "generation_summary": {
+        "mean_seconds": 14.575952988999916,
+        "measured_input_tokens": 16684,
+        "measured_output_tokens": 7470
+      },
+      "judge_summary": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.5455627705627706,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.5455627705627706,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 8,
+            "rule_scored": 0,
+            "applicable": 8,
+            "total_samples": 8
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 8,
+            "rule_scored": 0,
+            "applicable": 8,
+            "total_samples": 8
+          }
+        }
+      },
+      "calibration": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.5238095238095238,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.5238095238095238,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          }
+        }
+      },
+      "validation": {
+        "status": "tested",
+        "aggregation_version": "v2",
+        "means": {
+          "faithfulness": 0.5673160173160173,
+          "sql_factual_faithfulness": 1.0
+        },
+        "combined_means": {
+          "faithfulness": 0.5673160173160173,
+          "sql_factual_faithfulness": 1.0
+        },
+        "coverage": {
+          "faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          },
+          "sql_factual_faithfulness": {
+            "ragas_scored": 4,
+            "rule_scored": 0,
+            "applicable": 4,
+            "total_samples": 4
+          }
+        }
+      }
+    }
+  },
+  "seconds": 275.532352102,
+  "coverage": {
+    "expected_answers": 16,
+    "generated_answers": 15,
+    "scored_answers": 15,
+    "missing_ids": [
+      "baseline__distinct-orders"
+    ]
+  },
+  "human_review": "pending",
+  "limitations": [
+    "Small targeted adversarial set, not overall product accuracy.",
+    "Temperature zero is not deterministic.",
+    "No planner/tool-routing, retrieval or real BigQuery quality measured.",
+    "Standard and custom scores are distinct contracts."
+  ],
+  "judge_calls": 60,
+  "cost": null
+}

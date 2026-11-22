@@ -1,0 +1,20 @@
+{
+  "status": "frozen_before_calls",
+  "exposed_calibration_ids": [
+    "equal-prices",
+    "customer-grain",
+    "save-claim",
+    "supported-small-count"
+  ],
+  "new_validation_ids": [
+    "pending-reviewed-save",
+    "detailed-explicit-table",
+    "catalogue-gap",
+    "distinct-orders"
+  ],
+  "model_comparison": "same configured review model in both arms",
+  "judge": "unchanged standard and SQL-aware Ragas",
+  "reviewer": "acp-opencode/alibaba-cn/deepseek-v4.1-flash; low",
+  "scope": "review-only, synthetic SQL results, no query execution",
+  "promotion_gate": "complete coverage; no unacceptable validation metric regression; exact-output critique; workflow regressions"
+}

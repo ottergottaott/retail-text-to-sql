@@ -1,0 +1,899 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Retail assistant — acceptance review</title><style>
+:root{color-scheme:light dark;font-family:system-ui;background:#101622;color:#e2e8f0}body{max-width:1180px;margin:30px auto;padding:0 20px}h1{font-size:32px}h2{font-size:22px}h3{font-size:16px;color:#a4c9ef}article,section{background:#192334;border:1px solid #354457;padding:22px;margin:20px 0;border-radius:12px}.meta{color:#a9b8cb;font-size:13px}.pass{color:#79d8ad;font-size:14px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#111a28;padding:16px;border-radius:6px;font:14px/1.6 ui-monospace,monospace}.scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:left;border-bottom:1px solid #354457;padding:9px;vertical-align:top}summary{cursor:pointer;padding:10px 0}select,textarea,button{background:#101a2b;color:#e2e8f0;border:1px solid #57708c;padding:10px;border-radius:6px}textarea{display:block;width:95%;min-height:70px;margin-top:10px}a{color:#8cc4ff}nav{display:flex;flex-wrap:wrap;gap:12px}button{cursor:pointer}strong{color:#ffd194}</style>
+<h1>Retail assistant · morning review</h1><p>Recorded evidence · 21 November 2026. These reports use real Gemini via DeepInfra and BigQuery. Product scope: 1 and 2. Reports are saved independently of chat.</p>
+<section><h2>Readiness</h2><p><strong>Not fully accepted:</strong> Langfuse ingestion, clean-machine installation and human acceptance remain open. Docker recovered; live Open WebUI progress, table, save and new-chat opening passed. Unneeded containers were stopped; no volumes were deleted. Backend: <a href="http://127.0.0.1:8001/health">local health</a>. This page is a review artifact, not an Open WebUI acceptance run.</p><p>Review each answer against its actual rows and independent reference. Check scope, grain, status/window, small samples, unsupported causes and action items. Verdicts below stay in this browser; export to share them. They do not change saved application reports.</p><button id="export">Export my review</button></section><nav><a href="#product-revenue">product-revenue</a><a href="#status-mix">status-mix</a><a href="#monthly-revenue">monthly-revenue</a><a href="#category-revenue">category-revenue</a><a href="#margin-proxy">margin-proxy</a><a href="#state-customers">state-customers</a><a href="#country-customers">country-customers</a><a href="#age-band">age-band</a><a href="#scoped-orders">scoped-orders</a><a href="#realized-price">realized-price</a><a href="#return-rate">return-rate</a><a href="#yearly-comparison">yearly-comparison</a></nav><section><h2>Faithfulness repair and separate evaluation contracts</h2><div class="scroll"><table><thead><tr><th>name</th><th>before</th><th>after</th><th>better</th><th>context</th></tr></thead><tbody><tr><td>faithfulness</td><td>0.60625</td><td>0.7138888888888889</td><td>higher</td><td>4 identical recorded evidence sets (1 live, 3 fixture); v5 replay, not fresh v6</td></tr><tr><td>factual_faithfulness</td><td>0.8625</td><td>0.925</td><td>higher</td><td>4 identical recorded evidence sets (1 live, 3 fixture); v5 replay, not fresh v6</td></tr></tbody></table></div><h3>Fresh live business gates</h3><pre>{
+  &quot;status&quot;: &quot;passed&quot;,
+  &quot;passed&quot;: 12,
+  &quot;total&quot;: 12
+}</pre><h3>Earlier Flash report metrics</h3><pre>{
+  &quot;status&quot;: &quot;tested&quot;,
+  &quot;means&quot;: {
+    &quot;faithfulness&quot;: 0.5254629629629629,
+    &quot;factual_faithfulness&quot;: 0.7181878306878308
+  },
+  &quot;coverage&quot;: {
+    &quot;faithfulness&quot;: {
+      &quot;ragas_scored&quot;: 12,
+      &quot;rule_scored&quot;: 0,
+      &quot;applicable&quot;: 12,
+      &quot;total_samples&quot;: 12
+    },
+    &quot;factual_faithfulness&quot;: {
+      &quot;ragas_scored&quot;: 12,
+      &quot;rule_scored&quot;: 0,
+      &quot;applicable&quot;: 12,
+      &quot;total_samples&quot;: 12
+    }
+  }
+}</pre><h3>Final Flash planner / Pro reviewer</h3><pre>{
+  &quot;business_status&quot;: &quot;passed&quot;,
+  &quot;attempts&quot;: {
+    &quot;original_status&quot;: &quot;incomplete&quot;,
+    &quot;original_passed&quot;: 11,
+    &quot;original_total&quot;: 12,
+    &quot;recheck_passed&quot;: 1,
+    &quot;recheck_total&quot;: 1,
+    &quot;total_requests&quot;: 13,
+    &quot;note&quot;: &quot;12 latest reports pass SQL/save/structure; one original reviewer dependency failure remains recorded. This is not a first-attempt 12/12 pass.&quot;
+  },
+  &quot;business_passed&quot;: 12,
+  &quot;total&quot;: 12,
+  &quot;judge_status&quot;: &quot;tested&quot;,
+  &quot;means&quot;: {
+    &quot;faithfulness&quot;: 0.5342592592592593,
+    &quot;sql_factual_faithfulness&quot;: 0.843037518037518
+  },
+  &quot;coverage&quot;: {
+    &quot;faithfulness&quot;: {
+      &quot;ragas_scored&quot;: 12,
+      &quot;rule_scored&quot;: 0,
+      &quot;applicable&quot;: 12,
+      &quot;total_samples&quot;: 12
+    },
+    &quot;sql_factual_faithfulness&quot;: {
+      &quot;ragas_scored&quot;: 12,
+      &quot;rule_scored&quot;: 0,
+      &quot;applicable&quot;: 12,
+      &quot;total_samples&quot;: 12
+    }
+  }
+}</pre><h3>SQL-aware variant (different NLI contract; not standard Ragas)</h3><pre>{
+  &quot;full_run&quot;: {
+    &quot;mean&quot;: 0.9715909090909091,
+    &quot;scored&quot;: 12,
+    &quot;total&quot;: 12
+  },
+  &quot;focused_rechecks&quot;: {
+    &quot;mean&quot;: 0.8125,
+    &quot;scored&quot;: 2,
+    &quot;total&quot;: 2
+  }
+}</pre><div class="scroll"><table><thead><tr><th>name</th><th>value</th><th>status</th></tr></thead><tbody><tr><td>supported</td><td>1.0</td><td>passed</td></tr><tr><td>contradicted</td><td>0.0</td><td>passed</td></tr><tr><td>unsupported-cause</td><td>0.5</td><td>passed</td></tr><tr><td>hidden-premise</td><td>0.0</td><td>passed</td></tr><tr><td>invented-sample</td><td>0.0</td><td>passed</td></tr><tr><td>discount-overclaim</td><td>0.6666666666666666</td><td>passed</td></tr><tr><td>supported-scoped-groups</td><td>1.0</td><td>passed</td></tr><tr><td>supported-unmeasured</td><td>1.0</td><td>passed</td></tr><tr><td>wrong-customer-grain</td><td>0.3333333333333333</td><td>passed</td></tr><tr><td>truncated-population-overclaim</td><td>0.0</td><td>passed</td></tr><tr><td>invented-global-scope</td><td>0.0</td><td>passed</td></tr><tr><td>invented-system-absence</td><td>0.0</td><td>passed</td></tr></tbody></table></div><h3>Known report-quality flags</h3><pre>[
+  &quot;Focused Flash recheck reintroduced the unsupported no-discounts inference; it is a report-quality failure despite matching SQL and saving.&quot;,
+  &quot;Automatic review and judge scores are fallible; no general hallucination-free claim.&quot;
+]</pre><h3>Judge calibration traps</h3><div class="scroll"><table><thead><tr><th>name</th><th>value</th><th>status</th></tr></thead><tbody><tr><td>supported</td><td>1.0</td><td>passed</td></tr><tr><td>contradicted</td><td>0.0</td><td>passed</td></tr><tr><td>unsupported-cause</td><td>0.5</td><td>passed</td></tr><tr><td>hidden-premise</td><td>0.0</td><td>passed</td></tr><tr><td>invented-sample</td><td>0.0</td><td>passed</td></tr><tr><td>discount-overclaim</td><td>0.6666666666666666</td><td>passed</td></tr></tbody></table></div><p>Advisory LLM judging; same Gemini judge and application family introduces self-judge bias. Four-record comparison and twelve live business cases are small samples, not a statistical benchmark. Whole-response and scoped factual metrics differ; neither proves SQL correctness or human acceptance. Live public data changed between historical and fresh runs; only replay uses identical contexts. Preserve failed v5/v6 runs. A successful later run does not erase their reliability failures.</p><p>Failed v5/v6 runs remain in the evaluation directory. The displayed v9 run uses the v7 prompt, required-answer schema, Flash planning and Pro final review. Earlier Flash metrics above use distinct recorded reports. Saved reports are immutable historical evidence; they are not rewritten after prompt changes.</p></section><section><h2>Historical Ragas advisory evaluation · incomplete</h2><div class="scroll"><table><thead><tr><th>metric</th><th>ragas_mean</th><th>combined_with_empty_context_rule</th><th>ragas_scored</th><th>rule_scored</th><th>applicable</th><th>total_samples</th></tr></thead><tbody><tr><td>faithfulness</td><td>0.5</td><td>0.5</td><td>4</td><td>0</td><td>4</td><td>12</td></tr><tr><td>context_precision</td><td>0.9999999999142857</td><td>0.9999999999142857</td><td>7</td><td>0</td><td>8</td><td>12</td></tr><tr><td>context_recall</td><td>0.8571428571428571</td><td>0.75</td><td>7</td><td>1</td><td>8</td><td>12</td></tr></tbody></table></div><p>4 reports (1 live + 3 fixture), 8 retrieval examples. Same Gemini judge model family as the application; self-judge bias. Faithfulness uses SQL facts. Retrieval scores use Golden reference methodology. Small synthetic sets are not release thresholds. Empty-context rule zeros are excluded from ragas_mean.</p><p>Faithfulness 0.50 requires review: recommendations and caveats are often not entailed by SQL facts. Do not interpret this as an accuracy pass.</p><p><a href="ragas-faithfulness-diagnostics-2026-11-21.json">Per-statement diagnostic and supported/contradicted calibration</a></p></section><section><h2>DeepSeek review</h2><p>Of 11 reports (9 fixture: 3 modes x 3 cases; 2 live), numeric values, grain, Complete-status revenue framing, the Returned/(Complete+Returned) denominator, and margin-vs-net-profit caveats are largely faithful. No numeric contradiction was found between any report and its own returned rows. v3 accurately claims the save (report_id matches management); the initial live run made no false save claim but silently omits that a requested save did not occur. Residual issues are minor text/grounding nits, not data errors.</p><p>11 reports = 9 fixture variants and 2 live variants; not an independent review of these 12 business cases. Numeric checks use embedded query rows; independent SQL oracles are recorded separately below.</p><details><summary>Full review</summary><pre>{
+  &quot;model&quot;: &quot;DeepSeek V4.1 Flash (bounded report reviewer)&quot;,
+  &quot;evidence_boundary&quot;: &quot;Read-only review of answer text plus embedded query evidence (SQL, returned rows, management/saved fields) and docs/evaluation.md. No independent SQL execution or BigQuery ground-truth recomputation. Fixture rows are canned and not independently verifiable. human_report_review is &#x27;pending&#x27; in every record; no human acceptance asserted. Numeric checks compare prose/tables against the returned rows in the same record.&quot;,
+  &quot;summary&quot;: &quot;Of 11 reports (9 fixture: 3 modes x 3 cases; 2 live), numeric values, grain, Complete-status revenue framing, the Returned/(Complete+Returned) denominator, and margin-vs-net-profit caveats are largely faithful. No numeric contradiction was found between any report and its own returned rows. v3 accurately claims the save (report_id matches management); the initial live run made no false save claim but silently omits that a requested save did not occur. Residual issues are minor text/grounding nits, not data errors.&quot;,
+  &quot;reviews&quot;: [
+    {
+      &quot;source&quot;: &quot;bigquery-live-agent.json&quot;,
+      &quot;mode&quot;: &quot;live&quot;,
+      &quot;case_id&quot;: &quot;product_completed_revenue&quot;,
+      &quot;data_source&quot;: &quot;live BigQuery, job eeb52e3b-3e39-4c46-b6bd-52b1ec0874a9&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;Action items: investigate low sales &#x27;e.g., check stock availability, search visibility, or pricing competitiveness&#x27; and &#x27;friction in the fulfillment funnel&#x27;.&quot;,
+          &quot;evidence&quot;: &quot;Only q1 exists: product 1=2 items, product 2=1 item; no stock/search/pricing/funnel data queried.&quot;,
+          &quot;reason&quot;: &quot;Causes enumerated without supporting evidence; &#x27;low sales volume&#x27; inferred from a 3-item sample.&quot;,
+          &quot;recommendation&quot;: &quot;Label as unverified hypotheses to test, or drop the cause list.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;Says &#x27;Based on all available historical data&#x27; but gives no temporal/freshness limitation.&quot;,
+          &quot;evidence&quot;: &quot;SQL has no date predicate; limitations cover only sample size and status exclusions.&quot;,
+          &quot;reason&quot;: &quot;All-history aggregation without flagging the absent window masks recency/seasonality (v3 did flag this).&quot;,
+          &quot;recommendation&quot;: &quot;Add a no-window / freshness limitation.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;No save statement; requested save was missed.&quot;,
+          &quot;evidence&quot;: &quot;management=null, saved_reports=0, answer has no save claim.&quot;,
+          &quot;reason&quot;: &quot;Does not fabricate a save (good) but does not disclose a save was requested and not completed.&quot;,
+          &quot;recommendation&quot;: &quot;Surface save success/failure in the narrative.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;bigquery-live-agent-v3.json&quot;,
+      &quot;mode&quot;: &quot;live&quot;,
+      &quot;case_id&quot;: &quot;product_completed_revenue&quot;,
+      &quot;data_source&quot;: &quot;live BigQuery, job 63275cb8-6d43-44dc-a82e-33725900729f&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;&#x27;Evaluate Inventory and Stocking ... given their established history of completed sales.&#x27;&quot;,
+          &quot;evidence&quot;: &quot;q1 totals 3 completed items (2+1).&quot;,
+          &quot;reason&quot;: &quot;&#x27;established history&#x27; overstates a 3-item sample and implies recurring demand not shown.&quot;,
+          &quot;recommendation&quot;: &quot;Qualify as very-low volume rather than established.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;v3 limitations omit the small-sample caveat present in the initial run.&quot;,
+          &quot;evidence&quot;: &quot;Same 3 completed items; v3 lists only scope and no-temporal-context.&quot;,
+          &quot;reason&quot;: &quot;Dropping the sample-size limitation reduces statistical-reliability transparency.&quot;,
+          &quot;recommendation&quot;: &quot;Retain a small-sample limitation.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Saved report &#x27;Completed Item Revenue for Authorized Products Across History&#x27; (rep_8364de063044833c).&quot;,
+          &quot;evidence&quot;: &quot;management.report_id=rep_8364de063044833c, saved_reports=1.&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence: save claim matches the recorded id.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;none&quot;,
+      &quot;case_id&quot;: &quot;monthly&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated; live_bigquery_verified=false&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Jan $100 / Feb $110 with explicit refusal to infer cause of the $10 increase.&quot;,
+          &quot;evidence&quot;: &quot;q1 rows 100.0/110.0; window 2026-01-01 to &lt;2026-03-01.&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence; window, status, scope match and causation withheld.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;none&quot;,
+      &quot;case_id&quot;: &quot;returns&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;8 finalized / 1 returned / 12.50% per product, explicit not-a-refund-rate framing.&quot;,
+          &quot;evidence&quot;: &quot;q1 rows 8/1/0.125; denominator status IN (&#x27;Complete&#x27;,&#x27;Returned&#x27;).&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence; numbers and denominator match and are stated.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;none&quot;,
+      &quot;case_id&quot;: &quot;margin&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;&#x27;Investigate why the sale price of these items is consistently below their product cost.&#x27;&quot;,
+          &quot;evidence&quot;: &quot;q1 returns a single aggregate row (210/490/-280); no per-item rows.&quot;,
+          &quot;reason&quot;: &quot;&#x27;consistently&#x27; overgeneralizes an aggregate that cannot show per-item consistency.&quot;,
+          &quot;recommendation&quot;: &quot;State aggregate margin is negative instead of asserting per-item consistency.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Margin treated as proxy not net profit; scope products 1 and 2.&quot;,
+          &quot;evidence&quot;: &quot;SQL has status=&#x27;Complete&#x27; AND product_id IN (1,2); caveat says not net profit.&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence for scope or margin framing.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;lexical&quot;,
+      &quot;case_id&quot;: &quot;monthly&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Jan $100 / Feb $110 and &#x27;10% month-over-month growth&#x27;, drivers left as follow-up.&quot;,
+          &quot;evidence&quot;: &quot;q1 rows 100.0/110.0; (110-100)/100=10%.&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence; arithmetic and non-causal framing consistent.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;lexical&quot;,
+      &quot;case_id&quot;: &quot;returns&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;8/1/12.50% per product with sample-size caveat and denominator explanation.&quot;,
+          &quot;evidence&quot;: &quot;q1 and q2 return identical rows 8/1/0.125; q2 SQL duplicates q1.&quot;,
+          &quot;reason&quot;: &quot;No text discrepancy detected in reviewed evidence; the duplicate query is a process nit.&quot;,
+          &quot;recommendation&quot;: &quot;Avoid duplicate identical queries.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;lexical&quot;,
+      &quot;case_id&quot;: &quot;margin&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;Action items reference &#x27;the authorized products&#x27; / &#x27;these products&#x27;.&quot;,
+          &quot;evidence&quot;: &quot;q1 SQL is &#x27;WHERE i.status = Complete&#x27; with no product_id filter.&quot;,
+          &quot;reason&quot;: &quot;Product-scope wording implies restriction to products 1/2 that the SQL does not enforce.&quot;,
+          &quot;recommendation&quot;: &quot;State actual unfiltered scope or add the product filter.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Proxy margin 210/490/-280, explicitly not net profit.&quot;,
+          &quot;evidence&quot;: &quot;q1 single row matches stated values.&quot;,
+          &quot;reason&quot;: &quot;No numeric discrepancy detected in reviewed evidence.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;hybrid&quot;,
+      &quot;case_id&quot;: &quot;monthly&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Jan $100 / Feb $110, &#x27;$10.00 (10%) increase&#x27;, volume-vs-price follow-up.&quot;,
+          &quot;evidence&quot;: &quot;q1 rows 100.0/110.0; window DATE&gt;=2026-01-01 AND &lt;2026-03-01.&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence; math, window, non-causal framing match.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;hybrid&quot;,
+      &quot;case_id&quot;: &quot;returns&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;8/1/12.5% per product with correct denominator and not-a-refund-rate reasoning.&quot;,
+          &quot;evidence&quot;: &quot;q1 rows 8/1/0.125; denominator IN (&#x27;Complete&#x27;,&#x27;Returned&#x27;).&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;source&quot;: &quot;agent-retrieval-live-fixture-v2.json&quot;,
+      &quot;mode&quot;: &quot;hybrid&quot;,
+      &quot;case_id&quot;: &quot;margin&quot;,
+      &quot;data_source&quot;: &quot;fixture rows, model-generated&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;claim&quot;: &quot;Actionable suggestions target &#x27;these products&#x27;.&quot;,
+          &quot;evidence&quot;: &quot;q1 SQL is &#x27;WHERE i.status = Complete&#x27; with no product_id filter.&quot;,
+          &quot;reason&quot;: &quot;Implied product restriction exceeds executed query scope.&quot;,
+          &quot;recommendation&quot;: &quot;Align scope wording with the unfiltered SQL.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Scope stated as &#x27;restricted to items with Complete status&#x27;; proxy not net profit.&quot;,
+          &quot;evidence&quot;: &quot;q1 row 210/490/-280; SQL filters status only.&quot;,
+          &quot;reason&quot;: &quot;No discrepancy detected in reviewed evidence between stated scope and SQL.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    }
+  ],
+  &quot;limitations&quot;: [
+    &quot;No independent SQL ground truth; findings rely on report-vs-embedded-rows consistency, not BigQuery re-execution.&quot;,
+    &quot;Fixture rows are canned: identical 210/490/-280 is returned even where margin SQL omits the product filter, so SQL-to-output linkage is unverifiable.&quot;,
+    &quot;human_report_review is &#x27;pending&#x27; in every record; no human acceptance claimed.&quot;,
+    &quot;Repetitions = 1 per case; no variance/stability evidence.&quot;,
+    &quot;The 11 reports are 3 fixture cases x 3 retrieval modes plus 2 live runs of the same completed-revenue question; they are not 11 independent business scenarios.&quot;,
+    &quot;Live and fixture data are disjoint (live 3 completed items vs fixture 8 finalized per product); cross-set numeric comparison is not meaningful.&quot;,
+    &quot;The lexical/returns answer was read with a truncated trailing evidence table; its prose and q1 rows were fully visible.&quot;
+  ]
+}</pre></details></section><section><h2>Historical DeepSeek review of earlier 12 business cases</h2><p>The reviewer found an empty realized-price report mislabeled successful. The guard and acceptance harness were fixed; a new real query/report recheck passed the numeric and minimum-structure checks. The original record remains archived. Review findings below refer to the original run. Model-generated action items still require human review.</p><details><summary>Full twelve-case review</summary><pre>{
+  &quot;evidence_boundary&quot;: &quot;Reviewer read only the named results file. I did NOT re-execute BigQuery SQL, did not access providers or secrets, and did not recompute reference results. Checks compare each answer&#x27;s prose/table against (a) its embedded actual evidence rows and (b) the file&#x27;s independent reference_rows. Reference rows are treated as given ground truth, not independently verified. human_review is &#x27;pending&#x27;; no human acceptance is claimed. Where a report&#x27;s own SQL text differs in scope from the reference, that is a text-level observation, not a recomputation.&quot;,
+  &quot;summary&quot;: &quot;11 of 12 cases are numerically faithful: answer table values equal both the embedded evidence and the independent reference rows, with correct grain, Complete-status framing, all-history window, return denominator Returned/(Complete+Returned), and non-net-profit margin caveats. Two cross-cutting defects: (1) realized-price is a FAILURE mislabeled as success — the answer only asks for clarification, gives no table, limitations or action items, yet outcome=&#x27;succeeded&#x27;, saved=true, query_oracle_passed=true, case status=&#x27;passed&#x27;, and the suite status=&#x27;passed&#x27;. (2) Several generator SQL statements (status-mix q1, category-revenue, margin-proxy, state-customers, country-customers, age-band) omit the product/authorization filter shown in the reference SQL, yet return the authorized-scoped figures; the numbers still match the reference, so this is a scope-enforcement concern (correctness depends on a pre-scoped table/view) rather than a numeric error, and it cannot be resolved without recomputation. Residual issues are minor: speculative-but-framed causal action items, an items-vs-orders conflation in state-customers, fragile order-status derivation in scoped-orders, and an incomplete partial-year flag in yearly-comparison.&quot;,
+  &quot;reviews&quot;: [
+    {
+      &quot;id&quot;: &quot;product-revenue&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Action: &#x27;Monitor stock levels for Product 1, as it shows higher completed item volume compared to Product 2.&#x27;&quot;,
+          &quot;reason&quot;: &quot;Grounded only in 2 vs 1 completed items; the stock-monitoring inference implies demand pressure not evidenced. Numbers, aliases (product_id, completed_items, revenue), scope, save id rep_6c40785469bea5cb all match reference/management.&quot;,
+          &quot;recommendation&quot;: &quot;Qualify the 2-vs-1 difference as a tiny sample; avoid implying stock risk.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;status-mix&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Table Shipped 5 / Complete 3 / Returned 3 / Processing 1, stated as authorized-products scope.&quot;,
+          &quot;reason&quot;: &quot;Values match reference and q2 (product-filtered) SQL. But evidence q1 SQL is &#x27;SELECT status, COUNT(*) FROM order_items GROUP BY status&#x27; with NO product_id filter yet returns the identical authorized-scoped rows, and q1/q2 are duplicates. As written the unfiltered query would not honor the scope; correctness relies on a pre-scoped table/view.&quot;,
+          &quot;recommendation&quot;: &quot;Drop the redundant unfiltered query and ensure all evidence SQL carries the product scope, or document the pre-scoped view.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Action: investigate return root causes; ensure the single Processing item is fulfilled within SLA.&quot;,
+          &quot;reason&quot;: &quot;Return investigation is framed as follow-up (acceptable); SLA action is reasonable but rests on one item.&quot;,
+          &quot;recommendation&quot;: &quot;None material.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;monthly-revenue&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Values 2020-12 (1,$49), 2025-08 (1,$49), 2026-03 (1,$69.5); &#x27;3 completed items ... December 2020 to March 2026&#x27;.&quot;,
+          &quot;reason&quot;: &quot;Matches reference and evidence exactly; month grain, Complete status and filters correct; COUNT(item_key) is a valid item count. Caveats on low volume and gaps are strong.&quot;,
+          &quot;recommendation&quot;: &quot;None on numerics.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Action: investigate low volume &#x27;(e.g., check stock levels, listing visibility, or catalog status)&#x27; and whether unmet demand is failing to complete.&quot;,
+          &quot;reason&quot;: &quot;Speculative causes not supported by the queried data, though framed as investigation.&quot;,
+          &quot;recommendation&quot;: &quot;Label as hypotheses to test.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;category-revenue&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Table Tops &amp; Tees / 3 items / $167.50.&quot;,
+          &quot;reason&quot;: &quot;Matches reference and evidence. However the executed SQL is &#x27;WHERE status=\\&#x27;Complete\\&#x27;&#x27; only (no product_id filter), while the reference is authorized-scoped; the answer also omits a product-authorization caveat (it states only status scope). Numbers happen to equal the scoped reference, implying a pre-scoped table or duplicated rows.&quot;,
+          &quot;recommendation&quot;: &quot;Add the product filter to the SQL and state the product scope in limitations.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Action: &#x27;Audit Status Transitions ... average time to Transition to Complete&#x27;.&quot;,
+          &quot;reason&quot;: &quot;Requires timestamp/transition data not queried; framed as follow-up but not grounded in the evidence.&quot;,
+          &quot;recommendation&quot;: &quot;Mark as a new analysis needing additional data.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;margin-proxy&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Table $167.50 / $90.72 / $76.78, correctly labelled a proxy, not net profit.&quot;,
+          &quot;reason&quot;: &quot;Rounded from 167.5 / 90.7225 / 76.7775; rounding is faithful and matches reference. Net-profit disclaimer and cost-assumption caveat are present and correct.&quot;,
+          &quot;recommendation&quot;: &quot;None on numerics.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Scope of the margin figure.&quot;,
+          &quot;reason&quot;: &quot;Executed SQL joins products with &#x27;WHERE i.status=\\&#x27;Complete\\&#x27;&#x27; and NO product_id filter, while the reference is authorized-scoped; equality is presumed via a pre-scoped table. Scope is not enforced in the shown SQL.&quot;,
+          &quot;recommendation&quot;: &quot;Add the product filter or document the scoped view.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;state-customers&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Table Hebei 1/$69.5, Virginia 1/$49, Washington 1/$49.&quot;,
+          &quot;reason&quot;: &quot;Values match reference and evidence (distinct customer per state, revenue per state). But the SQL joins users on customer_key with &#x27;WHERE status=\\&#x27;Complete\\&#x27;&#x27; and no product_id filter, so scope is not enforced in the shown query.&quot;,
+          &quot;recommendation&quot;: &quot;Add product scope to the SQL/document the view.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;&#x27;3 orders across 3 states&#x27;.&quot;,
+          &quot;reason&quot;: &quot;The data are 3 completed items, not necessarily 3 distinct orders; item-vs-order grain is conflated.&quot;,
+          &quot;recommendation&quot;: &quot;Say &#x27;3 completed items&#x27; unless an order count is queried.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;country-customers&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Table United States 2/$98, China 1/$69.5.&quot;,
+          &quot;reason&quot;: &quot;Values match reference and evidence and totals reconcile (3 customers, $167.5). The executed SQL has no product_id filter (status=&#x27;Complete&#x27; only) while the reference is authorized-scoped; scope is not enforced in the shown SQL.&quot;,
+          &quot;recommendation&quot;: &quot;Add the product filter/document the scoped view.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Caveat &#x27;Customer keys are treated as pseudonyms; no further PII inferred.&#x27;&quot;,
+          &quot;reason&quot;: &quot;Appropriate privacy handling; no discrepancy detected in reviewed evidence.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;age-band&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Table 30s 2/$118.5, 60s 1/$49.&quot;,
+          &quot;reason&quot;: &quot;Values match reference and evidence; totals reconcile to 3 items/$167.5. Executed SQL filters status=&#x27;Complete&#x27; but not product_id, versus an authorized reference; scope not enforced in the shown query.&quot;,
+          &quot;recommendation&quot;: &quot;Add product filter/document the scoped view.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Action: &#x27;Targeted Campaigns ... 30s represents highest completed revenue and volume, consider pilot marketing campaigns tailored to this demographic.&#x27;&quot;,
+          &quot;reason&quot;: &quot;Recommends targeting from a 2-vs-1 comparison over 3 items; overreach despite a small-sample caveat.&quot;,
+          &quot;recommendation&quot;: &quot;Soften to a hypothesis pending larger samples.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;scoped-orders&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Table Complete 3 / Shipped 5 / Processing 1 / Returned 3, described as &#x27;12 total orders&#x27;.&quot;,
+          &quot;reason&quot;: &quot;Values match the reference (orders-table with EXISTS). But the executed SQL derives status from order_items.status and counts DISTINCT order_key per item-status, not from the orders table; an order spanning multiple item statuses could be counted in more than one bucket, and &#x27;12 total orders&#x27; assumes no such duplication. Matches here, but the grain is fragile.&quot;,
+          &quot;recommendation&quot;: &quot;Derive order status from the orders table (or explicitly dedupe per order) to guarantee order grain.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Action: &#x27;investigate if there are quality or description issues with Product IDs 1 and 2&#x27; and promotional push.&quot;,
+          &quot;reason&quot;: &quot;Causal speculation from counts, though framed as investigation.&quot;,
+          &quot;recommendation&quot;: &quot;Label as hypotheses.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;realized-price&quot;,
+      &quot;verdict&quot;: &quot;fail&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;high&quot;,
+          &quot;claim&quot;: &quot;Answer is only &#x27;Please clarify the metric and period you want analyzed.&#x27; with no results table, limitations, or action items.&quot;,
+          &quot;reason&quot;: &quot;The requested avg/min/max price table was produced in evidence (product 1 all 49.0; product 2 all 69.5, matching the reference) and the question already specified metric/period, so the clarification request is unnecessary. The report does not answer the question, yet outcome=&#x27;succeeded&#x27;, saved=true, query_oracle_passed=true and the case/suite status=&#x27;passed&#x27; — an incorrect success claim.&quot;,
+          &quot;recommendation&quot;: &quot;Fail this case; render the computed table with caveats/actions, and gate &#x27;passed&#x27; on answer content, not only row-oracle equality.&quot;
+        },
+        {
+          &quot;severity&quot;: &quot;medium&quot;,
+          &quot;claim&quot;: &quot;Top-level status &#x27;passed&#x27; over all 12 cases.&quot;,
+          &quot;reason&quot;: &quot;Includes this clarification-only, non-answering report, so the suite success claim is not supported by the case contents.&quot;,
+          &quot;recommendation&quot;: &quot;Recompute acceptance status excluding non-answering reports.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;return-rate&quot;,
+      &quot;verdict&quot;: &quot;no_discrepancy_detected&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;info&quot;,
+          &quot;claim&quot;: &quot;Product 1 2/0/0.00%, Product 2 4/3/75.00%; denominator = Complete+Returned, other statuses excluded.&quot;,
+          &quot;reason&quot;: &quot;Matches reference and evidence exactly; the Returned/(Complete+Returned) denominator is implemented and stated correctly, totals cross-check with product-revenue (Complete 3) and status-mix (Returned 3). No discrepancy detected in reviewed evidence.&quot;,
+          &quot;recommendation&quot;: &quot;None.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;yearly-comparison&quot;,
+      &quot;verdict&quot;: &quot;pass_with_minor_notes&quot;,
+      &quot;findings&quot;: [
+        {
+          &quot;severity&quot;: &quot;low&quot;,
+          &quot;claim&quot;: &quot;Table 2020 1/$49, 2025 1/$49, 2026 1/$69.5; &#x27;current year (2026) is likely a partial year&#x27;.&quot;,
+          &quot;reason&quot;: &quot;Values match reference/evidence and year grain is correct. The question asked to flag partial years; only 2026 is explicitly flagged, although 2020 (single December item) and 2025 (single August item) are equally partial single-month observations.&quot;,
+          &quot;recommendation&quot;: &quot;Flag 2020 and 2025 as partial/single-month coverage too.&quot;
+        }
+      ]
+    }
+  ]
+}</pre></details><details open><summary>Finding dispositions and recheck caveats</summary><pre>{
+  &quot;review_source&quot;: &quot;deepseek-live-business-review-2026-11-21.json&quot;,
+  &quot;findings&quot;: [
+    {
+      &quot;finding&quot;: &quot;realized-price empty report accepted&quot;,
+      &quot;status&quot;: &quot;fixed_and_rechecked&quot;,
+      &quot;evidence&quot;: &quot;live-business-realized-price-recheck-2026-11-21.json&quot;,
+      &quot;note&quot;: &quot;Agent rejects empty final answers without saving; acceptance also checks minimum English report structure. Original report and evidence preserved.&quot;
+    },
+    {
+      &quot;finding&quot;: &quot;Logical SQL omits product predicates&quot;,
+      &quot;status&quot;: &quot;review_concern_resolved_by_existing_design&quot;,
+      &quot;evidence&quot;: &quot;retail/analytics.py:80,94,123; tests/test_core.py:test_nested_cte_sources_bound_not_cte_references&quot;,
+      &quot;note&quot;: &quot;Reports expose validated logical SQL. Trusted binding replaces every approved source with product-scoped physical subqueries, using principal products. Enforcement does not depend on the model including predicates. Numeric oracles and source-binding tests support this; no new provider recomputation was added for this comment.&quot;
+    },
+    {
+      &quot;finding&quot;: &quot;Remaining caveats, causal suggestions, item/order wording and partial-year caveats&quot;,
+      &quot;status&quot;: &quot;human_review_pending&quot;,
+      &quot;note&quot;: &quot;Recorded reports are preserved for human review; numeric oracle success is not a report-quality acceptance.&quot;
+    },
+    {
+      &quot;finding&quot;: &quot;Realized-price recheck infers no discounting from identical min/max/average&quot;,
+      &quot;status&quot;: &quot;human_review_pending&quot;,
+      &quot;note&quot;: &quot;The rerun is complete and numerically correct, but no observed price variance cannot establish absence of discounts. This statement should be qualified; the rerun is not a judge/human quality pass.&quot;
+    }
+  ]
+}</pre></details></section><section><h2>Acceptance ledger</h2><div class="scroll"><table><thead><tr><th>name</th><th>status</th><th>evidence</th><th>note</th></tr></thead><tbody><tr><td>product-revenue</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>status-mix</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>monthly-revenue</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>category-revenue</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>margin-proxy</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>state-customers</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>country-customers</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>age-band</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>scoped-orders</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>realized-price</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>return-rate</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>yearly-comparison</td><td>passed</td><td>live-business-pro-final-2026-11-21.json</td><td></td></tr><tr><td>Owned report direct opening</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Other user cannot open report</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Other user report listing excludes Alice</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Unauthenticated request denied</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>PII request refused without query</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Product entitlement bypass yields no unauthorized evidence</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>New chat opens saved report via agent</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Presentation preference stored</td><td>failed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Undefined churn clarified before querying</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Previous-month follow-up preserves definition and scope</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Deletion preview preserves report</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Deletion rejects non-boolean confirmation</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Other user cannot confirm deletion</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Cancellation preserves report</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Confirmed deletion removes only disposable report</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Deletion confirmation replay is idempotent</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>SSE emits progress and final live results</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Hybrid retrieval active after indexing</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Saved reports survive real backend process restart</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Preference regression on prompt v4</td><td>failed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>Concise preference regression after required decision schema</td><td>passed</td><td>live-dialogue-security-2026-11-21.json</td><td></td></tr><tr><td>model_failure</td><td>passed</td><td>fault-observability-checks-2026-11-21.json</td><td></td></tr><tr><td>query_timeout</td><td>passed</td><td>fault-observability-checks-2026-11-21.json</td><td></td></tr><tr><td>Live metadata log excludes secrets and raw prompts/results</td><td>passed</td><td>fault-observability-checks-2026-11-21.json</td><td></td></tr><tr><td>Isolated installation and regression suite</td><td>passed</td><td></td><td>Frozen lock into a fresh virtual environment; 159 tests at that historical installation check. Current checkout regression: 167 tests. Installed wheel evaluator passed 21 fixture cases with explicit case paths. Same host, not a clean-machine test.</td></tr><tr><td>Live Open WebUI browser workflow</td><td>passed</td><td></td><td>Visible progress, rendered table, save and opening the same report from a new chat. Docker recovered; 13 unrelated containers stopped without deleting volumes.</td></tr><tr><td>Langfuse ingestion/read-back</td><td>untested</td><td></td><td>No running configured Langfuse service; local metadata audit passed.</td></tr><tr><td>Clean-machine installation</td><td>untested</td><td></td><td>Existing host setup was used.</td></tr><tr><td>Human report and UX acceptance</td><td>untested</td><td></td><td>Pending reviewer decision; automated checks do not imply acceptance.</td></tr></tbody></table></div><p>Two earlier preference failures are preserved. The final live regression passed after schema correction. Case passed means numeric oracle, save and minimum report structure; human quality acceptance remains pending.</p></section><article id="product-revenue"><h2>product-revenue <span class="pass">passed</span></h2><p>Compare all-history Complete-item revenue and item counts by authorized product. Return exactly these table column aliases: product_id, completed_items, revenue. State limitations and action items, then save this analysis as Acceptance product-revenue.</p><p class="meta">Report rep_e160a7f8e91f56fc · 29.9 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on the query of all-history Complete-item records [q1], the metrics by authorized product are:
+
+| product_id | completed_items | revenue |
+| :--- | :--- | :--- |
+| 1 | 1 | 49.0 |
+| 2 | 1 | 69.5 |
+
+### Limitations
+* **Small Sample Size:** The dataset contains only 1 completed item per product, which is too small to establish long-term demand or performance trends.
+* **Completeness &amp; Coverage:** Data completeness, historical coverage, and potential exclusions of other statuses (e.g., cancelled, returned) were not measured.
+
+### Action Items (Proposed)
+* **Verify Status Distribution:** Propose a query to check the volume of items in other statuses (e.g., &#x27;Processing&#x27;, &#x27;Shipped&#x27;, &#x27;Returned&#x27;) for these products to understand the full lifecycle.
+* **Expand Product Scope:** Propose checking if additional product IDs are authorized or active in other periods.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- product_id: 1; completed_items: 1; revenue: 49.0
+- product_id: 2; completed_items: 1; revenue: 69.5
+
+Saved report **Acceptance product-revenue** (`rep_e160a7f8e91f56fc`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 5cdc3505-069d-48c3-9c0d-79497fe11307</summary><pre>SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `completed_items`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = &#x27;Complete&#x27; GROUP BY `order_items`.`product_id`</pre></details><div class="scroll"><table><thead><tr><th>product_id</th><th>completed_items</th><th>revenue</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>49.0</td></tr><tr><td>2</td><td>1</td><td>69.5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT i.product_id,COUNT(*) AS completed_items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY i.product_id</pre><div class="scroll"><table><thead><tr><th>product_id</th><th>completed_items</th><th>revenue</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>49.0</td></tr><tr><td>2</td><td>1</td><td>69.5</td></tr></tbody></table></div><p>Reference job 66cbf6cc-5155-48d9-9fe1-7305b3ee18de</p></details><label>Your verdict <select data-review="product-revenue"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="product-revenue" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="status-mix"><h2>status-mix <span class="pass">passed</span></h2><p>Count all-history authorized order items by status. Return exactly these table column aliases: status, items. State limitations and action items, then save this analysis as Acceptance status-mix.</p><p class="meta">Report rep_10b2e2dc75098e84 · 43.0 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+* Based on the all-history query of authorized order items [q1], the distribution of items by status is as follows:
+
+| status | items |
+| :--- | :--- |
+| Processing | 5 |
+| Shipped | 5 |
+| Complete | 2 |
+| Returned | 2 |
+| Cancelled | 1 |
+
+### Limitations
+* **Sample Size:** The observed sample is very small (15 total items), so these counts do not establish a stable status distribution.
+* **Scope &amp; Coverage:** The analysis reflects only authorized products within the execution scope. The completeness and coverage of the historical period were not measured.
+
+### Action Items (Proposed)
+* **Observation Window:** Propose querying the minimum and maximum `created_at` dates to establish the timeframe for these items, which may explain the high proportion of &#x27;Processing&#x27; and &#x27;Shipped&#x27; items.
+* **Return &amp; Cancellation Review:** Propose checking if specific product categories or brands within the authorized scope correlate with the &#x27;Returned&#x27; or &#x27;Cancelled&#x27; statuses.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- status: Processing; items: 5
+- status: Shipped; items: 5
+- status: Complete; items: 2
+- status: Returned; items: 2
+- status: Cancelled; items: 1
+
+Saved report **Acceptance status-mix** (`rep_10b2e2dc75098e84`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 349e5206-ebe6-4761-88d2-6d9dd8aa22c7</summary><pre>SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `items` DESC</pre></details><div class="scroll"><table><thead><tr><th>status</th><th>items</th></tr></thead><tbody><tr><td>Processing</td><td>5</td></tr><tr><td>Shipped</td><td>5</td></tr><tr><td>Complete</td><td>2</td></tr><tr><td>Returned</td><td>2</td></tr><tr><td>Cancelled</td><td>1</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT i.status,COUNT(*) AS items FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) GROUP BY i.status</pre><div class="scroll"><table><thead><tr><th>status</th><th>items</th></tr></thead><tbody><tr><td>Cancelled</td><td>1</td></tr><tr><td>Complete</td><td>2</td></tr><tr><td>Processing</td><td>5</td></tr><tr><td>Returned</td><td>2</td></tr><tr><td>Shipped</td><td>5</td></tr></tbody></table></div><p>Reference job 58b5af73-452f-49a9-a003-ad38c23cd86e</p></details><label>Your verdict <select data-review="status-mix"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="status-mix" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="monthly-revenue"><h2>monthly-revenue <span class="pass">passed</span></h2><p>Show Complete-item revenue and item counts per calendar month across all available history for authorized products. Return exactly these table column aliases: month, items, revenue. State limitations and action items, then save this analysis as Acceptance monthly-revenue.</p><p class="meta">Report rep_67a2ca7fd4577e39 · 25.9 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on the historical data for authorized products, here is the monthly breakdown of completed items and revenue [q1]:
+
+| month | items | revenue |
+| :--- | :--- | :--- |
+| 2024-05-01 | 1 | 49.0 |
+| 2026-06-01 | 1 | 69.5 |
+
+### Limitations
+* **Small Sample Size:** The analysis is based on a very small sample of only 2 completed items across the entire history [q1].
+* **Data Completeness:** Coverage and completeness of the historical timeline were not measured; we cannot assume missing months represent zero activity or missing data.
+* **Scope:** This analysis only includes items with a status of &#x27;Complete&#x27;.
+
+### Action Items (Proposed)
+* **Verify Product Coverage:** Propose checking if other authorized products have transactions that are pending or in other non-complete statuses.
+* **Investigate Timeline Gaps:** Propose a comparison with overall order volumes to determine if the gap between 2024 and 2026 is due to data coverage or actual transaction patterns.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- month: 2024-05-01; items: 1; revenue: 49.0
+- month: 2026-06-01; items: 1; revenue: 69.5
+
+Saved report **Acceptance monthly-revenue** (`rep_67a2ca7fd4577e39`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · cef1a69a-4761-41ba-9733-26f3e60b142f</summary><pre>SELECT DATE_TRUNC(DATE(`order_items`.`created_at`), MONTH) AS `month`, COUNT(*) AS `items`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = &#x27;Complete&#x27; GROUP BY `month` ORDER BY `month`</pre></details><div class="scroll"><table><thead><tr><th>month</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>2024-05-01</td><td>1</td><td>49.0</td></tr><tr><td>2026-06-01</td><td>1</td><td>69.5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT DATE_TRUNC(DATE(i.created_at),MONTH) AS month,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY month</pre><div class="scroll"><table><thead><tr><th>month</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>2024-05-01</td><td>1</td><td>49.0</td></tr><tr><td>2026-06-01</td><td>1</td><td>69.5</td></tr></tbody></table></div><p>Reference job 51660e89-dd3c-48df-a6bf-872cb06089d9</p></details><label>Your verdict <select data-review="monthly-revenue"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="monthly-revenue" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="category-revenue"><h2>category-revenue <span class="pass">passed</span></h2><p>Compare Complete-item revenue by product category across all available history. Return exactly these table column aliases: category, items, revenue. State limitations and action items, then save this analysis as Acceptance category-revenue.</p><p class="meta">Report rep_2e3edd91807a3145 · 40.7 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on all available history for completed items [q1]:
+* **Tops &amp; Tees** is the only category with completed sales in the current scope, generating **118.5** in revenue from **2** items.
+* *Note: This observation is based on a very small sample size.*
+
+| category | items | revenue |
+| :--- | :--- | :--- |
+| Tops &amp; Tees | 2 | 118.5 |
+
+### Limitations
+* **Sample Size**: Only 2 completed items were observed, which cannot establish broader category trends.
+* **Scope**: Analysis is restricted to authorized products. Completeness of historical coverage was not measured.
+* **Pricing Context**: The query measures realized `sale_price` but does not evaluate discounts or original retail prices.
+
+### Action Items (Proposed)
+* **Verify Catalog Breadth**: Check if other product categories exist within the authorized scope but currently lack completed sales.
+* **Investigate Volume**: Determine if the small sample size is due to limited authorization, a recent product launch, or data filtering.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- category: Tops &amp; Tees; items: 2; revenue: 118.5
+
+Saved report **Acceptance category-revenue** (`rep_2e3edd91807a3145`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · d9276dc6-1bce-49c4-8139-4476d7968d7d</summary><pre>SELECT `p`.`category` AS `category`, COUNT(*) AS `items`, SUM(`i`.`sale_price`) AS `revenue` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = &#x27;Complete&#x27; GROUP BY `category` ORDER BY `revenue` DESC</pre></details><div class="scroll"><table><thead><tr><th>category</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>Tops &amp; Tees</td><td>2</td><td>118.5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT p.category,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.products` p ON p.id=i.product_id WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY p.category</pre><div class="scroll"><table><thead><tr><th>category</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>Tops &amp; Tees</td><td>2</td><td>118.5</td></tr></tbody></table></div><p>Reference job 51041ca5-939b-4851-bafd-2c0feda6be59</p></details><label>Your verdict <select data-review="category-revenue"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="category-revenue" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="margin-proxy"><h2>margin-proxy <span class="pass">passed</span></h2><p>Calculate total Complete-item revenue, product-cost proxy and margin proxy, excluding other expenses, across all history. Do not call this net profit. Return exactly these table column aliases: completed_revenue, product_cost_proxy, margin_proxy. State limitations and action items, then save this analysis as Acceptance margin-proxy.</p><p class="meta">Report rep_774243a56ff8b247 · 37.3 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on all available historical order items with a status of &#x27;Complete&#x27; [q1]:
+* **Completed Revenue**: 118.50
+* **Product Cost Proxy**: 63.67
+* **Margin Proxy**: 54.83
+
+| completed_revenue | product_cost_proxy | margin_proxy |
+| :--- | :--- | :--- |
+| 118.50 | 63.67 | 54.83 |
+
+### Limitations
+* **Scope of Costs**: This margin proxy only accounts for recorded product cost and excludes other expenses such as shipping, taxes, acquisition spend, overhead, and returns beyond the &#x27;Complete&#x27; status. It is not net profit.
+* **Data Coverage**: The completeness of the cost records and potential negative outliers were not measured.
+
+### Action Items (Proposed)
+* Propose a review of product-level cost records to verify cost coverage and identify any negative margin outliers.
+* Propose comparing this proxy against actual financial statements to evaluate the variance introduced by excluded expenses.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- completed_revenue: 118.5; product_cost_proxy: 63.67449983488768; margin_proxy: 54.82550016511232
+
+Saved report **Acceptance margin-proxy** (`rep_774243a56ff8b247`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 805cbce4-47b5-4f91-a51d-063fab4725ff</summary><pre>SELECT SUM(`i`.`sale_price`) AS `completed_revenue`, SUM(`p`.`cost`) AS `product_cost_proxy`, SUM(`i`.`sale_price` - `p`.`cost`) AS `margin_proxy` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = &#x27;Complete&#x27;</pre></details><div class="scroll"><table><thead><tr><th>completed_revenue</th><th>product_cost_proxy</th><th>margin_proxy</th></tr></thead><tbody><tr><td>118.5</td><td>63.67449983488768</td><td>54.82550016511232</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT SUM(i.sale_price) AS completed_revenue,SUM(p.cost) AS product_cost_proxy,SUM(i.sale_price-p.cost) AS margin_proxy FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.products` p ON p.id=i.product_id WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27;</pre><div class="scroll"><table><thead><tr><th>completed_revenue</th><th>product_cost_proxy</th><th>margin_proxy</th></tr></thead><tbody><tr><td>118.5</td><td>63.67449983488768</td><td>54.82550016511232</td></tr></tbody></table></div><p>Reference job d30ff17d-16bb-48b2-a5e5-d2671cd931cf</p></details><label>Your verdict <select data-review="margin-proxy"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="margin-proxy" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="state-customers"><h2>state-customers <span class="pass">passed</span></h2><p>For authorized Complete purchases across all history, show revenue and distinct purchasing customers by state. Return exactly these table column aliases: state, customers, revenue. State limitations and action items, then save this analysis as Acceptance state-customers.</p><p class="meta">Report rep_346f7ccbfefca371 · 39.9 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on all available history for authorized Complete purchases [q1]:
+
+| state | customers | revenue |
+| :--- | :--- | :--- |
+| Zhejiang | 1 | 69.5 |
+| Fujian | 1 | 49.0 |
+
+### Limitations
+* **Small Sample Size:** The analysis is based on a very small sample of only 2 distinct customers across 2 states [q1]. These findings cannot establish broader regional demand or trends.
+* **Scope Constraints:** The data is restricted to authorized products and completed transactions. We did not measure overall customer coverage, product mix, or other order statuses (e.g., returns or cancellations).
+* **Completeness:** Historical coverage and data completeness over time were not evaluated.
+
+### Action Items (Proposed)
+* **Verify Regional Coverage:** Propose checking if the low customer counts in these states are due to limited regional marketing, distribution constraints, or data logging issues.
+* **Expand Status Analysis:** Propose comparing these completed metrics against other order statuses to understand the full transaction lifecycle in these regions.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- state: Zhejiang; customers: 1; revenue: 69.5
+- state: Fujian; customers: 1; revenue: 49.0
+
+Saved report **Acceptance state-customers** (`rep_346f7ccbfefca371`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · dc41c49b-6f9a-4d18-ad74-97f70d0b8d07</summary><pre>SELECT `u`.`state` AS `state`, COUNT(DISTINCT `i`.`customer_key`) AS `customers`, SUM(`i`.`sale_price`) AS `revenue` FROM `order_items` AS `i` JOIN `users` AS `u` ON `i`.`customer_key` = `u`.`customer_key` WHERE `i`.`status` = &#x27;Complete&#x27; GROUP BY `state` ORDER BY `revenue` DESC</pre></details><div class="scroll"><table><thead><tr><th>state</th><th>customers</th><th>revenue</th></tr></thead><tbody><tr><td>Zhejiang</td><td>1</td><td>69.5</td></tr><tr><td>Fujian</td><td>1</td><td>49.0</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT u.state,COUNT(DISTINCT i.user_id) AS customers,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY u.state</pre><div class="scroll"><table><thead><tr><th>state</th><th>customers</th><th>revenue</th></tr></thead><tbody><tr><td>Fujian</td><td>1</td><td>49.0</td></tr><tr><td>Zhejiang</td><td>1</td><td>69.5</td></tr></tbody></table></div><p>Reference job eb96bd9e-a368-4666-b4f1-bef61c336275</p></details><label>Your verdict <select data-review="state-customers"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="state-customers" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="country-customers"><h2>country-customers <span class="pass">passed</span></h2><p>For authorized Complete purchases across all history, show revenue and distinct purchasing customers by country. Return exactly these table column aliases: country, customers, revenue. State limitations and action items, then save this analysis as Acceptance country-customers.</p><p class="meta">Report rep_f07cccf14d79dccf · 36.9 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+* Based on all available history for authorized Complete purchases [q1]:
+
+| country | customers | revenue |
+| :--- | :--- | :--- |
+| China | 2 | 118.5 |
+
+### Limitations
+* **Small Sample Size**: The analysis is based on only 2 distinct customers in a single country [q1].
+* **Data Coverage**: Completeness and historical coverage of the dataset were not measured.
+* **Status Scope**: Limited strictly to items with a &#x27;Complete&#x27; status.
+
+### Action Items (Proposed)
+* **Verify Regional Coverage**: Check if other countries are present in the dataset but excluded due to authorization filters or missing user records.
+* **Investigate Status Distribution**: Compare &#x27;Complete&#x27; status rates against other statuses to understand fulfillment patterns.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- country: China; customers: 2; revenue: 118.5
+
+Saved report **Acceptance country-customers** (`rep_f07cccf14d79dccf`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · bcacb0d4-1510-42af-83b8-a6c2050f98ba</summary><pre>SELECT `u`.`country` AS `country`, COUNT(DISTINCT `oi`.`customer_key`) AS `customers`, SUM(`oi`.`sale_price`) AS `revenue` FROM `order_items` AS `oi` JOIN `users` AS `u` ON `oi`.`customer_key` = `u`.`customer_key` WHERE `oi`.`status` = &#x27;Complete&#x27; GROUP BY `country` ORDER BY `revenue` DESC</pre></details><div class="scroll"><table><thead><tr><th>country</th><th>customers</th><th>revenue</th></tr></thead><tbody><tr><td>China</td><td>2</td><td>118.5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT u.country,COUNT(DISTINCT i.user_id) AS customers,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY u.country</pre><div class="scroll"><table><thead><tr><th>country</th><th>customers</th><th>revenue</th></tr></thead><tbody><tr><td>China</td><td>2</td><td>118.5</td></tr></tbody></table></div><p>Reference job afca6904-2709-4df0-9fde-1fc83b0473c1</p></details><label>Your verdict <select data-review="country-customers"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="country-customers" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="age-band"><h2>age-band <span class="pass">passed</span></h2><p>Show authorized Complete-item revenue by customer age decade across all history; use age_band labels like 30s. Return exactly these table column aliases: age_band, items, revenue. State limitations and action items, then save this analysis as Acceptance age-band.</p><p class="meta">Report rep_1c11e84bf0c072b4 · 40.6 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on the historical analysis of authorized Complete-item revenue by customer age decade [q1]:
+
+| age_band | items | revenue |
+| :--- | :--- | :--- |
+| 10s | 1 | 69.5 |
+| 20s | 1 | 49.0 |
+
+* **Revenue Distribution**: The 10s age band generated 69.5 in revenue from 1 completed item, while the 20s age band generated 49.0 in revenue from 1 completed item.
+
+### Limitations
+* **Small Sample Size**: The findings are based on an extremely small sample size of only 2 completed items across all history [q1]. These results cannot establish broader demographic trends or demand patterns.
+* **Scope and Coverage**: The analysis is restricted to authorized products and completed items only. We did not measure overall customer coverage, registration dates, or the completeness of the age data.
+
+### Action Items (Proposed)
+* **Verify Age Data Completeness**: Propose checking the proportion of users with missing or unpopulated `age_band` values to determine if demographic coverage is representative.
+* **Monitor Transaction Volume**: Propose a follow-up check in a future period to see if completed item volume increases sufficiently to support statistical significance.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- age_band: 10s; items: 1; revenue: 69.5
+- age_band: 20s; items: 1; revenue: 49.0
+
+Saved report **Acceptance age-band** (`rep_1c11e84bf0c072b4`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 35f8fb67-a690-4e17-813d-13bb5e8cc19d</summary><pre>SELECT `u`.`age_band` AS `age_band`, COUNT(*) AS `items`, SUM(`oi`.`sale_price`) AS `revenue` FROM `order_items` AS `oi` JOIN `users` AS `u` ON `oi`.`customer_key` = `u`.`customer_key` WHERE `oi`.`status` = &#x27;Complete&#x27; GROUP BY `age_band` ORDER BY `age_band`</pre></details><div class="scroll"><table><thead><tr><th>age_band</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>10s</td><td>1</td><td>69.5</td></tr><tr><td>20s</td><td>1</td><td>49.0</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT CONCAT(CAST(DIV(u.age,10)*10 AS STRING),&#x27;s&#x27;) AS age_band,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY age_band</pre><div class="scroll"><table><thead><tr><th>age_band</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>20s</td><td>1</td><td>49.0</td></tr><tr><td>10s</td><td>1</td><td>69.5</td></tr></tbody></table></div><p>Reference job 523b061a-63ee-46df-a64e-f858d6c0e156</p></details><label>Your verdict <select data-review="age-band"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="age-band" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="scoped-orders"><h2>scoped-orders <span class="pass">passed</span></h2><p>Count distinct orders containing at least one authorized product, grouped by the order status across all history. Do not count items as orders. Return exactly these table column aliases: status, orders. State limitations and action items, then save this analysis as Acceptance scoped-orders.</p><p class="meta">Report rep_dc9480608f288ca6 · 33.0 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+* The distribution of distinct orders by item status for authorized products is as follows [q1]:
+
+| status | orders |
+| :--- | :--- |
+| Cancelled | 1 |
+| Complete | 2 |
+| Processing | 5 |
+| Returned | 2 |
+| Shipped | 5 |
+
+### Limitations
+* The query evaluated status at the item level (`order_items.status`), not the order level (`orders.status`).
+* The total number of unique orders across all statuses was not queried; the sum of the counts may exceed the total distinct orders if mixed-status orders exist.
+* No date filters were applied; results represent all available history.
+
+### Action Items (Proposed)
+* Propose comparing item-level statuses against order-level statuses to identify any mixed-status orders.
+* Propose querying the total distinct orders overall to determine the true denominator for percentage shares.
+* Propose analyzing the time in status for Processing and Shipped orders to evaluate fulfillment timelines.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- status: Cancelled; orders: 1
+- status: Complete; orders: 2
+- status: Processing; orders: 5
+- status: Returned; orders: 2
+- status: Shipped; orders: 5
+
+Saved report **Acceptance scoped-orders** (`rep_dc9480608f288ca6`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 24d90905-0223-479c-86ab-b6bb27ba22e3</summary><pre>SELECT `order_items`.`status` AS `status`, COUNT(DISTINCT `order_items`.`order_key`) AS `orders` FROM `order_items` AS `order_items` GROUP BY `order_items`.`status`</pre></details><div class="scroll"><table><thead><tr><th>status</th><th>orders</th></tr></thead><tbody><tr><td>Cancelled</td><td>1</td></tr><tr><td>Complete</td><td>2</td></tr><tr><td>Processing</td><td>5</td></tr><tr><td>Returned</td><td>2</td></tr><tr><td>Shipped</td><td>5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT o.status,COUNT(DISTINCT o.order_id) AS orders FROM `bigquery-public-data.thelook_ecommerce.orders` o WHERE EXISTS (SELECT 1 FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.order_id=o.order_id AND i.product_id IN UNNEST(@products)) GROUP BY o.status</pre><div class="scroll"><table><thead><tr><th>status</th><th>orders</th></tr></thead><tbody><tr><td>Cancelled</td><td>1</td></tr><tr><td>Complete</td><td>2</td></tr><tr><td>Processing</td><td>5</td></tr><tr><td>Returned</td><td>2</td></tr><tr><td>Shipped</td><td>5</td></tr></tbody></table></div><p>Reference job 064034bb-30a5-485c-b69c-bcc732ca5120</p></details><label>Your verdict <select data-review="scoped-orders"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="scoped-orders" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="realized-price"><h2>realized-price <span class="pass">passed</span></h2><p>Compare Complete-item average, minimum and maximum realized sale price per authorized product across all history. Return exactly these table column aliases: product_id, avg_price, min_price, max_price. State limitations and action items, then save this analysis as Acceptance realized-price.</p><p class="meta">Report rep_ca48aaa3ad3a7a0b · 33.7 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+* **Product 1**: The average, minimum, and maximum realized sale price for Complete items is 49.0 [q1].
+* **Product 2**: The average, minimum, and maximum realized sale price for Complete items is 69.5 [q1].
+
+### Tabular Results
+| product_id | avg_price | min_price | max_price |
+| :--- | :--- | :--- | :--- |
+| 1 | 49.0 | 49.0 | 49.0 |
+| 2 | 69.5 | 69.5 | 69.5 |
+
+### Limitations
+* The query measured realized sale prices for Complete items but did not query item counts, so the sample size supporting these metrics is unknown [q1].
+* Equal observed minimum and maximum prices indicate no variation in these specific records, not necessarily an absence of discounts overall.
+
+### Action Items (Proposed)
+* Compare these realized prices against the `retail_price` in the `products` table to determine if items were sold at full price.
+* Query the count of Complete items per product to establish transaction volume and sample size.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- product_id: 1; avg_price: 49.0; min_price: 49.0; max_price: 49.0
+- product_id: 2; avg_price: 69.5; min_price: 69.5; max_price: 69.5
+
+Saved report **Acceptance realized-price** (`rep_ca48aaa3ad3a7a0b`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 1d395861-3631-40a2-87d8-1ab5e4ef3efe</summary><pre>SELECT `order_items`.`product_id` AS `product_id`, AVG(`order_items`.`sale_price`) AS `avg_price`, MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = &#x27;Complete&#x27; GROUP BY `product_id` ORDER BY `product_id`</pre></details><div class="scroll"><table><thead><tr><th>product_id</th><th>avg_price</th><th>min_price</th><th>max_price</th></tr></thead><tbody><tr><td>1</td><td>49.0</td><td>49.0</td><td>49.0</td></tr><tr><td>2</td><td>69.5</td><td>69.5</td><td>69.5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT i.product_id,AVG(i.sale_price) AS avg_price,MIN(i.sale_price) AS min_price,MAX(i.sale_price) AS max_price FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY i.product_id</pre><div class="scroll"><table><thead><tr><th>product_id</th><th>avg_price</th><th>min_price</th><th>max_price</th></tr></thead><tbody><tr><td>1</td><td>49.0</td><td>49.0</td><td>49.0</td></tr><tr><td>2</td><td>69.5</td><td>69.5</td><td>69.5</td></tr></tbody></table></div><p>Reference job ee4c7ce3-5a3f-4a01-a688-2c830d7a7495</p></details><label>Your verdict <select data-review="realized-price"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="realized-price" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="return-rate"><h2>return-rate <span class="pass">passed</span></h2><p>For each authorized product across all history calculate finalized_items, returned_items and return_rate, defined as Returned/(Complete+Returned). Exclude other statuses from the denominator. Return exactly these table column aliases: product_id, finalized_items, returned_items, return_rate. State limitations and action items, then save this analysis as Acceptance return-rate.</p><p class="meta">Report rep_098d00a59aa1fed2 · 31.5 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on all available history, the return rates for the authorized products are as follows [q1]:
+
+| product_id | finalized_items | returned_items | return_rate |
+| :--- | :--- | :--- | :--- |
+| 1 | 3 | 2 | 0.6667 |
+| 2 | 1 | 0 | 0.0000 |
+
+### Limitations
+* **Small Sample Size**: The analysis is based on a very small number of finalized items (3 for product 1, and 1 for product 2) [q1]. These counts are insufficient to establish reliable return rate trends.
+* **Scope of Statuses**: This analysis only considers items with &#x27;Complete&#x27; or &#x27;Returned&#x27; statuses in the denominator, excluding other statuses.
+* **Data Completeness**: The completeness of the historical window and whether it covers partial periods was not measured.
+
+### Action Items (Proposed)
+* **Monitor Volume**: Propose checking if additional transaction data becomes available to increase the sample size for these products.
+* **Status Distribution Review**: Propose a broader status-mix analysis to understand the volume of cancelled or pending orders relative to finalized ones.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- product_id: 1; finalized_items: 3; returned_items: 2; return_rate: 0.6666666666666666
+- product_id: 2; finalized_items: 1; returned_items: 0; return_rate: 0.0
+
+Saved report **Acceptance return-rate** (`rep_098d00a59aa1fed2`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 069839df-2edd-41ab-aed7-7c58057dec35</summary><pre>SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `finalized_items`, SUM(CASE WHEN `order_items`.`status` = &#x27;Returned&#x27; THEN 1 ELSE 0 END) AS `returned_items`, SAFE_DIVIDE(SUM(CASE WHEN `order_items`.`status` = &#x27;Returned&#x27; THEN 1 ELSE 0 END), COUNT(*)) AS `return_rate` FROM `order_items` AS `order_items` WHERE `order_items`.`status` IN (&#x27;Complete&#x27;, &#x27;Returned&#x27;) GROUP BY `product_id` ORDER BY `product_id`</pre></details><div class="scroll"><table><thead><tr><th>product_id</th><th>finalized_items</th><th>returned_items</th><th>return_rate</th></tr></thead><tbody><tr><td>1</td><td>3</td><td>2</td><td>0.6666666666666666</td></tr><tr><td>2</td><td>1</td><td>0</td><td>0.0</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT i.product_id,COUNT(*) AS finalized_items,SUM(CASE WHEN i.status=&#x27;Returned&#x27; THEN 1 ELSE 0 END) AS returned_items,SAFE_DIVIDE(SUM(CASE WHEN i.status=&#x27;Returned&#x27; THEN 1 ELSE 0 END),COUNT(*)) AS return_rate FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status IN (&#x27;Complete&#x27;,&#x27;Returned&#x27;) GROUP BY i.product_id</pre><div class="scroll"><table><thead><tr><th>product_id</th><th>finalized_items</th><th>returned_items</th><th>return_rate</th></tr></thead><tbody><tr><td>1</td><td>3</td><td>2</td><td>0.6666666666666666</td></tr><tr><td>2</td><td>1</td><td>0</td><td>0.0</td></tr></tbody></table></div><p>Reference job a3895dd5-397a-49f7-b66b-400f073cb871</p></details><label>Your verdict <select data-review="return-rate"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="return-rate" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><article id="yearly-comparison"><h2>yearly-comparison <span class="pass">passed</span></h2><p>Compare Complete-item revenue and counts by calendar year across all available history for authorized products; flag partial years rather than assuming equal periods. Return exactly these table column aliases: year, items, revenue. State limitations and action items, then save this analysis as Acceptance yearly-comparison.</p><p class="meta">Report rep_c6400b405845783c · 35.0 seconds</p><h3>Agent answer — exact recorded text</h3><pre>### Findings
+Based on the query results [q1] for completed items across authorized products:
+* **2024**: 1 item completed, generating 49.0 in revenue.
+* **2026**: 1 item completed, generating 69.5 in revenue.
+
+| year | items | revenue |
+| :--- | :--- | :--- |
+| 2024 | 1 | 49.0 |
+| 2026 | 1 | 69.5 |
+
+### Limitations
+* **Small Sample Size**: The analysis is based on only 2 items total [q1].
+* **Period Completeness**: Coverage and completeness for 2024 and 2026 were not measured, so they may be partial years. There is no completed item data for 2025.
+* **Pricing Context**: The query measured sale price but not discount history or retail prices.
+
+### Action Items (Proposed)
+* Propose checking total order counts across all statuses to determine if 2025 had activity that did not reach &#x27;Complete&#x27; status.
+* Propose reviewing the specific products sold to understand the price difference between the two years.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- year: 2024; items: 1; revenue: 49.0
+- year: 2026; items: 1; revenue: 69.5
+
+Saved report **Acceptance yearly-comparison** (`rep_c6400b405845783c`).</pre><h3>Agent query evidence</h3><details><summary>Logical SQL · executor binds product scope · 31f51767-e9d7-400f-8dec-ebb036991e1e</summary><pre>SELECT EXTRACT(YEAR FROM DATE(`order_items`.`created_at`)) AS `year`, COUNT(*) AS `items`, SUM(`order_items`.`sale_price`) AS `revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = &#x27;Complete&#x27; GROUP BY `year` ORDER BY `year`</pre></details><div class="scroll"><table><thead><tr><th>year</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>2024</td><td>1</td><td>49.0</td></tr><tr><td>2026</td><td>1</td><td>69.5</td></tr></tbody></table></div><details><summary>Independent physical SQL and reference rows</summary><pre>SELECT EXTRACT(YEAR FROM i.created_at) AS year,COUNT(*) AS items,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status=&#x27;Complete&#x27; GROUP BY year</pre><div class="scroll"><table><thead><tr><th>year</th><th>items</th><th>revenue</th></tr></thead><tbody><tr><td>2024</td><td>1</td><td>49.0</td></tr><tr><td>2026</td><td>1</td><td>69.5</td></tr></tbody></table></div><p>Reference job bd6c661b-a573-4419-a2f5-8e8b08eb0b0a</p></details><label>Your verdict <select data-review="yearly-comparison"><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="changes">Needs changes</option></select></label> <textarea data-note="yearly-comparison" placeholder="Notes on definition, numbers, limitations, recommendations"></textarea></article><section><h2>Focused Flash rechecks — numeric pass is not report-quality acceptance</h2><p>The no-discounts claim recurred in realized-price. This remains a quality failure and is retained below; the system does not claim every report is faithful.</p><h3>state-customers</h3><pre>### Findings
+Based on the historical data for authorized Complete purchases [q1]:
+
+| state | customers | revenue |
+| :--- | :--- | :--- |
+| Zhejiang | 1 | 69.5 |
+| Fujian | 1 | 49.0 |
+
+* **Zhejiang**: 1 customer, with a total revenue of 69.5.
+* **Fujian**: 1 customer, with a total revenue of 49.0.
+
+### Limitations
+* **Small Sample Size**: The analysis is based on a very small sample of only 2 distinct customers across two states [q1]. These findings represent isolated transactions rather than established regional demand.
+* **Scope**: The data is restricted to authorized products and completed transactions only. Coverage and completeness of the historical period were not measured.
+
+### Action Items (Proposed)
+* **Verify Product Coverage**: Propose checking if other states have completed purchases for products outside the current authorized scope.
+* **Monitor Transaction Volume**: Propose monitoring future completed transactions to see if additional customers or states emerge.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- state: Zhejiang; customers: 1; revenue: 69.5
+- state: Fujian; customers: 1; revenue: 49.0
+
+Saved report **Acceptance state-customers** (`rep_8cf732bd7d2dfe3b`).</pre><h3>realized-price</h3><pre>### Findings
+Based on the historical analysis of completed order items [q1], the realized sale prices for the authorized products are as follows:
+
+| product_id | avg_price | min_price | max_price |
+| :--- | :--- | :--- | :--- |
+| 1 | 49.0 | 49.0 | 49.0 |
+| 2 | 69.5 | 69.5 | 69.5 |
+
+* **Price Uniformity**: For both authorized products, the minimum, maximum, and average realized sale prices are identical (49.0 for product 1 and 69.5 for product 2). This indicates no observed variation in sale prices for completed items in the queried dataset.
+
+### Limitations
+* **No Discount Variation**: The equal minimum and maximum prices indicate that no discounts or price variations were recorded for completed items of these products in the queried records.
+* **Scope**: This analysis is strictly limited to items with a status of &#x27;Complete&#x27; across all available history. Coverage and completeness of the historical period were not measured.
+
+### Action Items (Proposed)
+* **Verify Promotional History**: Propose a comparison with promotional calendars or pricing logs to determine if these products were excluded from discounts or markdown events.
+* **Investigate Sample Sizes**: Propose querying the total count of completed items per product to verify if the uniform pricing is due to a small transaction volume.
+
+### Query evidence
+
+**q1** (live; returned rows)
+
+- product_id: 1; avg_price: 49.0; min_price: 49.0; max_price: 49.0
+- product_id: 2; avg_price: 69.5; min_price: 69.5; max_price: 69.5
+
+Saved report **Acceptance realized-price** (`rep_e5ab286b8ce6043d`).</pre></section><script>
+const key='retail-human-review-2026-11-21';let state={};try{state=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){};
+document.querySelectorAll('[data-review],[data-note]').forEach(el=>{const id=el.dataset.review||el.dataset.note;const field=el.dataset.review?'verdict':'note';el.value=state[id]?.[field]||(field==='verdict'?'pending':'');el.addEventListener('change',()=>{state[id]={...state[id],[field]:el.value};try{localStorage.setItem(key,JSON.stringify(state))}catch(e){}})});
+document.getElementById('export').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({reviewed_at:new Date().toISOString(),source:'live-business-pro-final-2026-11-21.json',human_reviews:state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='retail-human-review.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+</script></html>

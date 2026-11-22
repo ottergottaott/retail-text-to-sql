@@ -1,0 +1,45 @@
+{
+  "status": "checked",
+  "evidence_boundary": "Actual authenticated running API, configured Gemini and live BigQuery; one count/save request. Does not establish broad accuracy or browser acceptance.",
+  "checks": {
+    "succeeded": true,
+    "completed": true,
+    "save_receipt": true,
+    "live_bigquery_evidence": true,
+    "saved_html_available": true,
+    "trace_version_v8": true
+  },
+  "result": {
+    "conversation_id": "con_5c63e0f0b77e0670",
+    "trace_id": "3237c9fc68bd499b8ee9361ce173b191",
+    "mode": "live",
+    "answer": "### Findings\n\n| product_count |\n| :--- |\n| 2 |\n\n* The query [q1] measured the total number of records in the `products` table within the authorized scope.\n\n### Limitations\n* The query only measured the count of product records; it did not evaluate sales, inventory status, or customer interactions.\n\n### Action Items (Proposed)\n* Check if these authorized products have any associated sales transactions in the `order_items` table.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_count: 2\n\nSaved report **Prompt v8 verification** (`rep_7de35cbfbe5d4942`).",
+    "outcome": "succeeded",
+    "evidence": [
+      {
+        "rows": [
+          {
+            "product_count": 2
+          }
+        ],
+        "mode": "live",
+        "job_id": "db452f95-820f-476e-bd1b-97a70caacb4b",
+        "bytes_processed": 232960,
+        "estimated_bytes": 232960,
+        "sql": "SELECT COUNT(*) AS `product_count` FROM `products` AS `products`",
+        "truncated": false,
+        "seconds": 5.913452920000054,
+        "query_id": "q1"
+      }
+    ],
+    "management": {
+      "report_id": "rep_7de35cbfbe5d4942"
+    },
+    "completed_analysis": true
+  },
+  "trace_prompt_versions": [
+    "retail-v8"
+  ],
+  "seconds": 34.02672728200014,
+  "human_review": "pending"
+}

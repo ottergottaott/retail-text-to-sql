@@ -1,0 +1,25 @@
+{
+  "id": "item-status-2",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThis analysis counts the total number of item rows (`COUNT(*)`) grouped by their current `status` [q1]. It operates at the item grain across all available history, as no date filter was applied. The population includes all statuses present in the dataset, restricted to the executor-authorized product scope.\n\n### Limitations\n* This query did not measure revenue, sale prices, or discounts.\n* Temporal coverage and specific date ranges were not established by this query.\n\n### Action items (proposed)\n* What is the total `sale_price` for the items in 'Complete' status compared to 'Returned' status?\n* How do these item counts distribute across `created_at` date buckets to establish a timeline of activity?",
+  "status": "generated",
+  "seconds": 14.765976293001586,
+  "usage": {
+    "input_tokens": 2481,
+    "output_tokens": 1057,
+    "total_tokens": 3538,
+    "thought_tokens": 835,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

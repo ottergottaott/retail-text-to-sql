@@ -1,0 +1,62 @@
+[
+  {
+    "id": "supported",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 98. Proposed next check: count completed items.",
+    "sql_contexts": [
+      "Complete-item revenue is 98."
+    ],
+    "retrieved_contexts": [],
+    "expected": "supported"
+  },
+  {
+    "id": "contradicted",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 9800.",
+    "sql_contexts": [
+      "Complete-item revenue is 98."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "unsupported-cause",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 98 because discounts caused sales to fall.",
+    "sql_contexts": [
+      "Complete-item revenue is 98. No discount or comparison-period data was queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "hidden-premise",
+    "question": "What follows from these query results?",
+    "response": "Proposed: fix stock because customer demand doubled.",
+    "sql_contexts": [
+      "Completed-item revenue is 98. No demand, inventory or comparison-period data was queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "invented-sample",
+    "question": "What follows from these query results?",
+    "response": "Completed-item revenue is 98 and the sample is tiny.",
+    "sql_contexts": [
+      "Query: SELECT SUM(sale_price) AS revenue FROM order_items. Result: revenue=98. No item or order counts were queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  },
+  {
+    "id": "discount-overclaim",
+    "question": "What follows from these query results?",
+    "response": "Min and max realized prices are both 49, proving no promotional discounts occurred.",
+    "sql_contexts": [
+      "Minimum sale_price=49 and maximum sale_price=49 in two completed items. No list-price history or promotions data was queried."
+    ],
+    "retrieved_contexts": [],
+    "expected": "must_detect_unsupported_claim"
+  }
+]

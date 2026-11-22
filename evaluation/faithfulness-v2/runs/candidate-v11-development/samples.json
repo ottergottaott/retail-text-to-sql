@@ -1,0 +1,202 @@
+[
+  {
+    "id": "complete-revenue-1",
+    "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": 210.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| complete_revenue |\n|---|\n| 210.0 |\n\nThe metric `complete_revenue` is calculated as the sum of `sale_price` at the item grain [q1]. The population is filtered to items where `status` is 'Complete'. The scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This SQL did not measure the count of items or distinct orders contributing to this revenue.\n* It did not measure the temporal distribution of these sales.\n\n### Action items (proposed)\n* Query `COUNT(item_key)` and `COUNT(DISTINCT order_key)` alongside revenue to establish transaction volume.\n* Group the complete-item revenue by `created_at` (e.g., month or year) to observe trends over time."
+  },
+  {
+    "id": "complete-revenue-2",
+    "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": 350.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| complete_revenue |\n|---|---|\n| 350.0 |\n\nThe metric `complete_revenue` is calculated as `SUM(sale_price)` at the item grain [q1]. The population is filtered to items where `status = 'Complete'`. The results are restricted to the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure the total number of items sold or the distinct number of orders contributing to this revenue.\n* It did not measure revenue from items in other statuses (e.g., Shipped, Processing, Returned).\n\n### Action items (proposed)\n* Query `COUNT(item_key)` and `COUNT(DISTINCT order_key)` for `status = 'Complete'` to determine the volume of items and orders driving this revenue.\n* Group the complete revenue by `created_at` (e.g., by month or year) to observe temporal trends."
+  },
+  {
+    "id": "item-status-1",
+    "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"items\": 14}, {\"status\": \"Returned\", \"items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThis table displays the total item count (`COUNT(*)`) grouped by `status` at the item grain [q1]. The population includes all statuses within the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n\nThis analysis did not measure the financial value (`sale_price`) of these items or the distinct number of orders (`order_key`) they represent.\n\n### Action items (proposed)\n\n* What is the total `sale_price` for the 'Complete' items compared to the 'Returned' items?\n* How are these item statuses distributed across different `created_at` months?"
+  },
+  {
+    "id": "item-status-2",
+    "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"items\": 14}, {\"status\": \"Returned\", \"items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThis analysis counts the total number of item rows (`COUNT(*)`) grouped by `status` at the item grain [q1]. The population includes all statuses for the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure revenue (`sale_price`) or distinct order volume (`order_key`).\n* The temporal coverage and completeness of the dataset were not established.\n\n### Action items (proposed)\n* What is the total `sale_price` for the 'Complete' items?\n* How do these item counts distribute across different product categories or brands?"
+  },
+  {
+    "id": "item-volume-1",
+    "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 1, \"complete_items\": 7}, {\"product_id\": 2, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| product_id | complete_items |\n|---|---|\n| 1 | 7 |\n| 2 | 7 |\n\nThis analysis counts the number of item rows (`COUNT(*)`) where the status is 'Complete' [q1]. The grain is at the item level. The scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited. Both product 1 and product 2 have exactly 7 complete items.\n\n### Limitations\n* This query did not measure revenue (`sale_price`) generated by these items.\n* It did not measure the number of distinct orders (`order_key`) or distinct customers (`customer_key`) associated with these items.\n\n### Action items (proposed)\n* What is the total revenue (`SUM(sale_price)`) for these complete items by product?\n* How many distinct customers (`COUNT(DISTINCT customer_key)`) purchased these products?"
+  },
+  {
+    "id": "item-volume-2",
+    "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 2, \"complete_items\": 7}, {\"product_id\": 3, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| product_id | complete_items |\n|---|---|\n| 2 | 7 |\n| 3 | 7 |\n\nThis table shows the count of item rows (`COUNT(*)`) at the item grain, filtered for the `Complete` status. The executor applied the authorized product scope. No date filter was applied in [q1]; historical coverage was not audited.\n\n### Limitations\nThis query did not measure total revenue (`sale_price`) or the number of distinct orders (`order_key`) associated with these items.\n\n### Action items (proposed)\n* What is the total revenue (`SUM(sale_price)`) for these Complete items by product?\n* How many distinct orders (`COUNT(DISTINCT order_key)`) contain these items?"
+  },
+  {
+    "id": "price-range-1",
+    "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"min_price\": 10.0, \"max_price\": 20.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| min_price | max_price |\n|---|---|\n| 10.0 | 20.0 |\n\nThis analysis measures the minimum and maximum `sale_price` at the item grain [q1]. The population is filtered to items where `status` = 'Complete'. The scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure the total volume (count) of items sold at these prices.\n* The distribution of prices between the minimum and maximum was not measured.\n\n### Action items (proposed)\n* What is the distribution of item volume across different price points? (e.g., querying `COUNT(item_key)` grouped by `sale_price` for Complete items).\n* How do these observed sale prices compare to the current catalogue `retail_price` in the `products` table?"
+  },
+  {
+    "id": "price-range-2",
+    "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"min_price\": 20.0, \"max_price\": 30.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| min_price | max_price |\n|---|---|\n| 20.0 | 30.0 |\n\nThe table above shows the minimum and maximum `sale_price` observed [q1]. This analysis was conducted at the item grain, filtered to a population where `status = 'Complete'`. The product scope was restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure the total volume (item count) of sales, so the sample size supporting this price range is unknown.\n* The distribution of sales across this range (e.g., average or median sale price) was not measured.\n\n### Action items (proposed)\n* Query the count of Complete items grouped by `sale_price` to determine the actual distribution of sales volume across this 20.0 to 30.0 range.\n* Query the `sale_price` alongside `products.retail_price` to check if the observed variation represents a gap from the current catalogue reference price."
+  },
+  {
+    "id": "realized-price-1",
+    "question": "Show mean realized Complete-item price for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"mean_price\": 15.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| mean_price |\n|---|\n| 15.0 |\n\nThe table above displays the mean realized price (`AVG(sale_price)`) at the item grain for the executor-authorized product scope [q1]. The population is strictly filtered to items where `status = 'Complete'`. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n\nThis analysis did not measure the total count of items sold, so the volume supporting this mean price is not established. Additionally, it did not measure the distribution of prices over time or across different products.\n\n### Action items (proposed)\n\n* What is the total count of Complete items to establish the sales volume supporting this mean price?\n* How does the mean sale price vary across different product categories or brands?"
+  },
+  {
+    "id": "realized-price-2",
+    "question": "Show mean realized Complete-item price for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"mean_price\": 25.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT AVG(`order_items`.`sale_price`) AS `mean_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| mean_price |\n|---|\n| 25.0 |\n\nThe metric used is the average of `sale_price` at the item grain [q1]. The population is filtered to items where `status = 'Complete'`. The scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure the total volume (count) of items sold, so the sample size supporting this average is not established.\n* The analysis did not measure the distribution of prices across different products or categories.\n\n### Action items (proposed)\n* What is the total count of Complete items and the sum of revenue for these authorized products?\n* How does the mean realized price vary by product category or brand?"
+  },
+  {
+    "id": "returned-value-1",
+    "question": "Show Returned-item recorded sale value, not refunds for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"returned_recorded_value\": 30.0, \"returned_items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| returned_recorded_value | returned_items |\n|---|---|\n| 30.0 | 2 |\n\nThe table above displays the results from [q1]. The `returned_recorded_value` metric was calculated using the sum of `sale_price`, and `returned_items` is the total row count. This analysis was performed at the item grain using the `order_items` table, filtered specifically for the population where `status = 'Returned'`. The results are restricted to your executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query measured the recorded sale price of the returned items, not the actual refunded amounts, which are not defined in this schema.\n* The distinct number of orders or customers associated with these returns was not measured.\n\n### Action items (proposed)\n* What is the breakdown of these returned items by product category or brand? (Query `order_items` joined with `products` grouping by `category` or `brand`).\n* How does the volume of returned items compare to the volume of completed items? (Query `order_items` counting rows grouped by `status`)."
+  },
+  {
+    "id": "returned-value-2",
+    "question": "Show Returned-item recorded sale value, not refunds for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"returned_recorded_value\": 50.0, \"returned_items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `returned_recorded_value`, COUNT(*) AS `returned_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Returned'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| returned_recorded_value | returned_items |\n|---|---|\n| 50.0 | 2 |\n\nThe table above shows the results from [q1]. The metric `returned_recorded_value` is calculated as the sum of `sale_price`, and `returned_items` is the count of item rows. The analysis is at the item grain. The population is filtered strictly to items where `status = 'Returned'`. The product scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query measured the recorded sale price of returned items, not the actual refunded amounts or net profit.\n* Total sales volume was not queried, so a return rate cannot be established from this data.\n\n### Action items (proposed)\n* What is the return rate compared to completed sales? (Query `order_items` to compare the count of 'Returned' items against 'Complete' items).\n* Are these returns concentrated in specific products? (Query `order_items` joined with `products` grouping by `name` or `category` for returned items)."
+  },
+  {
+    "id": "catalog-count-1",
+    "question": "Show catalogue product count for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"catalogue_products\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| catalogue_products |\n|---| \n| 2 |\n\nThis analysis counts the total number of products (`COUNT(*)`) at the catalogue grain [q1]. No status filter was applied, as this evaluates the catalogue directly rather than transaction records. The population is restricted to your executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure actual sales volume, revenue, or customer demand for these products.\n* It did not measure historical pricing or discount variations, as it only evaluates the catalogue count.\n\n### Action items (proposed)\n* What is the total completed sales revenue for these authorized products? (Query `order_items` summing `sale_price` where `status = 'Complete'`).\n* How many distinct customers have purchased these products? (Query `order_items` counting distinct `customer_key` for these items)."
+  },
+  {
+    "id": "catalog-count-2",
+    "question": "Show catalogue product count for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"catalogue_products\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT COUNT(*) AS `catalogue_products` FROM `products` AS `products`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| catalogue_products |\n|---|\n| 2 |\n\nThe metric `catalogue_products` represents a simple count (`COUNT(*)`) at the catalogue product grain [q1]. The query was executed against the `products` table, which is restricted to the executor-authorized product scope. No status filter was applied as this evaluates the catalogue directly rather than transactional data. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This analysis only measures the count of authorized catalogue entries; it does not measure actual sales volume or current inventory levels.\n* The query does not establish the distribution of these products across dimensions such as `category` or `brand`.\n\n### Action items (proposed)\n* What is the total sales volume (count of `order_items`) for these authorized products where `status` is 'Complete'?\n* What are the specific `category` and `brand` assignments for these products in the catalogue?"
+  },
+  {
+    "id": "catalog-price-1",
+    "question": "Show catalogue reference price by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 1, \"retail_price\": 100.0}, {\"id\": 2, \"retail_price\": 80.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`retail_price` AS `retail_price` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| id | retail_price |\n|---|---|\n| 1 | 100.0 |\n| 2 | 80.0 |\n\nThis analysis operates at the catalogue grain, retrieving the current catalogue reference price (`retail_price`) for the executor-authorized product scope [q1]. No population or status filter was applied, as the query evaluates the product catalogue directly rather than transaction records. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query measures the current catalogue reference price; it does not measure actual historical sale prices (`sale_price`) or transaction volume.\n* The catalogue cost proxy (`cost`) was not queried, so reference margins are not established.\n\n### Action items (proposed)\n* Compare the catalogue reference price to actual historical sale prices to measure the current reference gap by querying `AVG(sale_price)` from `order_items` where `status = 'Complete'` grouped by `product_id`.\n* Query the `cost` from the `products` table alongside `retail_price` to evaluate the catalogue cost proxy."
+  },
+  {
+    "id": "catalog-price-2",
+    "question": "Show catalogue reference price by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 2, \"retail_price\": 80.0}, {\"id\": 3, \"retail_price\": 200.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`retail_price` AS `retail_price` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| id | retail_price |\n|---|---|\n| 2 | 80.0 |\n| 3 | 200.0 |\n\nThis analysis retrieves the current catalogue reference price (`retail_price`) at the product grain [q1]. The query is scoped to the executor-authorized products. No date filter was applied in q1; historical coverage was not audited. No population or status filter was applied as this queries the catalogue directly rather than transaction history.\n\n### Limitations\n* This query did not measure actual historical sales volume or realized sale prices (`sale_price` in `order_items`).\n* It did not measure the catalogue cost proxy (`cost`) to establish reference margins.\n\n### Action items (proposed)\n* What is the total historical sales volume and average realized `sale_price` for these products in the `order_items` table?\n* How does the current `retail_price` compare to the catalogue `cost` proxy for these products?"
+  },
+  {
+    "id": "catalog-cost-1",
+    "question": "Show catalogue cost reference by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 1, \"cost\": 40.0}, {\"id\": 2, \"cost\": 30.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`cost` AS `cost` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| id | cost |\n|---|---|\n| 1 | 40.0 |\n| 2 | 30.0 |\n\nThis analysis retrieves the current catalogue cost proxy (`cost`) at the catalogue grain from the `products` table [q1]. The results are restricted to the executor-authorized product scope. No population or status filter was applied because this queries static catalogue reference data rather than transaction history. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure actual historical sales volume or transaction data, so it cannot establish demand.\n* `products.cost` is a catalogue cost proxy; this analysis did not measure actual gross profit or compare it against the current catalogue reference price (`retail_price`).\n\n### Action items (proposed)\n* What is the total complete item revenue and sales volume for these authorized products? (Query `order_items` where `status = 'Complete'` grouped by `product_id`).\n* How does the catalogue cost proxy compare to the current catalogue reference price (`retail_price`) for these products? (Query `products` to retrieve both `cost` and `retail_price`)."
+  },
+  {
+    "id": "catalog-cost-2",
+    "question": "Show catalogue cost reference by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 2, \"cost\": 30.0}, {\"id\": 3, \"cost\": 70.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`id` AS `id`, `products`.`cost` AS `cost` FROM `products` AS `products` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| id | cost |\n|---|---|\n| 2 | 30.0 |\n| 3 | 70.0 |\n\nThis table presents the catalogue cost proxy (`cost`) at the product grain [q1]. The results are restricted to the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited. No status filter was applied as this queries the catalogue directly, not transactional data.\n\n### Limitations\nThis analysis only retrieves catalogue reference costs; it does not measure actual historical sales volume or establish actual gross profit.\n\n### Action items (proposed)\n* What is the total historical sales volume and revenue for these products in the `order_items` table?\n* How does the catalogue `cost` compare to the current catalogue `retail_price` for these items?"
+  },
+  {
+    "id": "catalog-department-1",
+    "question": "Show catalogue product count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"department\": \"Men\", \"catalogue_products\": 1}, {\"department\": \"Women\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`department` AS `department`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `department` ORDER BY `department`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| department | catalogue_products |\n|---|---|\n| Men | 1 |\n| Women | 1 |\n\nThis analysis counts catalogue products (`COUNT(*)`) at the product grain [q1]. The executor restricted the scope to authorized products. No date filter was applied in q1; historical coverage was not audited. No status filter applies to the catalogue table.\n\n### Limitations\nThis query did not measure actual sales volume or revenue generated by these products.\n\n### Action items (proposed)\n* Query `order_items` joined with `products` to measure the total `sale_price` (revenue) for items WHERE status='Complete' by department.\n* Count the distinct `order_key` in `order_items` to determine order volume by department."
+  },
+  {
+    "id": "catalog-department-2",
+    "question": "Show catalogue product count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"department\": \"Men\", \"catalogue_products\": 1}, {\"department\": \"Women\", \"catalogue_products\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `products`.`department` AS `department`, COUNT(*) AS `catalogue_products` FROM `products` AS `products` GROUP BY `department` ORDER BY `department`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| department | catalogue_products |\n|---|---|\n| Men | 1 |\n| Women | 1 |\n\nThis analysis counts catalogue products (`COUNT(*)`) at the product grain from the `products` table. The scope is restricted to executor-authorized products. No date filter was applied in [q1]; historical coverage was not audited.\n\n### Limitations\n* This query measures catalogue entries, not historical sales volume or revenue.\n* It does not measure actual inventory levels or discounts.\n\n### Action items (proposed)\n* Query `order_items` to measure the total sales volume (`COUNT(item_key)`) for these authorized products by department.\n* Query the `products` table to calculate the average `retail_price` and `cost` for these items."
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "version": "live-business-v1",
+  "scope_products": [
+    1,
+    2
+  ],
+  "reference_boundary": "Independently authored physical BigQuery SQL; not produced or bound by the agent executor. Only aggregate results; public dataset may change.",
+  "cases": [
+    {
+      "id": "state-customers",
+      "question": "For authorized Complete purchases across all history, show revenue and distinct purchasing customers by state. Return exactly these table column aliases: state, customers, revenue. State limitations and action items, then save this analysis as Acceptance state-customers.",
+      "reference_sql": "SELECT u.state,COUNT(DISTINCT i.user_id) AS customers,SUM(i.sale_price) AS revenue FROM `bigquery-public-data.thelook_ecommerce.order_items` i JOIN `bigquery-public-data.thelook_ecommerce.users` u ON u.id=i.user_id WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY u.state"
+    },
+    {
+      "id": "realized-price",
+      "question": "Compare Complete-item average, minimum and maximum realized sale price per authorized product across all history. Return exactly these table column aliases: product_id, avg_price, min_price, max_price. State limitations and action items, then save this analysis as Acceptance realized-price.",
+      "reference_sql": "SELECT i.product_id,AVG(i.sale_price) AS avg_price,MIN(i.sale_price) AS min_price,MAX(i.sale_price) AS max_price FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY i.product_id"
+    }
+  ]
+}

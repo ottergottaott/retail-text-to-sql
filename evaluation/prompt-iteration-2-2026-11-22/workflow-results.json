@@ -1,0 +1,347 @@
+{
+  "status": "needs_inspection",
+  "evidence_boundary": "Live configured Gemini planner/reviewer; actual SQL on local fixture, temporary stores. No live BigQuery, no production writes. Mechanical checks only; human review pending.",
+  "variants": {
+    "baseline": {
+      "cases": [
+        {
+          "id": "query-review-save",
+          "question": "Count my authorized catalogue products as products in a Markdown table, explain the scope and save the completed report titled Catalogue checkpoint.",
+          "result": {
+            "conversation_id": "con_16fdf500b422a64a",
+            "trace_id": "46f34b87f5c74b0d8d326d81aa39705d",
+            "mode": "live",
+            "answer": "### Findings\n\nHere is the count of your authorized catalogue products:\n\n| product_count |\n| :--- |\n| 2 |\n\n* The catalogue currently contains 2 authorized products [q1].\n\n### Limitations\n\n* **Scope**: The trusted executor automatically restricts all logical tables to your authorized product scope. The query reflects only these authorized items without needing explicit product filters.\n* This count measures catalogue records, not active inventory or sales volume.\n\n### Action Items\n\n* **Catalogue Verification**: Confirm if these 2 authorized products represent your complete expected portfolio.\n* **Performance Check**: Propose a follow-up query to measure the historical sales performance of these specific items.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n- product_count: 2\n\nSaved report **Catalogue checkpoint** (`rep_3f70d8c96fcdf732`).",
+            "outcome": "succeeded",
+            "evidence": [
+              {
+                "rows": [
+                  {
+                    "product_count": 2
+                  }
+                ],
+                "mode": "fixture",
+                "job_id": null,
+                "bytes_processed": null,
+                "sql": "SELECT COUNT(*) AS `product_count` FROM `products` AS `products`",
+                "truncated": false,
+                "seconds": 0.6196020660008799,
+                "query_id": "q1"
+              }
+            ],
+            "management": {
+              "report_id": "rep_3f70d8c96fcdf732"
+            },
+            "completed_analysis": true
+          },
+          "checks": {
+            "completed": true,
+            "saved_once": true,
+            "receipt_matches": true,
+            "count_matches_fixture_oracle": false,
+            "explicit_table_in_narrative": false,
+            "no_negative_save_claim": true
+          },
+          "passed": false,
+          "seconds": 19.701148421001562
+        },
+        {
+          "id": "new-chat-list",
+          "question": "List my saved reports.",
+          "result": {
+            "conversation_id": "con_611523f74dd5baf6",
+            "trace_id": "8291b8e5364744beab74ee9d46f3abbc",
+            "mode": "live",
+            "answer": "| id | title |\n| --- | --- |\n| rep_3f70d8c96fcdf732 | Catalogue checkpoint |",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": [
+              {
+                "id": "rep_3f70d8c96fcdf732",
+                "title": "Catalogue checkpoint"
+              }
+            ],
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "owned_report_listed": true
+          },
+          "passed": true,
+          "seconds": 1.854217220999999
+        },
+        {
+          "id": "open-owned-report",
+          "question": "Open my saved report rep_3f70d8c96fcdf732",
+          "result": {
+            "conversation_id": "con_0912b1fa9ce32070",
+            "trace_id": "ab6d50e3f5584937b3c77603168565da",
+            "mode": "live",
+            "answer": "### Findings\n\nHere is the count of your authorized catalogue products:\n\n| product_count |\n| :--- |\n| 2 |\n\n* The catalogue currently contains 2 authorized products [q1].\n\n### Limitations\n\n* **Scope**: The trusted executor automatically restricts all logical tables to your authorized product scope. The query reflects only these authorized items without needing explicit product filters.\n* This count measures catalogue records, not active inventory or sales volume.\n\n### Action Items\n\n* **Catalogue Verification**: Confirm if these 2 authorized products represent your complete expected portfolio.\n* **Performance Check**: Propose a follow-up query to measure the historical sales performance of these specific items.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n- product_count: 2",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": {
+              "report_id": "rep_3f70d8c96fcdf732"
+            },
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "contains_saved_content": true
+          },
+          "passed": true,
+          "seconds": 2.3777118069992866
+        },
+        {
+          "id": "delete-preview",
+          "question": "Delete reports matching Catalogue checkpoint.",
+          "result": {
+            "conversation_id": "con_1d202d621d36de77",
+            "trace_id": "4f7656be8da44061b4761a11a0a79987",
+            "mode": "live",
+            "answer": "Deletion preview:\n\n| id | title |\n| --- | --- |\n| rep_3f70d8c96fcdf732 | Catalogue checkpoint |\n\nConfirm with `/confirm pro_6dc33b90283a9d5b` or cancel with `/cancel pro_6dc33b90283a9d5b`. Nothing has been deleted.",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": {
+              "proposal_id": "pro_6dc33b90283a9d5b",
+              "reports": [
+                {
+                  "id": "rep_3f70d8c96fcdf732",
+                  "title": "Catalogue checkpoint"
+                }
+              ],
+              "expires": 1795301304.173399
+            },
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "still_saved": true,
+            "confirmation_proposal": true
+          },
+          "passed": true,
+          "seconds": 1.9106158819995471
+        },
+        {
+          "id": "undefined-metric",
+          "question": "What is my Lantern retention score? The business definition has not been supplied.",
+          "result": {
+            "conversation_id": "con_49768c31a461ca40",
+            "trace_id": "143cb984cc8c4edb9a5f930817145fc2",
+            "mode": "live",
+            "answer": "The \"Lantern retention score\" is not defined in the provided business context or schema. To proceed, could you provide the specific business logic or formula for this score? Alternatively, I can calculate a standard retail retention metric, such as the proportion of customers who made a repeat purchase within 30, 60, or 90 days of their first order. Please let me know how you would like to define the metric or cohort period.",
+            "outcome": "clarification",
+            "evidence": [],
+            "management": null,
+            "completed_analysis": false
+          },
+          "checks": {
+            "clarifies": true,
+            "no_query": true,
+            "no_added_report": true
+          },
+          "passed": true,
+          "seconds": 5.032499971999641
+        },
+        {
+          "id": "explicit-preference",
+          "question": "From now on use detailed prose instead of concise bullets.",
+          "result": {
+            "conversation_id": "con_f61af0dc4b712a7f",
+            "trace_id": "a5264bcae09548388eddec76d5d11715",
+            "mode": "live",
+            "answer": "Saved your preference: detailed prose.",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": {
+              "format": "prose",
+              "depth": "detailed",
+              "source": "explicit",
+              "version": 2
+            },
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "persisted_format_depth": true
+          },
+          "passed": true,
+          "seconds": 2.6737350429993967
+        }
+      ],
+      "passed": 5,
+      "total": 6
+    },
+    "candidate": {
+      "cases": [
+        {
+          "id": "query-review-save",
+          "question": "Count my authorized catalogue products as products in a Markdown table, explain the scope and save the completed report titled Catalogue checkpoint.",
+          "result": {
+            "conversation_id": "con_62bb610feb421492",
+            "trace_id": "6a349a789698404d813d676869bec534",
+            "mode": "live",
+            "answer": "### Findings\n* The authorized catalogue contains 2 products [q1].\n\n| products |\n| :--- |\n| 2 |\n\n### Limitations\n* The query counts only products within the authorized scope enforced by the executor.\n* Stock levels and historical availability were not queried.\n\n### Action items (proposed)\n* Compare these authorized products against `order_items` to verify transaction coverage.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n- products: 2\n\nSaved report **Catalogue checkpoint** (`rep_9196e9ee85d33c6b`).",
+            "outcome": "succeeded",
+            "evidence": [
+              {
+                "rows": [
+                  {
+                    "products": 2
+                  }
+                ],
+                "mode": "fixture",
+                "job_id": null,
+                "bytes_processed": null,
+                "sql": "SELECT COUNT(*) AS `products` FROM `products` AS `products`",
+                "truncated": false,
+                "seconds": 0.05493110399947909,
+                "query_id": "q1"
+              }
+            ],
+            "management": {
+              "report_id": "rep_9196e9ee85d33c6b"
+            },
+            "completed_analysis": true
+          },
+          "checks": {
+            "completed": true,
+            "saved_once": true,
+            "receipt_matches": true,
+            "count_matches_fixture_oracle": true,
+            "explicit_table_in_narrative": true,
+            "no_negative_save_claim": true
+          },
+          "passed": true,
+          "seconds": 18.544800297999245
+        },
+        {
+          "id": "new-chat-list",
+          "question": "List my saved reports.",
+          "result": {
+            "conversation_id": "con_920ee9e15f23627e",
+            "trace_id": "4dfdc26e65dc4b7e9e05f291ccfedc60",
+            "mode": "live",
+            "answer": "| id | title |\n| --- | --- |\n| rep_9196e9ee85d33c6b | Catalogue checkpoint |",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": [
+              {
+                "id": "rep_9196e9ee85d33c6b",
+                "title": "Catalogue checkpoint"
+              }
+            ],
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "owned_report_listed": true
+          },
+          "passed": true,
+          "seconds": 2.0600514560010197
+        },
+        {
+          "id": "open-owned-report",
+          "question": "Open my saved report rep_9196e9ee85d33c6b",
+          "result": {
+            "conversation_id": "con_1cccdb7e0db0bbaa",
+            "trace_id": "32cb0fae478244008f8db080ba4931f4",
+            "mode": "live",
+            "answer": "### Findings\n* The authorized catalogue contains 2 products [q1].\n\n| products |\n| :--- |\n| 2 |\n\n### Limitations\n* The query counts only products within the authorized scope enforced by the executor.\n* Stock levels and historical availability were not queried.\n\n### Action items (proposed)\n* Compare these authorized products against `order_items` to verify transaction coverage.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n- products: 2",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": {
+              "report_id": "rep_9196e9ee85d33c6b"
+            },
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "contains_saved_content": true
+          },
+          "passed": true,
+          "seconds": 2.1814394049997645
+        },
+        {
+          "id": "delete-preview",
+          "question": "Delete reports matching Catalogue checkpoint.",
+          "result": {
+            "conversation_id": "con_8e6a01da498969e0",
+            "trace_id": "152b62d801f54ffd841d4ff4bd9c8032",
+            "mode": "live",
+            "answer": "Deletion preview:\n\n| id | title |\n| --- | --- |\n| rep_9196e9ee85d33c6b | Catalogue checkpoint |\n\nConfirm with `/confirm pro_b00fa05f9fc84888` or cancel with `/cancel pro_b00fa05f9fc84888`. Nothing has been deleted.",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": {
+              "proposal_id": "pro_b00fa05f9fc84888",
+              "reports": [
+                {
+                  "id": "rep_9196e9ee85d33c6b",
+                  "title": "Catalogue checkpoint"
+                }
+              ],
+              "expires": 1795301336.991619
+            },
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "still_saved": true,
+            "confirmation_proposal": true
+          },
+          "passed": true,
+          "seconds": 2.324815788999331
+        },
+        {
+          "id": "undefined-metric",
+          "question": "What is my Lantern retention score? The business definition has not been supplied.",
+          "result": {
+            "conversation_id": "con_0720e5582437de52",
+            "trace_id": "ab0ddf3974b94ed18314b395be887c23",
+            "mode": "live",
+            "answer": "The business definition for the 'Lantern retention score' has not been supplied. To calculate this metric, could you please clarify how it is defined? For example, does it refer to the percentage of customers who made a repeat purchase within a specific number of days, or is it based on a particular cohort definition?",
+            "outcome": "clarification",
+            "evidence": [],
+            "management": null,
+            "completed_analysis": false
+          },
+          "checks": {
+            "clarifies": true,
+            "no_query": true,
+            "no_added_report": true
+          },
+          "passed": true,
+          "seconds": 2.6101927810013876
+        },
+        {
+          "id": "explicit-preference",
+          "question": "From now on use detailed prose instead of concise bullets.",
+          "result": {
+            "conversation_id": "con_42845aae8e1883ff",
+            "trace_id": "a26412ea1770422a98a2556e4183d611",
+            "mode": "live",
+            "answer": "Saved your preference: detailed prose.",
+            "outcome": "succeeded",
+            "evidence": [],
+            "management": {
+              "format": "prose",
+              "depth": "detailed",
+              "source": "explicit",
+              "version": 2
+            },
+            "completed_analysis": false
+          },
+          "checks": {
+            "succeeded": true,
+            "persisted_format_depth": true
+          },
+          "passed": true,
+          "seconds": 1.9953169930013246
+        }
+      ],
+      "passed": 6,
+      "total": 6
+    }
+  },
+  "production_changed": false
+}

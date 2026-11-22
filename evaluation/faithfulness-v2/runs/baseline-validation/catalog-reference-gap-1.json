@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-1",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nThe following table displays the average difference between the current catalogue retail price and the realized sale price for Complete items [q1]:\n\n| id | current_reference_gap |\n|---|---|\n| 1 | 90.0 |\n| 2 | 60.0 |\n\n### Limitations\n* The query measured the average gap using the current catalogue `retail_price` against realized `sale_price` for items with a 'Complete' status. \n* It did not measure transaction counts, so the sample size for these averages is unknown.\n* The timeframe of the sales was not queried, and historical catalogue prices at the time of sale were not evaluated.\n\n### Action Items (Proposed)\n* **Volume Check:** Query the count of Complete items per product to determine the transaction volume supporting these average gaps.\n* **Trend Analysis:** Group the reference gap by month or quarter to observe if the realized price is trending further away from the current catalogue price over time.",
+  "status": "generated",
+  "seconds": 15.339091529998768,
+  "usage": {
+    "input_tokens": 2108,
+    "output_tokens": 931,
+    "total_tokens": 3039,
+    "thought_tokens": 679,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

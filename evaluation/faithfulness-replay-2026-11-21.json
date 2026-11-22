@@ -1,0 +1,137 @@
+{
+  "prompt_version": "retail-v5",
+  "runs": [
+    {
+      "id": "live-product-report",
+      "calls": [
+        {
+          "action": "save_report",
+          "usage": {
+            "input_tokens": 1792,
+            "output_tokens": 52,
+            "total_tokens": 1844,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 1830,
+            "output_tokens": 254,
+            "total_tokens": 2084,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 2059,
+            "output_tokens": 253,
+            "total_tokens": 2312,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "context_digest": "b905771f412d68965009758b4a701b04783983d23eab38c5240d1fe364ed83e1",
+      "draft": "### Findings\nBased on the historical order items data [q1], the completed-item revenue for the authorized products is as follows:\n\n| Product ID | Completed Items | Completed Revenue |\n| :--- | :--- | :--- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |\n\n### Limitations\n* The analysis is limited to the authorized product IDs (1 and 2) across all available history.\n* The sample size is extremely small (3 total completed items), which does not establish long-term demand trends.\n* Complete-item revenue is calculated as the sum of sale prices for items with a status of 'Complete' and does not represent net revenue or profit.\n\n### Action Items (Proposed)\n* Propose checking inventory levels and pricing strategies for Product 1 and Product 2 to understand the low volume of completed sales.\n* Propose monitoring future order statuses to see if cancellation or return rates are affecting these products.",
+      "reviewed": "### Findings\nBased on the historical order items data [q1], the completed-item revenue for the authorized products is as follows:\n\n| Product ID | Completed Items | Completed Revenue |\n| :--- | :--- | :--- |\n| 1 | 2 | 98.0 |\n| 2 | 1 | 69.5 |\n\n### Limitations\n* The analysis is limited to the authorized product IDs (1 and 2) across all available history.\n* The sample size is small (3 total completed items), which does not establish long-term demand trends.\n* Complete-item revenue is calculated as the sum of sale prices for items with a status of 'Complete' and does not represent net revenue or profit.\n\n### Action Items (Proposed)\n* Propose checking inventory levels and pricing strategies for Product 1 and Product 2 to understand the low volume of completed sales.\n* Propose monitoring future order statuses to see if cancellation or return rates are affecting these products."
+    },
+    {
+      "id": "fixture-monthly",
+      "calls": [
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 1850,
+            "output_tokens": 295,
+            "total_tokens": 2145,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 2120,
+            "output_tokens": 295,
+            "total_tokens": 2415,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "context_digest": "9f67c61bc159394944724f549f8cd17c6223cc81331b36d9a687a7ae7b963c3b",
+      "draft": "### Findings\n\n| month | revenue |\n| :--- | :--- |\n| 2026-01-01 | 100.0 |\n| 2026-02-01 | 110.0 |\n\n[q1] Completed-item revenue for authorized products (IDs 1 and 2) was 100.0 in January 2026 and 110.0 in February 2026.\n\n### Limitations\n* Analysis is strictly limited to authorized product IDs 1 and 2 [q1].\n* Revenue is defined as the sum of sale prices for items with a 'Complete' status and does not reflect net revenue or deductions [q1].\n* The query did not measure item counts, order counts, or customer counts, so sample sizes and transaction volumes are unknown.\n\n### Action Items (Proposed)\n* Propose a query to count the number of completed items and unique customers for these products in January and February 2026 to evaluate transaction volume.\n* Propose checking the retail prices and costs of product IDs 1 and 2 to analyze profit margins.",
+      "reviewed": "### Findings\n\n| month | revenue |\n| :--- | :--- |\n| 2026-01-01 | 100.0 |\n| 2026-02-01 | 110.0 |\n\n[q1] Completed-item revenue for authorized products (IDs 1 and 2) was 100.0 in January 2026 and 110.0 in February 2026.\n\n### Limitations\n* Analysis is strictly limited to authorized product IDs 1 and 2 [q1].\n* Revenue is defined as the sum of sale prices for items with a 'Complete' status and does not reflect net revenue or deductions [q1].\n* The query did not measure item counts, order counts, or customer counts, so sample sizes and transaction volumes are unknown.\n\n### Action Items (Proposed)\n* Propose a query to count the number of completed items and unique customers for these products in January and February 2026 to evaluate transaction volume.\n* Propose checking the retail prices and costs of product IDs 1 and 2 to analyze profit margins."
+    },
+    {
+      "id": "fixture-returns",
+      "calls": [
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 1906,
+            "output_tokens": 265,
+            "total_tokens": 2171,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 2146,
+            "output_tokens": 265,
+            "total_tokens": 2411,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "context_digest": "3a8e2ce9d01fbe97727f072f5890fd9fe30e2a54cae901f39da5639b3b2d840c",
+      "draft": "### Findings\nBased on all available history for the authorized products [q1]:\n\n| product_id | finalized_items | returned_items | return_rate |\n| :--- | :--- | :--- | :--- |\n| 1 | 8 | 1 | 0.125 |\n| 2 | 8 | 1 | 0.125 |\n\n### Limitations\n* **Not a Refund Rate:** This metric measures physical item return status, not financial refunds. It excludes other order statuses (e.g., 'Shipped', 'Processing', 'Cancelled') and does not account for partial refunds, store credits, or cases where a refund was issued without a physical return.\n* **Small Sample Size:** The analysis is based on a very small sample of only 8 finalized items per product [q1].\n\n### Action Items (Proposed)\n* Verify if financial refund records exist in a separate billing system to compare physical returns against actual monetary refunds.\n* Monitor return rates as transaction volumes grow to establish statistical significance.",
+      "reviewed": "### Findings\nBased on all available history for the authorized products [q1]:\n\n| product_id | finalized_items | returned_items | return_rate |\n| :--- | :--- | :--- | :--- |\n| 1 | 8 | 1 | 0.125 |\n| 2 | 8 | 1 | 0.125 |\n\n### Limitations\n* **Not a Refund Rate:** This metric measures physical item return status, not financial refunds. It excludes other order statuses (e.g., 'Shipped', 'Processing', 'Cancelled') and does not account for partial refunds, store credits, or cases where a refund was issued without a physical return.\n* **Small Sample Size:** The analysis is based on a very small sample of only 8 finalized items per product [q1].\n\n### Action Items (Proposed)\n* Verify if financial refund records exist in a separate billing system to compare physical returns against actual monetary refunds.\n* Monitor return rates as transaction volumes grow to establish statistical significance."
+    },
+    {
+      "id": "fixture-margin",
+      "calls": [
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 1781,
+            "output_tokens": 264,
+            "total_tokens": 2045,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        },
+        {
+          "action": "answer",
+          "usage": {
+            "input_tokens": 2020,
+            "output_tokens": 264,
+            "total_tokens": 2284,
+            "thought_tokens": null,
+            "usage_source": "provider_measured",
+            "cost": null
+          }
+        }
+      ],
+      "context_digest": "b30a673f6675ca79d214bd58a4b42892248407d49bf42fa1d2799290631e75f1",
+      "draft": "### Findings\nBased on all available history for completed items, the total sale price minus product cost is negative, indicating that product costs exceeded completed revenue for these items [q1].\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| :--- | :--- | :--- |\n| 210.0 | 490.0 | -280.0 |\n\n### Limitations\n* This calculation only reflects completed items and does not account for other operational expenses, returns, or taxes; therefore, it is a margin proxy and not net profit [q1].\n* The analysis is limited to the available historical records in the database and does not establish causal factors for the negative margin proxy [q1].\n\n### Action Items (Proposed)\n* Propose an audit of the pricing structure and product cost sourcing for the authorized products to understand the negative margin proxy [q1].\n* Propose a review of order item statuses to verify if high volumes of non-completed items impact overall cost distributions [q1].",
+      "reviewed": "### Findings\nBased on all available history for completed items, the total sale price minus product cost is negative, indicating that product costs exceeded completed revenue for these items [q1].\n\n| completed_revenue | product_cost_proxy | margin_proxy |\n| :--- | :--- | :--- |\n| 210.0 | 490.0 | -280.0 |\n\n### Limitations\n* This calculation only reflects completed items and does not account for other operational expenses, returns, or taxes; therefore, it is a margin proxy and not net profit [q1].\n* The analysis is limited to the available historical records in the database and does not establish causal factors for the negative margin proxy [q1].\n\n### Action Items (Proposed)\n* Propose an audit of the pricing structure and product cost sourcing for the authorized products to understand the negative margin proxy [q1].\n* Propose a review of order item statuses to verify if high volumes of non-completed items impact overall cost distributions [q1]."
+    }
+  ],
+  "boundary": "Recorded evidence replay, no new SQL; baseline and candidate judged on identical original contexts."
+}

@@ -1,0 +1,24 @@
+{
+  "id": "order-value-1",
+  "family": "order-value",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| revenue_per_order |\n| :--- |\n| 15.0 |\n\n### Limitations\n* The analysis [q1] measures the overall mean Complete-item revenue per represented order.\n* It does not measure the total number of orders, total revenue, or the distribution of order values.\n* Time periods and customer demographics were not queried.\n\n### Action Items (Proposed)\n* Query the total count of orders and items to establish sample size.\n* Analyze the distribution of order values (e.g., minimum, maximum, and median) to identify potential outliers skewing the mean.\n* Group the metric by month or quarter to observe trends over time.",
+  "status": "generated",
+  "seconds": 13.928882035001152,
+  "usage": {
+    "input_tokens": 2051,
+    "output_tokens": 878,
+    "total_tokens": 2929,
+    "thought_tokens": 692,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

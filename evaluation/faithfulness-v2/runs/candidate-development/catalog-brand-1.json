@@ -1,0 +1,25 @@
+{
+  "id": "catalog-brand-1",
+  "family": "catalog-brand",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| brand | catalogue_products |\n|---|---|\n| North | 1 |\n| South | 1 |\n\nBased on the catalogue data [q1], there is exactly 1 authorized product for the North brand and 1 for the South brand.\n\n### Limitations\n- This query only measures the count of distinct products in the catalogue; it does not measure historical sales volume or current inventory levels.\n- The analysis does not evaluate the retail price or cost associated with these products.\n\n### Action items (proposed)\n- What is the total completed sales revenue for each of these brands? (Query `order_items` joined with `products` summing `sale_price` where `status = 'Complete'`).\n- How do the average retail prices compare between the North and South brands? (Query `products` averaging `retail_price` grouped by `brand`).",
+  "status": "generated",
+  "seconds": 12.665986569998495,
+  "usage": {
+    "input_tokens": 2341,
+    "output_tokens": 997,
+    "total_tokens": 3338,
+    "thought_tokens": 767,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

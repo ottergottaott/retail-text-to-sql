@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-1",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nHere is the revenue and item count for Complete items by brand [q1]:\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\n### Limitations\n* The query only includes items with a 'Complete' status; cancelled, returned, or processing items are excluded.\n* The analysis covers all available history without a specific timeframe.\n* The query does not measure discounts, customer demographics, or distinct order counts.\n\n### Action Items (Proposed)\n* **Time-Series Analysis:** Query the complete revenue by month or quarter to identify seasonal trends or growth differences between the brands.\n* **Status Comparison:** Analyze the volume of cancelled or returned items for these brands to understand overall demand versus completed sales.\n* **Pricing Analysis:** Compare the average sale price and retail price to determine if discounting strategies differ between the North and South brands.",
+  "status": "generated",
+  "seconds": 12.635675493000235,
+  "usage": {
+    "input_tokens": 2113,
+    "output_tokens": 771,
+    "total_tokens": 2884,
+    "thought_tokens": 519,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

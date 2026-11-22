@@ -1,0 +1,168 @@
+{
+  "status": "submitted_not_yet_verified",
+  "run": "candidate-v9-development-rejected",
+  "dataset": "retail-faithfulness-v2-development",
+  "records": [
+    {
+      "trace_id": "e964a00fcfaff89761ed74cccb10c347",
+      "score_count": 2
+    },
+    {
+      "trace_id": "4772fc916e782d55a11cdfd3a33da8ba",
+      "score_count": 2
+    },
+    {
+      "trace_id": "eaa4e56632812594d7a3f5db7eecfb45",
+      "score_count": 2
+    },
+    {
+      "trace_id": "7e5f5fe7219eb68f4240b581e1bf52ae",
+      "score_count": 2
+    },
+    {
+      "trace_id": "352816437b62fbf2499d4b7dda46dd44",
+      "score_count": 2
+    },
+    {
+      "trace_id": "3c2277986dada4d7d2a95673bc680338",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f74357ae1701fd7e32957b99dd64af0b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "cc29702e5287c198673341da89dcab46",
+      "score_count": 2
+    },
+    {
+      "trace_id": "994351ca0ddc687c2b480225c0550191",
+      "score_count": 2
+    },
+    {
+      "trace_id": "997be52dc8c61258658c7ea37ee7452c",
+      "score_count": 2
+    },
+    {
+      "trace_id": "115c7d0cdde05d7364f8858400041c60",
+      "score_count": 2
+    },
+    {
+      "trace_id": "955e474404d28d1a7a47ebae597f10f7",
+      "score_count": 2
+    },
+    {
+      "trace_id": "068ef3ef2b650c4fd1ac12a710a351c6",
+      "score_count": 2
+    },
+    {
+      "trace_id": "98c2c1321fe5768711b83981e6065620",
+      "score_count": 2
+    },
+    {
+      "trace_id": "c137a11f189e47e50695555dd0e98913",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ff3e7fa695fd3725d15c868c3117b4c7",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ee7cafbcb3ec8b1e4f00a9cfe388d1bd",
+      "score_count": 2
+    },
+    {
+      "trace_id": "c17bc60fb0814c21e07400baa003f65b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "9964230ae8188c17e6598f6e04eb1126",
+      "score_count": 2
+    },
+    {
+      "trace_id": "68385217806e3346a047ae12e8f05ade",
+      "score_count": 2
+    },
+    {
+      "trace_id": "eafef7897b02ada2d09010bbdf3adb7a",
+      "score_count": 2
+    },
+    {
+      "trace_id": "3fad3adc23a7d7c5e5d7f3f96c4deca3",
+      "score_count": 2
+    },
+    {
+      "trace_id": "bfaaa782d2264c33561452e7d6cc5f87",
+      "score_count": 2
+    },
+    {
+      "trace_id": "362995d43d782c36c0dd9c30d9dea413",
+      "score_count": 2
+    },
+    {
+      "trace_id": "5d797078ec6ca3e476002bbf673e4260",
+      "score_count": 2
+    },
+    {
+      "trace_id": "11ac128ce8b6ee7815b950ee6df058a1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "6dd1f9998af3eb7a021e3b3500be6a6c",
+      "score_count": 2
+    },
+    {
+      "trace_id": "d4c0940e554622e9d6a35df9ac692f51",
+      "score_count": 2
+    },
+    {
+      "trace_id": "b3bafa273af62751498007009b38955e",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f009571f6c390f5adc72459526bc4295",
+      "score_count": 2
+    },
+    {
+      "trace_id": "036cd6a4214abd32f4dc24df472ea87f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "2b25745fba709f3e0ea3247b21d99899",
+      "score_count": 2
+    },
+    {
+      "trace_id": "4fa42b024b1d157fbed15f3f2ffd5273",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ec7f2d6997194d6a9684f88951f354c1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "10f1251001fcf47d9760b01d674d2bda",
+      "score_count": 2
+    },
+    {
+      "trace_id": "bbba9fffe747c855d75e9065d20d4b92",
+      "score_count": 2
+    },
+    {
+      "trace_id": "148d19bb697738022b019de534021b5c",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f47f3a8f173086a5dc9e77af37570463",
+      "score_count": 2
+    },
+    {
+      "trace_id": "0d5892e722d66797c06865bd70f08143",
+      "score_count": 2
+    },
+    {
+      "trace_id": "7cd27ba08d7cc3ddf16eb1c93ceb7953",
+      "score_count": 2
+    }
+  ],
+  "capture": "synthetic"
+}

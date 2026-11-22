@@ -1,0 +1,216 @@
+{
+  "status": "verified_readback",
+  "run": "historical-v7-2026-11-21",
+  "dataset": "retail-faithfulness-historical",
+  "records": [
+    {
+      "trace_id": "d45052789dbe90f2124664b9272dfebc",
+      "score_count": 2
+    },
+    {
+      "trace_id": "8650829a44ea93e7db9c5d23b4e57078",
+      "score_count": 2
+    },
+    {
+      "trace_id": "810fa2a52dba34712210b4f27b3e1354",
+      "score_count": 2
+    },
+    {
+      "trace_id": "aad1086940b5c06d8f6edbbe293d3d5d",
+      "score_count": 2
+    },
+    {
+      "trace_id": "bf238698962309aadad51389184c981b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "4d190f1980b28cc3760d426f2879b57c",
+      "score_count": 2
+    },
+    {
+      "trace_id": "19e94348f0b5dd6c7a82b5d263f09f99",
+      "score_count": 2
+    },
+    {
+      "trace_id": "82f63e02a81c8cd6c6633929bf111b47",
+      "score_count": 2
+    },
+    {
+      "trace_id": "74e312428be3bd4f5318c19b9f9d60e4",
+      "score_count": 2
+    },
+    {
+      "trace_id": "a9e7e7720b33bd1987781fe0501c74a3",
+      "score_count": 2
+    },
+    {
+      "trace_id": "7ea45ea559d01c53d59bc3647603acf8",
+      "score_count": 2
+    },
+    {
+      "trace_id": "4596b1df471d1754161ed34ec1fa266a",
+      "score_count": 2
+    }
+  ],
+  "capture": "metadata_only",
+  "verified_records": [
+    {
+      "trace_id": "d45052789dbe90f2124664b9272dfebc",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.42857142857142855
+        }
+      ]
+    },
+    {
+      "trace_id": "8650829a44ea93e7db9c5d23b4e57078",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 0.3333333333333333
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.5
+        }
+      ]
+    },
+    {
+      "trace_id": "810fa2a52dba34712210b4f27b3e1354",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.5
+        }
+      ]
+    },
+    {
+      "trace_id": "aad1086940b5c06d8f6edbbe293d3d5d",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.5
+        }
+      ]
+    },
+    {
+      "trace_id": "bf238698962309aadad51389184c981b",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 0.5714285714285714
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.4
+        }
+      ]
+    },
+    {
+      "trace_id": "4d190f1980b28cc3760d426f2879b57c",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.8
+        }
+      ]
+    },
+    {
+      "trace_id": "19e94348f0b5dd6c7a82b5d263f09f99",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.5714285714285714
+        }
+      ]
+    },
+    {
+      "trace_id": "82f63e02a81c8cd6c6633929bf111b47",
+      "scores": [
+        {
+          "name": "faithfulness",
+          "value": 0.4444444444444444
+        },
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "trace_id": "74e312428be3bd4f5318c19b9f9d60e4",
+      "scores": [
+        {
+          "name": "faithfulness",
+          "value": 0.6
+        },
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "trace_id": "a9e7e7720b33bd1987781fe0501c74a3",
+      "scores": [
+        {
+          "name": "faithfulness",
+          "value": 0.6666666666666666
+        },
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "trace_id": "7ea45ea559d01c53d59bc3647603acf8",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 0.45454545454545453
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.3333333333333333
+        }
+      ]
+    },
+    {
+      "trace_id": "4596b1df471d1754161ed34ec1fa266a",
+      "scores": [
+        {
+          "name": "sql_factual_faithfulness",
+          "value": 0.8571428571428571
+        },
+        {
+          "name": "faithfulness",
+          "value": 0.6666666666666666
+        }
+      ]
+    }
+  ],
+  "verified_at": 1795306404.003437,
+  "read_api": "Observations v2 + Scores v3"
+}

@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "backend": "live Gemini via DeepInfra + BigQuery",
+  "prompt_version": "retail-v7",
+  "planning_model": "google/gemini-3.5-flash",
+  "review_model": "google/gemini-3.1-pro",
+  "report_id": "rep_8e91e250f734495e",
+  "checks": [
+    {
+      "name": "Live request with visible progress",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered table, limitations and proposed action items",
+      "status": "passed"
+    },
+    {
+      "name": "Persisted report and tool provenance",
+      "status": "passed"
+    },
+    {
+      "name": "Same report opened from new chat",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Pro review model recorded in telemetry",
+      "status": "passed"
+    }
+  ],
+  "evidence_files": {
+    "progress": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-pro-send.json",
+    "answer": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-pro-result.json",
+    "new_chat_open": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-pro-open-result.json",
+    "answer_image": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-pro-answer.jpg",
+    "open_image": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-pro-open.jpg"
+  },
+  "model_usage": [
+    {
+      "stage": "model_usage",
+      "model": "google/gemini-3.5-flash",
+      "provider": "deepinfra",
+      "total_tokens": 2982,
+      "cost": null
+    },
+    {
+      "stage": "model_usage",
+      "model": "google/gemini-3.5-flash",
+      "provider": "deepinfra",
+      "total_tokens": 3601,
+      "cost": null
+    },
+    {
+      "stage": "model_usage",
+      "model": "google/gemini-3.5-flash",
+      "provider": "deepinfra",
+      "total_tokens": 3633,
+      "cost": null
+    },
+    {
+      "stage": "model_usage",
+      "model": "google/gemini-3.1-pro",
+      "phase": "report_review",
+      "provider": "deepinfra",
+      "total_tokens": 4550,
+      "cost": null
+    }
+  ],
+  "limitations": [
+    "Numeric rows match persisted provenance; no separate physical SQL oracle was executed for this browser turn.",
+    "Chat deletion not exercised; human UX acceptance pending."
+  ]
+}

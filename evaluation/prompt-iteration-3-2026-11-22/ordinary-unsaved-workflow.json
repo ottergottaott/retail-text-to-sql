@@ -1,0 +1,35 @@
+{
+  "evidence_boundary": "Real configured Gemini, actual local fixture SQL, temporary store; not live BigQuery.",
+  "result": {
+    "conversation_id": "con_4a0d159a7cbfdb35",
+    "trace_id": "78681fa8d5194ce0affcabf4848ce3d7",
+    "mode": "live",
+    "answer": "### Findings\nBased on the catalog query, there are 2 authorized products available in your catalog [q1].\n\n| products |\n| :--- |\n| 2 |\n\n### Limitations\n* This count represents the total number of unique product records returned within the authorized execution scope [q1]. It does not measure inventory levels, active listings, or transaction history.\n\n### Query evidence\n\n**q1** (fixture; returned rows)\n\n| products |\n| --- |\n| 2 |",
+    "outcome": "succeeded",
+    "evidence": [
+      {
+        "rows": [
+          {
+            "products": 2
+          }
+        ],
+        "mode": "fixture",
+        "job_id": null,
+        "bytes_processed": null,
+        "sql": "SELECT COUNT(*) AS `products` FROM `products` AS `products`",
+        "truncated": false,
+        "seconds": 0.8253672880000522,
+        "query_id": "q1"
+      }
+    ],
+    "management": null,
+    "completed_analysis": true
+  },
+  "checks": {
+    "completed": true,
+    "no_report_created": true,
+    "no_unrequested_save_disclaimer": true,
+    "count_matches_fixture": true
+  },
+  "passed": true
+}

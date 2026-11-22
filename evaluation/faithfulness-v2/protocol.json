@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-11-22T00:24:03.734401+00:00",
+  "generation_provider": "deepinfra",
+  "generation_temperature": 0,
+  "generation_max_tokens": 6000,
+  "generation_timeout_seconds": 30,
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "judge_temperature": 0,
+  "ragas_version": "0.4.4",
+  "judge_transport_retries": 0,
+  "judge_factory_max_retries": 1,
+  "metric_contract": "standard-faithfulness-unchanged; separate-sql-aware-v1",
+  "hashes": {
+    "retail/model.py": "b819ca0e101a2a65b9caeb5291dcfaf80c855aa6e61aac7182f78be75ca812a4",
+    "retail/deepinfra.py": "591628e214da2244a71f975e1ee1acfdad98348db04d81e250d801def20f9dbe",
+    "retail/ragas_evaluation.py": "5fe4d28ed8c1f078e8fe68ef4ce90056a978582c8ead865a88f6ed7cb29b7b3c",
+    "retail/ragas_metrics.py": "54266544ee9c16a8623fdb1e0ea8f31d24daa2f0ffc84c7e1007119132af6f08",
+    "retail/faithfulness_experiments.py": "1ef0c487f5a6c442d5bff38b12f7669a029b47d4c5623333f6fb6936ebf56e3a",
+    "scripts/evaluate_ragas.py": "2f60775b40ad31cc96904af20b064e6a84f0a917d191ba4e1ad754423796f188",
+    "scripts/run_faithfulness_experiment.py": "647434ec0d21de5f36dac026be58bff8d84ad77972dd99063db9dd1fdc7af066"
+  },
+  "boundary": "Protocol snapshot; does not make cached run identity stronger retroactively. Review-stage synthetic evidence, no live SQL."
+}

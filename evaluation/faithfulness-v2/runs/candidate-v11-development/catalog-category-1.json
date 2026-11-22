@@ -1,0 +1,9 @@
+{
+  "id": "catalog-category-1",
+  "family": "catalog-category",
+  "split": "development",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7222987669993017,
+  "attempt": 1
+}

@@ -1,0 +1,88 @@
+{
+  "status": "submitted_not_yet_verified",
+  "run": "candidate-v11-development-INCOMPLETE",
+  "dataset": "retail-faithfulness-v2-development",
+  "records": [
+    {
+      "trace_id": "7597d9aae17abfa2316ce5fee207054f",
+      "score_count": 2
+    },
+    {
+      "trace_id": "fe5c85c1b61e2ddfb252a53de56a5998",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f6396dfab09f58b59d43f850de982ea9",
+      "score_count": 2
+    },
+    {
+      "trace_id": "5537d4a5ea4fe5e66aab6dfc9d50d52a",
+      "score_count": 2
+    },
+    {
+      "trace_id": "538e22f1addd8f6e4418b8e5e7797df8",
+      "score_count": 2
+    },
+    {
+      "trace_id": "f01e5c72d010bdf4911f7ff8a29ebc51",
+      "score_count": 2
+    },
+    {
+      "trace_id": "bc11861cd08e3cd78fe9b3430c55b0f1",
+      "score_count": 2
+    },
+    {
+      "trace_id": "80182fe88d29c0c780d554a619c6fa69",
+      "score_count": 2
+    },
+    {
+      "trace_id": "9679379f2b162ac86a12290aea07d098",
+      "score_count": 2
+    },
+    {
+      "trace_id": "7b19846cb93ea7275242d50baebcce17",
+      "score_count": 2
+    },
+    {
+      "trace_id": "d41ec3eb59e6789493f9a85b4b537524",
+      "score_count": 2
+    },
+    {
+      "trace_id": "56a00b4fb85bd867aa4185288c5573f4",
+      "score_count": 2
+    },
+    {
+      "trace_id": "9e2aa63544d58b54cc655fd55de3ce17",
+      "score_count": 2
+    },
+    {
+      "trace_id": "a7700e5d76b8c0f6f18eb063aad322ad",
+      "score_count": 2
+    },
+    {
+      "trace_id": "ebb775dfb08e70fd14e83e01f9c867fa",
+      "score_count": 2
+    },
+    {
+      "trace_id": "fe5011eeb9a287fca131a71431c10f55",
+      "score_count": 2
+    },
+    {
+      "trace_id": "c991436099303e01fba1bdf9bf6db501",
+      "score_count": 0
+    },
+    {
+      "trace_id": "888994dc52c091c463141aa0a59560d4",
+      "score_count": 0
+    },
+    {
+      "trace_id": "cb319d205fef1c0051270a4b5c9a6546",
+      "score_count": 0
+    },
+    {
+      "trace_id": "c1ea050faf7a60811521a7182272b23f",
+      "score_count": 0
+    }
+  ],
+  "capture": "synthetic"
+}

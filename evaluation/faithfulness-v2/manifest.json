@@ -1,0 +1,27 @@
+{
+  "version": "faithfulness-v2-synthetic-1",
+  "language": "English",
+  "cases": 80,
+  "families": 40,
+  "human_review": "pending",
+  "source": "synthetic",
+  "split_unit": "task family; two correlated scope variants per family",
+  "limitations": [
+    "Not 80 independent observations.",
+    "No client-supplied labels or live ground truth.",
+    "Related SQL skills occur across splits; family separation does not imply domain independence.",
+    "Test file must not be read or scored during prompt tuning."
+  ],
+  "development": {
+    "count": 40,
+    "sha256": "419668b05251df921025a909167c73bea063cd2b226cc79eecc88035b72fa4da"
+  },
+  "validation": {
+    "count": 20,
+    "sha256": "e1211c00bbaf79104f35d837983b7870d9c778c84ad1fa75c16f5b76d00394fd"
+  },
+  "test": {
+    "count": 20,
+    "sha256": "a1ebbd58c4968dc4e78028914904eb41663c0811743586f1f1da56f35e59cad0"
+  }
+}

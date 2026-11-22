@@ -1,0 +1,202 @@
+[
+  {
+    "id": "category-sales-1",
+    "question": "Show Complete-item revenue and count by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"category\": \"Outerwear\", \"complete_revenue\": 210.0, \"complete_items\": 14}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`category` AS `category`, SUM(`i`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `category` ORDER BY `category`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| category | complete_revenue | complete_items |\n|---|---|---|\n| Outerwear | 210.0 | 14 |\n\n### Limitations\n* The query [q1] measured only items with a 'Complete' status across all available history.\n* The observed volume is very small (14 items), which cannot establish broad demand.\n* Timeframe, customer count, and discount history were not measured.\n\n### Action Items (Proposed)\n* Query the sales by month or quarter to determine the velocity of these Outerwear sales.\n* Measure the volume of non-Complete statuses (e.g., Returned, Cancelled) to understand the total gross demand and fulfillment rate."
+  },
+  {
+    "id": "category-sales-2",
+    "question": "Show Complete-item revenue and count by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"category\": \"Footwear\", \"complete_revenue\": 210.0, \"complete_items\": 7}, {\"category\": \"Outerwear\", \"complete_revenue\": 140.0, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`category` AS `category`, SUM(`i`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `category` ORDER BY `category`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nBased on the query results [q1], here is the Complete-item revenue and count by category for the authorized products:\n\n| category | complete_revenue | complete_items |\n|---|---|---|\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\n### Limitations\n* The analysis [q1] aggregates all available history without filtering or grouping by specific time periods.\n* Only items with a 'Complete' status were included; cancelled or returned items were not measured.\n* The query measured revenue and item counts but did not assess profitability, discounts, or distinct customer counts.\n\n### Action Items (Proposed)\n* **Trend Analysis:** Query the complete revenue and item counts grouped by month or quarter to identify seasonal trends.\n* **Status Comparison:** Compare the volume of 'Complete' items against 'Cancelled' or 'Returned' items to evaluate fulfillment success rates by category.\n* **Pricing Check:** Calculate the average sale price per item within each category to understand pricing dynamics."
+  },
+  {
+    "id": "brand-sales-1",
+    "question": "Show Complete-item revenue and count by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"North\", \"complete_revenue\": 70.0, \"complete_items\": 7}, {\"brand\": \"South\", \"complete_revenue\": 140.0, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, SUM(`i`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nHere is the revenue and item count for Complete items by brand [q1]:\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\n### Limitations\n* The query only includes items with a 'Complete' status; cancelled, returned, or processing items are excluded.\n* The analysis covers all available history without a specific timeframe.\n* The query does not measure discounts, customer demographics, or distinct order counts.\n\n### Action Items (Proposed)\n* **Time-Series Analysis:** Query the complete revenue by month or quarter to identify seasonal trends or growth differences between the brands.\n* **Status Comparison:** Analyze the volume of cancelled or returned items for these brands to understand overall demand versus completed sales.\n* **Pricing Analysis:** Compare the average sale price and retail price to determine if discounting strategies differ between the North and South brands."
+  },
+  {
+    "id": "brand-sales-2",
+    "question": "Show Complete-item revenue and count by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"South\", \"complete_revenue\": 140.0, \"complete_items\": 7}, {\"brand\": \"West\", \"complete_revenue\": 210.0, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, SUM(`i`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on all available history for your authorized products, here is the revenue and item count for 'Complete' status items by brand [q1]:\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n### Limitations\n* The analysis is restricted to items with a 'Complete' status across all available dates.\n* The query measures gross revenue based on `sale_price`. It does not measure net profit (as `cost` was not subtracted) nor does it confirm the absence of discounts (as `retail_price` was not compared).\n* Execution scope automatically restricts the underlying data to your authorized products.\n\n### Action Items (Proposed)\n* **Discount Analysis:** Compare `sale_price` to `retail_price` to measure actual discount rates and their impact on volume.\n* **Profitability Check:** Incorporate product `cost` to calculate net profit margins for these brands.\n* **Trend Analysis:** Group these metrics by month or quarter to identify any seasonal demand patterns."
+  },
+  {
+    "id": "department-sales-1",
+    "question": "Show Complete-item revenue and count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"department\": \"Men\", \"complete_revenue\": 70.0, \"complete_items\": 7}, {\"department\": \"Women\", \"complete_revenue\": 140.0, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`department` AS `department`, SUM(`i`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `department` ORDER BY `department`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nBased on the query results [q1], here is the revenue and item count for Complete items by department across all available history:\n\n| department | complete_revenue | complete_items |\n|---|---|---|\n| Men | 70.0 | 7 |\n| Women | 140.0 | 7 |\n\n### Limitations\n* The query measured gross revenue (`sale_price`) for 'Complete' items, not net profit.\n* The presence or absence of discounts was not measured, as `retail_price` was not queried.\n* The analysis covers all available history without specific date boundaries.\n\n### Action Items (Proposed)\n* **Profitability Check:** Query product `cost` alongside `sale_price` to calculate actual net profit.\n* **Discount Analysis:** Compare `sale_price` to `retail_price` to measure the frequency and depth of discounts.\n* **Trend Analysis:** Group the data by `created_at` date buckets to observe revenue trends over time."
+  },
+  {
+    "id": "department-sales-2",
+    "question": "Show Complete-item revenue and count by department for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"department\": \"Men\", \"complete_revenue\": 210.0, \"complete_items\": 7}, {\"department\": \"Women\", \"complete_revenue\": 140.0, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`department` AS `department`, SUM(`i`.`sale_price`) AS `complete_revenue`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `department` ORDER BY `department`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nHere is the Complete-item revenue and count by department for your authorized products [q1]:\n\n| department | complete_revenue | complete_items |\n|---|---|---|\n| Men | 210.0 | 7 |\n| Women | 140.0 | 7 |\n\n### Limitations\n* The analysis is restricted to items with a 'Complete' status.\n* No specific time period was defined, so this represents all available history for these authorized products.\n* The sample size is small (14 items total), so these figures may not represent broader trends.\n* The query measured item counts and revenue, but did not measure distinct customers, order volume, or discount rates.\n\n### Action Items (Proposed)\n* Compare the average sale price between the Men and Women departments to understand pricing dynamics.\n* Analyze the revenue by category or brand within these departments to see which specific products drive the volume.\n* Review the distribution of these sales over time to identify any seasonality or recent trends."
+  },
+  {
+    "id": "cost-margin-1",
+    "question": "Show Complete-item sale price minus current catalogue cost proxy, not net profit for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"cost_proxy_margin\": -280.0, \"complete_items\": 14}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`i`.`sale_price` - `p`.`cost`) AS `cost_proxy_margin`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on the query results [q1], the total sale price minus the current catalogue cost proxy for Complete items is negative.\n\n| cost_proxy_margin | complete_items |\n| :--- | :--- |\n| -280.0 | 14 |\n\n### Limitations\n* The calculation uses the current catalogue cost (`p.cost`) as a proxy, which may not reflect the actual cost at the time of the sale.\n* This metric represents a proxy margin, not net profit, as it excludes other potential costs such as shipping or overhead.\n* The sample size is small (14 complete items).\n* The executor binds the query to authorized products only; no explicit product filter is shown in the SQL.\n\n### Action Items (Proposed)\n* Identify which specific products are driving the negative margin to determine if they were heavily discounted.\n* Compare the current catalogue cost against historical costs, if available, to see if recent cost increases are skewing the proxy margin.\n* Review the sale prices of these 14 items to check for promotional pricing or data entry errors."
+  },
+  {
+    "id": "cost-margin-2",
+    "question": "Show Complete-item sale price minus current catalogue cost proxy, not net profit for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"cost_proxy_margin\": -350.0, \"complete_items\": 14}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`i`.`sale_price` - `p`.`cost`) AS `cost_proxy_margin`, COUNT(*) AS `complete_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nThe analysis of Complete items for your authorized products shows a negative margin when comparing the sale price against the current catalogue cost proxy [q1]. Note that this is based on a small sample of 14 items.\n\n| cost_proxy_margin | complete_items |\n|---|---|\n| -350.0 | 14 |\n\n### Limitations\n* The query measured the difference between the sale price and the current catalogue cost for items with a 'Complete' status only.\n* It does not represent true net profit, as it relies on the current catalogue cost rather than the historical cost at the time of sale, and does not account for overhead or other expenses.\n* The sample size is small (14 items).\n* The trusted executor automatically restricted the results to your authorized products; no explicit product filter was required in the SQL.\n\n### Action Items (Proposed)\n* **Analyze Discounts:** Query the average `sale_price` versus the `retail_price` for these 14 items to determine if heavy discounting drove the negative margin.\n* **Check Cost Variations:** Investigate whether the current catalogue `cost` is significantly higher than the historical cost at the time these orders were placed.\n* **Product-Level Breakdown:** Group the margin by `product_id` to see if a specific product is responsible for the negative total."
+  },
+  {
+    "id": "margin-ratio-1",
+    "question": "Show cost-proxy margin divided by Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"cost_proxy_margin_ratio\": -1.3333333333333333}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`i`.`sale_price` - `p`.`cost`) / NULLIF(SUM(`i`.`sale_price`), 0) AS `cost_proxy_margin_ratio` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| cost_proxy_margin_ratio |\n| :--- |\n| -1.3333333333333333 |\n\nThe aggregate cost-proxy margin ratio for Complete items is approximately -1.33 [q1], indicating that the cost proxy exceeds the sale price for the queried population.\n\n### Limitations\n* The query measured only the aggregate margin ratio for Complete items.\n* Item counts and transaction volumes were not queried, so the sample size is unknown.\n* Time periods and individual product variations were not measured.\n\n### Action Items (Proposed)\n* Query the total count of Complete items to establish the sample size driving this metric.\n* Break down the margin ratio by product ID or category to identify which specific items are driving the negative margin.\n* Compare average `sale_price` to average `cost` to measure the extent of potential discounting."
+  },
+  {
+    "id": "margin-ratio-2",
+    "question": "Show cost-proxy margin divided by Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"cost_proxy_margin_ratio\": -1.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`i`.`sale_price` - `p`.`cost`) / NULLIF(SUM(`i`.`sale_price`), 0) AS `cost_proxy_margin_ratio` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nThe aggregate cost-proxy margin ratio for Complete items is -1.0 [q1]. \n\n| cost_proxy_margin_ratio |\n| :--- |\n| -1.0 |\n\n### Limitations\n* The query only measured the overall margin ratio for Complete items. It did not measure transaction volume, total revenue, or individual product performance.\n* The execution scope automatically restricts the underlying data to your authorized products; no explicit product filter was required in the logical SQL.\n* The negative ratio indicates sales below cost, but the sample size and timeframe were not queried.\n\n### Action Items (Proposed Checks)\n* **Volume and Revenue Check:** Query the total count of Complete items and total revenue to determine the scale of the negative margin.\n* **Product Breakdown:** Group the margin ratio and sales volume by `product_id` or `category` to identify which specific items are driving the negative margin.\n* **Trend Analysis:** Analyze the margin ratio by month or quarter to determine if this is a recent occurrence or a consistent historical pattern."
+  },
+  {
+    "id": "catalog-reference-gap-1",
+    "question": "Show current catalogue reference minus realized Complete-item price, not historical discounts for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 1, \"current_reference_gap\": 90.0}, {\"id\": 2, \"current_reference_gap\": 60.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`id` AS `id`, AVG(`p`.`retail_price` - `i`.`sale_price`) AS `current_reference_gap` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `id` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nThe following table displays the average difference between the current catalogue retail price and the realized sale price for Complete items [q1]:\n\n| id | current_reference_gap |\n|---|---|\n| 1 | 90.0 |\n| 2 | 60.0 |\n\n### Limitations\n* The query measured the average gap using the current catalogue `retail_price` against realized `sale_price` for items with a 'Complete' status. \n* It did not measure transaction counts, so the sample size for these averages is unknown.\n* The timeframe of the sales was not queried, and historical catalogue prices at the time of sale were not evaluated.\n\n### Action Items (Proposed)\n* **Volume Check:** Query the count of Complete items per product to determine the transaction volume supporting these average gaps.\n* **Trend Analysis:** Group the reference gap by month or quarter to observe if the realized price is trending further away from the current catalogue price over time."
+  },
+  {
+    "id": "catalog-reference-gap-2",
+    "question": "Show current catalogue reference minus realized Complete-item price, not historical discounts for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"id\": 2, \"current_reference_gap\": 60.0}, {\"id\": 3, \"current_reference_gap\": 170.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`id` AS `id`, AVG(`p`.`retail_price` - `i`.`sale_price`) AS `current_reference_gap` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `id` ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nThe following table shows the average difference between the current catalogue retail price and the realized sale price for Complete items [q1]. \n\n| id | current_reference_gap |\n|---|---|\n| 2 | 60.0 |\n| 3 | 170.0 |\n\n### Limitations\n* This analysis compares historical sale prices against the *current* catalogue `retail_price`. It does not measure historical discounts applied at the time of purchase, nor does it measure net profit, as product `cost` was not queried.\n* Transaction volumes (counts) and time periods were not queried, so the sample size and timeframe for these averages are unknown.\n\n### Action Items (Proposed)\n* Query the count of Complete items for each product to establish the sample size behind these averages.\n* Group the reference gap by order creation date (e.g., by month or year) to determine if the gap between realized prices and current catalogue prices is changing over time.\n* Compare `sale_price` against product `cost` to evaluate actual gross margins."
+  },
+  {
+    "id": "unsold-catalog-1",
+    "question": "Show catalogue products with no Complete items in the scoped history for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`id` AS `id`, COUNT(`i`.`item_key`) AS `complete_items` FROM `products` AS `p` LEFT JOIN `order_items` AS `i` ON `i`.`product_id` = `p`.`id` AND `i`.`status` = 'Complete' GROUP BY `id` HAVING COUNT(`i`.`item_key`) = 0 ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on the query [q1], there are no products in your authorized catalogue that have zero 'Complete' items. All authorized products have at least one 'Complete' item in the available history.\n\n| id | complete_items |\n|---|---|\n| (No data) | (No data) |\n\n### Limitations\n* The analysis only identifies the presence or absence of 'Complete' items; it does not measure total sales volume, revenue, or profitability.\n* The query spans all available history without a specific time boundary.\n* The results are constrained to your authorized product scope.\n\n### Action Items (Proposed)\n* Query the actual count of 'Complete' items per product to identify low-volume sellers.\n* Analyze the frequency of other statuses (such as 'Cancelled' or 'Returned') for these products to understand overall performance."
+  },
+  {
+    "id": "unsold-catalog-2",
+    "question": "Show catalogue products with no Complete items in the scoped history for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`id` AS `id`, COUNT(`i`.`item_key`) AS `complete_items` FROM `products` AS `p` LEFT JOIN `order_items` AS `i` ON `i`.`product_id` = `p`.`id` AND `i`.`status` = 'Complete' GROUP BY `id` HAVING COUNT(`i`.`item_key`) = 0 ORDER BY `id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on the query results [q1], there are no products in your authorized catalogue with zero 'Complete' items. All authorized products have at least one 'Complete' item in the scoped history.\n\n| id | complete_items |\n|---|---|\n| (No data) | (No data) |\n\n### Limitations\n* The query [q1] only checked for the complete absence of 'Complete' items within the authorized product scope. \n* It did not measure the actual volume of sales, returns, or cancellations for these products.\n* The timeframe covers all available history as no specific period was requested.\n\n### Action Items (Proposed)\n* Query the total count of 'Complete' items per product to understand the distribution and volume of successful sales.\n* Analyze items with statuses other than 'Complete' (such as 'Returned' or 'Cancelled') to identify any potential fulfillment or satisfaction issues."
+  },
+  {
+    "id": "brand-return-1",
+    "question": "Show Returned items by catalogue brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"North\", \"returned_items\": 1}, {\"brand\": \"South\", \"returned_items\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, COUNT(*) AS `returned_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Returned' GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| brand | returned_items |\n|---|---|\n| North | 1 |\n| South | 1 |\n\n### Limitations\n* The query [q1] only counts items with a 'Returned' status. It does not measure total sales volume, return rates, or the timeframe of these returns.\n* The executor binds logical tables to authorized products, so the results are scoped correctly.\n\n### Action Items (Proposed)\n* Query total sales volume by brand to calculate return rates.\n* Analyze returns by time period to identify trends."
+  },
+  {
+    "id": "brand-return-2",
+    "question": "Show Returned items by catalogue brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"South\", \"returned_items\": 1}, {\"brand\": \"West\", \"returned_items\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, COUNT(*) AS `returned_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Returned' GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nBased on the query results [q1], here are the returned items by brand:\n\n| brand | returned_items |\n|---|---|\n| South | 1 |\n| West | 1 |\n\n### Limitations\n* The query only measured the absolute count of items with a 'Returned' status grouped by brand.\n* It did not measure total sales volume, return rates, time periods, or reasons for returns.\n* The observed sample size is very small (1 returned item per brand).\n\n### Action items (proposed)\n* Query the total number of sold items for these brands to calculate a return rate, providing better context than absolute counts.\n* Analyze the time period of these returns to determine if they are recent or historical."
+  },
+  {
+    "id": "category-price-1",
+    "question": "Show mean Complete-item realized price by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"category\": \"Outerwear\", \"mean_realized_price\": 15.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`category` AS `category`, AVG(`i`.`sale_price`) AS `mean_realized_price` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `category` ORDER BY `category`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\n| category | mean_realized_price |\n|---|---|\n| Outerwear | 15.0 |\n\n### Limitations\nThis analysis only measured the average sale price for Complete items by category [q1]. It did not measure item sales volume (counts), total revenue, or the timeframe over which these sales occurred.\n\n### Action Items (Proposed)\n*   Query the count of Complete items sold per category to establish transaction volume and verify sample sizes.\n*   Analyze the mean realized price over time (e.g., by month) to identify any pricing trends or seasonality."
+  },
+  {
+    "id": "category-price-2",
+    "question": "Show mean Complete-item realized price by category for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"category\": \"Footwear\", \"mean_realized_price\": 30.0}, {\"category\": \"Outerwear\", \"mean_realized_price\": 20.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`category` AS `category`, AVG(`i`.`sale_price`) AS `mean_realized_price` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Complete' GROUP BY `category` ORDER BY `category`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on the completed items for your authorized products, the mean realized prices by category are as follows [q1]:\n\n| category | mean_realized_price |\n| :--- | :--- |\n| Footwear | 30.0 |\n| Outerwear | 20.0 |\n\n### Limitations\n* The analysis only measured the mean sale price for items with a 'Complete' status [q1].\n* Item volume (counts), time periods, and price distributions (min/max) were not queried, so the sample size and variance within these categories are unknown.\n\n### Action Items (Proposed)\n* **Volume Check:** Query the count of Complete items per category to determine the sample size supporting these averages.\n* **Price Variance:** Analyze the minimum and maximum sale prices to evaluate discounting or price spread within each category.\n* **Trend Analysis:** Group the mean realized prices by month or quarter to identify any seasonal pricing trends."
+  },
+  {
+    "id": "brand-status-1",
+    "question": "Show Complete and Returned item counts by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"North\", \"complete_items\": 7, \"returned_items\": 1}, {\"brand\": \"South\", \"complete_items\": 7, \"returned_items\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, SUM(CASE WHEN `i`.`status` = 'Complete' THEN 1 ELSE 0 END) AS `complete_items`, SUM(CASE WHEN `i`.`status` = 'Returned' THEN 1 ELSE 0 END) AS `returned_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "The table gives the query results [q1]. No causal analysis was performed.\n\n| brand | complete_items | returned_items |\n|---|---|---|\n| North | 7 | 1 |\n| South | 7 | 1 |\n\n**Limitations:**\n* The query measured item counts for 'Complete' and 'Returned' statuses by brand.\n* It did not measure time periods, revenue, or reasons for returns.\n\n**Action Items (Proposed):**\n* Measure return rates over time to identify potential seasonal trends.\n* Query specific products within these brands to see if returns are concentrated in specific items."
+  },
+  {
+    "id": "brand-status-2",
+    "question": "Show Complete and Returned item counts by brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"South\", \"complete_items\": 7, \"returned_items\": 1}, {\"brand\": \"West\", \"complete_items\": 7, \"returned_items\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, SUM(CASE WHEN `i`.`status` = 'Complete' THEN 1 ELSE 0 END) AS `complete_items`, SUM(CASE WHEN `i`.`status` = 'Returned' THEN 1 ELSE 0 END) AS `returned_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on the query results [q1], here are the item counts for Complete and Returned statuses by brand:\n\n| brand | complete_items | returned_items |\n|---|---|---|\n| South | 7 | 1 |\n| West | 7 | 1 |\n\n### Limitations\n* The analysis only counts items by brand for 'Complete' and 'Returned' statuses.\n* It does not measure net profit, revenue, or discounts, as these metrics were not queried.\n* No time period was specified, so all available history is included.\n* The trusted executor binds logical tables to authorized products.\n\n### Action Items (Proposed)\n* Compare the `sale_price` and `retail_price` to determine if discounts are affecting return rates.\n* Analyze the return volume over time (e.g., by month) to identify any seasonal trends.\n* Calculate the total revenue for Complete items by brand to understand financial impact."
+  }
+]

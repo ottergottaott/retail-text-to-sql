@@ -1,0 +1,86 @@
+{
+  "evidence": {
+    "kind": "bigquery",
+    "note": "Live executor result; retain job IDs and bytes as provider metadata."
+  },
+  "live_requested": true,
+  "queried": true,
+  "results": [
+    {
+      "result": {
+        "bytes_processed": 232960,
+        "columns": [
+          "row_count"
+        ],
+        "estimated_bytes": 232960,
+        "job_id": "651fcff2-5313-4075-85b9-6f75e97e39e9",
+        "mode": "live",
+        "rows_returned": 1,
+        "seconds": 4.611131337005645,
+        "truncated": false
+      },
+      "sql": "SELECT COUNT(*) AS row_count FROM products",
+      "status": "ok",
+      "table": "products"
+    },
+    {
+      "result": {
+        "bytes_processed": 1449640,
+        "columns": [
+          "row_count"
+        ],
+        "estimated_bytes": 1449640,
+        "job_id": "98856473-5e75-498c-b3b1-9f3fdd27b290",
+        "mode": "live",
+        "rows_returned": 1,
+        "seconds": 3.2117855249962304,
+        "truncated": false
+      },
+      "sql": "SELECT COUNT(*) AS row_count FROM order_items",
+      "status": "ok",
+      "table": "order_items"
+    },
+    {
+      "result": {
+        "bytes_processed": 3898392,
+        "columns": [
+          "row_count"
+        ],
+        "estimated_bytes": 3898392,
+        "job_id": "7b532ca5-6439-44cb-ae54-113b9aab78f0",
+        "mode": "live",
+        "rows_returned": 1,
+        "seconds": 3.163591008007643,
+        "truncated": false
+      },
+      "sql": "SELECT COUNT(*) AS row_count FROM orders",
+      "status": "ok",
+      "table": "orders"
+    },
+    {
+      "result": {
+        "bytes_processed": 3699280,
+        "columns": [
+          "row_count"
+        ],
+        "estimated_bytes": 3699280,
+        "job_id": "e57f1b9e-ad6d-478b-aa2c-76a7fe44f8c9",
+        "mode": "live",
+        "rows_returned": 1,
+        "seconds": 3.0264049749966944,
+        "truncated": false
+      },
+      "sql": "SELECT COUNT(*) AS row_count FROM users",
+      "status": "ok",
+      "table": "users"
+    }
+  ],
+  "status": "verified",
+  "tables": [
+    "products",
+    "order_items",
+    "orders",
+    "users"
+  ],
+  "verifier": "bigquery"
+}

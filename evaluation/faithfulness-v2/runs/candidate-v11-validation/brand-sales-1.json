@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-1",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\nThis analysis measures item-grain revenue (`SUM(sale_price)`) and volume (`COUNT(*)`) for items with a 'Complete' status [q1]. The scope is restricted to executor-authorized products. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This query did not measure distinct order counts or distinct customer volume.\n* Temporal trends and seasonality were not evaluated.\n\n### Action items (proposed)\n* Query distinct `order_key` counts by brand to determine if the item volume is driven by single large orders or multiple separate transactions.\n* Group the complete-item revenue by `created_at` month to assess temporal trends.",
+  "status": "generated",
+  "seconds": 13.552250709000873,
+  "usage": {
+    "input_tokens": 2641,
+    "output_tokens": 1014,
+    "total_tokens": 3655,
+    "thought_tokens": 781,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

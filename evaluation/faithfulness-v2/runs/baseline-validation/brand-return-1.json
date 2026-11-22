@@ -1,0 +1,25 @@
+{
+  "id": "brand-return-1",
+  "family": "brand-return",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| brand | returned_items |\n|---|---|\n| North | 1 |\n| South | 1 |\n\n### Limitations\n* The query [q1] only counts items with a 'Returned' status. It does not measure total sales volume, return rates, or the timeframe of these returns.\n* The executor binds logical tables to authorized products, so the results are scoped correctly.\n\n### Action Items (Proposed)\n* Query total sales volume by brand to calculate return rates.\n* Analyze returns by time period to identify trends.",
+  "status": "generated",
+  "seconds": 11.19384155499938,
+  "usage": {
+    "input_tokens": 2072,
+    "output_tokens": 710,
+    "total_tokens": 2782,
+    "thought_tokens": 552,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

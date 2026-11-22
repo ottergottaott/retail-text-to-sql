@@ -1,0 +1,22 @@
+[
+  {
+    "id": "monthly-sales-1",
+    "question": "Show monthly Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"month\": \"2026-01-01 00:00:00\", \"complete_revenue\": 100.0}, {\"month\": \"2026-02-01 00:00:00\", \"complete_revenue\": 110.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT DATE_TRUNC(`order_items`.`created_at`, MONTH) AS `month`, SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `month` ORDER BY `month`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nHere is the monthly Complete-item revenue based on the queried data [q1]:\n\n| month | complete_revenue |\n|---|---|\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |\n\n### Limitations\n* This query measures revenue (`sale_price`) for items with a 'Complete' status. It does not measure net profit, as product costs were not queried.\n* The query does not confirm the absence of discounts, as `retail_price` was not compared to `sale_price`.\n* Item counts were not queried, so transaction volume is unknown.\n\n### Action Items (Proposed)\n* Compare `sale_price` to `retail_price` to measure actual discount rates.\n* Query item counts alongside revenue to understand if revenue changes are driven by volume or price.\n* Include product cost to calculate net profit margins."
+  },
+  {
+    "id": "monthly-sales-2",
+    "question": "Show monthly Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"month\": \"2026-01-01 00:00:00\", \"complete_revenue\": 180.0}, {\"month\": \"2026-02-01 00:00:00\", \"complete_revenue\": 170.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT DATE_TRUNC(`order_items`.`created_at`, MONTH) AS `month`, SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `month` ORDER BY `month`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\n\nHere is the monthly Complete-item revenue for your authorized products [q1]:\n\n| month | complete_revenue |\n| :--- | :--- |\n| 2026-01 | 180.0 |\n| 2026-02 | 170.0 |\n\n### Limitations\n* The query only measured revenue for items with a 'Complete' status. Other statuses (such as Returned or Cancelled) were excluded.\n* Item counts, distinct customer counts, and discounts were not queried, so the volume driving this revenue is unknown.\n* It is not measured whether the observed months represent full or partial periods of data collection.\n\n### Action Items (Proposed)\n* **Volume Analysis:** Query the count of Complete items per month to determine if the revenue change is driven by transaction volume or average sale price.\n* **Status Comparison:** Measure revenue and item counts for Cancelled and Returned statuses to evaluate fulfillment success rates over the same period."
+  }
+]

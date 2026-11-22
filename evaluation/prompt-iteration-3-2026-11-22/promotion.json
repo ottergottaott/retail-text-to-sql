@@ -1,0 +1,38 @@
+{
+  "decision": "promoted",
+  "version": "retail-v8",
+  "scope": "Only deferred-save semantics; catalogue-price, depth and grain changes NOT promoted.",
+  "evidence": {
+    "complete_answers": {
+      "expected_answers": 12,
+      "generated_answers": 12,
+      "scored_answers": 12,
+      "missing_ids": []
+    },
+    "validation_metrics": {
+      "baseline": {
+        "faithfulness": 0.6916666666666667,
+        "sql_factual_faithfulness": 0.7708333333333334
+      },
+      "candidate": {
+        "faithfulness": 0.8035714285714286,
+        "sql_factual_faithfulness": 1.0
+      }
+    },
+    "live_model_fixture_sql_workflow": "6/6 checks passed; ordinary unsaved request also passed",
+    "independent_ai_review": "DeepSeek V4.1 Flash found no blocking candidate regressions"
+  },
+  "limitations": [
+    "Six targeted synthetic review cases, four new validation; one repetition, not statistical significance or overall accuracy.",
+    "Confirmed-existing-report is synthetic robustness; real opening stops before review.",
+    "Human acceptance pending.",
+    "Residual grain and other report-quality risks remain."
+  ],
+  "experimental_workflow_application_writes": false,
+  "live_api_smoke": {
+    "status": "checked",
+    "saved_test_report": "rep_7de35cbfbe5d4942",
+    "trace_prompt_version": "retail-v8",
+    "note": "The authorized live API smoke created one real count report. Its HTML is available; this is not a browser visual check."
+  }
+}

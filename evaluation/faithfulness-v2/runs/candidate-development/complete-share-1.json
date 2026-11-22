@@ -1,0 +1,25 @@
+{
+  "id": "complete-share-1",
+  "family": "complete-share",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| complete_item_share | all_items |\n|---|---|\n| 0.875 | 16 |\n\nAcross the 16 total scoped items, 87.5% have a 'Complete' status [q1].\n\n### Limitations\n\n* This query does not measure the specific distribution of the remaining non-complete statuses (e.g., Returned, Cancelled, Processing).\n* The analysis does not measure the timeframe (`created_at`) over which these items were ordered.\n\n### Action items (proposed)\n\n* Query the exact count of all item statuses to understand the composition of the remaining 12.5% (`SELECT status, COUNT(*) FROM order_items GROUP BY status`).\n* Analyze the complete item share grouped by `products.category` or `products.brand` to see if completion rates vary by product segment.",
+  "status": "generated",
+  "seconds": 15.926672464998774,
+  "usage": {
+    "input_tokens": 2366,
+    "output_tokens": 1157,
+    "total_tokens": 3523,
+    "thought_tokens": 923,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

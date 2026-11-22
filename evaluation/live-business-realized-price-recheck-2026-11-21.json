@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "id": "realized-price",
+      "question": "Compare Complete-item average, minimum and maximum realized sale price per authorized product across all history. Return exactly these table column aliases: product_id, avg_price, min_price, max_price. State limitations and action items, then save this analysis as Acceptance realized-price.",
+      "reference_sql": "SELECT i.product_id,AVG(i.sale_price) AS avg_price,MIN(i.sale_price) AS min_price,MAX(i.sale_price) AS max_price FROM `bigquery-public-data.thelook_ecommerce.order_items` i WHERE i.product_id IN UNNEST(@products) AND i.status='Complete' GROUP BY i.product_id",
+      "reference_rows": [
+        {
+          "product_id": 1,
+          "avg_price": 49.0,
+          "min_price": 49.0,
+          "max_price": 49.0
+        },
+        {
+          "product_id": 2,
+          "avg_price": 69.5,
+          "min_price": 69.5,
+          "max_price": 69.5
+        }
+      ],
+      "reference_job_id": "7a2ad663-7298-4102-b6c7-55460230ea0a",
+      "reference_bytes_processed": 0,
+      "response": {
+        "conversation_id": "con_d3271f8c1ed1e44d",
+        "trace_id": "730d8b6f38df4302ac083628f12e327a",
+        "mode": "live",
+        "answer": "### Realized Sale Price Analysis (Complete Status)\n\n*   **Product 1**:\n    *   **Average Price**: $49.00\n    *   **Minimum Price**: $49.00\n    *   **Maximum Price**: $49.00\n*   **Product 2**:\n    *   **Average Price**: $69.50\n    *   **Minimum Price**: $69.50\n    *   **Maximum Price**: $69.50\n\n### Limitations\n*   **Historical Scope**: This analysis covers all historical data but is limited strictly to authorized products (IDs 1 and 2) with a status of 'Complete'.\n*   **No Price Variance**: The minimum, maximum, and average prices are identical for each product, indicating no promotional discounting or price changes occurred for completed orders of these items in the dataset.\n\n### Action Items\n*   **Verify Pricing Rules**: Confirm if fixed pricing is intended for these products or if promotional/markdown data is missing from the `sale_price` field.\n*   **Monitor Status Mix**: Review the volume of non-completed statuses (e.g., 'Cancelled', 'Returned') to see if price variance exists in other order states.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_id: 1; avg_price: 49.0; min_price: 49.0; max_price: 49.0\n- product_id: 2; avg_price: 69.5; min_price: 69.5; max_price: 69.5\n\nSaved report **Acceptance realized-price** (`rep_f3ae07b6bb1ea9ea`).",
+        "outcome": "succeeded",
+        "evidence": [
+          {
+            "rows": [
+              {
+                "product_id": 1,
+                "avg_price": 49.0,
+                "min_price": 49.0,
+                "max_price": 49.0
+              },
+              {
+                "product_id": 2,
+                "avg_price": 69.5,
+                "min_price": 69.5,
+                "max_price": 69.5
+              }
+            ],
+            "mode": "live",
+            "job_id": "67da9250-2c0c-494e-bfc8-a2371d2461f2",
+            "bytes_processed": 4757038,
+            "estimated_bytes": 4757038,
+            "sql": "SELECT `order_items`.`product_id` AS `product_id`, AVG(`order_items`.`sale_price`) AS `avg_price`, MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' AND `order_items`.`product_id` IN (1, 2) GROUP BY `order_items`.`product_id`",
+            "truncated": false,
+            "seconds": 5.050821974000428,
+            "query_id": "q1"
+          }
+        ],
+        "management": {
+          "report_id": "rep_f3ae07b6bb1ea9ea"
+        }
+      },
+      "query_oracle_passed": true,
+      "saved": true,
+      "report_structure_checks": {
+        "summary_present": true,
+        "limitations_present": true,
+        "action_items_present": true
+      },
+      "status": "passed",
+      "seconds": 18.34016323200194
+    }
+  ],
+  "human_review": "pending",
+  "model": "google/gemini-3.5-flash",
+  "data_mode": "live",
+  "reference_sql": "physical BigQuery, independent of Analytics.bind",
+  "version": "live-business-v1"
+}

@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "backend": "live Gemini via DeepInfra and BigQuery",
+  "prompt_version": "retail-v6",
+  "report_id": "rep_c26c66f9f89af863",
+  "checks": [
+    {
+      "name": "Live Open WebUI request and visible progress",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered analysis table with limitations and proposed action items",
+      "status": "passed"
+    },
+    {
+      "name": "Saved report with independent persisted provenance",
+      "status": "passed"
+    },
+    {
+      "name": "Opened same report from a new WebUI chat",
+      "status": "passed"
+    }
+  ],
+  "evidence_files": {
+    "progress": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-v6-send.json",
+    "answer": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-v6-result.json",
+    "new_chat_open": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-v6-open-result.json",
+    "screenshot": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-v6-answer.jpg",
+    "open_screenshot": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/webui-v6-open.jpg"
+  },
+  "limitations": [
+    "Numeric values match stored tool provenance; no separate physical SQL oracle was run for this browser turn.",
+    "Chat deletion was not exercised.",
+    "Human usability acceptance remains pending."
+  ]
+}

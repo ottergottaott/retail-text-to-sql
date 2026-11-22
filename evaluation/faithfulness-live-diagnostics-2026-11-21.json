@@ -1,0 +1,273 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "factual_faithfulness": 0.5694444444444444
+  },
+  "combined_means": {
+    "factual_faithfulness": 0.5694444444444444
+  },
+  "coverage": {
+    "factual_faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "product-revenue",
+      "metrics": {
+        "factual_faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "seconds": 5.417553812003462
+        }
+      }
+    },
+    {
+      "id": "monthly-revenue",
+      "metrics": {
+        "factual_faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "seconds": 5.652239060000284
+        }
+      }
+    },
+    {
+      "id": "country-customers",
+      "metrics": {
+        "factual_faithfulness": {
+          "status": "measured",
+          "value": 0.5,
+          "source": "ragas",
+          "seconds": 5.1522578980075195
+        }
+      }
+    },
+    {
+      "id": "scoped-orders",
+      "metrics": {
+        "factual_faithfulness": {
+          "status": "measured",
+          "value": 0.3333333333333333,
+          "source": "ragas",
+          "seconds": 6.0947172550077084
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 24,
+  "measured_total_tokens": 13639,
+  "usage_responses": 8,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness."
+  },
+  "statement_diagnostics": [
+    {
+      "id": "product-revenue",
+      "judgments": {
+        "statements": [
+          {
+            "statement": "Product 2 generated a revenue of 69.5 from 1 completed item.",
+            "reason": "The context shows a row with product_id 2, completed_items 1, and revenue 69.5.",
+            "verdict": 1
+          },
+          {
+            "statement": "Product 1 generated a revenue of 49.0 from 1 completed item.",
+            "reason": "The context shows a row with product_id 1, completed_items 1, and revenue 49.0.",
+            "verdict": 1
+          },
+          {
+            "statement": "The analysis is based on a very small volume of completed items, specifically exactly 1 completed item per product.",
+            "reason": "The context shows exactly 1 completed item for product 1 and 1 completed item for product 2.",
+            "verdict": 1
+          },
+          {
+            "statement": "The small sample size of completed items prevents establishing broader demand trends or pricing distributions.",
+            "reason": "The context does not mention anything about establishing broader demand trends or pricing distributions.",
+            "verdict": 0
+          },
+          {
+            "statement": "The query only measures completed items and does not account for cancelled, returned, or pending orders.",
+            "reason": "The SQL query explicitly filters by `order_items`.`status` = 'Complete', meaning it only measures completed items and does not account for other statuses.",
+            "verdict": 1
+          },
+          {
+            "statement": "Historical coverage and completeness of the dataset were not measured.",
+            "reason": "The context does not contain any information about historical coverage or completeness measurements.",
+            "verdict": 0
+          },
+          {
+            "statement": "The observed sale price for product 1 is 49.0.",
+            "reason": "The context shows the revenue (sum of sale_price) for product 1 is 49.0, and since there is only 1 completed item, the observed sale price is 49.0.",
+            "verdict": 1
+          },
+          {
+            "statement": "The observed sale price for product 2 is 69.5.",
+            "reason": "The context shows the revenue (sum of sale_price) for product 2 is 69.5, and since there is only 1 completed item, the observed sale price is 69.5.",
+            "verdict": 1
+          },
+          {
+            "statement": "The analysis was saved as report 'Acceptance product-revenue' with ID 'rep_e568e62f94209252'.",
+            "reason": "The context contains persisted_report_metadata with title 'Acceptance product-revenue' and id 'rep_e568e62f94209252'.",
+            "verdict": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "monthly-revenue",
+      "judgments": {
+        "statements": [
+          {
+            "statement": "In May 2024 (2024-05-01), the number of completed items for authorized products was 1 and the revenue was 49.0.",
+            "reason": "The context shows a row for month '2024-05-01' with items = 1 and revenue = 49.0, filtered by status = 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "In June 2026 (2026-06-01), the number of completed items for authorized products was 1 and the revenue was 69.5.",
+            "reason": "The context shows a row for month '2026-06-01' with items = 1 and revenue = 69.5, filtered by status = 'Complete'.",
+            "verdict": 1
+          },
+          {
+            "statement": "The dataset contains only two completed items across the entire history.",
+            "reason": "The context states that 'Rows describe the queried population only. No unqueried causal or operational facts are supplied.' and the query results are truncated = false, but we cannot definitively infer that the entire dataset across history contains only these two items without assuming no other unqueried data exists.",
+            "verdict": 0
+          },
+          {
+            "statement": "There is a gap in the data between May 2024 and June 2026.",
+            "reason": "The query results only return rows for 2024-05-01 and 2026-06-01, showing a gap in the returned data between these dates.",
+            "verdict": 1
+          },
+          {
+            "statement": "Coverage and completeness of the historical periods were not measured.",
+            "reason": "There is no mention in the context regarding whether coverage and completeness of the historical periods were measured or not.",
+            "verdict": 0
+          },
+          {
+            "statement": "The report has been saved as Acceptance monthly-revenue with the ID rep_9861500ea742e7f7.",
+            "reason": "The context contains persisted report metadata with title 'Acceptance monthly-revenue' and id 'rep_9861500ea742e7f7'.",
+            "verdict": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "country-customers",
+      "judgments": {
+        "statements": [
+          {
+            "statement": "China is the only country with completed purchases in the authorized product scope.",
+            "reason": "The context only shows China in the results, but it does not state that China is the only country with completed purchases in the authorized product scope, as the results might be truncated or other countries might have had 0 revenue or not been returned.",
+            "verdict": 0
+          },
+          {
+            "statement": "The total revenue generated from China in the authorized product scope is 118.5.",
+            "reason": "The context explicitly shows a row with country 'China' and revenue '118.5' from the SQL query execution.",
+            "verdict": 1
+          },
+          {
+            "statement": "There are 2 distinct purchasing customers from China in the authorized product scope.",
+            "reason": "The context explicitly shows a row with country 'China' and customers count '2' from the SQL query execution.",
+            "verdict": 1
+          },
+          {
+            "statement": "The analysis is based on a sample of 2 customers and 1 country within the authorized product scope.",
+            "reason": "The context does not state that the analysis is based on a 'sample' of 2 customers and 1 country; these are just the results returned by the query.",
+            "verdict": 0
+          },
+          {
+            "statement": "Historical coverage and completeness of the user and order records were not measured.",
+            "reason": "There is no mention in the context regarding whether historical coverage and completeness of the user and order records were measured.",
+            "verdict": 0
+          },
+          {
+            "statement": "The query evaluated sale_price but did not measure original retail prices, discounts, or promotional history.",
+            "reason": "While the SQL query shows it evaluated `sale_price`, the context does not explicitly state that it did not measure original retail prices, discounts, or promotional history.",
+            "verdict": 0
+          },
+          {
+            "statement": "The query of historical order items and user records was filtered for completed purchases.",
+            "reason": "The SQL query in the context contains the clause `WHERE i.status = 'Complete'`, which means it was filtered for completed purchases.",
+            "verdict": 1
+          },
+          {
+            "statement": "The report was saved as 'Acceptance country-customers' with ID 'rep_75600b59ad09450d'.",
+            "reason": "The context contains persisted report metadata with title 'Acceptance country-customers' and id 'rep_75600b59ad09450d'.",
+            "verdict": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "scoped-orders",
+      "judgments": {
+        "statements": [
+          {
+            "statement": "There is 1 cancelled order containing at least one authorized product in the historical data.",
+            "reason": "The context shows a row with status 'Cancelled' and orders count of 1, but the SQL query does not filter by authorized products, nor does the context state that this order contains at least one authorized product.",
+            "verdict": 0
+          },
+          {
+            "statement": "There are 2 complete orders containing at least one authorized product in the historical data.",
+            "reason": "The context shows 2 complete orders, but there is no filter or indication in the SQL query or results that they contain at least one authorized product.",
+            "verdict": 0
+          },
+          {
+            "statement": "There are 5 processing orders containing at least one authorized product in the historical data.",
+            "reason": "The context shows 5 processing orders, but there is no filter or indication in the SQL query or results that they contain at least one authorized product.",
+            "verdict": 0
+          },
+          {
+            "statement": "There are 2 returned orders containing at least one authorized product in the historical data.",
+            "reason": "The context shows 2 returned orders, but there is no filter or indication in the SQL query or results that they contain at least one authorized product.",
+            "verdict": 0
+          },
+          {
+            "statement": "There are 5 shipped orders containing at least one authorized product in the historical data.",
+            "reason": "The context shows 5 shipped orders, but there is no filter or indication in the SQL query or results that they contain at least one authorized product.",
+            "verdict": 0
+          },
+          {
+            "statement": "The query counts distinct orders containing at least one authorized product.",
+            "reason": "The SQL query counts distinct order keys (`COUNT(DISTINCT o.order_key)`) but does not contain any WHERE clause or JOIN condition filtering for authorized products.",
+            "verdict": 0
+          },
+          {
+            "statement": "The query does not measure item-level status discrepancies or total item counts within those orders.",
+            "reason": "The SQL query only selects order status and counts distinct order keys, meaning it does not measure item-level status discrepancies or total item counts.",
+            "verdict": 1
+          },
+          {
+            "statement": "The coverage and completeness of historical records across different periods were not measured.",
+            "reason": "The SQL query only groups by status and counts orders; it does not measure coverage or completeness across different periods.",
+            "verdict": 1
+          },
+          {
+            "statement": "The analysis was saved as report 'Acceptance scoped-orders' with ID 'rep_7650e1dc2d7e7fd2'.",
+            "reason": "The context explicitly lists the persisted report metadata with title 'Acceptance scoped-orders' and id 'rep_7650e1dc2d7e7fd2'.",
+            "verdict": 1
+          }
+        ]
+      }
+    }
+  ]
+}

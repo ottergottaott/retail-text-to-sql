@@ -1,0 +1,15 @@
+{
+  "status": "paused_by_user",
+  "recorded_at": "2026-11-22T00:29:53.570585+00:00",
+  "reason": "User will replenish a small DeepInfra balance tomorrow. No further paid calls authorized in this paused session.",
+  "serving_prompt": "retail-v8",
+  "promotion": "none",
+  "resume": "Preserve original attempts. Agree a small total call budget before resuming missing generations/judgments; do not rerun completed baseline scores.",
+  "pending": [
+    "Complete candidate-v11 development and validation",
+    "Reserved test and fixed-subset judge repetition only after validation gates",
+    "Final independent review and evidence report"
+  ],
+  "local_regression": "216 passed",
+  "boundaries": "Partial candidate scores do not establish consistent improvement; old 0.534 is from a different live set."
+}

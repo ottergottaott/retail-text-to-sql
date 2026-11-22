@@ -1,0 +1,50 @@
+{
+  "evidence": "Direct live-config runtime retriever, real embeddings and existing application index; not an end-to-end chat test.",
+  "cases": [
+    {
+      "case": "supported",
+      "returned": [
+        {
+          "id": "monthly-revenue-change",
+          "version": 1
+        }
+      ],
+      "events": [
+        {
+          "stage": "retrieval",
+          "retrieval_mode": "hybrid",
+          "eligible": 23,
+          "indexed": 23,
+          "embedding_model": "deepinfra:Qwen/Qwen3-Embedding-8B:dim=1024:instruction=instruct-v1",
+          "returned": 1,
+          "retrieval_policy": "semantic-lexical-gate-v1",
+          "relevance_gate": "applied",
+          "lexical_rejected": 12,
+          "index_complete": true,
+          "lexical_min_similarity": 0.6,
+          "semantic_min_similarity": 0.65
+        }
+      ]
+    },
+    {
+      "case": "unsupported",
+      "returned": [],
+      "events": [
+        {
+          "stage": "retrieval",
+          "retrieval_mode": "hybrid",
+          "eligible": 23,
+          "indexed": 23,
+          "embedding_model": "deepinfra:Qwen/Qwen3-Embedding-8B:dim=1024:instruction=instruct-v1",
+          "returned": 0,
+          "retrieval_policy": "semantic-lexical-gate-v1",
+          "relevance_gate": "applied",
+          "lexical_rejected": 1,
+          "index_complete": true,
+          "lexical_min_similarity": 0.6,
+          "semantic_min_similarity": 0.65
+        }
+      ]
+    }
+  ]
+}

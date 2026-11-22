@@ -1,0 +1,25 @@
+{
+  "id": "unsold-catalog-1",
+  "family": "unsold-catalog",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| id | complete_items |\n|---|---|\n\nThis analysis counts the number of `order_items` (item grain) with a 'Complete' status for each catalogue product (catalogue grain). The population is restricted to the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited. \n\nBased on the results [q1], there are no authorized products with zero 'Complete' items; all authorized products in the dataset have at least one completed item.\n\n### Limitations\n* This analysis did not measure the volume of items in other statuses (such as 'Cancelled' or 'Returned').\n* It did not measure actual revenue, historical discounts, or net profit.\n\n### Action items (proposed)\n* What is the total count of items and sum of `sale_price` for these authorized products across all statuses? (Query `order_items` grouped by `product_id` and `status`).\n* Are there any authorized products with a high volume of 'Returned' or 'Cancelled' items? (Query `order_items` filtering for those specific statuses).",
+  "status": "generated",
+  "seconds": 15.75515771999926,
+  "usage": {
+    "input_tokens": 2597,
+    "output_tokens": 1131,
+    "total_tokens": 3728,
+    "thought_tokens": 848,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": false,
+    "oracle_table_covered": false,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-21",
+  "webui_version": "v0.13.4-slim",
+  "report_id": "rep_3c595b29bfd416bd",
+  "title": "Revenue overview",
+  "demo_chat_url": "http://127.0.0.1:3000/c/47a35c07-1e7d-4360-9de8-f908f90dde06",
+  "source": "live BigQuery, newly generated and saved through Open WebUI; final renderer verified by reopening same persistent report",
+  "queries": [
+    {
+      "query_id": "q1",
+      "job_id": "82bd85eb-3b77-4aaa-a8cb-40551fef85eb",
+      "bytes_processed": 6470712,
+      "returned_rows": 2
+    }
+  ],
+  "checks": [
+    {
+      "name": "Fresh live question \u2192 review \u2192 save \u2192 embedded preview + Artifact",
+      "status": "passed"
+    },
+    {
+      "name": "Reopen saved report from new chat after API restart",
+      "status": "passed"
+    },
+    {
+      "name": "Revenue chart values 69.5 and 49 match returned rows",
+      "status": "passed"
+    },
+    {
+      "name": "Embedded expansion resizes without same-origin access",
+      "status": "passed"
+    },
+    {
+      "name": "Exact SQL and query metadata expand",
+      "status": "passed"
+    },
+    {
+      "name": "Reload retains embedded snapshot and full Artifact source",
+      "status": "passed"
+    },
+    {
+      "name": "Native Download produces text/html Blob with report and chart",
+      "status": "passed"
+    },
+    {
+      "name": "Downloaded file persisted by operating system",
+      "status": "untested"
+    },
+    {
+      "name": "Native browser fullscreen",
+      "status": "untested",
+      "note": "Button clicked; no fullscreen element observed in headless browser"
+    },
+    {
+      "name": "Owner HTML endpoint and Bob denial",
+      "status": "passed"
+    },
+    {
+      "name": "Human UX acceptance",
+      "status": "untested"
+    }
+  ],
+  "automated_tests": {
+    "passed": 177,
+    "junit": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/report-experience-tests.xml"
+  },
+  "openspec": "strict validation passed",
+  "package": "wheel contains retail/templates/report.html",
+  "independent_review": "no important findings in bounded presentation/access review",
+  "screenshots": [
+    "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/report-experience-desktop.jpg"
+  ],
+  "limitations": [
+    "Chat HTML and downloads are delivered snapshots, not revocable live documents.",
+    "No new model quality or general faithfulness claim.",
+    "This is not clean-machine installation evidence."
+  ]
+}

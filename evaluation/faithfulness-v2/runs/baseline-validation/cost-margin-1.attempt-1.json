@@ -1,0 +1,9 @@
+{
+  "id": "cost-margin-1",
+  "family": "cost-margin",
+  "split": "validation",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 3.098865844000102,
+  "attempt": 1
+}

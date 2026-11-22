@@ -1,0 +1,15 @@
+{
+  "http_status": 200,
+  "verified_at": 1795306369.4215229,
+  "experiments": [
+    {
+      "id": "02594040a99116bd",
+      "name": "historical-v7-2026-11-21",
+      "description": "",
+      "startTime": "2026-11-22T00:09:09.212Z",
+      "endTime": "2026-11-22T00:09:20.621Z",
+      "itemCount": 12,
+      "datasetId": "cmwr2tf85000apa3z01vrt3r8"
+    }
+  ]
+}

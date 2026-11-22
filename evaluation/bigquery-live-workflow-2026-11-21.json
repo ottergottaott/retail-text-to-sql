@@ -1,0 +1,41 @@
+{
+  "project": "static-bee-277223",
+  "date": "2026-11-21",
+  "data_mode": "live BigQuery",
+  "model": "google/gemini-3.5-flash",
+  "embedding_model": "deepinfra:Qwen/Qwen3-Embedding-8B:dim=1024:instruction=instruct-v1",
+  "system_prompt_version": "retail-v3",
+  "indexed_trios": 23,
+  "retrieval_modes": [
+    "hybrid"
+  ],
+  "query_jobs": [
+    {
+      "job_id": "63275cb8-6d43-44dc-a82e-33725900729f",
+      "bytes_processed": 0,
+      "estimated_bytes": 4757038
+    }
+  ],
+  "combined_analysis_save_verified": true,
+  "explicit_save_list_open_verified": true,
+  "cross_user_store_isolation_verified": true,
+  "test_store": "temporary isolated SQLite; disposed, not application state",
+  "human_report_review": "pending",
+  "live_browser_verified": false,
+  "langfuse_verified": false,
+  "default_application_mode": "fixture",
+  "sources": {
+    "bigquery-live-agent-v3.json": {
+      "path": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/bigquery-live-agent-v3.json",
+      "sha256": "366d067455dc6a8a8047c7464b992a4f6e3712e725390debb36c631dc008e239"
+    },
+    "bigquery-live-reports.json": {
+      "path": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/bigquery-live-reports.json",
+      "sha256": "72ce281e9cf116a43ebc4a3c2070d411781785fbfe3a7b33bffb4c558ce3cd53"
+    },
+    "bigquery-live-verification.json": {
+      "path": "/Users/user/.bb/thread-storage/thr_jx74y5r9jy/bigquery-live-verification.json",
+      "sha256": "89fb3468a1f10501a4088f7cfc6fe0800b3e42b9add96f1e07aab619276992d6"
+    }
+  }
+}

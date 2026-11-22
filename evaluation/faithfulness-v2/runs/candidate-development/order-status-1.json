@@ -1,0 +1,25 @@
+{
+  "id": "order-status-1",
+  "family": "order-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| status | orders |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThe query [q1] shows 14 Complete orders and 2 Returned orders within the authorized scope.\n\n### Limitations\nThis analysis did not measure the timeframe (`created_at`) of these orders or the revenue (`sale_price`) associated with each status.\n\n### Action items (proposed)\n* What is the total `sale_price` of the items within these Returned orders?\n* How do these order counts distribute across different `created_at` months?",
+  "status": "generated",
+  "seconds": 12.817211518000477,
+  "usage": {
+    "input_tokens": 2344,
+    "output_tokens": 774,
+    "total_tokens": 3118,
+    "thought_tokens": 606,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

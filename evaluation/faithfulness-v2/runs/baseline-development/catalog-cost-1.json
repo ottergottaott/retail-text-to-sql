@@ -1,0 +1,24 @@
+{
+  "id": "catalog-cost-1",
+  "family": "catalog-cost",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| id | cost |\n|---|---|\n| 1 | 40.0 |\n| 2 | 30.0 |\n\n### Limitations\nThis query [q1] only retrieved the catalogue cost for the authorized products. It did not measure sales volume, inventory levels, or actual demand.\n\n### Action items (proposed)\n* Query `order_items` to measure actual sales volume and revenue for these products to assess demand.\n* Compare the catalogue cost against `sale_price` in `order_items` to evaluate product margins.",
+  "status": "generated",
+  "seconds": 13.564047451000079,
+  "usage": {
+    "input_tokens": 2031,
+    "output_tokens": 780,
+    "total_tokens": 2811,
+    "thought_tokens": 618,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "order-status-2",
+  "family": "order-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| status | orders |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\n### Limitations\nThis analysis only counts distinct orders by status for authorized products [q1]. It does not measure net profit, revenue, or discount rates, as no pricing or cost data was queried.\n\n### Action Items (Proposed)\n* Query `sale_price` from `order_items` to measure the revenue associated with Complete versus Returned orders.\n* Analyze the returned orders by product category or brand to identify potential patterns in return rates.",
+  "status": "generated",
+  "seconds": 13.580922467001074,
+  "usage": {
+    "input_tokens": 2039,
+    "output_tokens": 804,
+    "total_tokens": 2843,
+    "thought_tokens": 643,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "catalog-count-2",
+  "family": "catalog-count",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| catalogue_products |\n|---|\n| 2 |\n\nThe metric `catalogue_products` represents a simple count (`COUNT(*)`) at the catalogue product grain [q1]. The query was executed against the `products` table, which is restricted to the executor-authorized product scope. No status filter was applied as this evaluates the catalogue directly rather than transactional data. No date filter was applied in q1; historical coverage was not audited.\n\n### Limitations\n* This analysis only measures the count of authorized catalogue entries; it does not measure actual sales volume or current inventory levels.\n* The query does not establish the distribution of these products across dimensions such as `category` or `brand`.\n\n### Action items (proposed)\n* What is the total sales volume (count of `order_items`) for these authorized products where `status` is 'Complete'?\n* What are the specific `category` and `brand` assignments for these products in the catalogue?",
+  "status": "generated",
+  "seconds": 13.873647430000347,
+  "usage": {
+    "input_tokens": 2523,
+    "output_tokens": 958,
+    "total_tokens": 3481,
+    "thought_tokens": 710,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

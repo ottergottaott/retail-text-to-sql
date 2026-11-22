@@ -1,0 +1,25 @@
+{
+  "id": "catalog-cost-2",
+  "family": "catalog-cost",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| id | cost |\n|---|---|\n| 2 | 30.0 |\n| 3 | 70.0 |\n\nThis table presents the catalogue cost proxy (`cost`) at the product grain [q1]. The results are restricted to the executor-authorized product scope. No date filter was applied in q1; historical coverage was not audited. No status filter was applied as this queries the catalogue directly, not transactional data.\n\n### Limitations\nThis analysis only retrieves catalogue reference costs; it does not measure actual historical sales volume or establish actual gross profit.\n\n### Action items (proposed)\n* What is the total historical sales volume and revenue for these products in the `order_items` table?\n* How does the catalogue `cost` compare to the current catalogue `retail_price` for these items?",
+  "status": "generated",
+  "seconds": 12.69286118799937,
+  "usage": {
+    "input_tokens": 2562,
+    "output_tokens": 865,
+    "total_tokens": 3427,
+    "thought_tokens": 646,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

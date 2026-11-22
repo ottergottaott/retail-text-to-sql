@@ -1,0 +1,25 @@
+{
+  "id": "returned-value-2",
+  "family": "returned-value",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| returned_recorded_value | returned_items |\n|---|---|\n| 50.0 | 2 |\n\nThe recorded sale value for items with a 'Returned' status is 50.0, representing a total of 2 returned items [q1]. \n\n### Limitations\n- This analysis did not measure the actual refunded amounts issued to customers.\n- The query did not measure the time period or specific dates over which these returns occurred.\n\n### Action items (proposed)\n- What is the breakdown of these returned items by product `category` or `brand`? \n- How does the returned item count compare to the total number of items with a 'Complete' status for these authorized products?",
+  "status": "generated",
+  "seconds": 15.819575111998347,
+  "usage": {
+    "input_tokens": 2348,
+    "output_tokens": 760,
+    "total_tokens": 3108,
+    "thought_tokens": 564,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

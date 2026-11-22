@@ -1,0 +1,25 @@
+{
+  "id": "reference-spread-2",
+  "family": "reference-spread",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| id | reference_spread |\n|---|---|\n| 2 | 50.0 |\n| 3 | 130.0 |\n\nThe table displays the catalogue retail-reference minus cost spread for the authorized products [q1]. Product 3 has a reference spread of 130.0, and product 2 has a reference spread of 50.0 [q1].\n\n### Limitations\nThis analysis measures the current catalogue reference spread; it does not measure actual historical sale prices or realized gross profit from completed orders. It also does not measure the volume of items sold.\n\n### Action items (proposed)\n* What is the actual realized spread for these products based on `sale_price` minus `cost` in `order_items` where `status = 'Complete'`?\n* How many completed items have been sold for each of these products to understand the volume associated with these spreads?",
+  "status": "generated",
+  "seconds": 13.519891427000402,
+  "usage": {
+    "input_tokens": 2359,
+    "output_tokens": 882,
+    "total_tokens": 3241,
+    "thought_tokens": 642,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

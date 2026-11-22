@@ -1,0 +1,73 @@
+[
+  {
+    "id": "equal-prices",
+    "question": "Return a table with min_price and max_price for authorized Complete items; explain limits.",
+    "response": "### Findings\n* The observed minimum and maximum sale prices for Complete items are identical [q1].\n\n| min_price | max_price |\n|---|---|\n| 49 | 49 |\n\n### Limitations\n* **Sample Size Unknown:** The query did not measure the count of items, so the volume of transactions supporting this price point is unknown.\n* **Discount Status:** Equal minimum and maximum prices mean there was no variation in the observed records. This does not confirm the absence of discounts, as the original retail prices were not queried for comparison.\n* **Scope:** Results are limited to authorized products, which is enforced by the executor.\n\n### Action Items (Proposed)\n* Query the `COUNT(*)` of these items to establish the sample size.\n* Join with the `products` table to compare `sale_price` against `retail_price` to measure actual discount activity.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT MIN(sale_price) AS min_price, MAX(sale_price) AS max_price FROM order_items WHERE status='Complete'\", \"rows\": [{\"min_price\": 49, \"max_price\": 49}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "customer-grain",
+    "question": "Return customers and revenue for authorized Complete items, then proposed next checks.",
+    "response": "### Findings\n* There was 1 distinct customer who generated a total revenue of 98 for Complete items [q1].\n\n### Limitations\n* The query measured distinct customers and total revenue; it did not measure the number of orders, individual items purchased, or the timeframe of the activity.\n\n### Action items (proposed)\n* Query the number of distinct orders and items to determine the transaction volume for this customer.\n* Analyze the specific products purchased to understand the composition of the revenue.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(DISTINCT customer_key) AS customers, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"customers\": 1, \"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "save-claim",
+    "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+    "response": "### Findings\n* Total authorized Complete-item revenue is 98 [q1].\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The query only measured total revenue for Complete items. It did not measure transaction volume, customer counts, or time periods.\n\n### Action Items\n* Measure the number of items and distinct customers to determine the sample size.\n* Analyze revenue by date to identify trends over time.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "supported-small-count",
+    "question": "Return product_id, items and revenue for authorized Complete items; flag limitations.",
+    "response": "**Findings**\n* Product 1 has 2 Complete items, generating a total revenue of 98 [q1].\n\n| product_id | items | revenue |\n|---|---|---|\n| 1 | 2 | 98 |\n\n**Limitations**\n* The observation count is very small (only 2 items); this does not establish reliable demand or a broader trend.\n* The query only measured Complete items and did not evaluate other statuses, time periods, or customer demographics.\n\n**Action items (proposed)**\n* Query a broader time period or include other statuses (e.g., Processing, Shipped) to determine if more transaction data is available for authorized products.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT product_id, COUNT(*) AS items, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY product_id\", \"rows\": [{\"product_id\": 1, \"items\": 2, \"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-reviewed-save",
+    "question": "Show authorized catalogue product count in a table, then save the completed report.",
+    "response": "### Findings\n* There are 2 authorized products in the catalogue [q1].\n\n| products |\n|---|\n| 2 |\n\n* The report containing this analysis has been saved.\n\n### Limitations\n* Only the total count of authorized products was queried. No details regarding categories, brands, or pricing were retrieved.\n\n### Action items (proposed)\n* Query product details (such as category, brand, and retail price) to understand the composition of the authorized catalogue.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS products FROM products\", \"rows\": [{\"products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "detailed-explicit-table",
+    "question": "Give a detailed analysis with a Markdown table of authorized Complete item revenue by product; explain exactly what can and cannot be concluded.",
+    "response": "### Findings\n* Product 1 generated 120 in Complete revenue across 4 items [q1].\n* Product 2 generated 70 in Complete revenue across 2 items [q1].\n\n| product_id | complete_items | complete_revenue |\n|---|---|---|\n| 1 | 4 | 120 |\n| 2 | 2 | 70 |\n\n### Limitations\n* The query measured only Complete item revenue and counts for authorized products.\n* The sample size is very small (6 total items), which cannot establish reliable demand trends.\n* No time period was specified or queried, so it is unknown when these sales occurred.\n* Inventory levels, traffic, and conversion rates were not measured; therefore, we cannot conclude that stock should be increased.\n\n### Action Items (Proposed)\n* Query the `created_at` dates for these items to determine the timeframe of the sales.\n* Review customer counts to see if these purchases were made by distinct users or a single buyer.\n* Cross-reference with external inventory systems before making stock adjustments.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT product_id, COUNT(*) AS complete_items, SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete' GROUP BY product_id\", \"rows\": [{\"product_id\": 1, \"complete_items\": 4, \"complete_revenue\": 120}, {\"product_id\": 2, \"complete_items\": 2, \"complete_revenue\": 70}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "catalogue-gap",
+    "question": "Compare Complete item prices with the current catalogue reference for authorized products. Show the measured gap and what it means.",
+    "response": "**Findings**\n* For Product 1, the average sale price for Complete items is 45, while the current catalogue reference price is 60 [q1].\n* This represents a measured gap of 15 (25% below the current reference).\n\n**Limitations**\n* The query did not measure the number of items sold, so the sample size supporting this average is unknown.\n* Comparing historical sale prices to the *current* catalogue price does not confirm a discount was applied at the time of sale; the catalogue price may have increased since the transactions occurred.\n* Product 2 did not appear in the results, indicating no Complete items were found for it in this query.\n\n**Action Items**\n* Query the count of Complete items for Product 1 to establish the transaction volume.\n* Compare sale prices against historical retail prices at the time of the order (if available) rather than the current catalogue price to verify actual discount rates.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT oi.product_id, AVG(oi.sale_price) AS average_sale_price, MAX(p.retail_price) AS current_reference FROM order_items oi JOIN products p ON p.id=oi.product_id WHERE oi.status='Complete' GROUP BY oi.product_id\", \"rows\": [{\"product_id\": 1, \"average_sale_price\": 45, \"current_reference\": 60}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  }
+]

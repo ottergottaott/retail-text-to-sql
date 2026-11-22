@@ -1,0 +1,25 @@
+{
+  "id": "item-status-2",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| status | items |\n|---|---|\n| Complete | 14 |\n| Returned | 2 |\n\nThe analysis measured item counts by status for the authorized products, showing 14 Complete items and 2 Returned items [q1].\n\n### Limitations\nThis analysis did not measure the timeframe (`created_at`) over which these items were ordered, nor did it measure the revenue (`sale_price`) associated with these statuses.\n\n### Action items (proposed)\n* What is the total `sale_price` for the Complete items compared to the Returned items?\n* How are these item counts distributed over time (grouping by `created_at` month)?",
+  "status": "generated",
+  "seconds": 13.254053880000356,
+  "usage": {
+    "input_tokens": 2336,
+    "output_tokens": 773,
+    "total_tokens": 3109,
+    "thought_tokens": 585,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

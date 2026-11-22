@@ -1,0 +1,299 @@
+{
+  "status": "incomplete",
+  "evaluation": "ragas_advisory",
+  "means": {
+    "faithfulness": 0.5,
+    "context_precision": 0.9999999999142857,
+    "context_recall": 0.8571428571428571
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 12
+    },
+    "context_precision": {
+      "ragas_scored": 7,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 12
+    },
+    "context_recall": {
+      "ragas_scored": 7,
+      "rule_scored": 1,
+      "applicable": 8,
+      "total_samples": 12
+    }
+  },
+  "cases": [
+    {
+      "id": "live-product-report",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5,
+          "source": "ragas",
+          "seconds": 12.937429458994302
+        },
+        "context_precision": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_recall": {
+          "status": "not_applicable",
+          "value": null
+        }
+      }
+    },
+    {
+      "id": "fixture-monthly",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "seconds": 5.8483324280095985
+        },
+        "context_precision": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_recall": {
+          "status": "not_applicable",
+          "value": null
+        }
+      }
+    },
+    {
+      "id": "fixture-returns",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.2,
+          "source": "ragas",
+          "seconds": 5.649394296997343
+        },
+        "context_precision": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_recall": {
+          "status": "not_applicable",
+          "value": null
+        }
+      }
+    },
+    {
+      "id": "fixture-margin",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7,
+          "source": "ragas",
+          "seconds": 5.480868540995289
+        },
+        "context_precision": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_recall": {
+          "status": "not_applicable",
+          "value": null
+        }
+      }
+    },
+    {
+      "id": "retrieval-monthly-revenue-change-en-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.99999999995,
+          "source": "ragas",
+          "seconds": 6.169810102990596
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 1.9493478560034418
+        }
+      }
+    },
+    {
+      "id": "retrieval-monthly-revenue-change-ru-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.9999999999,
+          "source": "ragas",
+          "seconds": 3.182038292012294
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 2.3403196839935845
+        }
+      }
+    },
+    {
+      "id": "retrieval-revenue-period-completeness-en-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.99999999995,
+          "source": "ragas",
+          "seconds": 5.445039060999989
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 2.3333661689975997
+        }
+      }
+    },
+    {
+      "id": "retrieval-revenue-period-completeness-ru-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.9999999999,
+          "source": "ragas",
+          "seconds": 4.407725530996686
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 0.0,
+          "source": "ragas",
+          "seconds": 2.5629990939924028
+        }
+      }
+    },
+    {
+      "id": "retrieval-orders-items-grain-en-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.9999999999,
+          "source": "ragas",
+          "seconds": 7.535919344998547
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 2.0206836459983606
+        }
+      }
+    },
+    {
+      "id": "retrieval-orders-items-grain-ru-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.9999999999,
+          "source": "ragas",
+          "seconds": 3.1280832460033707
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 2.1440660590014886
+        }
+      }
+    },
+    {
+      "id": "retrieval-order-item-status-reconciliation-en-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "measured",
+          "value": 0.9999999999,
+          "source": "ragas",
+          "seconds": 5.9316342740057735
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "seconds": 2.5452138359978562
+        }
+      }
+    },
+    {
+      "id": "retrieval-order-item-status-reconciliation-ru-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "not_applicable",
+          "value": null
+        },
+        "context_precision": {
+          "status": "undefined",
+          "value": null,
+          "reason": "empty_context"
+        },
+        "context_recall": {
+          "status": "measured",
+          "value": 0.0,
+          "source": "empty_context_rule"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores.",
+    "Judge model is the same Gemini model family used by the application; scores have self-judge bias."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 26,
+  "max_provider_calls": 64,
+  "measured_total_tokens": 50863,
+  "usage_responses": 26,
+  "cost": null,
+  "human_review": "pending",
+  "aggregation_version": "v2",
+  "combined_means": {
+    "faithfulness": 0.5,
+    "context_precision": 0.9999999999142857,
+    "context_recall": 0.75
+  },
+  "reaggregation": {
+    "source": "ragas-results-2026-11-21-original-v1.json",
+    "new_provider_calls": 0,
+    "note": "Existing judge measurements preserved; nonapplicable metrics excluded, empty-context rule reported separately."
+  }
+}

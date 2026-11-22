@@ -1,0 +1,72 @@
+{
+  "status": "submitted_not_yet_verified",
+  "run": "candidate-v11-validation-INCOMPLETE",
+  "dataset": "retail-faithfulness-v2-validation",
+  "records": [
+    {
+      "trace_id": "a87280e981c8320a5e22373419185240",
+      "score_count": 2
+    },
+    {
+      "trace_id": "46437cd847625c281fc846b13b417970",
+      "score_count": 2
+    },
+    {
+      "trace_id": "fcf8a7cb90c474ce6bc511072f14ed57",
+      "score_count": 2
+    },
+    {
+      "trace_id": "d3733de1c3e96ad375ace597ca31c359",
+      "score_count": 2
+    },
+    {
+      "trace_id": "92a6027e680d7e2e08421fb48d8cdc47",
+      "score_count": 2
+    },
+    {
+      "trace_id": "211b5a37b8b303faf013daa244115dd2",
+      "score_count": 2
+    },
+    {
+      "trace_id": "d3cb038bc3b3533d765ea8d7e13b7e14",
+      "score_count": 2
+    },
+    {
+      "trace_id": "e7c5c3d5b3cb226eb6b80fb42f8f07a6",
+      "score_count": 2
+    },
+    {
+      "trace_id": "4e60fe3884428bc536f6061b04ed43b8",
+      "score_count": 2
+    },
+    {
+      "trace_id": "08180a41e0eea899a32ab5abdd54cbfa",
+      "score_count": 2
+    },
+    {
+      "trace_id": "a3e1087a959e81da65166a78291f9820",
+      "score_count": 2
+    },
+    {
+      "trace_id": "13c426bf98afb55ff043f612ed5a8c62",
+      "score_count": 2
+    },
+    {
+      "trace_id": "6165a7b0455d61d765a1ba3abf9dd67b",
+      "score_count": 2
+    },
+    {
+      "trace_id": "32d5ce435c0143bffa19f525d6a998ee",
+      "score_count": 2
+    },
+    {
+      "trace_id": "461ea7da8feffa67176edc476628486d",
+      "score_count": 2
+    },
+    {
+      "trace_id": "2b747c6872b114d54193039c25e111d4",
+      "score_count": 0
+    }
+  ],
+  "capture": "synthetic"
+}

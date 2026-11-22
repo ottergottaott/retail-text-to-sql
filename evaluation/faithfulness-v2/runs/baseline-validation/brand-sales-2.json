@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on all available history for your authorized products, here is the revenue and item count for 'Complete' status items by brand [q1]:\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n### Limitations\n* The analysis is restricted to items with a 'Complete' status across all available dates.\n* The query measures gross revenue based on `sale_price`. It does not measure net profit (as `cost` was not subtracted) nor does it confirm the absence of discounts (as `retail_price` was not compared).\n* Execution scope automatically restricts the underlying data to your authorized products.\n\n### Action Items (Proposed)\n* **Discount Analysis:** Compare `sale_price` to `retail_price` to measure actual discount rates and their impact on volume.\n* **Profitability Check:** Incorporate product `cost` to calculate net profit margins for these brands.\n* **Trend Analysis:** Group these metrics by month or quarter to identify any seasonal demand patterns.",
+  "status": "generated",
+  "seconds": 14.501388570000927,
+  "usage": {
+    "input_tokens": 2112,
+    "output_tokens": 975,
+    "total_tokens": 3087,
+    "thought_tokens": 693,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

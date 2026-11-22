@@ -1,0 +1,24 @@
+{
+  "id": "realized-price-1",
+  "family": "realized-price",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe overall mean realized price for Complete items is 15.0 [q1].\n\n| mean_price |\n|---|\n| 15.0 |\n\n### Limitations\nThis analysis only measured the overall average sale price. It did not query transaction volume (item counts), time periods, or product-level distributions, so the scale of demand and any variations across the catalog remain unmeasured.\n\n### Action Items (Proposed)\n*   **Measure Volume:** Query the count of Complete items to establish actual transaction volume and demand scale.\n*   **Trend Analysis:** Analyze the mean price and item volume over time (e.g., by month or quarter) to identify historical trends.\n*   **Product Breakdown:** Group the mean price and volume by product category or brand to identify which segments drive the overall average.",
+  "status": "generated",
+  "seconds": 13.56816085599894,
+  "usage": {
+    "input_tokens": 2021,
+    "output_tokens": 823,
+    "total_tokens": 2844,
+    "thought_tokens": 608,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

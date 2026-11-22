@@ -1,0 +1,26 @@
+{
+  "reviewer": "coding assistant, not human",
+  "decision": "not_promoted",
+  "reasons": [
+    "Baseline generation failed for distinct-orders; 15/16 answers cannot establish a complete paired comparison.",
+    "Candidate catalogue-gap invented dollar currency absent from evidence."
+  ],
+  "deepseek_agreement": [
+    "Current retail_price vs historical discounts corrected.",
+    "Pending save-success assertion removed.",
+    "Missing save receipt correctly called unconfirmed."
+  ],
+  "deepseek_disagreement": [
+    {
+      "case": "customer-grain",
+      "reason": "The actual question does not explicitly request a table; required_checks is evaluator metadata, not a model input. Absence of a table here is not an established user-facing violation."
+    }
+  ],
+  "workflow_inspection": {
+    "baseline_count": 2,
+    "baseline_alias": "product_count",
+    "required_alias": "products",
+    "note": "The failed exact-row oracle compares aliases and values: numeric count itself is correct. Both workflow variants saved once; only candidate followed the exact alias."
+  },
+  "human_review": "pending"
+}

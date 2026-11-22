@@ -1,0 +1,20 @@
+{
+  "evidence_boundary": "Read-only audit of docs/review-summary.html, evaluation/submission-metrics-2026-11-22.json, evaluation/browser-acceptance-2026-11-22.json, and SUBMISSION_MESSAGE.md. No runtime execution, no visual re-review, no SQL/network/tests. Claims are checked only against the counts and boundaries recorded in these four files; this is not human acceptance.",
+  "verdict": "no_material_claim_source_mismatch",
+  "claim_source_mismatches": [],
+  "scoping_checks": {
+    "browser_17_passed": "Correct and scoped: browser-acceptance lists 17 'passed' and 4 'untested' (download_file_persistence, native_fullscreen, cross_user_browser_session, live_fault_injection), status 'scoped_acceptance_passed_with_limits'. submission-metrics agrees (passed 17, untested 4). Caveat: review-summary's value cell says '17 browser checks', which reads as 17 total rather than '17 passed of 21; 4 untested' \u2014 wording, not a count error.",
+    "live_v7_vs_v8": "Preserved. review-summary live row states 'retail-v7'; submission-metrics has serving_prompt 'retail-v8' but live_business.serving_prompt 'retail-v7' and prompt_boundary 'Broad live business set predates retail-v8'; review-summary details repeat 'broad live report quality has not been remeasured for v8'.",
+    "judge_contracts_separate": "Preserved. 0.534 (standard Ragas) and 0.843 (custom SQL-aware) are labeled as different contracts; submission-metrics boundary: 'Different judge contracts; neither is overall answer accuracy.'",
+    "no_overall_accuracy_claim": "Preserved. review-summary: 'These measurements cover different contracts and datasets. They cannot be combined into one accuracy score'; live row adds 'LLM judge, not answer accuracy'.",
+    "human_install_langfuse_limits": "Explicit. review-summary: 'Human report review, installation on another machine and optional live Langfuse delivery remain unverified.' submission-metrics remaining[] lists the same three. SUBMISSION_MESSAGE.md does not restate them itself but points to the summary and says live/synthetic results are separately labeled with limitations."
+  },
+  "wording_risks": [
+    "'17 browser checks' in the review-summary table could be read as a complete pass; the evidence is 17 passed of 21 with 4 untested. Prefer '17/21 passed; 4 untested'.",
+    "'Reports ... survive chat deletion' generalizes from one tested report/one WebUI chat deletion; the evidence boundary notes chat deletion does not assert backend conversation erasure. The claim is evidence-backed for reports but reads broader than a single-case test.",
+    "'supported charts' and 'feedback enters analyst review before shared knowledge changes' are implementation/design statements not verified by the four files read; they should not be read as measured outcomes.",
+    "SUBMISSION_MESSAGE.md's '205 passing tests and recorded browser/CLI checks' is accurate in count but omits the limits (4 untested browser checks, v7/v8 split, pending human review); acceptable only because it defers to the summary."
+  ],
+  "blocking_findings": [],
+  "recommendation": "No material claim/source mismatch found. Keep as-is, but tighten the browser row to '17 passed of 21 (4 untested)' and avoid implying that one report's chat-deletion survival or 'supported charts' are broadly validated. Live v7 vs v8 separation, judge-contract separation, absence of an overall accuracy claim, and the human/install/Langfuse limits are all correctly stated; this audit is not human acceptance or visual review."
+}

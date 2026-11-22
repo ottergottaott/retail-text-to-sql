@@ -1,0 +1,39 @@
+{
+  "report_id": "rep_6f502bbf85fa399b",
+  "body": {
+    "title": "Final browser acceptance",
+    "content": "### Findings\nBased on all available history, here is the complete item revenue for the authorized products [q1]:\n\n| product_id | product_name | completed_revenue | completed_items |\n| :--- | :--- | :--- | :--- |\n| 2 | Calvin Klein Women's MSY Crew Neck Roll Sleeve | 69.50 | 1 |\n| 1 | Seven7 Women's Long Sleeve Stripe Belted Top | 49.00 | 1 |\n\n### Limitations\n* **Small Sample Size:** The analysis is based on a very small volume of completed transactions (only 1 item per product) [q1].\n* **Scope of History:** The completeness and coverage of the historical period were not measured.\n* **Pricing Dynamics:** The query evaluated the sum of sale prices for completed items but did not measure discount history, promotional calendars, or stock availability.\n\n### Proposed Next Checks\n* Propose a comparison of completed items against other order statuses (e.g., Cancelled, Returned) to evaluate overall transaction health.\n* Propose checking whether these products have active inventory or if they were excluded from recent promotional campaigns.\n\n### Query evidence\n\n**q1** (live; returned rows)\n\n- product_id: 2; product_name: Calvin Klein Women's MSY Crew Neck Roll Sleeve; completed_revenue: 69.5; completed_items: 1\n- product_id: 1; product_name: Seven7 Women's Long Sleeve Stripe Belted Top; completed_revenue: 49.0; completed_items: 1",
+    "conversation": "con_web_b759ac63aafdffcb2befe122788242a0e830ddac053873c3068fde5580c5a0a6",
+    "products": [
+      1,
+      2
+    ],
+    "provenance": [
+      {
+        "rows": [
+          {
+            "product_id": 2,
+            "product_name": "Calvin Klein Women's MSY Crew Neck Roll Sleeve",
+            "completed_revenue": 69.5,
+            "completed_items": 1
+          },
+          {
+            "product_id": 1,
+            "product_name": "Seven7 Women's Long Sleeve Stripe Belted Top",
+            "completed_revenue": 49.0,
+            "completed_items": 1
+          }
+        ],
+        "mode": "live",
+        "job_id": "0db6fed0-d344-4331-b113-d0aef3295992",
+        "bytes_processed": 7921896,
+        "estimated_bytes": 7921896,
+        "sql": "SELECT `p`.`id` AS `product_id`, `p`.`name` AS `product_name`, SUM(`i`.`sale_price`) AS `completed_revenue`, COUNT(`i`.`item_key`) AS `completed_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `i`.`product_id` = `p`.`id` WHERE `i`.`status` = 'Complete' GROUP BY `product_id`, `product_name` ORDER BY `completed_revenue` DESC",
+        "truncated": false,
+        "seconds": 7.711285477000274,
+        "query_id": "q1"
+      }
+    ]
+  },
+  "evidence_boundary": "Saved result of actual WebUI/Gemini/BigQuery turn; no independent reference SQL recomputation; not human review."
+}

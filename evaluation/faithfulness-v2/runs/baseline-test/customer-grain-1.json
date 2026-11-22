@@ -1,0 +1,9 @@
+{
+  "id": "customer-grain-1",
+  "family": "customer-grain",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.711471585000254,
+  "attempt": 1
+}

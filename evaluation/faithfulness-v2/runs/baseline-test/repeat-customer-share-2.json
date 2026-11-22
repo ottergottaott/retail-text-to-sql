@@ -1,0 +1,9 @@
+{
+  "id": "repeat-customer-share-2",
+  "family": "repeat-customer-share",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.7523546100001113,
+  "attempt": 1
+}

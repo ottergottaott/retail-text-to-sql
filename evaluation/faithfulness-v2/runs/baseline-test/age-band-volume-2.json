@@ -1,0 +1,9 @@
+{
+  "id": "age-band-volume-2",
+  "family": "age-band-volume",
+  "split": "test",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.8051836380000168,
+  "attempt": 1
+}

@@ -1,0 +1,50 @@
+[
+  [
+    "English benchmark",
+    "Recall@2",
+    100.0,
+    100.0
+  ],
+  [
+    "English benchmark",
+    "MRR@2",
+    95.0,
+    95.0
+  ],
+  [
+    "English benchmark",
+    "nDCG@2",
+    96.31,
+    96.31
+  ],
+  [
+    "English benchmark",
+    "False matches (%)",
+    80.0,
+    0.0
+  ],
+  [
+    "New English challenge",
+    "Recall@2",
+    100.0,
+    100.0
+  ],
+  [
+    "New English challenge",
+    "MRR@2",
+    95.83,
+    95.83
+  ],
+  [
+    "New English challenge",
+    "nDCG@2",
+    96.92,
+    96.92
+  ],
+  [
+    "New English challenge",
+    "False matches (%)",
+    100.0,
+    0.0
+  ]
+]

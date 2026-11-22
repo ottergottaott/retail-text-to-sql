@@ -1,0 +1,694 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6653769841269841,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.6653769841269841,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "reference-spread-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue retail-reference minus cost spread is 60.0 for product 1.",
+                "reason": "The SQL query calculates `retail_price` - `cost` as `reference_spread`, and the row with id 1 has a reference_spread of 60.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The catalogue retail-reference minus cost spread is 50.0 for product 2.",
+                "reason": "The SQL query calculates `retail_price` - `cost` as `reference_spread`, and the row with id 2 has a reference_spread of 50.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measures catalogue reference prices and costs.",
+                "reason": "The SQL query selects `retail_price` and `cost` from the `products` table, which represents catalogue reference prices and costs.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure actual realized profit or historical discounts.",
+                "reason": "The context only shows a query on the `products` table for `retail_price` and `cost`, which does not include actual sales transactions, realized profit, or historical discounts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sales volume and demand were not measured because no transaction counts were queried.",
+                "reason": "The SQL query only selects `id` and the calculated `reference_spread` from the `products` table, with no transaction counts or sales volume metrics queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the actual realized spread by querying sale_price in order_items minus the catalogue cost in products where status is Complete.",
+                "reason": "There is no mention of proposed action items, `order_items`, `sale_price`, or status conditions in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to determine the sales volume for these products by querying COUNT(item_key) in order_items grouped by product_id where status is Complete.",
+                "reason": "There is no mention of proposed action items, `COUNT(item_key)`, `order_items`, or grouping by `product_id` in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.952229194999745
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue retail-reference minus cost spread is 60.0 for product 1.",
+                "reason": "The query calculates `retail_price` - `cost` as `reference_spread` and returns 60.0 for product id 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The catalogue retail-reference minus cost spread is 50.0 for product 2.",
+                "reason": "The query calculates `retail_price` - `cost` as `reference_spread` and returns 50.0 for product id 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measures catalogue reference prices and costs.",
+                "reason": "The SQL query selects `retail_price` and `cost` from the products table.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure actual realized profit or historical discounts.",
+                "reason": "The query only inspects static product retail prices and costs, not transaction history, realized profits, or historical discounts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sales volume and demand were not measured in the analysis.",
+                "reason": "The query only accesses the products table and does not inspect sales, transactions, or volume data.",
+                "verdict": 1
+              },
+              {
+                "statement": "No transaction counts were queried in the analysis.",
+                "reason": "The SQL query does not count transactions or reference any transaction tables.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.3407654370003
+        }
+      }
+    },
+    {
+      "id": "reference-spread-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The table displays the catalogue retail-reference minus cost spread for the authorized products.",
+                "reason": "The SQL query calculates `retail_price` - `cost` AS `reference_spread` from `products`, and the execution scope restricts authorized products to IDs 2 and 3, which are the ones shown in the rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product 3 has a reference spread of 130.0.",
+                "reason": "The row with id 3 has a reference_spread of 130.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product 2 has a reference spread of 50.0.",
+                "reason": "The row with id 2 has a reference_spread of 50.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measures the current catalogue reference spread.",
+                "reason": "The SQL query calculates the spread based on the `products` table's retail price and cost, which represents the catalogue reference spread.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure actual historical sale prices.",
+                "reason": "The query only queries the `products` table (catalogue prices) and does not query any sales or order tables to measure actual historical sale prices.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure realized gross profit from completed orders.",
+                "reason": "The query is on the `products` table and does not reference completed orders or actual sales data.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the volume of items sold.",
+                "reason": "The query only retrieves product IDs and calculates the price-cost spread; it does not count or sum quantities sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the actual realized spread for these products based on sale_price minus cost in order_items where status equals 'Complete'.",
+                "reason": "There is no mention of proposed action items or 'order_items' or 'status' in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine how many completed items have been sold for each of these products to understand the volume associated with these spreads.",
+                "reason": "There is no mention of proposed action items or volume analysis of completed items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 5.165927428000941
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The catalogue retail-reference minus cost spread for product 2 is 50.0.",
+                "reason": "The returned row for product id 2 shows a reference_spread of 50.0, which is calculated as retail_price - cost.",
+                "verdict": 1
+              },
+              {
+                "statement": "The catalogue retail-reference minus cost spread for product 3 is 130.0.",
+                "reason": "The returned row for product id 3 shows a reference_spread of 130.0, which is calculated as retail_price - cost.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measures the current catalogue reference spread.",
+                "reason": "The SQL query calculates the difference between retail_price and cost from the products table, which represents the catalogue reference spread.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure actual historical sale prices.",
+                "reason": "The query only inspects the products table's retail_price and cost, not any historical sales or transaction tables.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure realized gross profit from completed orders.",
+                "reason": "The query does not access order or transaction tables to calculate realized gross profit from completed orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the volume of items sold.",
+                "reason": "The query does not count or aggregate sales transactions or order quantities.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 4.088575191999553
+        }
+      }
+    },
+    {
+      "id": "order-status-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query [q1] shows 14 Complete orders within the authorized scope.",
+                "reason": "The context shows a row with status 'Complete' and orders count 14 for query_id 'q1'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] shows 2 Returned orders within the authorized scope.",
+                "reason": "The context shows a row with status 'Returned' and orders count 2 for query_id 'q1'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of scoped order counts did not measure the timeframe (`created_at`) of the orders.",
+                "reason": "The SQL query only selects `status` and the count of `order_key`, and does not reference any `created_at` column.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of scoped order counts did not measure the revenue (`sale_price`) associated with each order status.",
+                "reason": "The SQL query only selects `status` and the count of `order_key`, and does not reference any `sale_price` column.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the total `sale_price` of the items within the Returned orders.",
+                "reason": "There is no mention of proposed action items or determining the total `sale_price` in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze how the order counts distribute across different `created_at` months.",
+                "reason": "There is no mention of proposed action items or analyzing distribution across `created_at` months in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 8.619680949999747
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query [q1] shows 14 Complete orders within the authorized scope.",
+                "reason": "The returned rows for query q1 show that the status 'Complete' has 14 orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query [q1] shows 2 Returned orders within the authorized scope.",
+                "reason": "The returned rows for query q1 show that the status 'Returned' has 2 orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe (`created_at`) of the orders.",
+                "reason": "The SQL query only selects the status and the count of distinct order keys, without inspecting any timeframe or `created_at` column.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the revenue (`sale_price`) associated with each status.",
+                "reason": "The SQL query only counts distinct order keys and does not inspect or aggregate any revenue or `sale_price` column.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.9765267269995093
+        }
+      }
+    },
+    {
+      "id": "order-status-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 Complete orders and 2 Returned orders based on the available history for the user's authorized products.",
+                "reason": "The context shows a table with 14 Complete orders and 2 Returned orders, and the execution scope restricts authorized products to [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct orders by status.",
+                "reason": "The SQL query explicitly uses COUNT(DISTINCT orders.order_key) AS orders and groups by status.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure revenue, item quantities, or profitability.",
+                "reason": "The SQL query only counts distinct order keys and does not select or aggregate revenue, quantities, or profit metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "No specific timeframe was applied to the analysis.",
+                "reason": "The SQL query does not contain any WHERE clause or filter restricting the results by date or timeframe.",
+                "verdict": 1
+              },
+              {
+                "statement": "The counts represent all available history within the authorized scope.",
+                "reason": "Since there is no timeframe filter in the SQL query, it queries all available records in the table within the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query `SUM(sale_price)` from `order_items` where `status = 'Complete'` to determine the actual revenue generated by the completed orders.",
+                "reason": "The context contains only the query execution metadata and results; it does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to join `order_items` with `products` to check if the returned orders are concentrated in specific product categories or brands.",
+                "reason": "The context contains only the query execution metadata and results; it does not mention any proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 9.807720200999029
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 Complete orders based on the available history for the user's authorized products.",
+                "reason": "The returned rows show 14 orders with status 'Complete' within the authorized scope (products 2 and 3).",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 2 Returned orders based on the available history for the user's authorized products.",
+                "reason": "The returned rows show 2 orders with status 'Returned' within the authorized scope (products 2 and 3).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct orders by status.",
+                "reason": "The SQL query uses COUNT(DISTINCT `orders`.`order_key`) grouped by `status`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure revenue, item quantities, or profitability.",
+                "reason": "The SQL query only selects status and counts distinct order keys; it does not inspect revenue, item quantities, or profitability.",
+                "verdict": 1
+              },
+              {
+                "statement": "No specific timeframe was applied to the analysis.",
+                "reason": "The SQL query does not contain any WHERE clause or filter restricting the timeframe.",
+                "verdict": 1
+              },
+              {
+                "statement": "The counts represent all available history within the authorized scope.",
+                "reason": "The query is not truncated (truncated=false) and has no LIMIT, meaning the returned groups are complete for the authorized population.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.9923536859987507
+        }
+      }
+    },
+    {
+      "id": "order-count-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 distinct orders containing at least one 'Complete' item for the authorized products.",
+                "reason": "The context shows a SQL query counting distinct `order_key` where status is 'Complete' resulting in 14 complete orders, and the execution scope restricts to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct orders based on item status.",
+                "reason": "The SQL query explicitly counts distinct `order_key` where `status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the total number of items associated with the orders.",
+                "reason": "The SQL query only counts distinct `order_key` (orders) and does not count the total number of items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the revenue associated with the orders.",
+                "reason": "The SQL query only performs a COUNT of distinct order keys and does not select or calculate any revenue metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the profit associated with the orders.",
+                "reason": "The SQL query only performs a COUNT of distinct order keys and does not select or calculate any profit metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis excludes orders that do not contain any 'Complete' items.",
+                "reason": "The SQL query filters with `WHERE order_items.status = 'Complete'`, which excludes any orders without 'Complete' items.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the total revenue generated by the 'Complete' items within these orders.",
+                "reason": "There is no mention of proposed action items or determining total revenue in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine the average number of items per completed order.",
+                "reason": "There is no mention of proposed action items or determining the average number of items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.422154961999695
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 distinct orders containing at least one 'Complete' item for the authorized products.",
+                "reason": "The SQL query counts distinct order keys from the order_items table where the status is 'Complete', and the execution scope restricts this to authorized products (1, 2). The returned count is 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only counts distinct orders based on item status.",
+                "reason": "The SQL query specifically filters by `order_items`.`status` = 'Complete' and counts the distinct `order_key` values.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the total number of items, revenue, or profit associated with the orders.",
+                "reason": "The SQL query only selects the count of distinct order keys and does not perform any aggregations or selections for total items, revenue, or profit.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis excludes orders that do not contain any 'Complete' items.",
+                "reason": "The WHERE clause `order_items`.`status` = 'Complete' filters out any order items that do not have a 'Complete' status, thereby excluding orders without any 'Complete' items from the distinct count.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 5.367588533999879
+        }
+      }
+    },
+    {
+      "id": "order-count-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 distinct orders represented by Complete items for the authorized products.",
+                "reason": "The context shows a query counting distinct order keys where status is 'Complete', resulting in 14 complete orders, and mentions authorized products in the execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the total revenue (sale_price) generated by the Complete items.",
+                "reason": "The SQL query only selects the count of distinct order keys and does not measure sale_price or revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the number of distinct customers (customer_key) who placed the orders.",
+                "reason": "The SQL query only counts distinct order keys and does not select or count customer keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the total sale_price for the Complete items.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine how many distinct customer_keys are associated with the 14 orders.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 3.6613232279996737
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 distinct orders represented by Complete items for the authorized products.",
+                "reason": "The SQL query counts distinct order keys where status is 'Complete' within the authorized execution scope, returning a count of 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the total revenue (sale_price) generated by the Complete items for the authorized products.",
+                "reason": "The SQL query only counts distinct order keys and does not select or aggregate sale_price or revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the number of distinct customers (customer_key) who placed the 14 orders.",
+                "reason": "The SQL query only counts distinct order keys and does not inspect or count customer keys.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.3394929349997255
+        }
+      }
+    },
+    {
+      "id": "order-value-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean Complete-item revenue per represented order for authorized products is 15.0.",
+                "reason": "The context shows a query calculating the average revenue per order (SUM of sale_price divided by COUNT of distinct order_key) where status is 'Complete', resulting in a revenue_per_order of 15.0. However, the context does not state that this calculation is restricted to 'authorized products' (which are listed separately under execution_scope).",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis does not measure the total count of orders or items.",
+                "reason": "The SQL query only outputs the calculated average 'revenue_per_order' and does not return the total count of orders or items as separate metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The volume supporting the average revenue per represented order is unknown.",
+                "reason": "The context only provides the final average (15.0) and the SQL query, but does not provide the actual counts or volume of orders/items that went into the calculation.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure the distribution or variance of revenue across individual orders.",
+                "reason": "The SQL query only calculates the overall average (SUM divided by COUNT) and does not calculate variance, standard deviation, or any other distribution metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the total count of distinct orders and items with a 'Complete' status to establish the sample size.",
+                "reason": "There are no proposed action items mentioned anywhere in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to group the mean revenue per order by product category or brand to identify which segments drive higher order values.",
+                "reason": "There are no proposed action items or suggestions for further grouping mentioned in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.153422817000319
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean Complete-item revenue per represented order for authorized products is 15.0.",
+                "reason": "The query calculates the sum of sale_price divided by the distinct count of order_key for completed orders, which evaluates to 15.0, and the execution scope limits this to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis does not measure the total count of orders or items.",
+                "reason": "The query only returns the aggregated revenue per order (SUM/COUNT) and does not output or measure the total count of orders or items as separate metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The volume supporting the average revenue per represented order is unknown.",
+                "reason": "The returned row only contains the final ratio (15.0) and does not expose the underlying counts or volume of orders/items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query does not measure the distribution or variance of revenue across individual orders.",
+                "reason": "The query only calculates a single global average (SUM / COUNT) and does not compute variance, standard deviation, or individual order distributions.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 7.4272736180009815
+        }
+      }
+    },
+    {
+      "id": "order-value-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean Complete-item revenue per represented order for the authorized products is 25.0.",
+                "reason": "The context shows a row with 'revenue_per_order' as 25.0, calculated from order items where status is 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total volume of orders.",
+                "reason": "The SQL query in the context calculates the average revenue per order using SUM and COUNT, but does not output or measure the total volume of orders as a final result.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the specific time period over which the sales occurred.",
+                "reason": "The SQL query does not contain any date or time filters, nor does it output any time-related metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the total count of Complete orders and the overall revenue trend grouped by month.",
+                "reason": "There is no mention of proposed action items, monthly grouping, or revenue trends in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine how the revenue per order varies across different product categories or brands.",
+                "reason": "There is no mention of proposed action items, product categories, or brands in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 3.8460660879991337
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean Complete-item revenue per represented order for the authorized products is 25.0.",
+                "reason": "The SQL query calculates the sum of sale_price divided by the distinct count of order_key (which is the mean revenue per order) for orders with status 'Complete'. The returned row shows this value is 25.0, and the execution scope restricts this to authorized products 2 and 3.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total volume of orders.",
+                "reason": "The SQL query calculates the distinct count of order_key in the denominator, but it does not output or measure the total volume of orders as a standalone metric, and the final output is only the ratio (revenue_per_order).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the specific time period over which the sales occurred.",
+                "reason": "The SQL query does not inspect, filter, or group by any date or time columns, meaning the time period was not measured by this analysis.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.2231716019996384
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 33,
+  "max_provider_calls": 48,
+  "measured_total_tokens": 45323,
+  "usage_responses": 33,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

@@ -1,0 +1,25 @@
+{
+  "evidence_boundary": "Coding assistant inspection of frozen responses/evidence only; no independent SQL; human review pending.",
+  "findings": {
+    "unsupported_save_facts": {
+      "baseline": [
+        "save-claim: asserts report was not saved",
+        "missing-save-receipt: infers no save from missing evidence",
+        "pending-prose-preference: asserts successful save while pending"
+      ],
+      "candidate": []
+    },
+    "strict_pending_policy": {
+      "baseline": [
+        "pending-reviewed-save: is being saved",
+        "pending-items: submitted to be saved"
+      ],
+      "candidate": [],
+      "note": "These two baseline statements describe a pending workflow and are not counted as proven false save-success claims; they violate the deliberate policy that only backend supplies save status."
+    },
+    "tables": "All six candidate answers preserve explicitly requested table aliases and numbers.",
+    "confirmed_receipt": "Both variants accurately retain the existing synthetic report ID.",
+    "residual": "Some proposals use transaction volume loosely when proposing item counts; this is pre-existing and not fixed by the narrow save-state change."
+  },
+  "scope": "confirmed-existing-report is synthetic robustness; runtime open_report stops before review. No overall accuracy gain claimed."
+}

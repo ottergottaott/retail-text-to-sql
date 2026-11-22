@@ -1,0 +1,644 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.649702380952381,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.649702380952381,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 8,
+      "rule_scored": 0,
+      "applicable": 8,
+      "total_samples": 8
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "complete-revenue-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The total revenue for Complete items within the authorized product scope is 210.0.",
+                "reason": "The context shows a SQL query calculating the sum of sale_price for order_items with status 'Complete' resulting in a complete_revenue of 210.0, under an execution scope of authorized_products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of Complete-item revenue did not measure the total number of items sold.",
+                "reason": "The SQL query only calculates the SUM of sale_price (revenue) and does not count the total number of items sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of Complete-item revenue did not measure the timeframe over which the revenue was generated.",
+                "reason": "The SQL query does not filter by or select any date or time fields, so it does not measure the timeframe.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to analyze the breakdown of Complete-item revenue by product category or brand.",
+                "reason": "There is no mention of proposed action items, product categories, or brands in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze how Complete-item revenue trends over time, such as grouped by month using the `created_at` field.",
+                "reason": "There is no mention of proposed action items, trends over time, or the `created_at` field in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 6.810631232998276
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The total revenue for Complete items within the authorized product scope is 210.0.",
+                "reason": "The SQL query calculates the sum of sale_price (complete_revenue) for order items with status 'Complete', and the returned row shows 210.0. The execution scope restricts this to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total number of items sold (volume).",
+                "reason": "The SQL query only calculates the SUM of sale_price and does not perform a COUNT or otherwise measure the total number of items sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe over which the revenue was generated.",
+                "reason": "The SQL query does not inspect, filter, or group by any date or time columns, so the timeframe was not measured.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.405654466998385
+        }
+      }
+    },
+    {
+      "id": "complete-revenue-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The total revenue for Complete items is 350.0.",
+                "reason": "The context shows a query calculating the SUM of sale_price as `complete_revenue` where status is 'Complete', and the result row shows `complete_revenue` is 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of Complete-item revenue did not measure the total number of items sold.",
+                "reason": "The SQL query only calculates the SUM of sale_price (`SUM(order_items.sale_price)`) and does not count the total number of items sold (e.g., using COUNT).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of Complete-item revenue did not measure the distribution of revenue across different product categories.",
+                "reason": "The SQL query only calculates the overall sum of sale_price for completed orders and does not group by or select product categories.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is to determine the breakdown of the complete revenue by product category.",
+                "reason": "The context contains only the query execution details and results, with no mention of proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is to determine how many distinct items make up the complete revenue total.",
+                "reason": "The context contains only the query execution details and results, with no mention of proposed next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 6.669335143000353
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The total revenue for Complete items is 350.0.",
+                "reason": "The SQL query calculates the sum of sale_price for order_items with status 'Complete', and the returned row shows complete_revenue is 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total number of items sold.",
+                "reason": "The SQL query only calculates the SUM of sale_price (revenue) and does not count the total number of items sold (e.g., using COUNT).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the distribution of revenue across different product categories.",
+                "reason": "The SQL query does not group by or select any product category fields, so it did not measure the distribution of revenue across different product categories.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 5.500504200999785
+        }
+      }
+    },
+    {
+      "id": "item-status-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query results show that there are 14 items with a 'Complete' status within the authorized product scope.",
+                "reason": "The context shows a row with status 'Complete' and items count 14, and mentions authorized_products in the execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query results show that there are 2 items with a 'Returned' status within the authorized product scope.",
+                "reason": "The context shows a row with status 'Returned' and items count 2, and mentions authorized_products in the execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe over which the items were ordered or returned.",
+                "reason": "The SQL query only selects status and count, grouping by status, without any timeframe or date fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the 'created_at' field.",
+                "reason": "The SQL query in the context does not reference a 'created_at' field.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query counted item rows but did not measure the financial value associated with the statuses.",
+                "reason": "The SQL query uses COUNT(*) to count items but does not select or aggregate any financial columns.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the 'sale_price' field.",
+                "reason": "The SQL query in the context does not reference a 'sale_price' field.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the sum of 'sale_price' grouped by 'status' to determine the revenue impact of the returned items.",
+                "reason": "There is no mention of proposed action items or 'sale_price' in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to group the item counts by 'created_at' to check if the returns occurred in a specific period.",
+                "reason": "There is no mention of proposed action items or 'created_at' in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Grouping the item counts by 'created_at' can be done by month or year.",
+                "reason": "There is no mention of 'created_at' or grouping by month/year in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.745684170999084
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "There are 14 items with a 'Complete' status within the authorized product scope.",
+                "reason": "The returned rows show that for status 'Complete', the count of items is 14, and this is within the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 2 items with a 'Returned' status within the authorized product scope.",
+                "reason": "The returned rows show that for status 'Returned', the count of items is 2, and this is within the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe (created_at) over which the items were ordered or returned.",
+                "reason": "The SQL query only groups by status and counts items; it does not inspect or measure any timeframe or 'created_at' column.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query counted item rows but did not measure the financial value (sale_price) associated with the statuses.",
+                "reason": "The SQL query only performs a COUNT(*) and does not select or aggregate any financial value or 'sale_price' column.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.660025396999117
+        }
+      }
+    },
+    {
+      "id": "item-status-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measured item counts by status for the authorized products.",
+                "reason": "The context shows a SQL query counting items grouped by status, and the execution scope lists authorized products [2, 3]. This can be directly inferred.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis showed 14 Complete items and 2 Returned items.",
+                "reason": "The context explicitly lists rows with status 'Complete' having 14 items and status 'Returned' having 2 items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe over which the items were ordered.",
+                "reason": "The SQL query only groups by status and does not include any date or time filters or groupings.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the revenue associated with the item statuses.",
+                "reason": "The SQL query only counts the items (COUNT(*)) and does not select or sum any revenue or price columns.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the total sale price for the Complete items compared to the Returned items.",
+                "reason": "There is no mention of proposed action items or determining total sale prices in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine how the item counts are distributed over time by grouping by the created_at month.",
+                "reason": "There is no mention of proposed action items or grouping by 'created_at' month in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 3.7694625039985112
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measured item counts by status for the authorized products.",
+                "reason": "The SQL query groups by status and counts items, and the execution scope restricts the data to authorized products 2 and 3.",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 14 items with a status of Complete.",
+                "reason": "The returned rows show that for status 'Complete', the count of items is 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 2 items with a status of Returned.",
+                "reason": "The returned rows show that for status 'Returned', the count of items is 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe (created_at) over which the items were ordered.",
+                "reason": "The SQL query only selects status and the count of items, without inspecting any timeframe or created_at column.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the revenue (sale_price) associated with the item statuses.",
+                "reason": "The SQL query only counts items and does not inspect sale_price or revenue.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.680765354001778
+        }
+      }
+    },
+    {
+      "id": "item-volume-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Authorized product 1 has exactly 7 items with a 'Complete' status.",
+                "reason": "The context shows a row with product_id 1 and complete_items 7, which is retrieved by a SQL query counting items with status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product 2 has exactly 7 items with a 'Complete' status.",
+                "reason": "The context shows a row with product_id 2 and complete_items 7, which is retrieved by a SQL query counting items with status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of complete item counts by product did not measure the revenue generated by the items.",
+                "reason": "The SQL query only selects product_id and COUNT(*) as complete_items, and does not select or measure revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis of complete item counts by product did not measure the sale price generated by the items.",
+                "reason": "The SQL query only selects product_id and COUNT(*) as complete_items, and does not select or measure sale price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The timeframe of the orders was not queried, so it is unknown when the items were sold.",
+                "reason": "The SQL query does not contain any filters or selections related to time or date, so the timeframe is unknown from this query.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the sum of sale price for the complete items to determine the total revenue generated by each product.",
+                "reason": "There is no mention of proposed action items or querying the sum of sale price in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to group the complete items by the month they were created to observe volume trends over time.",
+                "reason": "There is no mention of proposed action items or grouping by month in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.02374605300065
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Authorized product 1 has exactly 7 items with a 'Complete' status.",
+                "reason": "The query counts order items with status 'Complete' grouped by product_id, and the row for product_id 1 shows complete_items is 7. Since truncated is false and the execution scope is authorized_products [1, 2], this is complete and exact for the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product 2 has exactly 7 items with a 'Complete' status.",
+                "reason": "The query counts order items with status 'Complete' grouped by product_id, and the row for product_id 2 shows complete_items is 7. Since truncated is false and the execution scope is authorized_products [1, 2], this is complete and exact for the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the revenue (sale_price) generated by the items.",
+                "reason": "The SQL query only selects product_id and the count of items, without inspecting or measuring sale_price or revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The timeframe (created_at) of the orders was not queried.",
+                "reason": "The SQL query does not reference any created_at column or timeframe filters.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.894323587001054
+        }
+      }
+    },
+    {
+      "id": "item-volume-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Authorized product with ID 2 has exactly 7 Complete items.",
+                "reason": "The context shows a row with product_id 2 and complete_items 7, and the execution scope lists authorized_products as [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product with ID 3 has exactly 7 Complete items.",
+                "reason": "The context shows a row with product_id 3 and complete_items 7, and the execution scope lists authorized_products as [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe over which the items were completed.",
+                "reason": "The SQL query only filters by status = 'Complete' and groups by product_id, without any time-based filters or selections.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the 'created_at' field over which the items were completed.",
+                "reason": "The SQL query does not reference a 'created_at' field.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the revenue generated by the completed items.",
+                "reason": "The SQL query only counts the items (COUNT(*)) and does not calculate revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the 'sale_price' generated by the completed items.",
+                "reason": "The SQL query does not reference a 'sale_price' field.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the total 'sale_price' for the Complete items by 'product_id'.",
+                "reason": "There is no mention of proposed action items or 'sale_price' in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine how the Complete item counts distribute across different 'created_at' months.",
+                "reason": "There is no mention of proposed action items or 'created_at' months in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.2504295889993955
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Authorized product ID 2 has exactly 7 Complete items.",
+                "reason": "The returned rows show product_id 2 has complete_items equal to 7, and the query filters for status = 'Complete' with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product ID 3 has exactly 7 Complete items.",
+                "reason": "The returned rows show product_id 3 has complete_items equal to 7, and the query filters for status = 'Complete' with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the timeframe (created_at) over which the items were completed.",
+                "reason": "The SQL query does not inspect or filter by any timeframe or created_at column.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure the revenue (sale_price) generated by the items.",
+                "reason": "The SQL query only counts the items and does not select or aggregate any sale_price or revenue column.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 6.351580088999981
+        }
+      }
+    },
+    {
+      "id": "price-range-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The observed sale price for Complete items ranges from 10.0 to 20.0.",
+                "reason": "The SQL query filters by status = 'Complete' and returns a min_price of 10.0 and a max_price of 20.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total volume of items sold.",
+                "reason": "The SQL query only selects the MIN and MAX sale_price, and does not measure the total volume (count or sum) of items sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the distribution of sales across different products.",
+                "reason": "The SQL query only calculates the overall MIN and MAX sale_price for completed orders and does not group by or analyze distribution across different products.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query the count of Complete items grouped by `sale_price` to understand the price distribution.",
+                "reason": "There is no mention of proposed action items in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare `sale_price` to `products.retail_price` to check for current reference gaps.",
+                "reason": "There is no mention of proposed action items or comparing to `products.retail_price` in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.298068337000586
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The observed sale price for Complete items ranges from 10.0 to 20.0.",
+                "reason": "The query calculates the minimum and maximum sale price for items with a status of 'Complete', which are returned as 10.0 and 20.0 respectively.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total volume of items sold.",
+                "reason": "The SQL query only retrieves the minimum and maximum sale prices and does not perform any count or aggregation to measure the total volume of items sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the distribution of sales across different products.",
+                "reason": "The SQL query aggregates the minimum and maximum sale prices globally for completed orders without grouping by or analyzing individual products.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 5.651718941000581
+        }
+      }
+    },
+    {
+      "id": "price-range-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The observed sale price for Complete items ranges from 20.0 to 30.0.",
+                "reason": "The SQL query filters by status = 'Complete' and returns a min_price of 20.0 and a max_price of 30.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total volume of items sold.",
+                "reason": "The SQL query only selects the MIN and MAX sale prices, and does not count or measure the total volume of items sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the distribution of sales across different price points within the range of 20.0 to 30.0.",
+                "reason": "The SQL query only retrieves the minimum and maximum prices, not the distribution of sales across different price points.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the distribution of items sold across different price points by querying the count of item_key grouped by sale_price.",
+                "reason": "There is no mention of proposed action items or querying the count of item_key grouped by sale_price in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare the observed sale prices to the current catalogue retail_price in the products table.",
+                "reason": "There is no mention of proposed action items or comparing sale prices to the products table in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 4.048269188999257
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The observed sale price for Complete items ranges from 20.0 to 30.0.",
+                "reason": "The SQL query calculates the MIN and MAX sale price for order items with status 'Complete', and the returned row shows a min_price of 20.0 and a max_price of 30.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the total volume of items sold.",
+                "reason": "The SQL query only selects the MIN and MAX sale price, and does not perform any COUNT or SUM operations to measure the total volume of items sold.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure the distribution of sales across different price points within the 20.0 to 30.0 range.",
+                "reason": "The SQL query only retrieves the minimum and maximum sale prices, without any grouping, binning, or counting of items at intermediate price points.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 3.6498626449993026
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "deepinfra",
+  "judge_model": "google/gemini-3.5-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 32,
+  "max_provider_calls": 48,
+  "measured_total_tokens": 41790,
+  "usage_responses": 32,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "save-claim",
+    "question": "Show authorized Complete-item revenue and save this report. Return a revenue table.",
+    "response": "### Findings\n* Total revenue for Complete items is 98 [q1].\n\n| revenue |\n|---|\n| 98 |\n\n### Limitations\n* The query only measured total revenue for Complete items. It did not measure item counts, time periods, or customer demographics.\n* The report was not saved because the save action was not executed prior to this review.\n\n### Action items (proposed)\n* Query the total count of Complete items to understand transaction volume.\n* Analyze revenue by product category or time period to identify trends.\n* Save the report in a subsequent request if still desired.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 98}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-reviewed-save",
+    "question": "Show authorized catalogue product count in a table, then save the completed report.",
+    "response": "### Findings\n* There are 2 authorized products in the catalogue [q1].\n* The report is being saved as requested.\n\n| products |\n|---|\n| 2 |\n\n### Limitations\n* Only the total count of authorized products was queried. No details on categories, brands, or pricing were retrieved.\n\n### Action items (proposed)\n* Query product details (e.g., category, brand, retail price) to understand the composition of the authorized catalogue.\n* Analyze sales performance for these specific products.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS products FROM products\", \"rows\": [{\"products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-items",
+    "question": "Return authorized Complete items as a Markdown table and save this analysis.",
+    "response": "**Findings:**\n* A total of 5 Complete items were found [q1].\n\n| complete_items |\n|---|\n| 5 |\n\nThis analysis has been submitted to be saved.\n\n**Limitations:**\n* Only the aggregate count of Complete items was queried. No revenue, product details, or time periods were measured.\n\n**Action Items (Proposed):**\n* Query the `sale_price` and `product_id` for these Complete items to analyze revenue and product distribution.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS complete_items FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_items\": 5}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "confirmed-existing-report",
+    "question": "Open my previously saved analysis; reproduce its revenue table and confirmed report identifier.",
+    "response": "The saved report \"Completed revenue\" (ID: `rep_0123456789abcdef`) has been opened. \n\n| revenue |\n|---|\n| 73 |\n\n**Findings**\n* The total completed revenue is 73 [q1].\n\n**Limitations**\n* The query only measured total revenue for complete items; no other dimensions, timeframes, or metrics were evaluated.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"open_report\", \"result\": {\"report_id\": \"rep_0123456789abcdef\", \"title\": \"Completed revenue\", \"content\": \"Revenue is 73 [q1].\", \"provenance\": [{\"query_id\": \"q1\", \"rows\": [{\"revenue\": 73}]}]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "missing-save-receipt",
+    "question": "Show authorized Complete revenue as a table and save the analysis.",
+    "response": "**Findings**\nTotal authorized Complete revenue is 73 [q1]. Note that the report was not saved as there is no tool evidence of a successful save operation.\n\n| complete_revenue |\n|---|\n| 73 |\n\n**Limitations**\nOnly total revenue for Complete items was queried. Transaction volume, time periods, and customer counts were not measured.\n\n**Action Items**\n* Propose querying the number of items and distinct customers to understand the composition of this revenue.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-prose-preference",
+    "question": "Return a Markdown table of authorized catalogue products and save it; use one sentence of interpretation.",
+    "response": "| catalogue_products |\n|---|\n| 2 |\n\nThe catalogue currently contains 2 authorized products [q1], and this report has been successfully saved.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS catalogue_products FROM products\", \"rows\": [{\"catalogue_products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  }
+]
