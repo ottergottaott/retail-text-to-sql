@@ -1,0 +1,226 @@
+{
+  "dataset_version": "golden-trios-v1",
+  "description": "Synthetic, unreviewed retail methodology knowledge for demonstration and offline testing; no measured business outcomes or historical human provenance.",
+  "trios": [
+    {
+      "id": "monthly-revenue-change",
+      "version": 1,
+      "question": "How does completed-item revenue change from month to month?",
+      "sql": "WITH monthly AS (SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month), with_previous AS (SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) AS previous_month_revenue FROM monthly) SELECT month, revenue, previous_month_revenue, SAFE_DIVIDE(revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate FROM with_previous ORDER BY month",
+      "report": "Compare completed-item revenue in calendar order and use the prior observed month only as a baseline. Check period completeness before interpreting the first or latest change; a missing prior value is not a decline. Investigate item volume, realized price, status mix, and authorized product coverage before proposing causal hypotheses or actions.",
+      "tags": ["revenue", "month", "window", "comparison", "lag", "incomplete period"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "revenue-period-completeness",
+      "version": 1,
+      "question": "Which revenue periods may be incomplete or have sparse activity?",
+      "sql": "SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, MIN(DATE(created_at)) AS first_activity_date, MAX(DATE(created_at)) AS last_activity_date, COUNT(DISTINCT DATE(created_at)) AS active_days, SUM(sale_price) AS completed_revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month",
+      "report": "Inspect observed activity dates before comparing monthly completed-item revenue. Active days are not calendar coverage: missing dates may represent no sales or missing data. Confirm the data freshness timestamp and period boundaries, exclude or flag incomplete periods, and only then recommend trend analysis or further data-quality investigation.",
+      "tags": ["revenue", "coverage", "freshness", "incomplete period", "active days", "data quality"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "orders-items-grain",
+      "version": 1,
+      "question": "How do order counts differ from item counts and items per order?",
+      "sql": "SELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT item_key) AS items, SAFE_DIVIDE(COUNT(DISTINCT item_key), COUNT(DISTINCT order_key)) AS items_per_order FROM order_items",
+      "report": "Keep order and item grains explicit: distinct order keys count orders, while distinct item keys count purchased items. Items per order is a ratio of those distinct counts, not an order total or monetary basket value. Break down the ratio by status, product, and period before recommending assortment or basket-analysis follow-up.",
+      "tags": ["orders", "items", "grain", "items per order", "distinct count"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "order-item-status-reconciliation",
+      "version": 1,
+      "question": "How should order statuses and item statuses be reconciled?",
+      "sql": "SELECT o.status AS order_status, i.status AS item_status, COUNT(DISTINCT o.order_key) AS orders, COUNT(DISTINCT i.item_key) AS items FROM orders o JOIN order_items i ON o.order_key=i.order_key GROUP BY o.status, i.status ORDER BY o.status, i.status",
+      "report": "Compare order-level and item-level status combinations without adding counts across grains. A mixed-status order can appear with more than one item status, so order counts in different rows need not be mutually exclusive. Define the reporting grain and denominator first, then investigate unexpected combinations before recommending operational follow-up.",
+      "tags": ["orders", "items", "status", "reconciliation", "grain", "mixed status"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "returned-item-rate-finalized",
+      "version": 1,
+      "question": "What share of finalized items are returned?",
+      "sql": "SELECT product_id, COUNT(*) AS finalized_items, SUM(CASE WHEN status='Returned' THEN 1 ELSE 0 END) AS returned_items, SAFE_DIVIDE(SUM(CASE WHEN status='Returned' THEN 1 ELSE 0 END), COUNT(*)) AS returned_item_rate FROM order_items WHERE status IN ('Complete','Returned') GROUP BY product_id ORDER BY product_id",
+      "report": "Define the denominator as items with Complete or Returned status and the numerator as Returned items; this is an item return share, not a refund rate or customer return propensity. Do not mix pending or cancelled items into the denominator. Compare products only with adequate coverage and investigate product, price, and period patterns before recommending review.",
+      "tags": ["returns", "returned items", "denominator", "finalized", "product", "rate"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "completed-item-share-all-statuses",
+      "version": 1,
+      "question": "What share of all recorded items reaches Complete status?",
+      "sql": "SELECT COUNT(*) AS recorded_items, COALESCE(SUM(CASE WHEN status='Complete' THEN 1 ELSE 0 END), 0) AS completed_items, SAFE_DIVIDE(COALESCE(SUM(CASE WHEN status='Complete' THEN 1 ELSE 0 END), 0), COUNT(*)) AS completed_item_share FROM order_items",
+      "report": "Use all recorded items as the denominator and Complete items as the numerator, keeping this measure distinct from return and cancellation rates. Inspect the full status distribution and observation window because recent items may not have reached a final state. Recommend status-mix review rather than treating incomplete processing as poor performance.",
+      "tags": ["status", "complete", "denominator", "all items", "completion", "processing"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "cancelled-order-share",
+      "version": 1,
+      "question": "What share of distinct orders has Cancelled status?",
+      "sql": "SELECT COUNT(DISTINCT order_key) AS orders, COUNT(DISTINCT CASE WHEN status='Cancelled' THEN order_key END) AS cancelled_orders, SAFE_DIVIDE(COUNT(DISTINCT CASE WHEN status='Cancelled' THEN order_key END), COUNT(DISTINCT order_key)) AS cancelled_order_share FROM orders",
+      "report": "Calculate cancellation share at the order grain with distinct order keys, not from item rows. Confirm whether order status is current or historical and compare equivalent observation windows. Segment by period and authorized products before suggesting investigation; this schema does not identify cancellation reasons.",
+      "tags": ["orders", "cancellation", "cancelled", "denominator", "status", "order grain"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "discount-vs-retail-proxy",
+      "version": 1,
+      "question": "How does realized completed-item pricing compare with retail price?",
+      "sql": "SELECT p.id, p.name, COUNT(CASE WHEN p.retail_price>0 THEN 1 END) AS completed_items, AVG(CASE WHEN p.retail_price>0 THEN p.retail_price-i.sale_price END) AS absolute_discount_proxy, SAFE_DIVIDE(AVG(CASE WHEN p.retail_price>0 THEN p.retail_price-i.sale_price END), AVG(CASE WHEN p.retail_price>0 THEN p.retail_price END)) AS discount_rate_proxy FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status='Complete' GROUP BY p.id, p.name ORDER BY p.id",
+      "report": "Treat retail price minus completed-item sale price as a pricing proxy, not proof of a promotion or markdown. Restrict rate calculations to positive retail prices and inspect negative differences as possible premiums or data issues. Compare products over equivalent periods and recommend pricing-data review before claiming discount behavior.",
+      "tags": ["discount", "retail price", "sale price", "pricing", "proxy", "markdown"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "category-price-realization",
+      "version": 1,
+      "question": "How much realized revenue do categories retain relative to listed retail value?",
+      "sql": "SELECT p.category, COUNT(*) AS completed_items, SUM(i.sale_price) AS completed_revenue, SUM(p.retail_price) AS listed_retail_value, SAFE_DIVIDE(SUM(i.sale_price), SUM(p.retail_price)) AS price_realization_rate FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status='Complete' GROUP BY p.category ORDER BY p.category",
+      "report": "Compare aggregate completed-item sale value with aggregate listed retail value at category grain; this ratio is not a weighted average of item discount percentages. Confirm consistent product and period coverage and inspect mix shifts before interpretation. Use differences to prioritize pricing and assortment review, not to infer promotion causes.",
+      "tags": ["category", "price realization", "retail price", "revenue", "mix", "pricing"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "cost-proxy-margin",
+      "version": 1,
+      "question": "What is the completed-item margin proxy after product cost?",
+      "sql": "SELECT SUM(i.sale_price) AS completed_revenue, SUM(p.cost) AS product_cost_proxy, SUM(i.sale_price-p.cost) AS margin_proxy FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status='Complete'",
+      "report": "Subtract recorded product cost from completed-item sale price to form a limited margin proxy. It excludes returns beyond the selected status, discounts not represented in sale price, shipping, taxes, acquisition spend, overhead, and other costs, so it is not net profit. Review cost coverage and negative outliers before recommending product-level investigation.",
+      "tags": ["margin", "cost", "proxy", "profit caveat", "completed revenue", "product cost"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "product-margin-rate-proxy",
+      "version": 1,
+      "question": "How does cost-proxy margin rate compare across products?",
+      "sql": "SELECT p.id, p.name, SUM(i.sale_price) AS completed_revenue, SUM(i.sale_price-p.cost) AS margin_proxy, SAFE_DIVIDE(SUM(i.sale_price-p.cost), NULLIF(SUM(i.sale_price), 0)) AS margin_rate_proxy FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status='Complete' GROUP BY p.id, p.name ORDER BY p.id",
+      "report": "Compute the margin-rate proxy from aggregate completed-item margin proxy divided by aggregate completed-item revenue, not as an average of row ratios. Check revenue denominators, cost completeness, returns, and product mix before ranking products. Recommend cost and pricing review where appropriate, without presenting the proxy as net margin.",
+      "tags": ["product", "margin rate", "cost proxy", "denominator", "pricing", "comparison"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "category-revenue-returns",
+      "version": 1,
+      "question": "How do categories compare on finalized units, completed revenue, and returns?",
+      "sql": "SELECT p.category, COUNT(*) AS finalized_items, SUM(CASE WHEN i.status='Complete' THEN i.sale_price ELSE 0 END) AS completed_revenue, SUM(CASE WHEN i.status='Returned' THEN 1 ELSE 0 END) AS returned_items FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status IN ('Complete','Returned') GROUP BY p.category ORDER BY p.category",
+      "report": "Compare categories using a common finalized-item scope while keeping completed revenue and returned-item counts as separate measures. Derive return shares only from the same finalized denominator and inspect product mix, period completeness, and authorized coverage. Recommend category drill-downs rather than assigning causes from aggregate differences.",
+      "tags": ["category", "revenue", "returns", "units", "comparison", "finalized"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "brand-product-performance",
+      "version": 1,
+      "question": "Which brands contribute completed revenue and across how many products?",
+      "sql": "SELECT p.brand, COUNT(DISTINCT p.id) AS products, COUNT(DISTINCT i.item_key) AS completed_items, SUM(i.sale_price) AS completed_revenue FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status='Complete' GROUP BY p.brand ORDER BY p.brand",
+      "report": "Compare brands on completed-item revenue while also reporting catalog breadth and item volume. A brand total reflects its authorized product assortment and observation window, not brand demand in the wider market. Drill into category, product, realized price, and returns before recommending assortment investigation.",
+      "tags": ["brand", "product", "revenue", "catalog breadth", "assortment", "comparison"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "customer-cohort-repeat",
+      "version": 1,
+      "question": "How does repeat purchasing vary by first completed-purchase cohort?",
+      "sql": "WITH completed_item_orders AS (SELECT DISTINCT customer_key, order_key, created_at FROM order_items WHERE status='Complete'), first_orders AS (SELECT customer_key, DATE_TRUNC(DATE(MIN(created_at)), MONTH) AS cohort_month FROM completed_item_orders GROUP BY customer_key), customer_orders AS (SELECT customer_key, COUNT(DISTINCT order_key) AS completed_item_orders FROM completed_item_orders GROUP BY customer_key) SELECT f.cohort_month, COUNT(*) AS customers, SUM(CASE WHEN c.completed_item_orders>1 THEN 1 ELSE 0 END) AS repeat_customers, SAFE_DIVIDE(SUM(CASE WHEN c.completed_item_orders>1 THEN 1 ELSE 0 END), COUNT(*)) AS repeat_customer_rate FROM first_orders f JOIN customer_orders c ON f.customer_key=c.customer_key GROUP BY f.cohort_month ORDER BY f.cohort_month",
+      "report": "Assign pseudonymous customers to the month of their first observed order containing a Complete item, then identify those with more than one such order. This is repeat observed purchasing, not retention or churn, and recent cohorts have less time to repeat. Compare equal follow-up windows and recommend cohort-specific follow-up rather than declaring loyalty causes.",
+      "tags": ["customer", "cohort", "repeat purchase", "first purchase", "follow-up window", "pseudonymous"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "customer-purchase-frequency",
+      "version": 1,
+      "question": "How are customers distributed by observed completed-item order frequency?",
+      "sql": "WITH customer_activity AS (SELECT customer_key, COUNT(DISTINCT order_key) AS completed_item_orders, COUNT(DISTINCT item_key) AS completed_items FROM order_items WHERE status='Complete' GROUP BY customer_key) SELECT completed_item_orders, COUNT(*) AS customers, AVG(completed_items) AS average_completed_items FROM customer_activity GROUP BY completed_item_orders ORDER BY completed_item_orders",
+      "report": "Group pseudonymous customers by distinct orders containing Complete items and inspect the frequency distribution rather than only an average. The observation window and left-censored purchase history affect frequency, and item keys must not be counted as orders. Recommend distribution and cohort drill-downs; do not infer individual identity or long-term loyalty.",
+      "tags": ["customer", "frequency", "repeat", "orders", "distribution", "observation window"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "state-purchaser-demographics",
+      "version": 1,
+      "question": "How does observed purchaser activity and completed revenue differ by state?",
+      "sql": "SELECT u.state, COUNT(DISTINCT i.customer_key) AS purchasing_customers, COUNT(DISTINCT i.order_key) AS orders_with_items, SUM(CASE WHEN i.status='Complete' THEN i.sale_price ELSE 0 END) AS completed_revenue FROM order_items i JOIN users u ON i.customer_key=u.customer_key GROUP BY u.state ORDER BY u.state",
+      "report": "Compare authorized purchasers, orders with items, and completed-item revenue by recorded state without treating purchasers as the state population. Geography is coarse demographic context, not a causal explanation or precise location. Check customer coverage and product mix before recommending regional analysis; never request names, contacts, or addresses.",
+      "tags": ["state", "demographics", "customers", "regional", "revenue", "coverage"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "age-country-purchaser-mix",
+      "version": 1,
+      "question": "How does purchaser mix vary by age band and country?",
+      "sql": "SELECT u.age_band, u.country, COUNT(DISTINCT i.customer_key) AS purchasing_customers, COUNT(DISTINCT i.order_key) AS orders_with_items, SUM(CASE WHEN i.status='Complete' THEN i.sale_price ELSE 0 END) AS completed_revenue FROM order_items i JOIN users u ON i.customer_key=u.customer_key GROUP BY u.age_band, u.country ORDER BY u.age_band, u.country",
+      "report": "Use broad age bands and countries to describe observed purchaser mix and completed-item revenue, not to infer individual attributes or market penetration. Small or uneven groups can make comparisons unstable, and no population denominator is available. Recommend coverage checks and coarse segmentation only, avoiding sensitive profiling or causal claims.",
+      "tags": ["age band", "country", "demographics", "customer mix", "segment", "privacy"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "active-day-revenue-gaps",
+      "version": 1,
+      "question": "Which dates have recorded activity and completed-item revenue?",
+      "sql": "SELECT DATE(created_at) AS activity_date, COUNT(DISTINCT order_key) AS orders_with_items, COUNT(DISTINCT item_key) AS items, SUM(CASE WHEN status='Complete' THEN sale_price ELSE 0 END) AS completed_revenue FROM order_items GROUP BY DATE(created_at) ORDER BY activity_date",
+      "report": "Review dates with recorded activity at daily grain while preserving order and item distinctions. A missing date has no row and must not automatically be interpreted as zero revenue; it may reflect no activity or missing data. Confirm freshness and source coverage before gap analysis, and recommend data-quality review for unexpected empty periods.",
+      "tags": ["daily", "empty data", "missing dates", "revenue", "activity", "data quality"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "customer-spend-outliers",
+      "version": 1,
+      "question": "How can customer completed spend and order-frequency outliers be assessed?",
+      "sql": "WITH customer_spend AS (SELECT customer_key, SUM(sale_price) AS completed_spend, COUNT(DISTINCT order_key) AS completed_item_orders FROM order_items WHERE status='Complete' GROUP BY customer_key) SELECT COUNT(*) AS customers, AVG(completed_spend) AS average_completed_spend, MIN(completed_spend) AS minimum_completed_spend, MAX(completed_spend) AS maximum_completed_spend, AVG(completed_item_orders) AS average_completed_item_orders, MAX(completed_item_orders) AS maximum_completed_item_orders FROM customer_spend",
+      "report": "Aggregate completed-item spend and distinct completed-item orders per pseudonymous customer before examining averages and extrema. Extremes are review signals, not errors or proof of fraud, and averages can hide skew. Inspect distributions, cohorts, periods, and product mix next while avoiding disclosure of individual customer identities.",
+      "tags": ["customer", "outliers", "spend", "frequency", "distribution", "extrema"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    },
+    {
+      "id": "monthly-product-diagnostic",
+      "version": 1,
+      "question": "How should monthly product revenue changes be decomposed into volume, price, and returns?",
+      "sql": "WITH monthly_product AS (SELECT DATE_TRUNC(DATE(i.created_at), MONTH) AS month, p.id, p.name, COUNT(*) AS finalized_items, SUM(CASE WHEN i.status='Complete' THEN i.sale_price ELSE 0 END) AS completed_revenue, SUM(CASE WHEN i.status='Returned' THEN 1 ELSE 0 END) AS returned_items, AVG(CASE WHEN i.status='Complete' THEN i.sale_price END) AS average_completed_item_price FROM order_items i JOIN products p ON i.product_id=p.id WHERE i.status IN ('Complete','Returned') GROUP BY month, p.id, p.name), with_previous AS (SELECT month, id, name, finalized_items, completed_revenue, returned_items, average_completed_item_price, LAG(completed_revenue) OVER (PARTITION BY id ORDER BY month) AS previous_month_revenue FROM monthly_product) SELECT month, id, name, finalized_items, completed_revenue, previous_month_revenue, SAFE_DIVIDE(completed_revenue-previous_month_revenue, ABS(previous_month_revenue)) AS revenue_change_rate, average_completed_item_price, SAFE_DIVIDE(returned_items, finalized_items) AS returned_item_rate FROM with_previous ORDER BY id, month",
+      "report": "Use a multi-step diagnostic: verify monthly completeness and authorized coverage, compare completed revenue with the prior observed month, then decompose volume, realized completed-item price, and finalized-item return share. These associations do not establish causality. Recommend targeted product, pricing, or returns investigation only after checking mix and data quality.",
+      "tags": ["multi-step", "product", "monthly", "decomposition", "price", "volume", "returns"],
+      "scope": "shared",
+      "schema_version": "safe-v1",
+      "origin": "synthetic demonstration; not historical analyst work"
+    }
+  ]
+}
