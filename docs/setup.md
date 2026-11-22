@@ -165,6 +165,8 @@ project names and available ports. The private credential volume persists across
 restarts and is external to Compose; removing application containers does not
 delete it. Stop with `./start.sh --project retail-live --stop`.
 
+Langfuse export is disabled by default (`LANGFUSE_ENABLED=false`). Local metadata events remain in `LOG_PATH`; enable export only when the Langfuse stack is running and you need it.
+
 No evaluation or corpus indexing is run by the launcher. Live questions and
 explicit embedding indexing can incur charges. Startup configuration validation
 does not prove credentials have working provider/BigQuery permissions. Prefer
@@ -175,7 +177,7 @@ For manual host setup, the equivalent settings are described below.
 Set RETAIL_MODE=live and GOOGLE_CLOUD_PROJECT, a random LABEL_SECRET, and
 replace local demo API tokens. For direct Google use LLM_PROVIDER=gemini,
 GEMINI_MODEL and GEMINI_API_KEY. Alternatively use LLM_PROVIDER=deepinfra,
-DEEPINFRA_MODEL=google/gemini-3.5-flash and DEEPINFRA_API_KEY. Choose embeddings
+DEEPINFRA_MODEL=google/gemini-3.7-flash and DEEPINFRA_API_KEY. Choose embeddings
 independently with EMBEDDING_PROVIDER=gemini|deepinfra|none; Qwen on DeepInfra
 uses DEEPINFRA_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B. The backend validates these
 requirements before startup. Set BRAND_ACCESS_JSON deliberately; the legacy ENTITLEMENTS_JSON product-ID path is for old tests/deployments. The GCP

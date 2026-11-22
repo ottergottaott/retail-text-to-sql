@@ -57,7 +57,7 @@ introduced.
 `evaluation/expanded-retrieval-cases.json` contains **98 synthetic, unreviewed
 relevance cases**:
 
-- **80 positive paraphrases:** two English and two Russian questions for each of
+- **40 positive paraphrases:** two English questions for each of
   the 20 intents, with exact trio ID/version references.
 - **18 negatives:** out-of-domain requests, unavailable metrics or schemas,
   PII requests, prompt injection, and a mutation/approval-bypass request.
@@ -67,13 +67,6 @@ match in this synthetic corpus. They are not human analyst judgments or live
 semantic-quality evidence. Churn is not used as a negative: cohort, repeat
 purchase, and inactivity definitions are adjacent methodology and require
 clarification rather than an irrelevant label.
-
-Russian cases are intended for multilingual semantic evaluation. The current
-lexical tokenizer recognizes ASCII alphanumeric tokens, so English-only trio
-text should not be expected to retrieve pure Russian paraphrases through
-lexical matching. A low Russian lexical score is not evidence about a real
-embedding model; live multilingual relevance remains untested until explicitly
-run with a provider.
 
 Negative retrieval behavior must also be measured rather than assumed. Terms
 such as `customer`, `department`, or `order` can produce lexical false matches
@@ -95,7 +88,7 @@ or return-rate conclusions; reports deliberately provide methods and caveats
 instead of measured outcomes.
 
 Parent integration loaded the corpus into an isolated store and ran expanded
-lexical retrieval: Recall@2 0.50 overall, 0.95 English and 0.05 Russian; negative
+historical lexical retrieval: Recall@2 0.50 overall; negative
 false-match rate 0.4444. All 40 two-principal SQL checks and six independent
 fixture oracles passed. See retrieval-verification.md. Live embedding results
 remain untested and must be labeled separately. Dataset relevance labels remain synthetic and unreviewed unless a

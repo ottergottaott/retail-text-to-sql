@@ -92,7 +92,7 @@ class DeepInfraModel:
             },
         }
         try:
-            with httpx.Client(base_url=BASE_URL, timeout=timeout, headers=_headers(self.config)) as client:
+            with httpx.Client(base_url=getattr(self.config, "deepinfra_base_url", ORIGIN).rstrip("/") + "/", timeout=timeout, headers=_headers(self.config)) as client:
                 response = client.post(CHAT_PATH, json=payload)
                 response.raise_for_status()
                 data = response.json()
@@ -141,7 +141,7 @@ class DeepInfraEmbeddings:
             "dimensions": DIMENSIONS,
         }
         try:
-            with httpx.Client(base_url=BASE_URL, timeout=timeout, headers=_headers(self.config)) as client:
+            with httpx.Client(base_url=getattr(self.config, "deepinfra_base_url", ORIGIN).rstrip("/") + "/", timeout=timeout, headers=_headers(self.config)) as client:
                 response = client.post(EMBEDDINGS_PATH, json=payload)
                 response.raise_for_status()
                 data = response.json().get("data")

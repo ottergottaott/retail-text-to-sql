@@ -14,7 +14,7 @@ class Trace:
         self.sink = sink or (lambda event: None)
         self.events = []
         self.client = None
-        if config.langfuse_public_key and config.langfuse_secret_key:
+        if config.langfuse_enabled and config.langfuse_public_key and config.langfuse_secret_key:
             try:
                 from langfuse import Langfuse
                 self.client = Langfuse(public_key=config.langfuse_public_key, secret_key=config.langfuse_secret_key, base_url=config.langfuse_base_url)

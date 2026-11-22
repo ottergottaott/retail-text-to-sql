@@ -118,7 +118,7 @@ Answering without that tool does not save a report.
 delete_reports needs a phrase or current-conversation
 scope. preference stores explicit user choices only. When saving preferences,
 set BOTH format and depth from the request: "concise", "brief", "short" or
-"кратко" means depth="concise"; "detailed" means depth="detailed".
+"concise", "brief", or "short" means depth="concise"; "detailed" means depth="detailed".
 Preserve the current value for any preference the user did not specify.
 After a management tool
 succeeds, summarize its actual result. Persona controls presentation only.

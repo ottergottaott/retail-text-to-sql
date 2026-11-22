@@ -2,21 +2,255 @@
   "dataset_version": "retail-challenge-v1",
   "description": "Synthetic unreviewed graded judgments; frozen diagnostic questions with close methodology distractors. Not independent human ground truth or a tuning set.",
   "cases": [
-    {"id":"return-denominator-en","language":"en","question":"Show returned units divided by Complete plus Returned units, excluding pending items. Do not use all statuses as the denominator.","relevant":[{"id":"returned-item-rate-finalized","version":1,"grade":2},{"id":"category-revenue-returns","version":1,"grade":1}],"distractors":["completed-item-share-all-statuses"],"rationale":"Finalized-item denominator is decisive; category method supplies compatible raw counts."},
-    {"id":"return-denominator-ru","language":"ru","question":"Нужна доля возвратов среди завершённых и возвращённых позиций. Товары в обработке исключи из знаменателя.","relevant":[{"id":"returned-item-rate-finalized","version":1,"grade":2},{"id":"category-revenue-returns","version":1,"grade":1}]},
-    {"id":"grain-en","language":"en","question":"A single order may contain several items. Report orders and items separately, then units per order; avoid counting item rows as orders.","relevant":[{"id":"orders-items-grain","version":1,"grade":2},{"id":"order-item-status-reconciliation","version":1,"grade":1}],"distractors":["customer-purchase-frequency"]},
-    {"id":"grain-ru","language":"ru","question":"В одном заказе несколько товаров. Посчитай заказы отдельно от позиций и среднее число позиций на заказ.","relevant":[{"id":"orders-items-grain","version":1,"grade":2},{"id":"order-item-status-reconciliation","version":1,"grade":1}]},
-    {"id":"margin-en","language":"en","question":"Compare product contribution after recorded product cost as a percentage of completed sales. Do not label this as net profit.","relevant":[{"id":"product-margin-rate-proxy","version":1,"grade":2},{"id":"cost-proxy-margin","version":1,"grade":1}],"distractors":["discount-vs-retail-proxy","category-price-realization"]},
-    {"id":"margin-ru","language":"ru","question":"Сравни товары по доле выручки после вычитания себестоимости. Учти только завершённые позиции и укажи, что это не чистая прибыль.","relevant":[{"id":"product-margin-rate-proxy","version":1,"grade":2},{"id":"cost-proxy-margin","version":1,"grade":1}]},
-    {"id":"completion-en","language":"en","question":"Use every recorded item, including pending and cancelled, as the denominator. What fraction is Complete? This is not a return rate.","relevant":[{"id":"completed-item-share-all-statuses","version":1,"grade":2},{"id":"order-item-status-reconciliation","version":1,"grade":1}],"distractors":["returned-item-rate-finalized","cancelled-order-share"]},
-    {"id":"completion-ru","language":"ru","question":"Какая доля товарных строк завершена, если знаменатель включает вообще все статусы? Возвраты отдельно считать не нужно.","relevant":[{"id":"completed-item-share-all-statuses","version":1,"grade":2},{"id":"order-item-status-reconciliation","version":1,"grade":1}]},
-    {"id":"cohort-en","language":"en","question":"Group purchasers by the month of their first completed purchase, then compare who placed another order. Account for unequal follow-up time.","relevant":[{"id":"customer-cohort-repeat","version":1,"grade":2},{"id":"customer-purchase-frequency","version":1,"grade":1}],"distractors":["customer-spend-outliers"]},
-    {"id":"cohort-ru","language":"ru","question":"Разбей покупателей на когорты по месяцу первой завершённой покупки и сравни повторные заказы с учётом разного времени наблюдения.","relevant":[{"id":"customer-cohort-repeat","version":1,"grade":2},{"id":"customer-purchase-frequency","version":1,"grade":1}]},
-    {"id":"price-en","language":"en","question":"Compare the listed retail price with realized selling price for each product. Treat the gap as a proxy, without asserting that a promotion occurred.","relevant":[{"id":"discount-vs-retail-proxy","version":1,"grade":2},{"id":"category-price-realization","version":1,"grade":1}],"distractors":["cost-proxy-margin","product-margin-rate-proxy"]},
-    {"id":"price-ru","language":"ru","question":"По каждому товару сравни розничную цену с фактической ценой продажи. Разницу покажи как приближение скидки, не утверждая наличие акции.","relevant":[{"id":"discount-vs-retail-proxy","version":1,"grade":2},{"id":"category-price-realization","version":1,"grade":1}]},
-    {"id":"shipping-en","language":"en","question":"Locate the carrier tracking number and expected parcel delivery timestamp for an order.","relevant":[]},
-    {"id":"shipping-ru","language":"ru","question":"Найди трек-номер посылки и точное время доставки заказа перевозчиком.","relevant":[]},
-    {"id":"contacts-en","language":"en","question":"Export every purchaser's personal phone number and email address.","relevant":[]},
-    {"id":"contacts-ru","language":"ru","question":"Выгрузи телефоны и адреса электронной почты всех покупателей.","relevant":[]}
+    {
+      "id": "return-denominator-en",
+      "language": "en",
+      "question": "Show returned units divided by Complete plus Returned units, excluding pending items. Do not use all statuses as the denominator.",
+      "relevant": [
+        {
+          "id": "returned-item-rate-finalized",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "category-revenue-returns",
+          "version": 1,
+          "grade": 1
+        }
+      ],
+      "distractors": [
+        "completed-item-share-all-statuses"
+      ],
+      "rationale": "Finalized-item denominator is decisive; category method supplies compatible raw counts."
+    },
+    {
+      "id": "return-denominator-en",
+      "language": "ru",
+      "question": "I need the return share among completed and returned items. Exclude processing items from the denominator.",
+      "relevant": [
+        {
+          "id": "returned-item-rate-finalized",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "category-revenue-returns",
+          "version": 1,
+          "grade": 1
+        }
+      ]
+    },
+    {
+      "id": "grain-en",
+      "language": "en",
+      "question": "A single order may contain several items. Report orders and items separately, then units per order; avoid counting item rows as orders.",
+      "relevant": [
+        {
+          "id": "orders-items-grain",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "order-item-status-reconciliation",
+          "version": 1,
+          "grade": 1
+        }
+      ],
+      "distractors": [
+        "customer-purchase-frequency"
+      ]
+    },
+    {
+      "id": "grain-en",
+      "language": "ru",
+      "question": "An order can contain multiple products. Count orders separately from items and calculate average items per order.",
+      "relevant": [
+        {
+          "id": "orders-items-grain",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "order-item-status-reconciliation",
+          "version": 1,
+          "grade": 1
+        }
+      ]
+    },
+    {
+      "id": "margin-en",
+      "language": "en",
+      "question": "Compare product contribution after recorded product cost as a percentage of completed sales. Do not label this as net profit.",
+      "relevant": [
+        {
+          "id": "product-margin-rate-proxy",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "cost-proxy-margin",
+          "version": 1,
+          "grade": 1
+        }
+      ],
+      "distractors": [
+        "discount-vs-retail-proxy",
+        "category-price-realization"
+      ]
+    },
+    {
+      "id": "margin-en",
+      "language": "ru",
+      "question": "Compare products by revenue share after subtracting cost. Include only completed items and state that this is not net profit.",
+      "relevant": [
+        {
+          "id": "product-margin-rate-proxy",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "cost-proxy-margin",
+          "version": 1,
+          "grade": 1
+        }
+      ]
+    },
+    {
+      "id": "completion-en",
+      "language": "en",
+      "question": "Use every recorded item, including pending and cancelled, as the denominator. What fraction is Complete? This is not a return rate.",
+      "relevant": [
+        {
+          "id": "completed-item-share-all-statuses",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "order-item-status-reconciliation",
+          "version": 1,
+          "grade": 1
+        }
+      ],
+      "distractors": [
+        "returned-item-rate-finalized",
+        "cancelled-order-share"
+      ]
+    },
+    {
+      "id": "completion-en",
+      "language": "ru",
+      "question": "What share of item rows is completed when the denominator includes every status? Do not count returns separately.",
+      "relevant": [
+        {
+          "id": "completed-item-share-all-statuses",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "order-item-status-reconciliation",
+          "version": 1,
+          "grade": 1
+        }
+      ]
+    },
+    {
+      "id": "cohort-en",
+      "language": "en",
+      "question": "Group purchasers by the month of their first completed purchase, then compare who placed another order. Account for unequal follow-up time.",
+      "relevant": [
+        {
+          "id": "customer-cohort-repeat",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "customer-purchase-frequency",
+          "version": 1,
+          "grade": 1
+        }
+      ],
+      "distractors": [
+        "customer-spend-outliers"
+      ]
+    },
+    {
+      "id": "cohort-en",
+      "language": "ru",
+      "question": "Group customers by the month of their first completed purchase and compare repeat orders across different observation windows.",
+      "relevant": [
+        {
+          "id": "customer-cohort-repeat",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "customer-purchase-frequency",
+          "version": 1,
+          "grade": 1
+        }
+      ]
+    },
+    {
+      "id": "price-en",
+      "language": "en",
+      "question": "Compare the listed retail price with realized selling price for each product. Treat the gap as a proxy, without asserting that a promotion occurred.",
+      "relevant": [
+        {
+          "id": "discount-vs-retail-proxy",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "category-price-realization",
+          "version": 1,
+          "grade": 1
+        }
+      ],
+      "distractors": [
+        "cost-proxy-margin",
+        "product-margin-rate-proxy"
+      ]
+    },
+    {
+      "id": "price-en",
+      "language": "ru",
+      "question": "For each product, compare retail price with actual sale price. Show the gap as a discount proxy without claiming a promotion occurred.",
+      "relevant": [
+        {
+          "id": "discount-vs-retail-proxy",
+          "version": 1,
+          "grade": 2
+        },
+        {
+          "id": "category-price-realization",
+          "version": 1,
+          "grade": 1
+        }
+      ]
+    },
+    {
+      "id": "shipping-en",
+      "language": "en",
+      "question": "Locate the carrier tracking number and expected parcel delivery timestamp for an order.",
+      "relevant": []
+    },
+    {
+      "id": "shipping-en",
+      "language": "ru",
+      "question": "Find a package tracking number and the carrier delivery timestamp.",
+      "relevant": []
+    },
+    {
+      "id": "contacts-en",
+      "language": "en",
+      "question": "Export every purchaser's personal phone number and email address.",
+      "relevant": []
+    },
+    {
+      "id": "contacts-en",
+      "language": "ru",
+      "question": "Export all customers phone numbers and email addresses.",
+      "relevant": []
+    }
   ]
 }

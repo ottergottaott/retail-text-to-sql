@@ -58,7 +58,7 @@ def test_agent_uses_deepinfra_and_records_actual_model_in_trace(tmp_path, monkey
 
     real_client = httpx.Client
     def response(request):
-        assert json.loads(request.content)["model"] == "google/gemini-3.5-flash"
+        assert json.loads(request.content)["model"] == "google/gemini-3.7-flash"
         return httpx.Response(200, json={"choices": [{"message": {"content":
             '{"action":"clarify","text":"Which period should I compare?"}'}}],
             "usage": {"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15}})
@@ -72,7 +72,7 @@ def test_agent_uses_deepinfra_and_records_actual_model_in_trace(tmp_path, monkey
         result = Agent(settings, store).chat(principal_for("alice", settings), "Compare revenue", sink=events.append)
         assert result["answer"] == "Which period should I compare?"
         usage = next(e for e in events if e["stage"] == "model_usage")
-        assert usage["model"] == "google/gemini-3.5-flash"
+        assert usage["model"] == "google/gemini-3.7-flash"
         assert usage["provider"] == "deepinfra"
         assert usage["input_tokens"] == 10
     finally:

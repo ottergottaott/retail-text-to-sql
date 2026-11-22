@@ -18,7 +18,7 @@ fallback, explicitly marked ungated; the improvement below does not apply to it.
 ## Method
 
 - English product scope: 40 positive paraphrases plus 10 negatives from the
-  expanded synthetic corpus evaluation; Russian cases are excluded here.
+  expanded English-only synthetic corpus evaluation.
 - Development split: first English paraphrase for each of 20 intents plus
   alternating sorted negative IDs (5). Remaining 25 cases are validation.
 - Development grid: floors 0.50, 0.55, 0.60, 0.625, 0.65. Select the conservative

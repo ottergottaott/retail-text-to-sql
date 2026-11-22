@@ -59,8 +59,8 @@
     "data_mode": "synthetic_golden_logic"
   },
   {
-    "id": "retrieval-monthly-revenue-change-ru-1",
-    "question": "Сравни выручку по завершённым товарам с предыдущим наблюдаемым месяцем",
+    "id": "retrieval-monthly-revenue-change-en-1",
+    "question": "Compare completed-item revenue with the previous observed month",
     "response": "",
     "sql_contexts": [],
     "retrieved_contexts": [
@@ -86,8 +86,8 @@
     "data_mode": "synthetic_golden_logic"
   },
   {
-    "id": "retrieval-revenue-period-completeness-ru-1",
-    "question": "Отметь месяцы, для которых сравнение выручки может искажаться из-за неполного периода",
+    "id": "retrieval-revenue-period-completeness-en-1",
+    "question": "Flag months where revenue comparisons may be distorted by an incomplete period",
     "response": "",
     "sql_contexts": [],
     "retrieved_contexts": [
@@ -113,8 +113,8 @@
     "data_mode": "synthetic_golden_logic"
   },
   {
-    "id": "retrieval-orders-items-grain-ru-1",
-    "question": "Отдельно посчитай уникальные заказы и купленные товарные позиции",
+    "id": "retrieval-orders-items-grain-en-1",
+    "question": "Count distinct orders and purchased items separately",
     "response": "",
     "sql_contexts": [],
     "retrieved_contexts": [
@@ -140,8 +140,8 @@
     "data_mode": "synthetic_golden_logic"
   },
   {
-    "id": "retrieval-order-item-status-reconciliation-ru-1",
-    "question": "Сопоставь статусы заказов со статусами их товарных строк",
+    "id": "retrieval-order-item-status-reconciliation-en-1",
+    "question": "Reconcile order statuses with the statuses of their item rows",
     "response": "",
     "sql_contexts": [],
     "retrieved_contexts": [],

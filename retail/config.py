@@ -21,7 +21,8 @@ class Settings(BaseSettings):
     llm_provider: Literal["gemini", "deepinfra"] = "gemini"
     embedding_provider: Literal["gemini", "deepinfra", "none"] = "gemini"
     deepinfra_api_key: str = ""
-    deepinfra_model: str = "google/gemini-3.5-flash"
+    deepinfra_base_url: str = "https://api.deepinfra.com/v1/openai"
+    deepinfra_model: str = "google/gemini-3.7-flash"
     deepinfra_review_model: str = ""
     deepinfra_embedding_model: str = "Qwen/Qwen3-Embedding-8B"
     embedding_model: str = "gemini-embedding-001"
@@ -37,6 +38,7 @@ class Settings(BaseSettings):
     max_result_bytes: int = Field(default=64000, ge=1024, le=1000000)
     max_context_chars: int = Field(default=80000, ge=2000, le=250000)
     log_path: str = "./events.jsonl"
+    langfuse_enabled: bool = False
     langfuse_public_key: str = ""
     langfuse_secret_key: str = ""
     langfuse_base_url: str = "http://localhost:3001"
