@@ -63,8 +63,9 @@ def main():
     import retail.deepinfra as provider
     model = cfg.deepinfra_review_model or cfg.deepinfra_model
     cfg = cfg.model_copy(update={'deepinfra_model': model})
+    judge_model = cfg.deepinfra_review_model or cfg.deepinfra_model
     identity = {'dataset_sha256': digest(cases), 'prompt_sha256': hashlib.sha256(prompt.encode()).hexdigest(),
-                'model': model, 'judge_model': 'google/gemini-3.5-flash', 'ragas_version': '0.4.4',
+                'model': model, 'judge_model': judge_model, 'ragas_version': '0.4.4',
                 'metric_contract': 'standard-faithfulness-unchanged; separate-sql-aware-v1',
                 'batch_size': args.batch_size, 'max_calls_per_batch': args.max_calls_per_batch,
                 'evidence_boundary': 'Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing.'}
@@ -126,7 +127,7 @@ def main():
             if previous:
                 write(out/f'judge-{offset//args.batch_size:02}.attempt-{attempt}.json', previous)
             async def bounded():
-                return await asyncio.wait_for(live(pending, cfg, identity['judge_model'],
+                return await asyncio.wait_for(live(pending, cfg, judge_model,
                     args.max_calls_per_batch, names, diagnostics=True), timeout=deadline-time.monotonic())
             try:
                 judge_report = asyncio.run(bounded())

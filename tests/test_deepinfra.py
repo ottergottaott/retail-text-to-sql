@@ -96,6 +96,42 @@ def test_model_posts_bounded_schema_request_and_maps_usage(install):
     assert captured["kwargs"]["timeout"] == 30.0
 
 
+def test_model_parses_tool_call_for_openai_compatible_gateways(install):
+    requests = []
+
+    def handler(request):
+        requests.append(request)
+        return httpx.Response(200, json={
+            "choices": [{"message": {"content": "", "tool_calls": [{
+                "type": "function", "function": {"name": "decision",
+                    "arguments": json.dumps({"action": "answer", "text": "ok"})}
+            }]}}],
+            "usage": {"prompt_tokens": 3, "completion_tokens": 4, "total_tokens": 7},
+        })
+
+    captured = install(handler)
+    cfg = SimpleNamespace(**vars(config()), deepinfra_use_tool_call=True)
+    decision, usage = deepinfra.DeepInfraModel(cfg).decide({"question": "x"}, 10)
+
+    assert decision == Decision(action="answer", text="ok")
+    body = json.loads(requests[0].content)
+    assert body["tool_choice"]["function"]["name"] == "decision"
+    assert body["tools"][0]["function"]["name"] == "decision"
+    assert "response_format" not in body
+    assert captured["kwargs"]["timeout"] == 10.0
+
+
+def test_openai_compatible_model_allows_bounded_longer_review_timeout(install):
+    captured = install(lambda request: httpx.Response(200, json={
+        "choices": [{"message": {"tool_calls": [{"function": {
+            "arguments": json.dumps({"action": "answer", "text": "ok"})
+        }}]}}]
+    }))
+    cfg = SimpleNamespace(**vars(config()), deepinfra_use_tool_call=True)
+    deepinfra.DeepInfraModel(cfg).decide({"question": "x"}, 100)
+    assert captured["kwargs"]["timeout"] == 60.0
+
+
 def test_model_usage_defaults_to_none_without_provider_fields(install):
     install(lambda request: httpx.Response(200, json=decision_body(
         json.dumps({"action": "clarify", "text": "which period?"}))))

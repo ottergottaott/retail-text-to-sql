@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     openai_compatible_api_key: str = ""
     openai_compatible_base_url: str = ""
     openai_compatible_model: str = ""
+    deepinfra_use_tool_call: bool = False
     embedding_model: str = "gemini-embedding-001"
     retrieval_min_similarity: float = 0.65
     retrieval_lexical_min_similarity: float = Field(default=0.60, ge=0, le=1)

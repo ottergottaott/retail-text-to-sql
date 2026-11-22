@@ -12,6 +12,40 @@ from retail.ragas_evaluation import evaluate_samples, validate_samples, JudgeBud
 from retail.security import PolicyError
 
 
+DEFAULT_DEEPINFRA_BASE_URL = "https://api.deepinfra.com/v1/openai"
+
+
+def _uses_openai_compatible_gateway(config):
+    return getattr(config, "llm_provider", "") == "openai_compatible" and bool(
+        getattr(config, "openai_compatible_base_url", "")
+    )
+
+
+def judge_base_url(config):
+    base_url = (
+        config.openai_compatible_base_url
+        if _uses_openai_compatible_gateway(config)
+        else config.deepinfra_base_url
+    )
+    return base_url.rstrip("/") + "/"
+
+
+def judge_api_key(config):
+    return (
+        config.openai_compatible_api_key
+        if _uses_openai_compatible_gateway(config)
+        else config.deepinfra_api_key
+    )
+
+
+def judge_provider(config):
+    return "openai_compatible" if _uses_openai_compatible_gateway(config) else "deepinfra"
+
+
+def judge_http_timeout(config):
+    return 60 if judge_base_url(config).rstrip("/") != DEFAULT_DEEPINFRA_BASE_URL else 30
+
+
 async def live(samples, config, model, max_calls, metric_names=None, diagnostics=False):
     os.environ["RAGAS_DO_NOT_TRACK"] = "true"
     from openai import AsyncOpenAI
@@ -42,8 +76,8 @@ async def live(samples, config, model, max_calls, metric_names=None, diagnostics
         async def aclose(self): await self.inner.aclose()
 
     transport = BoundedTransport()
-    async with httpx.AsyncClient(transport=transport, timeout=30) as http:
-        async with AsyncOpenAI(api_key=config.deepinfra_api_key, base_url="https://api.deepinfra.com/v1/openai", max_retries=0, http_client=http) as client:
+    async with httpx.AsyncClient(transport=transport, timeout=judge_http_timeout(config)) as http:
+        async with AsyncOpenAI(api_key=judge_api_key(config), base_url=judge_base_url(config), max_retries=0, http_client=http) as client:
             judge = llm_factory(model, client=client, mode=Mode.JSON, temperature=0, max_tokens=6000, max_retries=1)
             metrics = {"faithfulness": Faithfulness(judge), "context_precision": ContextPrecision(judge), "context_recall": ContextRecall(judge)}
             if metric_names:
@@ -57,7 +91,7 @@ async def live(samples, config, model, max_calls, metric_names=None, diagnostics
                 metrics = {name: record_diagnostics(metric) if "faithfulness" in name else metric
                            for name, metric in metrics.items()}
             report = await evaluate_samples(samples, metrics)
-    report.update(judge_provider="deepinfra", judge_model=model, ragas_version="0.4.4",
+    report.update(judge_provider=judge_provider(config), judge_model=model, ragas_version="0.4.4",
                   attempted_provider_calls=transport.attempts, max_provider_calls=max_calls,
                   measured_total_tokens=transport.tokens if transport.usage_responses else None,
                   usage_responses=transport.usage_responses, cost=None, human_review="pending")
@@ -87,8 +121,8 @@ def main():
             samples = validate_samples(json.loads(args.samples.read_text()))
             from retail.config import Settings
             config = Settings(_env_file=args.env_file)
-            if not config.deepinfra_api_key:
-                raise ValueError("DeepInfra key required.")
+            if not judge_api_key(config):
+                raise ValueError("Judge provider key required.")
             print(json.dumps({"planned_samples": len(samples), "maximum_provider_calls": args.max_calls, "billed_calls": True}), file=sys.stderr)
             report = asyncio.run(live(samples, config, args.judge_model, args.max_calls, args.metrics))
         except (OSError, ValueError, PolicyError):

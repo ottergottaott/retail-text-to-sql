@@ -108,6 +108,26 @@ def test_live_cli_without_measured_metrics_exits_nonzero(tmp_path, monkeypatch):
     assert cli.main() == 3
 
 
+def test_live_judge_uses_configured_gateway_base_url():
+    from scripts.evaluate_ragas import judge_base_url, judge_http_timeout, judge_api_key, judge_provider
+    assert judge_base_url(SimpleNamespace(deepinfra_base_url="https://gateway.example/v1")) == "https://gateway.example/v1/"
+    assert judge_http_timeout(SimpleNamespace(deepinfra_base_url="https://gateway.example/v1")) == 60
+
+
+def test_live_judge_labels_custom_gateway_without_calling_it_deepinfra():
+    from scripts.evaluate_ragas import judge_base_url, judge_api_key, judge_provider
+    config = SimpleNamespace(
+        llm_provider="openai_compatible",
+        openai_compatible_api_key="gateway-key",
+        openai_compatible_base_url="https://gateway.example/v1",
+        deepinfra_api_key="",
+        deepinfra_base_url="https://api.deepinfra.com/v1/openai",
+    )
+    assert judge_base_url(config) == "https://gateway.example/v1/"
+    assert judge_api_key(config) == "gateway-key"
+    assert judge_provider(config) == "openai_compatible"
+
+
 @pytest.mark.parametrize("name", ["factual_faithfulness", "sql_factual_faithfulness"])
 def test_factual_metric_keeps_assertions_inside_actions_and_uses_sql_context(name):
     response='Revenue is 98. Proposed: fix stock because demand doubled.'

@@ -19,6 +19,7 @@ CHAT_PATH = "chat/completions"
 EMBEDDINGS_PATH = "embeddings"
 DIMENSIONS = 1024
 MAX_MODEL_TIMEOUT = 30.0
+MAX_TOOL_MODEL_TIMEOUT = 60.0
 MAX_EMBEDDING_TIMEOUT = 15.0
 MAX_TOKENS = 6000
 QUERY_INSTRUCTION_VERSION = "instruct-v1"
@@ -41,10 +42,11 @@ def _token(value):
     return value if isinstance(value, int) and not isinstance(value, bool) and value >= 0 else None
 
 
-def _model_timeout(remaining_seconds):
+def _model_timeout(remaining_seconds, tool_call=False):
     if not _finite_positive(remaining_seconds):
         raise ModelError("Model unavailable or returned an invalid decision; no result was inferred.")
-    return float(min(MAX_MODEL_TIMEOUT, remaining_seconds))
+    cap = MAX_TOOL_MODEL_TIMEOUT if tool_call else MAX_MODEL_TIMEOUT
+    return float(min(cap, remaining_seconds))
 
 
 def _embedding_timeout(timeout):
@@ -69,12 +71,24 @@ def decision_schema():
     return schema
 
 
+def decision_tool():
+    return {
+        "type": "function",
+        "function": {
+            "name": "decision",
+            "description": "Return the single structured retail assistant decision.",
+            "parameters": decision_schema(),
+        },
+    }
+
+
 class DeepInfraModel:
     def __init__(self, config):
         self.config = config
 
     def decide(self, context, remaining_seconds):
-        timeout = _model_timeout(remaining_seconds)
+        use_tool_call = getattr(self.config, "deepinfra_use_tool_call", False)
+        timeout = _model_timeout(remaining_seconds, tool_call=use_tool_call)
         payload = {
             "model": self.config.deepinfra_model,
             "messages": [
@@ -83,20 +97,26 @@ class DeepInfraModel:
             ],
             "temperature": 0,
             "max_tokens": MAX_TOKENS,
-            "response_format": {
-                "type": "json_schema",
-                "json_schema": {
-                    "name": "decision",
-                    "schema": decision_schema(),
-                },
-            },
         }
+        if use_tool_call:
+            payload["tools"] = [decision_tool()]
+            payload["tool_choice"] = {"type": "function", "function": {"name": "decision"}}
+        else:
+            payload["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {"name": "decision", "schema": decision_schema()},
+            }
         try:
             with httpx.Client(base_url=getattr(self.config, "deepinfra_base_url", ORIGIN).rstrip("/") + "/", timeout=timeout, headers=_headers(self.config)) as client:
                 response = client.post(CHAT_PATH, json=payload)
                 response.raise_for_status()
                 data = response.json()
-                content = data["choices"][0]["message"]["content"]
+                message = data["choices"][0]["message"]
+                if use_tool_call:
+                    calls = message.get("tool_calls") or []
+                    content = calls[0]["function"]["arguments"]
+                else:
+                    content = message["content"]
                 if isinstance(content, dict):
                     decision = Decision.model_validate(content)
                 elif isinstance(content, str):
