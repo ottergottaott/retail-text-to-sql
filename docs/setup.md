@@ -102,6 +102,39 @@ is unavailable or lacks quota, chat returns a dependency error rather than
 inventing a result. Valid JSON and successful startup do not prove usable cloud
 permissions/quota; verify one live question before review.
 
+### Gemini through DeepInfra
+
+If your model key is from DeepInfra, copy
+[`deployment/deepinfra.env.example`](../deployment/deepinfra.env.example) to
+`.env.providers` instead of the direct-Google template. Fill
+`DEEPINFRA_API_KEY`, `DEEPINFRA_MODEL` and `GOOGLE_CLOUD_PROJECT` locally.
+Keep `LLM_PROVIDER=deepinfra`; a direct `GEMINI_API_KEY` is not required for this
+configuration. BigQuery still requires a separate Google credential JSON.
+Model availability/quota must be checked with your provider account.
+
+The adapter uses the fixed OpenAI-compatible base URL
+`https://api.deepinfra.com/v1/openai`, with `/chat/completions` for model calls.
+There is no provider URL setting to fill in. This also prevents arbitrary
+endpoint selection. This configuration is for Gemini serving, not development
+reviews through OpenCode China.
+
+```sh
+cp deployment/deepinfra.env.example .env.providers
+# Edit .env.providers locally, then:
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
+```
+
+Open WebUI at `http://localhost:3000`. The backend API is at
+`http://localhost:8000`, with its route reference at `/docs`; API calls require
+an application bearer token from `.env.docker-retail-live`, not your provider
+key. If those ports are occupied, add `--webui-port 3010 --api-port 8010` and use
+those ports in browser/CLI URLs. No public hosted URL is provided.
+
+Keep provider keys in the ignored local env file and Google credentials outside
+the repository. Do not send keys in chat or commit populated env files.
+
+### Launch and verification
+
 BigQuery can be checked independently before Gemini is configured: see
 [standalone BigQuery verification](bigquery-verification.md). The default
 verifier invocation loads no environment settings and makes no provider calls.

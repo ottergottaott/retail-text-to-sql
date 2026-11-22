@@ -6,7 +6,7 @@ limitations, proposed actions and inspectable SQL evidence.
 
 ## Suggested review order
 
-Open the [one-page review summary](docs/review-summary.html) for measured results
+Open the [one-page review summary](docs/review-summary.md) for measured results
 and remaining checks.
 
 1. Read the [architecture overview](docs/technical-overview.html) (about 5 minutes).

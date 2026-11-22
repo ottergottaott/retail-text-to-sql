@@ -8,6 +8,7 @@ The CLI and Open WebUI use the same backend.
 
 Client requirements and runtime/design boundaries: [acceptance spec](docs/acceptance-spec.md).
 
+- [Review summary and current verification status](docs/review-summary.md)
 - [Reviewer guide and Docker/WebUI walkthrough](START_HERE.md)
 - [Architecture overview](docs/technical-overview.html) and [technical design](docs/architecture.md)
 - [Evaluation evidence and limitations](docs/submission-evidence.md)
@@ -48,7 +49,7 @@ Follow [live setup](docs/setup.md#live-gemini-and-bigquery) and use
 [.env.example](.env.example) as a configuration reference. You need:
 
 - Google application-default credentials and a BigQuery execution project.
-- A Gemini API key and model name; direct Google is the reviewer path.
+- A Gemini API key and model name, or a DeepInfra key for Gemini serving.
 - Replacement API tokens, a dedicated label secret and explicit brand permissions.
 
 The dataset is `bigquery-public-data.thelook_ecommerce`. Live model, embedding
@@ -61,6 +62,10 @@ and fill in your project/model/key:
 ```sh
 cp deployment/live.env.example .env.providers
 ```
+
+For Gemini through DeepInfra, use [deployment/deepinfra.env.example](deployment/deepinfra.env.example)
+instead. The [setup guide](docs/setup.md#gemini-through-deepinfra) lists provider
+and local API URLs.
 
 Then run:
 
