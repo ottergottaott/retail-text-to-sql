@@ -6,7 +6,7 @@
     "passed": 252,
     "failed": 0,
     "errors": 0,
-    "seconds": 53.057,
+    "seconds": 58.592,
     "source": "client-alignment-tests-2026-11-22.xml"
   },
   "new_contracts": [
@@ -43,5 +43,12 @@
     "scripts/setup_docker.py": "bf72fb4750eea0be8705b2478c220f6c0e1a1b5af45bd928320d51c7f0d1241b",
     "start.sh": "01cd5757c317bb77a3c04547b89db8de08df37e858c2024ed340e12bd8efdb2c",
     "Dockerfile": "bdc3d1569580391d668d8adc8fba2a5f8786bc7b4302466beb4571222de6ac47"
+  },
+  "runtime": {
+    "source": "client-runtime-2026-11-22.json",
+    "http_cli_checks_passed": 10,
+    "rerun_checks_passed": 4,
+    "browser_visual_acceptance": "scoped_fixture_report_library_smoke_passed",
+    "mode": "fixture"
   }
 }

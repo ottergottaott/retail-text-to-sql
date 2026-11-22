@@ -1,0 +1,41 @@
+{
+  "mode": "fixture",
+  "checks": {
+    "api_save": true,
+    "report_html": true,
+    "bob_denied": true,
+    "ceo_not_report_owner": true,
+    "preview_does_not_delete": true,
+    "cancel_preserves_report": true,
+    "active_webui_pipe": true,
+    "reports_page": true,
+    "preferences_page": true,
+    "container_cli_lists_saved": true
+  },
+  "report_id": "rep_efab4911bb056919",
+  "conversation_id": "con_b0484c6f227e563e",
+  "live_provider_calls": 0,
+  "browser_visual_review": {
+    "status": "scoped_fixture_report_library_smoke_passed",
+    "checks": {
+      "login": true,
+      "report_library_lists_saved_report": true,
+      "report_iframe_renders": true,
+      "query_evidence_anchor_stays_in_report": true,
+      "sql_expansion_and_highlighting": true,
+      "brand_scope_label": true,
+      "open_tab_renders_saved_report": true
+    },
+    "screenshots": [
+      "screenshots/client-fixture-library-2026-11-22.jpg",
+      "screenshots/client-fixture-sql-2026-11-22.jpg"
+    ],
+    "boundary": "AI browser inspection on fixture data. Report generation/save exercised through HTTP and CLI, not a fresh browser chat cycle. Not human acceptance, live-provider validation, download persistence or cross-user browser validation."
+  },
+  "rerun_checks": {
+    "report_survives_rerun": true,
+    "login_survives_rerun": true,
+    "installed_source_matches_final_code": true,
+    "no_host_bind_mounts": true
+  }
+}

@@ -1,23 +1,25 @@
 {
-  "status": "incomplete",
+  "status": "fixture_startup_and_rerun_verified",
   "scope": "Docker-only reviewer launcher and versioned shared-tone operator command",
   "automated_tests": {
-    "passed": 221,
+    "passed": 252,
     "failed": 0,
-    "seconds": 45.29,
-    "new_config_tests": 5
+    "new_config_tests": 7
   },
   "shell_syntax": "passed",
   "compose_fixture_config": "passed",
   "compose_live_config": "passed",
   "runtime": {
     "image_build": "passed",
-    "fresh_webui_bootstrap": "blocked",
-    "live_credentials_in_container": "untested",
-    "blocker": "Docker Desktop recovered after clearing hung processes. Runtime image build passed. Helper startup then failed with Mounts denied because this repository is absent from the host file-sharing allowlist. An automatic approval review rejected changing that persistent security boundary without explicit user approval; settings were not changed."
+    "fresh_webui_bootstrap": "passed",
+    "rerun_login_report_persistence": "passed",
+    "installed_source_matches_current": "passed",
+    "host_bind_mounts": 0,
+    "live_credentials_in_container": "synthetic mechanics verified previously; real provider authentication pending",
+    "blocker": null
   },
   "provider_calls": 0,
-  "boundary": "221 tests passed before this runtime check. Runtime image build is now verified. Full Compose startup and browser bootstrap remain unverified due to the host file-sharing policy. No paid model or embedding calls were made.",
+  "boundary": "Current fixture image built and bootstrapped in a new Compose project, then rebuilt/restarted with report/login persistence. Ten HTTP/CLI checks and four rerun checks passed. Real live Gemini/BigQuery startup is not established. Docker File Sharing settings were not changed; selected config inputs use docker cp.",
   "cleanup": {
     "volumes_deleted": 0,
     "containers_deleted": 0,
@@ -25,5 +27,6 @@
     "unused_images_reported_reclaimed": "1.24GB",
     "docker_raw_allocated_gib_approx_before": 49,
     "docker_raw_allocated_gib_approx_after": 42
-  }
+  },
+  "source": "client-runtime-2026-11-22.json"
 }
