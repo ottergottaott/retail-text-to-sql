@@ -13,6 +13,7 @@ from sqlglot import exp
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 from .security import PolicyError, label, clean
+from .privacy import guard_demographics
 
 SCHEMA = {
     "products": {"id": "INT", "name": "VARCHAR", "category": "VARCHAR", "brand": "VARCHAR", "department": "VARCHAR", "retail_price": "DOUBLE", "cost": "DOUBLE"},
@@ -82,9 +83,11 @@ def physical_sources(config):
     # Parameter values are supplied separately, never interpolated into SQL.
     def key(field):
         return f"TO_HEX(SHA256(CONCAT(@label_salt, CAST({field} AS STRING))))"
-    scoped_items = f"SELECT * FROM `{dataset}.order_items` WHERE product_id IN UNNEST(@products)"
+    product_filter = "(@all_brands OR brand IN UNNEST(@brands) OR id IN UNNEST(@products))"
+    scoped_products = f"SELECT id,name,category,brand,department,retail_price,cost FROM `{dataset}.products` WHERE {product_filter}"
+    scoped_items = f"SELECT * FROM `{dataset}.order_items` WHERE product_id IN (SELECT id FROM ({scoped_products}))"
     return {
-        "products": f"SELECT id,name,category,brand,department,retail_price,cost FROM `{dataset}.products` WHERE id IN UNNEST(@products)",
+        "products": scoped_products,
         "order_items": f"SELECT {key('id')} AS item_key,{key('order_id')} AS order_key,{key('user_id')} AS customer_key,product_id,status,created_at,sale_price FROM ({scoped_items})",
         "orders": f"SELECT {key('o.order_id')} AS order_key,{key('o.user_id')} AS customer_key,o.status,o.created_at FROM `{dataset}.orders` o WHERE EXISTS (SELECT 1 FROM ({scoped_items}) i WHERE i.order_id=o.order_id)",
         "users": f"SELECT {key('u.id')} AS customer_key,u.state,u.country,CONCAT(CAST(DIV(u.age,10)*10 AS STRING), 's') AS age_band FROM `{dataset}.users` u WHERE EXISTS (SELECT 1 FROM ({scoped_items}) i WHERE i.user_id=u.id)",
@@ -107,6 +110,7 @@ class Analytics:
 
     def execute(self, sql, principal, remaining_seconds=40):
         tree, _ = validate(sql)
+        tree = guard_demographics(tree, self.config.minimum_cohort_size)
         start = time.monotonic()
         if remaining_seconds <= 0:
             raise QueryUnavailable("Query time budget exhausted. No result was inferred.")
@@ -119,6 +123,8 @@ class Analytics:
         bound = bind(tree, physical_sources(self.config))
         wrapped = f"SELECT * FROM ({bound.sql(dialect='bigquery')}) LIMIT {self.config.max_rows + 1}"
         parameters = [bigquery.ArrayQueryParameter("products", "INT64", list(principal.products)), bigquery.ScalarQueryParameter("label_salt", "STRING", label(0, principal.user_id, self.config.label_secret))]
+        parameters.extend([bigquery.ArrayQueryParameter("brands", "STRING", list(principal.brands)),
+            bigquery.ScalarQueryParameter("all_brands", "BOOL", principal.all_brands)])
         cfg = bigquery.QueryJobConfig(query_parameters=parameters, use_legacy_sql=False, maximum_bytes_billed=self.config.maximum_bytes_billed)
         job = None
         deadline = start + remaining_seconds
@@ -172,12 +178,14 @@ class Analytics:
             for table, columns in SCHEMA.items():
                 c.execute(f"CREATE TABLE {table} ({','.join(k+' '+v for k,v in columns.items())})")
             products = [(1, "Trail Jacket", "Outerwear", "North", "Men", 100., 40.), (2, "City Jacket", "Outerwear", "South", "Women", 80., 30.), (3, "Hidden Boots", "Footwear", "West", "Men", 200., 70.)]
+            products.append((4, "New North Hat", "Accessories", "North", "Men", 25., 10.))
+            allowed = {p[0] for p in products if principal.all_brands or p[3] in principal.brands or p[0] in principal.products}
             for p in products:
-                if p[0] in principal.products:
+                if p[0] in allowed:
                     c.execute("INSERT INTO products VALUES (?,?,?,?,?,?,?)", p)
             for i in range(1, 25):
                 pid = (i - 1) % 3 + 1
-                if pid not in principal.products:
+                if pid not in allowed:
                     continue
                 customer = label(i % 6, principal.user_id, self.config.label_secret)
                 order = label(1000 + i, principal.user_id, self.config.label_secret)

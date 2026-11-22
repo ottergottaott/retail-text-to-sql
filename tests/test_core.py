@@ -42,7 +42,9 @@ def test_nested_cte_sources_bound_not_cte_references(config):
     output = bind(tree, physical_sources(config)).sql(dialect="bigquery")
     assert output.count("bigquery-public-data.thelook_ecommerce.order_items") == 1
     assert "UNNEST(@products)" in output
-    assert "thelook_ecommerce.products" not in output
+    # Brand authorization resolves eligible products inside the trusted source;
+    # the model's CTE called products still remains a logical CTE reference.
+    assert output.count("thelook_ecommerce.products") == 1
 
 
 def test_report_confirmation_isolation_restart_replay(config):

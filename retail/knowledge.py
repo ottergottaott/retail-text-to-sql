@@ -1,4 +1,5 @@
 """Versioned curated trios; lexical + vector rankings with scoped RRF fusion."""
+from .security import scope_snapshot, scope_allowed
 import hashlib
 import json
 import math
@@ -84,7 +85,7 @@ class Knowledge:
         for t in self.published():
             if t.get("schema_version") != "safe-v1":
                 continue
-            if t.get("scope") != "shared" and (t.get("scope") != "products" or not t.get("products") or not set(t["products"]) <= set(principal.products)):
+            if t.get("scope") != "shared" and (t.get("scope") not in {"products", "brands"} or not scope_allowed(t, principal)):
                 continue
             text_tokens = tokens(t["question"] + " " + t["report"])
             lexical = len(q & text_tokens) / math.sqrt(max(1, len(q) * len(text_tokens)))

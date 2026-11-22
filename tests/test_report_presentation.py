@@ -23,6 +23,13 @@ def sample():
             "provenance": [{"query_id": "q1", "sql": "SELECT month, revenue FROM order_items", "rows": [{"month": "Jan", "revenue": 98}], "mode": "live", "truncated": True, "job_id": "job-1", "bytes_processed": 1024}]}
 
 
+def test_report_displays_brand_scope_and_ceo_scope():
+    body = {**sample(), 'brands': ['North', 'South'], 'products': []}
+    assert 'Brands: North, South' in ' '.join(Document(render_report(body)['html']).text)
+    body.update(all_brands=True)
+    assert 'All brands' in ' '.join(Document(render_report(body)['html']).text)
+
+
 def test_report_preserves_business_content_and_exposes_exact_sql_evidence():
     view = render_report(sample(), report_id="rep_test", created="2026-11-21T12:00:00Z")
     doc = Document(view["html"])

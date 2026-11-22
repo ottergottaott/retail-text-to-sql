@@ -1,4 +1,5 @@
 """Owned response snapshots bind WebUI feedback to server-produced traces."""
+from .security import scope_snapshot, scope_allowed
 import hashlib
 import json
 from .governance import Governance
@@ -27,7 +28,7 @@ class Learning:
         if not source:
             raise PolicyError('Response reference is unavailable.')
         body={'conversation':result['conversation_id'],'trace_id':result['trace_id'],
-            'products':source['products'],'question':source['question'][:2000],
+            **{k: source[k] for k in ("products", "brands", "all_brands") if k in source},'question':source['question'][:2000],
             'answer':source['answer'][:3000]}
         if existing:
             self.store.replace('webui_turn',principal.user_id,key,body)
@@ -40,7 +41,7 @@ class Learning:
         if body.get('unavailable'):
             raise PolicyError('Response reference is unavailable.')
         self.store.get('conversation',principal.user_id,body['conversation'])
-        if not body.get('products') or not set(body['products']) <= set(principal.products):
+        if not scope_allowed(body, principal):
             raise PolicyError('Response not found or no longer accessible.')
         return record
 

@@ -1,4 +1,5 @@
 """Transactional application state; no report lifetime dependency on a chat."""
+from .security import scope_snapshot, scope_allowed
 import json
 import secrets
 import time
@@ -74,7 +75,7 @@ class Store:
     def append(self, principal, conversation, question, answer, trace):
         body = self.get("conversation", principal.user_id, conversation)["body"]
         body["messages"] = (body["messages"] + [{"question": clean(question), "answer": safe_output(answer),
-            "trace": trace, "products": list(principal.products)}])[-20:]
+            "trace": trace, **scope_snapshot(principal)}])[-20:]
         self.replace("conversation", principal.user_id, conversation, body)
 
     def profile(self, user):
@@ -94,11 +95,11 @@ class Store:
         return p
 
     def reports(self, principal):
-        return [r for r in self.list("report", principal.user_id) if set(r["body"]["products"]) <= set(principal.products)]
+        return [r for r in self.list("report", principal.user_id) if scope_allowed(r["body"], principal)]
 
     def save_report(self, principal, conversation, title, content, provenance):
         self.get("conversation", principal.user_id, conversation)
-        return self.put("report", principal.user_id, {"title": safe_output(title), "content": safe_output(content), "conversation": conversation, "products": list(principal.products), "provenance": provenance})
+        return self.put("report", principal.user_id, {"title": safe_output(title), "content": safe_output(content), "conversation": conversation, **scope_snapshot(principal), "provenance": provenance})
 
     def propose_delete(self, principal, conversation, phrase=None, current=False, ids=None):
         self.get("conversation", principal.user_id, conversation)
@@ -131,7 +132,7 @@ class Store:
             if confirm:
                 for rid, version in p["targets"].items():
                     report = self.get("report", principal.user_id, rid, c)
-                    if report["version"] != version or not set(report["body"]["products"]) <= set(principal.products):
+                    if report["version"] != version or not scope_allowed(report["body"], principal):
                         raise PolicyError("Targets or access changed; request a new preview.")
                 for rid in p["targets"]:
                     c.execute(delete(records).where(and_(records.c.id == rid, records.c.owner == principal.user_id)))

@@ -1,4 +1,5 @@
 """Shared HTTP interface for CLI and a trusted, thin Open WebUI adapter."""
+from .security import scope_snapshot, scope_allowed
 import asyncio
 import hmac
 import json
@@ -123,7 +124,7 @@ def create_app(config=None, model=None):
 
     def owned_report(report_id, principal):
         record = store.get("report", principal.user_id, report_id)
-        if not set(record["body"]["products"]) <= set(principal.products):
+        if not scope_allowed(record["body"], principal):
             raise PolicyError("Report not found or not accessible.")
         return record
 
@@ -144,7 +145,7 @@ def create_app(config=None, model=None):
                 view = render_report(record["body"], report_id, record["created"])
             elif result.get("completed_analysis") and result.get("evidence"):
                 view = render_report({"title": "Retail analysis", "content": result["answer"],
-                    "provenance": result["evidence"], "products": list(principal.products)})
+                    "provenance": result["evidence"], **scope_snapshot(principal)})
             else:
                 return result
             return {**result, "report_view": view}

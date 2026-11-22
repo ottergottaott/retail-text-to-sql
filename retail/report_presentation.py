@@ -156,7 +156,9 @@ def render_report(body, report_id=None, created=None):
             f'<dl><dt>Query job</dt><dd>{_escape(e.get("job_id") or "Not recorded")}</dd><dt>Bytes processed · measured</dt><dd>{byte_text}</dd></dl></details></section>')
     values = dict(title=_escape(title), source=_escape(source), state=state,
         date=_escape(date), report_id=_escape(report_id or "Unsaved analysis"),
-        scope=_escape(", ".join(map(str, body.get("products", []))) or "See query evidence"),
+        scope=_escape("All brands" if body.get("all_brands") else
+            "Brands: " + ", ".join(body["brands"]) if body.get("brands") else
+            ", ".join(map(str, body.get("products", []))) or "See query evidence"),
         query_count=str(len(evidence)), row_count=str(sum(len(e.get("rows") or []) for e in evidence)),
         analysis=analysis, chart=_chart(evidence), queries="".join(queries) or '<p class="muted">No query evidence recorded.</p>')
     template = Template((Path(__file__).parent / "templates/report.html").read_text())

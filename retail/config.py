@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     retail_mode: str = "fixture"
     api_tokens_json: str = '{"alice-local-token":"alice","bob-local-token":"bob"}'
     entitlements_json: str = '{"alice":[1,2],"bob":[3]}'
+    brand_access_json: str = ""
+    minimum_cohort_size: int = Field(default=5, ge=2, le=10000)
+    churn_window_days: int = Field(default=90, ge=1, le=3650)
     adapter_secret: str = ""
     webui_users_json: str = "{}"
     gemini_api_key: str = ""

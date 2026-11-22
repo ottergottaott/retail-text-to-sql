@@ -1,12 +1,15 @@
 """One LangGraph per application; all mutable turn state is invocation-local."""
+from .security import scope_snapshot, scope_allowed
 import json
 import time
 import threading
 import hashlib
+import datetime as dt
 from weakref import WeakValueDictionary
 from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
-from .analytics import Analytics, QueryError, QueryUnavailable, SCHEMA, FUNCTIONS
+from .analytics import Analytics, QueryError, QueryUnavailable, SCHEMA, FUNCTIONS, validate
+from sqlglot import exp
 from .knowledge import Knowledge
 from .model import Decision, FixtureModel, GeminiModel, ModelError
 from .security import PolicyError, FORBIDDEN_REQUEST, clean, safe_output
@@ -97,8 +100,7 @@ class Agent:
             persona = persona[-1]["body"] if persona else {"version": 0, "tone": "Clear, practical, professional."}
             # A user's entitlements can shrink between turns. Legacy history with
             # no recorded scope is excluded rather than assumed safe.
-            history = [m for m in conversation["messages"] if m.get("products") and
-                set(m["products"]) <= set(s["principal"].products)]
+            history = [m for m in conversation["messages"] if scope_allowed(m, s["principal"])]
             bounded_history = []
             history_size = 0
             for message in reversed(history[-8:]):
@@ -109,12 +111,21 @@ class Agent:
                 history_size += size
             prior_analysis = conversation.get("last_analysis")
             if not (prior_analysis and prior_analysis.get("provenance") and
-                    prior_analysis.get("products") and
-                    set(prior_analysis["products"]) <= set(s["principal"].products)):
+                    scope_allowed(prior_analysis, s["principal"])):
                 prior_analysis = None
             context = {"question": s["question"], "history": bounded_history,
                 "prior_analysis": prior_analysis,
                 "schema": SCHEMA,
+                "business_defaults": {"revenue_statuses": ["Complete"],
+                    "revenue_definition": "Sum sale_price for Complete items; other statuses excluded. Not net profit.",
+                    "churn_window_days": self.config.churn_window_days,
+                    "churn_population": "Previously purchasing customers of authorized brands only; no completed purchase within the window.",
+                    "as_of_date": dt.datetime.now(dt.timezone.utc).date().isoformat(),
+                    "user_analytical_override_allowed": True,
+                    "instruction": "Use explicit user definitions when supplied; state the actual definition, as-of date and spend/churn denominator in the answer."},
+                "privacy_policy": {"minimum_distinct_customers": self.config.minimum_cohort_size,
+                    "demographics": "Grouped aggregates only. Flat SELECT/GROUP BY with direct grouping columns; no individual demographics, demographic-filtered customer rankings, nested queries or windows. Executor adds COUNT DISTINCT cohort guard.",
+                    "user_override_allowed": False},
                 "sql_capabilities": {"dialect": "bigquery", "allowed_functions": sorted(FUNCTIONS),
                     "conditional_count_example": "SUM(CASE WHEN condition THEN 1 ELSE 0 END)",
                     "month_bucket_example": "DATE_TRUNC(DATE(created_at), MONTH)",
@@ -123,8 +134,9 @@ class Agent:
                 "preferences": profile, "persona": persona,
                 "trios": trios, "authorized_products": list(s["principal"].products),
                 "execution_scope": {"enforcement": "executor_bound_views",
-                    "products": list(s["principal"].products),
+                    **scope_snapshot(s["principal"]),
                     "note": "All logical tables are already restricted by the trusted executor. "
+                        "Brand/CEO or legacy product scope is bound outside the model. "
                         "Absence of a product predicate in logical SQL does not imply unscoped results."},
                 "mode": self.config.retail_mode, "tools": []}
             trace.event("context_versions", preference_version=profile["version"],
@@ -139,7 +151,7 @@ class Agent:
         if len(json.dumps(context, default=str)) > self.config.max_context_chars:
             return {"stop": True, "outcome": "budget_exhausted",
                 "answer": "The analysis context exceeds its size budget. Request a smaller aggregation or start a narrower analysis."}
-        s["trace"].event("model_context", system_prompt_version="retail-v8",
+        s["trace"].event("model_context", system_prompt_version="retail-v9-client-policy",
             model_call_id=f"{s['trace'].id}:model:{s['calls'] + 1}",
             context_digest=hashlib.sha256(json.dumps(context, sort_keys=True, default=str).encode()).hexdigest(),
             tool_results=len(s["tools"]))
@@ -184,7 +196,7 @@ class Agent:
             return {"stop": True, "outcome": "budget_exhausted",
                     "answer": "The report review exceeds the context budget. No completed report was saved."}
         call_id = f"{s['trace'].id}:model:{s['calls'] + 1}"
-        s["trace"].event("model_context", system_prompt_version="retail-v8", phase="report_review",
+        s["trace"].event("model_context", system_prompt_version="retail-v9-client-policy", phase="report_review",
                          model_call_id=call_id, context_digest=hashlib.sha256(
                              json.dumps(context, sort_keys=True, default=str).encode()).hexdigest())
         try:
@@ -229,6 +241,10 @@ class Agent:
                 if s["queries"] >= self.config.max_queries:
                     return {"stop": True, "outcome": "budget_exhausted", "answer": "The query budget was reached. Please narrow the analysis."}
                 try:
+                    query_tree, _ = validate(d.sql)
+                    demographic = any(t.name == "users" for t in query_tree.find_all(exp.Table))
+                    if s["evidence"] and (demographic or any(e.get("demographic") for e in s["evidence"])):
+                        raise PolicyError("Demographic reports support one grouped query per answer, without separate totals or individual lists. Request a single safe aggregate.")
                     result = self.analytics.execute(d.sql, p, self.remaining(s))
                 except QueryError as e:
                     trace.event("query", outcome="failed", retry_count=s["repairs"], error_category="QueryError")
@@ -237,12 +253,17 @@ class Agent:
                     return {"queries": s["queries"] + 1, "repairs": s["repairs"] + 1,
                         "tools": s["tools"] + [{"action": "query", "error": str(e)}]}
                 result["query_id"] = f"q{s['queries'] + 1}"
+                result["demographic"] = demographic
                 trace.event("query", outcome="completed", query_id=result["query_id"],
                     job_id=result["job_id"], bytes_processed=result["bytes_processed"],
                     estimated_bytes=result.get("estimated_bytes"), rows=len(result["rows"]),
                     sql_digest=hashlib.sha256(result["sql"].encode()).hexdigest(),
                     truncated=result["truncated"], seconds=result["seconds"], retry_count=s["repairs"])
-                return {"queries": s["queries"] + 1, "evidence": s["evidence"] + [result],
+                # Do not combine fresh demographic releases with prior totals in
+                # model context. Cross-question inference remains design scope.
+                context = ({**s["context"], "history": [], "prior_analysis": None}
+                           if demographic else s["context"])
+                return {"context": context, "queries": s["queries"] + 1, "evidence": s["evidence"] + [result],
                     "tools": s["tools"] + [{"action": "query", "result": result}]}
             if d.action == "schema":
                 return {"stop": True, "answer": "Approved analytical schema (customer identifiers are pseudonymous):\n\n" +
@@ -272,7 +293,7 @@ class Agent:
                             "instruction": "Finish the analysis with insights and action items; it will then be saved."}}]}
                 if not previous:
                     raise PolicyError("Complete an analysis in this conversation before saving a report.")
-                if not previous.get("products") or not set(previous["products"]) <= set(p.products):
+                if not scope_allowed(previous, p):
                     raise PolicyError("Access changed since this analysis. Run it again before saving.")
                 rid = self.store.save_report(p, s["conversation"], d.title, previous["content"], previous["provenance"])
                 return {"stop": True, "management": {"report_id": rid}, "answer": f"Saved report **{d.title}** (`{rid}`)."}
@@ -326,7 +347,7 @@ class Agent:
                     if final.get("completed_analysis"):
                         body = self.store.get("conversation", principal.user_id, conversation)["body"]
                         body["last_analysis"] = {"content": safe_output(answer), "provenance": final["evidence"],
-                            "products": list(principal.products)}
+                            **scope_snapshot(principal)}
                         self.store.replace("conversation", principal.user_id, conversation, body)
                         if final.get("save_title"):
                             rid = self.store.save_report(principal, conversation, final["save_title"], answer, final["evidence"])
