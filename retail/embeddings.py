@@ -13,7 +13,8 @@ class GeminiEmbeddings:
         from google.genai import types
         client = genai.Client(api_key=self.config.gemini_api_key,
             http_options=types.HttpOptions(timeout=int(max(0.1, min(timeout, 15)) * 1000),
-                retry_options=types.HttpRetryOptions(attempts=1)))
+                retry_options=types.HttpRetryOptions(attempts=1),
+                base_url=self.config.gemini_base_url))
         try:
             result = client.models.embed_content(model=self.version, contents=texts,
                 config=types.EmbedContentConfig(task_type=task, output_dimensionality=768))

@@ -17,14 +17,18 @@ class Settings(BaseSettings):
     adapter_secret: str = ""
     webui_users_json: str = "{}"
     gemini_api_key: str = ""
+    gemini_base_url: str = "https://generativelanguage.googleapis.com"
     gemini_model: str = ""
-    llm_provider: Literal["gemini", "deepinfra"] = "gemini"
+    llm_provider: Literal["gemini", "deepinfra", "openai_compatible"] = "gemini"
     embedding_provider: Literal["gemini", "deepinfra", "none"] = "gemini"
     deepinfra_api_key: str = ""
     deepinfra_base_url: str = "https://api.deepinfra.com/v1/openai"
     deepinfra_model: str = "google/gemini-3.7-flash"
     deepinfra_review_model: str = ""
     deepinfra_embedding_model: str = "Qwen/Qwen3-Embedding-8B"
+    openai_compatible_api_key: str = ""
+    openai_compatible_base_url: str = ""
+    openai_compatible_model: str = ""
     embedding_model: str = "gemini-embedding-001"
     retrieval_min_similarity: float = 0.65
     retrieval_lexical_min_similarity: float = Field(default=0.60, ge=0, le=1)
@@ -53,6 +57,8 @@ class Settings(BaseSettings):
                 raise ValueError("Google Gemini requires GEMINI_API_KEY and GEMINI_MODEL")
             if self.llm_provider == "deepinfra" and not all([self.deepinfra_api_key, self.deepinfra_model]):
                 raise ValueError("DeepInfra requires DEEPINFRA_API_KEY and DEEPINFRA_MODEL")
+            if self.llm_provider == "openai_compatible" and not all([self.openai_compatible_api_key, self.openai_compatible_base_url, self.openai_compatible_model]):
+                raise ValueError("OpenAI-compatible provider requires OPENAI_COMPATIBLE_API_KEY, OPENAI_COMPATIBLE_BASE_URL and OPENAI_COMPATIBLE_MODEL")
             self.validate_embeddings()
             if self.label_secret == "local-fixture-label-secret":
                 raise ValueError("Live mode requires a dedicated LABEL_SECRET")

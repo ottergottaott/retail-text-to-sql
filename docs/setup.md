@@ -272,3 +272,17 @@ remains running. The live API and SQLite application database are on the host
 using the launch above; do not start the fixture API container on top of it.
 WebUI is http://127.0.0.1:3000 and forwards to host port 8001.
 See `evaluation/webui-live-grounded-2026-11-21.json` for the verified browser path.
+
+### OpenAI-compatible gateways
+
+For WikiVibe or another `/v1` gateway, set `LLM_PROVIDER=openai_compatible` and
+provide `OPENAI_COMPATIBLE_BASE_URL`, `OPENAI_COMPATIBLE_API_KEY` and
+`OPENAI_COMPATIBLE_MODEL`. This path uses the same strict JSON decision schema as
+the DeepInfra adapter. It does not require a Gemini SDK endpoint.
+
+```env
+LLM_PROVIDER=openai_compatible
+OPENAI_COMPATIBLE_BASE_URL=https://api.wikivibe.dev/v1
+OPENAI_COMPATIBLE_API_KEY=...
+OPENAI_COMPATIBLE_MODEL=gemini-4-neon
+```

@@ -139,7 +139,8 @@ class GeminiModel:
         # One bounded attempt; orchestration owns the retry budget.
         client = genai.Client(api_key=self.config.gemini_api_key,
             http_options=types.HttpOptions(timeout=max(1, int(min(30, remaining_seconds) * 1000)),
-                retry_options=types.HttpRetryOptions(attempts=1)))
+                retry_options=types.HttpRetryOptions(attempts=1),
+                base_url=self.config.gemini_base_url))
         try:
             response = client.models.generate_content(model=self.config.gemini_model,
                 contents=json.dumps(context, default=str),

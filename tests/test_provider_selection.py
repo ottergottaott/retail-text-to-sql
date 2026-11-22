@@ -77,3 +77,13 @@ def test_agent_uses_deepinfra_and_records_actual_model_in_trace(tmp_path, monkey
         assert usage["input_tokens"] == 10
     finally:
         store.engine.dispose()
+
+def test_openai_compatible_gateway_has_its_own_credentials_and_model():
+    settings = config(retail_mode="live", llm_provider="openai_compatible", embedding_provider="none",
+        openai_compatible_api_key="unit-key", openai_compatible_base_url="https://gateway.example/v1",
+        openai_compatible_model="gemini-4-neon", google_cloud_project="unit-project",
+        label_secret="unit-secret", api_tokens_json='{"unit-token":"alice"}')
+    settings.validate_live()
+    from retail.providers import model_for
+    from retail.deepinfra import DeepInfraModel
+    assert isinstance(model_for(settings), DeepInfraModel)
