@@ -1,0 +1,7 @@
+# Optional persistent Reports navigation. Use together with compose.yaml.
+services:
+  webui:
+    image: retail-webui-reports:0.13.4
+    build:
+      context: .
+      dockerfile: integrations/webui/Dockerfile

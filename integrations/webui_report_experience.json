@@ -1,0 +1,9 @@
+{
+  "name": "Retail Intelligence",
+  "suggestions": [
+    {"title": ["Revenue overview", "Completed sales by product"], "content": "Analyze all-history completed-item revenue and completed-item counts by authorized product. Include a table, limitations and practical next steps. Save the report as Revenue overview."},
+    {"title": ["Returns & status", "Understand the item lifecycle"], "content": "Compare item counts by status for authorized products across all history. Calculate Returned / (Complete + Returned), explain the denominator and save the report as Returns and status."},
+    {"title": ["Explore saved reports", "Reopen analysis from any chat"], "content": "List my saved reports with their titles and report IDs."},
+    {"title": ["Monthly trends", "Revenue over time"], "content": "Show monthly completed-item revenue for authorized products across all history. Explain missing periods and small sample limitations. Save the report as Monthly revenue trends."}
+  ]
+}

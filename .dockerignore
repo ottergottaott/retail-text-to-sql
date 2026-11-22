@@ -1,0 +1,11 @@
+.env*
+.local
+.venv
+__pycache__
+.pytest_cache
+*.db*
+*.jsonl
+.git
+tests
+docs
+openspec
