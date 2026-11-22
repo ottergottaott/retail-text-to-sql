@@ -3,6 +3,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_CACHE_DIR=/tmp/uv-cache
 RUN pip install --no-cache-dir uv==0.9.11
 COPY pyproject.toml uv.lock ./
+# Keep dependency installation cached when only application code changes.
+RUN uv sync --frozen --no-dev --no-install-project --no-cache
 COPY retail ./retail
 COPY evaluation ./evaluation
 COPY scripts ./scripts

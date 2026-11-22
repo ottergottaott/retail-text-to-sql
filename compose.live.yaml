@@ -1,8 +1,12 @@
-# Used only by start.sh --live; the host file is never copied into the image.
+# Credential files are copied through Docker API into this private volume.
 services:
   api:
     volumes:
-      - type: bind
-        source: ${RETAIL_GOOGLE_CREDENTIALS:?Pass --google-credentials to start.sh}
-        target: /run/secrets/google.json
+      - type: volume
+        source: google-credentials
+        target: /run/secrets
         read_only: true
+volumes:
+  google-credentials:
+    external: true
+    name: ${RETAIL_CREDENTIAL_VOLUME:?Use start.sh for credential setup}

@@ -2,7 +2,6 @@
 # Docker and Compose v2 are the only host dependencies (macOS/Linux/WSL).
 set -euo pipefail
 cd "$(dirname "$0")"
-ROOT="$PWD"
 project=retail-demo
 mode=fixture
 credentials=
@@ -65,8 +64,7 @@ if [[ "$mode" == live ]]; then
     if [[ "$action" == start ]]; then
         [[ -f "$credentials" && -f "$google" ]] || { echo 'Live startup needs --env-file and --google-credentials files.' >&2; exit 2; }
     fi
-    # For stop/tone Compose still needs a valid interpolation value, without mounting it.
-    export RETAIL_GOOGLE_CREDENTIALS="$ROOT/.local/docker-$project/google.json"
+    export RETAIL_CREDENTIAL_VOLUME="$project-google-credentials"
     compose+=(-f compose.live.yaml)
 elif [[ -n "$credentials" || -n "$google" ]]; then
     echo 'Credential files require --live.' >&2; exit 2
@@ -82,17 +80,45 @@ if [[ "$action" == tone ]]; then
 fi
 echo 'Building the Docker runtime (first launch downloads dependencies)...'
 docker build -t "$RETAIL_API_IMAGE" .
-setup=(--output "/workspace/$RETAIL_ENV_FILE")
-mounts=(-v "$ROOT:/workspace")
+helper=
+env_tmp=
+cleanup() {
+    if [[ -n "$helper" ]]; then docker rm -f "$helper" >/dev/null 2>&1 || true; fi
+    if [[ -n "$env_tmp" ]]; then rm -f "$env_tmp"; fi
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+# Only selected config files cross the Docker API. No repository/host bind mount,
+# Docker socket mount, or permanent Desktop file-sharing change is needed.
+copy_env_back() {
+    umask 077
+    env_tmp="$(mktemp "$RETAIL_ENV_FILE.tmp.XXXXXX")"
+    docker cp "$helper:/tmp/deployment.env" "$env_tmp"
+    chmod 600 "$env_tmp"
+    mv "$env_tmp" "$RETAIL_ENV_FILE"
+    env_tmp=
+}
+setup=(--output /tmp/deployment.env)
+mounts=(--user 0:0)
 if [[ "$mode" == live ]]; then
-    source_env="$(cd "$(dirname "$credentials")" && pwd)/$(basename "$credentials")"
-    source_google="$(cd "$(dirname "$google")" && pwd)/$(basename "$google")"
-    mounts+=(-v "$source_env:/run/provider.env:ro" -v "$source_google:/run/google-input.json:ro")
-    setup+=(--live --credentials /run/provider.env --google-credentials /run/google-input.json
-        --google-output "/workspace/.local/docker-$project/google.json")
+    mounts+=(-v "$RETAIL_CREDENTIAL_VOLUME:/google-runtime")
+    setup+=(--live --credentials /tmp/provider.env --google-credentials /tmp/google-input.json
+        --google-output /google-runtime/google.json --google-owner 10001)
 fi
-docker run --rm --network none --user "$(id -u):$(id -g)" "${mounts[@]}" \
-    --entrypoint python "$RETAIL_API_IMAGE" /app/scripts/setup_docker.py "${setup[@]}"
+helper="$project-config-$$"
+docker create --name "$helper" --network none "${mounts[@]}" \
+    --entrypoint python "$RETAIL_API_IMAGE" /app/scripts/setup_docker.py "${setup[@]}" >/dev/null
+if [[ -f "$RETAIL_ENV_FILE" ]]; then docker cp "$RETAIL_ENV_FILE" "$helper:/tmp/deployment.env"; fi
+if [[ "$mode" == live ]]; then
+    docker cp "$credentials" "$helper:/tmp/provider.env"
+    docker cp "$google" "$helper:/tmp/google-input.json"
+fi
+docker start -a "$helper"
+[[ "$(docker inspect --format '{{.State.ExitCode}}' "$helper")" == 0 ]] || { echo 'Configuration setup failed.' >&2; exit 1; }
+copy_env_back
+docker rm "$helper" >/dev/null
+helper=
 echo 'Starting PostgreSQL, API and WebUI...'
 "${compose[@]}" up --build -d --wait --wait-timeout 300
 echo 'Configuring the dedicated WebUI and report pages...'
@@ -106,9 +132,16 @@ for ((attempt=0; attempt<30; attempt++)); do
     sleep 2
 done
 [[ "$ready" == true ]] || { echo 'WebUI is not ready; rerun start.sh to retry setup.' >&2; exit 1; }
-"${compose[@]}" run --rm --no-deps --user "$(id -u):$(id -g)" -v "$ROOT:/workspace" \
-    --entrypoint python api /app/scripts/bootstrap_webui.py \
-    --env-file "/workspace/$RETAIL_ENV_FILE" --webui-url http://webui:8080 --compose-local --reports
+helper="$project-bootstrap-$$"
+docker create --name "$helper" --network "${project}_default" --user 0:0 \
+    --entrypoint python "$RETAIL_API_IMAGE" /app/scripts/bootstrap_webui.py \
+    --env-file /tmp/deployment.env --webui-url http://webui:8080 --compose-local --reports >/dev/null
+docker cp "$RETAIL_ENV_FILE" "$helper:/tmp/deployment.env"
+docker start -a "$helper"
+[[ "$(docker inspect --format '{{.State.ExitCode}}' "$helper")" == 0 ]] || { echo 'WebUI setup failed.' >&2; exit 1; }
+copy_env_back
+docker rm "$helper" >/dev/null
+helper=
 # Load the WebUI identity mapping and newly registered native routes.
 "${compose[@]}" up -d --force-recreate --wait --wait-timeout 300 api webui
 echo "Ready ($mode): http://localhost:$RETAIL_WEBUI_PORT"
