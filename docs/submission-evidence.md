@@ -5,14 +5,14 @@ Updated on 22 November 2026. Results are local observations, not production guar
 Current entry point: [one-page review summary](review-summary.html),
 [source-backed metrics](../evaluation/submission-metrics-2026-11-22.json) and
 [browser acceptance](../evaluation/browser-acceptance-2026-11-22.json).
-The latest regression suite passed 216/216 tests. Earlier dated summaries retain their original counts.
+The latest regression suite passed 252/252 tests; see [client-alignment evidence](../evaluation/client-alignment-2026-11-22.json). Earlier dated summaries retain their original counts.
 DeepSeek independently audited the metric claims and compared the new live
 WebUI report with its embedded SQL evidence; it did not execute SQL or inspect
 screenshots. Both critiques are retained in `evaluation/deepseek-*-2026-11-22.json`.
 
 | Area | Evidence | What it establishes |
 | --- | --- | --- |
-| Regression suite | 216 passing tests, including experiment infrastructure and CLI integration | Controlled safety, workflow, provider-contract and learning mechanics |
+| Regression suite | 252 passing tests, including brand scope, demographic privacy, experiment infrastructure and CLI integration | Controlled safety, workflow, provider-contract and learning mechanics |
 | Prompt iteration | `evaluation/prompt-iteration-3-2026-11-22/` | Narrow save-state improvement: complete paired generation/scoring, DeepSeek critique, live-model/fixture-SQL workflow checks; distinct Ragas contracts |
 | WebUI feedback/preferences | `evaluation/learning-loop-acceptance-2026-11-21.json` | Actual native Actions, owned response mapping, unreviewed feedback and persisted preferences |
 | Reviewed improvement | `evaluation/learning-loop-live-v2-2026-11-21.json` | Real Gemini/Qwen calls; one synthetic new definition, reviewed publication/indexing, correct fixture SQL result |
@@ -31,6 +31,10 @@ The learning demo's initial result is retained alongside v2: “Show products”
 returned a correct catalogue list but failed the exact count-row oracle. V2
 explicitly requested a count column; this prompt change is disclosed, rather
 than presented as an unchanged repeated benchmark. No broad learning gain is claimed.
+
+The latest client-alignment changes have controlled fixture/SDK-contract coverage.
+Earlier live SQL, judge and browser evidence predates the new brand/cohort policy
+and does not establish live acceptance of retail-v9-client-policy.
 
 ## Remaining checks
 

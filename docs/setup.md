@@ -26,12 +26,10 @@ loopback. Generated configuration files contain secrets; do not share or commit
 them. A fixture launch makes no model/BigQuery calls and demonstrates mechanics,
 not live answer quality. See [the walkthrough](../START_HERE.md).
 
-### Restricted Docker Desktop file sharing
-
-If startup reports `Mounts denied`, allow the repository directory in Docker
-Desktop → Settings → Resources → File Sharing, then rerun the command. For live
-setup, the supplied credential files must also be in allowed locations. This is
-a host Docker setting; the launcher does not change it automatically.
+The launcher transfers only the generated configuration and, in live mode,
+the selected provider env/Google JSON files through `docker cp`. It never mounts
+the host repository or Docker socket into a container and does not modify
+Docker Desktop File Sharing. Temporary setup containers are removed on exit.
 
 ## Open WebUI Pipe
 
@@ -79,12 +77,37 @@ verified in a local browser with the fixture backend.
 
 ## Live Gemini and BigQuery
 
+### Credentials checklist
+
+Two independent credentials are required: a Gemini API key does not authenticate
+BigQuery. Create the model key in [Google AI Studio](https://aistudio.google.com/apikey).
+For BigQuery, use a Google Cloud execution project with the BigQuery API enabled
+and an identity allowed to create query jobs (`roles/bigquery.jobUser`); source
+tables must be readable. The source dataset is public, but jobs run in your project.
+No write access to the source tables is required.
+
+For local user credentials, install the Google Cloud CLI and run
+`gcloud auth application-default login`. Pass the resulting ADC JSON file to
+`--google-credentials` (on macOS/Linux it is normally
+`~/.config/gcloud/application_default_credentials.json`). `gcloud auth login`
+alone is not the application-default credential setup. Alternatively supply an
+existing approved service-account/external-account credential JSON. Do not
+commit credential files or create a broad administrator key for this demo.
+See Google's [BigQuery authentication](https://cloud.google.com/bigquery/docs/authentication)
+and [IAM role reference](https://cloud.google.com/bigquery/docs/access-control).
+
+Fill `GOOGLE_CLOUD_PROJECT`, `GEMINI_API_KEY`, and an enabled `GEMINI_MODEL` in
+`.env.providers`. Keep `EMBEDDING_PROVIDER=none` for the first launch. If the model
+is unavailable or lacks quota, chat returns a dependency error rather than
+inventing a result. Valid JSON and successful startup do not prove usable cloud
+permissions/quota; verify one live question before review.
+
 BigQuery can be checked independently before Gemini is configured: see
 [standalone BigQuery verification](bigquery-verification.md). The default
 verifier invocation loads no environment settings and makes no provider calls.
 
 Copy `deployment/live.env.example` to `.env.providers` (ignored by Git), fill in
-the execution project, provider key and model ID, and set intended product access.
+the execution project, provider key and model ID, and set intended brand access.
 The supplied example uses lexical retrieval to avoid embedding calls during setup.
 Then run:
 
@@ -92,16 +115,22 @@ Then run:
 ./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
 ```
 
-Use your own ADC or service-account credential file. The launcher puts a runtime copy in a private `0700` directory under
-`.local/docker-retail-live/` and mounts only that file read-only at `/run/secrets/google.json` and sets `GOOGLE_APPLICATION_CREDENTIALS`.
-The original credential file and its permissions are unchanged. The copy is
-readable by the non-root API inside the container; its host directory remains private.
-The launcher generates stable application tokens, label/adapter secrets and local login
-credentials in `.env.docker-retail-live`. The input env file supplies provider
+Use your own ADC or service-account credential file. The launcher copies it
+through the Docker API into the project-specific `retail-live-google-credentials`
+volume. Its directory is `0700`, its file is `0600`, and both belong to the
+non-root API identity. The API mounts the volume read-only at `/run/secrets`
+and uses `GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/google.json`.
+The original file and its permissions are unchanged. Secrets are never added
+to the image; no host directory sharing is needed. Temporary setup containers
+containing config inputs are removed, including after a failed setup.
+The launcher generates stable application tokens, label/adapter secrets and
+local login credentials in `.env.docker-retail-live`. The input env file supplies provider
 settings, budgets and entitlements; it does not replace the generated database,
 login, label or adapter secrets. On rerun, supplied provider settings update;
 local identities and stored reports remain. Fixture/live modes need separate
-project names and available ports. Stop with `./start.sh --project retail-live --stop`.
+project names and available ports. The private credential volume persists across
+restarts and is external to Compose; removing application containers does not
+delete it. Stop with `./start.sh --project retail-live --stop`.
 
 No evaluation or corpus indexing is run by the launcher. Live questions and
 explicit embedding indexing can incur charges. Startup configuration validation
@@ -116,7 +145,7 @@ GEMINI_MODEL and GEMINI_API_KEY. Alternatively use LLM_PROVIDER=deepinfra,
 DEEPINFRA_MODEL=google/gemini-3.5-flash and DEEPINFRA_API_KEY. Choose embeddings
 independently with EMBEDDING_PROVIDER=gemini|deepinfra|none; Qwen on DeepInfra
 uses DEEPINFRA_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B. The backend validates these
-requirements before startup. Restrict product entitlements deliberately. The GCP
+requirements before startup. Set BRAND_ACCESS_JSON deliberately; the legacy ENTITLEMENTS_JSON product-ID path is for old tests/deployments. The GCP
 identity needs BigQuery job creation in the billing/execution project and public
 dataset read access. Queries dry-run and enforce maximum bytes billed, timeout,
 query count and returned-row budgets. Public data freshness is outside this app's
@@ -140,7 +169,10 @@ Changing provider/model/dimensions/instruction requires reindexing. The importer
 validates the entire file before writing. Evaluation CLI imports into an
 isolated store and does not change the running application's knowledge.
 
-## Current integration status — 2026-11-21
+## Historical integration status — 2026-11-21
+
+These measurements predate the latest brand/cohort policy and do not establish
+its live acceptance. See the consolidated acceptance spec for current requirements.
 
 See [START_HERE](../START_HERE.md) for the reviewer installation flow and
 [WebUI integration](webui-integration.md) for component responsibilities and

@@ -1,3 +1,7 @@
+Consolidated scope authority: `docs/acceptance-spec.md` v1.1. Learning and persona
+quality gates are design-only; runtime safety, oversight, resilience and
+observability are mandatory. Historical product-scoped evidence remains historical.
+
 ## ADDED Requirements
 
 ### Requirement: Grounded retail analysis
@@ -19,7 +23,7 @@ a product-scoped safe schema and support customer, product and temporal analysis
 - **THEN** the application withholds that answer and does not record analytical success.
 
 ### Requirement: Policy enforcement
-The application SHALL resolve identity and product scope outside the model,
+The application SHALL resolve identity and brand/CEO scope outside the model,
 exclude disallowed PII before model context, and permit only bounded read queries.
 
 #### Scenario: SQL escape attempt
@@ -56,8 +60,8 @@ and ground current conclusions in actual query results.
 
 #### Scenario: Reviewed update
 - **WHEN** feedback suggests a new analytical approach
-- **THEN** publication requires sanitization, reviewer approval and recorded
-  passing evaluation, with version/provenance and rollback available.
+- **THEN** the production design requires sanitization and recorded passing automatic
+  evaluation gates, with human review for exceptions, with version/provenance and rollback available.
 
 #### Scenario: Response-linked WebUI feedback
 - **WHEN** a signed-in user submits feedback from an assistant response
@@ -77,7 +81,8 @@ and ground current conclusions in actual query results.
   explicitly mark the relevance gate unavailable rather than claim gated retrieval.
 
 ### Requirement: Personalization and configurable persona
-Presentation preferences SHALL persist per user; persona SHALL be versioned and
+Presentation preferences SHALL persist per user; the design SHALL apply learned
+preferences automatically with user override/reset; persona SHALL be versioned and
 editable without application redeployment, subordinate to security policy.
 
 #### Scenario: Preference isolation

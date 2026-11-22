@@ -27,7 +27,7 @@ VIEWS = [
     ], [("context", "plan"), ("plan", "tool"), ("tool", "plan"), ("plan", "answer")], 340),
     ("Storage", "Storage and independent lifecycles", "SQL stores application records; raw transactions remain in BigQuery.", [
         n("db", "Application database", "PostgreSQL / local SQLite", 335, 20, "Prototype uses a generic records table. Production should normalize, index and migrate independently owned data with explicit retention."),
-        n("conversations", "Conversations", "History + product scope", 20, 180, "Owner-scoped history and last completed analysis. Old context is filtered when access shrinks. No mid-turn graph checkpointing."),
+        n("conversations", "Conversations", "History + brand scope", 20, 180, "Owner-scoped history and last completed analysis. Old context is filtered when access shrinks. No mid-turn graph checkpointing."),
         n("reports", "Reports", "Saved content + provenance", 335, 180, "Independent report IDs, owner, scope and source conversation; exact versioned deletion proposals and minimal audit."),
         n("versions", "Versioned records", "Knowledge / persona / review", 650, 180, "Preferences, curated trios, embedding cache, feedback, candidates, evaluations and persona versions."),
         n("bq", "BigQuery", "External transaction store", 20, 340, "Not a local replica. Only trusted scoped projections may enter the agent's evidence."),
@@ -50,10 +50,10 @@ VIEWS = [
         n("transaction", "Transaction", "Recheck → delete → audit", 335, 220, "Claim pending proposal, revalidate scope and versions, delete only exact target IDs and record the actual outcome atomically."),
         n("outcome", "Outcome", "Deleted / cancelled / denied", 20, 220, "Replay cannot delete new reports. Report-library deletion does not claim erasure of prior chat copies or backups."),
     ], [("select", "preview"), ("preview", "proposal"), ("proposal", "confirm"), ("confirm", "transaction"), ("transaction", "outcome")], 340),
-    ("Learning", "Reviewed system improvement", "Personal preferences are stored separately; system changes require review and evaluation.", [
+    ("Learning", "Reviewed system improvement", "Personal preferences are stored separately; production system changes require automatic evaluation gates; the optional demo remains operator-driven.", [
         n("feedback", "Feedback", "Owned turn reference", 20, 20, "User feedback remains untrusted. It may suggest a better method but never directly changes published knowledge or policy."),
         n("candidate", "Candidate", "Sanitized analyst example", 230, 20, "Operator links a trio candidate to feedback and records origin. Synthetic demonstrations are explicitly identified."),
-        n("evaluation", "Evaluation", "Independent expected results", 440, 20, "Run reviewer-authored SQL cases for configured users. Production adds held-out retrieval, safety, report and UX gates."),
+        n("evaluation", "Evaluation", "Independent expected results", 440, 20, "Run reviewer-authored SQL cases for configured users. Production adds held-out retrieval, safety, report and UX gates with automated low-risk publication and exception review."),
         n("publication", "Publication", "Reviewer + new version", 650, 20, "Passing evaluation permits publication with provenance. Retain prior versions for reviewed rollback."),
         n("index", "Index", "Versioned document vectors", 650, 220, "Explicitly rebuild changed approved documents. A stale model/content/version cache entry cannot silently serve a new document."),
         n("retrieval", "Retrieval", "Next-turn approved context", 440, 220, "New published knowledge can change the examples selected for future questions; that alone is not proof of better generated reports."),

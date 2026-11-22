@@ -75,8 +75,8 @@ With the Docker API running:
 docker compose -p retail-demo --env-file .env.docker-retail-demo exec -e RETAIL_API_TOKEN=alice-local-token api retail --once 'monthly revenue' --json
 ```
 
-Use `bob-local-token` to exercise a separate fixture user. Alice is authorized for
-products 1/2; Bob for product 3. These are local demo tokens, not production credentials.
+Use `bob-local-token` to exercise a separate fixture user. Alice manages
+North/South; Bob manages West; `ceo-local-token` has all-brand access. These are local demo tokens, not production credentials.
 Omit `--once ... --json` for the interactive CLI, or pass `--conversation ID`
 between invocations. Developer tests use `uv sync --frozen --extra dev` and
 `uv run pytest -q`; uv is optional for reviewer startup.
@@ -101,10 +101,11 @@ For the Docker live launch, fill in `.env.providers` from
 ```
 
 Supply your own Google ADC/service-account credential file with the required
-BigQuery permissions. A runtime copy is kept in the private `.local/docker-retail-live/` directory
-and mounted read-only, never copied into the image; the source file is unchanged.
+BigQuery permissions. The script copies the selected env/JSON files through the Docker API. Google
+credentials stay in a private Docker volume mounted read-only by the API;
+they never enter the image. No repository mount or File Sharing changes are needed.
 This creates a new reviewer deployment; it does not import existing developer
-reports or WebUI accounts. The example product entitlements are demonstration
+reports or WebUI accounts. The example brand permissions are demonstration
 settings; replace them deliberately. For production, use managed identities.
 
 ## Shared report tone
@@ -130,14 +131,14 @@ knowledge untouched and records both failed and passing evaluation evidence.
 This is a bounded assessment MVP. Current schema metadata is a static, minimized
 four-table contract; there is no dynamic BigQuery metadata discovery. There is no
 autonomous training, preference inference, dashboard scheduler or durable mid-turn
-resume. Human approval governs shared knowledge publication. Local Langfuse experiment ingestion and live metadata delivery have been verified.
+resume. The optional prototype knowledge publisher is operator-reviewed. The required production design uses automatic evaluation gates and exception review. Local Langfuse experiment ingestion and live metadata delivery have been verified.
 See [experiment setup and boundaries](docs/faithfulness-experiments.md).
 
-221 tests passed in the latest local run, including five actual CLI/HTTP/SSE integration tests. Live business checks and judge scores
+252 tests passed in the latest local run, including brand/CEO authorization, demographic cohort checks and five CLI/HTTP/SSE integration tests. Live business checks and judge scores
 have separate evidence contracts; tests are not an answer-accuracy percentage.
 A fresh installation on another machine and final human report acceptance remain open.
 The latest prompt experiment is incomplete after provider balance exhaustion;
-retail-v8 remains the serving prompt. Live calls need funded provider credentials;
+Historical live evidence uses retail-v7/v8; the retail-v9-client-policy prompt has not yet been evaluated live. Live calls need funded provider credentials;
 the credential-free fixture demo remains available.
 
 ## Source map

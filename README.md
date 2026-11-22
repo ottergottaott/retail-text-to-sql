@@ -6,6 +6,8 @@ The CLI and Open WebUI use the same backend.
 
 ## Start here
 
+Client requirements and runtime/design boundaries: [acceptance spec](docs/acceptance-spec.md).
+
 - [Reviewer guide and Docker/WebUI walkthrough](START_HERE.md)
 - [Architecture overview](docs/technical-overview.html) and [technical design](docs/architecture.md)
 - [Evaluation evidence and limitations](docs/submission-evidence.md)
@@ -35,8 +37,8 @@ shows workflows and safety mechanics, not live model reasoning. Try
 The interactive CLI retains the conversation. Deletion requires an explicit
 application confirmation command after a preview.
 
-Docker volumes persist PostgreSQL, reports and WebUI data. Alice can analyze products 1/2; Bob
-(`bob-local-token`) can analyze product 3. These are demo identities and tokens.
+Docker volumes persist PostgreSQL, reports and WebUI data. Alice manages North/South; Bob
+(`bob-local-token`) manages West. CEO (`ceo-local-token`) can analyze all brands. These are demo identities and tokens.
 Stop with `./start.sh --stop`; rerun `./start.sh` to resume. For alternate ports
 and the walkthrough, see [the reviewer guide](START_HERE.md#credential-free-docker-demo).
 
@@ -46,22 +48,30 @@ Follow [live setup](docs/setup.md#live-gemini-and-bigquery) and use
 [.env.example](.env.example) as a configuration reference. You need:
 
 - Google application-default credentials and a BigQuery execution project.
-- A Gemini API key and model name. Gemini via DeepInfra is also supported.
-- Replacement API tokens, a dedicated label secret and explicit product entitlements.
+- A Gemini API key and model name; direct Google is the reviewer path.
+- Replacement API tokens, a dedicated label secret and explicit brand permissions.
 
 The dataset is `bigquery-public-data.thelook_ecommerce`. Live model, embedding
 and BigQuery calls may incur charges. No credentials are included. The default
 configuration remains fixture mode; API health does not establish provider readiness.
 
 Copy [deployment/live.env.example](deployment/live.env.example) to `.env.providers`,
-fill in your project/model/key, then run:
+and fill in your project/model/key:
+
+```sh
+cp deployment/live.env.example .env.providers
+```
+
+Then run:
 
 ```sh
 ./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
 ```
 
-A runtime copy of the Google JSON is kept under a private `.local/docker-retail-live/`
-directory and mounted read-only; the source file is unchanged. The private generated
+The script copies only the selected configuration files through the Docker API.
+Google credentials are stored in a private Docker volume and mounted read-only
+by the API; the source file is unchanged. No host directory sharing is needed.
+The private generated
 `.env.docker-retail-live` keeps local application/login secrets across restarts.
 Use different ports if the demo is still running. Startup does not run model
 evaluations or embed the corpus; live chat and explicit indexing may incur charges.

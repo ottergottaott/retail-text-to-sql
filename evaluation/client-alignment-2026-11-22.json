@@ -1,0 +1,47 @@
+{
+  "status": "local_tests_passed_live_acceptance_pending",
+  "spec": "docs/acceptance-spec.md v1.1",
+  "prompt": "retail-v9-client-policy",
+  "tests": {
+    "passed": 252,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 53.057,
+    "source": "client-alignment-tests-2026-11-22.xml"
+  },
+  "new_contracts": [
+    "brand manager and CEO authorization",
+    "brand inheritance for new products",
+    "stored report/history current-scope checks",
+    "demographic raw-row/CTE/window/union denials",
+    "cohort threshold by distinct customers, including exactly five",
+    "disconnected join denial",
+    "one demographic query per answer without separate totals",
+    "trusted business defaults and user override context",
+    "private external credential generation with CEO demo identity"
+  ],
+  "evidence_boundary": "Deterministic fixture and mocked SDK contracts. No live Gemini, BigQuery or embedding calls in this run. Historical judge/browser results do not measure the new policy. Business override context tests do not prove live model SQL semantics.",
+  "independent_model_review": {
+    "status": "blocked_pending_explicit_source_transfer_consent",
+    "reason": "Automatic approval rejected source upload to Alibaba China; no reviewer call completed; no provider substitution."
+  },
+  "remaining": [
+    "live Gemini/BigQuery acceptance with user-supplied key",
+    "final human report review",
+    "installation on a different machine"
+  ],
+  "source_sha256": {
+    "retail/security.py": "3d3dc444acfe2d6ed69681cde94c351877aee36fcc200e0b4b1262c8c328add0",
+    "retail/privacy.py": "da6261aab702ac91657711d018d828c21d5e7db56c82f18c966fef42d79a5647",
+    "retail/analytics.py": "f3d79cc0f37f2f9cb944a1297f38e6b594d94496a91c563b5af68c3d9e8ae0d7",
+    "retail/agent.py": "63b82dc12829fa3de162bcd5ee3176dcdddb1e8f42e1aed4e90e9a53b89fbccb",
+    "retail/config.py": "ca37c9acc760cdecc1eb91ae156f4e7764775d9883d5b808014430c2c61551bd",
+    "retail/model.py": "924fa3d81ef9ecd08c88ad4dd495b31ada5cbef21238c03feb7d0938945241fe",
+    "retail/store.py": "33564e8cedcffec7a070b6e1f0e01b14ea406c45def67f567ba63fe04addeade",
+    "retail/api.py": "59ce7f820828fdc68ab2d66a4527640c47888c40fc64d4db9e93e5c277f5b992",
+    "retail/report_presentation.py": "3f229ffb67dd9c82d31a8844cb0bb8bd8b42e49b69640ea3065eeca7cc57e714",
+    "scripts/setup_docker.py": "bf72fb4750eea0be8705b2478c220f6c0e1a1b5af45bd928320d51c7f0d1241b",
+    "start.sh": "01cd5757c317bb77a3c04547b89db8de08df37e858c2024ed340e12bd8efdb2c",
+    "Dockerfile": "bdc3d1569580391d668d8adc8fba2a5f8786bc7b4302466beb4571222de6ac47"
+  }
+}

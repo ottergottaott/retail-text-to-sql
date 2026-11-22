@@ -1,5 +1,9 @@
 # Reviewed improvement and persona workflow
 
+Client scope and defaults: [consolidated specification](acceptance-spec.md). Learning
+and persona quality gates remain design-only; optional commands below describe
+the existing operator-driven demonstration.
+
 ## What the assignment actually requires
 
 Requirement 4 is titled “Continuous Improvement (The Learning Loop)”. It asks
@@ -20,10 +24,11 @@ formats are tables, bullets and prose. No learning can change product scope or
 PII policy. Fixture planning is intentionally limited; use the API to exercise
 preference changes without Gemini.
 
-Inferred preferences are design scope: repeated presentation corrections can
-create a proposal such as “Use concise tables by default?”; persist it only after
-user confirmation, retain its source and allow reset. HTML reports now include a limited deterministic revenue chart. Persisted
-chart/text preference and inference confirmation are still not implemented; the
+Inferred preferences are design scope: repeated presentation corrections produce
+a confidence-scored preference, applied automatically as confirmed by Roi.
+Explicit current instructions take precedence; retain its source and allow
+inspection, override and reset. Privacy/admin defaults are never inferred. HTML reports now include a limited deterministic revenue chart. Persisted
+chart/text preference and automatic preference inference are still not implemented; the
 renderer does not yet consult a chart preference.
 The preferences page supports explicit format/depth changes and reset to
 tables/standard; saving creates a new per-user version. Existing reports remain snapshots.
@@ -68,7 +73,8 @@ Comments are sanitized; they are never treated as instructions or publication ap
 publication and changed retrieval results. It does not prove that a new SQL
 method generalizes or that Gemini's generated reports become better. Production
 publication additionally requires held-out intent, safety, retrieval and report
-regressions, human approval, a staged rollout and monitored rollback criteria.
+regressions, automated publication gates, a staged rollout and monitored rollback criteria.
+Human review handles high-risk exceptions instead of approving every update.
 There is no automatic fine-tuning or autonomous prompt mutation.
 
 For rollback, create a new reviewed candidate containing a prior published

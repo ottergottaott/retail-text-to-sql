@@ -5,6 +5,8 @@ working prototype for core analysis, safety, destructive oversight, resilience
 and observability. CLI and Gemini/BigQuery integration are required. Docker,
 Open WebUI and the small learning/retrieval implementations are our additions.
 This document distinguishes implemented behavior from proposed production work.
+The [consolidated client specification](acceptance-spec.md) records the final
+client clarifications, including brand access and automatic preference learning.
 See the [interactive diagrams](architecture.html) for focused views.
 
 ## Components and communication
@@ -29,8 +31,7 @@ server-injected identity/chat IDs, translates SSE progress to status events and
 returns final text for WebUI persistence. It runs no second agent or SQL tools.
 The required CLI uses the same HTTP endpoints and confirmations.
 
-API resolves a bearer token into a configured backend identity and product
-entitlements. A dedicated WebUI adapter token permits only allowlisted WebUI
+API resolves a bearer token into a configured backend identity, manager-brand mapping or CEO role. A dedicated WebUI adapter token permits only allowlisted WebUI
 identities; an ordinary user token cannot impersonate a forwarded identity. The
 prototype uses opaque demo tokens. Production uses verified OIDC subject/audience,
 short-lived service authentication and explicit entitlement synchronization.
@@ -93,7 +94,7 @@ compute is a later option; it is not needed for the bounded MVP request path.
 | Conversations and latest completed analysis | Owned records in SQL, last 20 turns | Owned normalized tables with retention and deletion policy |
 | Saved reports | Independent owned records: title, body, product scope, provenance | Same ownership/lifecycle, indexes and explicit retention |
 | Deletion proposals | Exact ID→version map, owner, conversation, 10-minute expiry | Transactional proposal/audit tables, retention for minimal audit |
-| Preferences | Per-user format/depth/source/version | Explicit overrides, confirmed inferred preferences, reset/retention |
+| Preferences | Per-user format/depth/source/version | Explicit overrides, automatically applied inferred preferences, reset/retention |
 | Golden trios | Labeled synthetic seeds and reviewed SQL records | Versioned object source plus SQL metadata/index publication manifest |
 | Embeddings | Model/content/version-keyed SQL records | pgvector index when corpus size warrants it |
 | Persona | Append-only tone versions in SQL | Editor RBAC, preview, publication and rollback audit |
@@ -139,7 +140,11 @@ validation, held-out evaluation and approved version publication. An index build
 follows publication. Production publishes source/index manifest atomically and
 can restore a previous approved release. The small implementation evaluates
 reviewer-authored SQL result cases and retains candidate/evaluation/version links;
-its full production regression gate is still a design commitment.
+its full production regression gate is still a design commitment. In production,
+low-risk candidates passing deterministic security, held-out SQL intent, retrieval
+and report-quality gates publish automatically with provenance. Human review is
+an exception path for uncertain/high-risk updates, not a required step for every
+example. Rollout monitors regressions and can restore the prior version.
 
 ## 2. Safety, privacy and product authorization
 
@@ -147,8 +152,10 @@ Policy is enforced before SQL execution and before model context. The model sees
 logical schema only. Analytics rejects scripts, writes, qualified physical names,
 unknown relations/columns, table functions and unapproved functions; resolves
 CTEs/aliases/nested scopes; then replaces every resolved physical source with a
-trusted relation. The source filters products and order_items using bound product
-IDs, and filters orders/users through existence of authorized order items. It
+trusted relation. Parameterized brand predicates select all products of permitted
+brands; the CEO role permits all brands. Order items use these product relations,
+and orders/users require existence of authorized items. Static product-ID
+entitlements remain a compatibility path for historical tests/deployments. It
 projects only approved columns, with pseudonymous keys instead of raw IDs.
 There is no arbitrary appended WHERE clause and SQLGlot is not the identity or
 entitlement authority. The trusted executor resolves those independently.
@@ -160,7 +167,15 @@ sales. Customer-level outputs concern authorized purchases only. Rotating the
 label secret changes labels; persistent customer comparisons must account for it.
 Pseudonymization is not anonymity and broad demographics can still identify small
 groups. A documented demo policy permits pseudonymous analysis; production needs
-approved aggregation/small-cohort rules before real sensitive retail deployment.
+additional production privacy controls. The prototype enforces a configurable
+minimum of five distinct customers for every released demographic group.
+Demographic SQL is restricted to a flat grouped SELECT with validated key joins;
+individual demographic rows, nested/window/union queries, disconnected joins
+and identifier grouping fail closed. A trusted HAVING guard is added before
+execution and limiting. One demographic query is allowed per answer, without
+separate totals; prior history/analysis is removed from subsequent model context.
+Repeated-question inference needs production query auditing/complementary
+suppression or stronger privacy controls; it is explicitly outside prototype scope.
 
 User input is sanitized before backend model/storage. Source projection is the
 primary PII control; email/phone/IP detection additionally checks generated fields,
@@ -204,8 +219,9 @@ retrying. Saved-report idempotency keys are pending production hardening.
 User-level personalization is separate from shared model/knowledge improvement.
 Explicit format/depth choices persist by user, are loaded into each plan and
 control deterministic evidence formatting. A one-turn override should not change
-the default unless requested. Inferred preferences require user confirmation;
-this proposal/reset UX is designed but not yet implemented. Do not claim that
+the default unless requested. Inferred preferences take effect automatically,
+as confirmed by Roi. The design records evidence/confidence and allows inspection,
+explicit override and reset; automatic inference is not implemented in the MVP. Do not claim that
 storing an explicit preference is autonomous learning of behavior.
 
 System-level feedback references an owned trace/conversation and remains
@@ -321,7 +337,13 @@ and traces record the version. Republish a prior tone as a new version to roll
 back. Policy and tool code remain outside persona. Tests verify refresh without
 recreating Agent. The nondeveloper production editor needs authenticated editor
 RBAC, constrained tone/style fields, sample-report preview, publish/rollback and
-audit. The operator CLI is not claimed to be that finished CEO-facing editor.
+audit. A submitted tone passes an automated gate, without manual approval:
+fixed reference reports must preserve facts, obey privacy/security constraints
+and follow the requested style. A failed or incomplete gate keeps the current
+version; a passing gate activates a new version with rollback. These gate criteria
+are engineering defaults accepted for specification by client delegation. The
+operator CLI bypasses that proposed production gate and is not claimed to be
+the finished CEO-facing editor.
 
 ## Framework/model rationale and experience statement
 
