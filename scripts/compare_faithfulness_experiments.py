@@ -15,7 +15,17 @@ def main():
     args = parser.parse_args()
     before = json.loads(args.baseline.read_text())
     after = json.loads(args.candidate.read_text())
-    matching = all(before.get(key) == after.get(key) for key in ['dataset_sha256','model','judge_model','ragas_version','metric_contract'])
+    matching = all(before.get(key) == after.get(key) for key in ['dataset_sha256','model','judge_model','ragas_version','metric_contract','judge_context_contract','judge_contexts_sha256'])
+    def complete(report):
+        expected = report['expected_cases']
+        generated = [g['id'] for g in report['generations']]
+        scored = [c['id'] for c in report['cases']]
+        return (report.get('status') == 'tested' and report.get('acceptance') == 'passed'
+                and report.get('scored_cases') == expected
+                and len(generated) == len(set(generated)) == expected
+                and len(scored) == len(set(scored)) == expected
+                and set(generated) == set(scored))
+    coverage = complete(before) and complete(after)
     def rows(report, metric):
         cases = {c['id']:c for c in report['cases']}
         results = []
@@ -28,12 +38,12 @@ def main():
     comparisons = {name:compare_runs(rows(before,name),rows(after,name))
                    for name in ['faithfulness','sql_factual_faithfulness']}
     result = {'matching_contracts_and_data':matching,'baseline':str(args.baseline),'candidate':str(args.candidate),
-              'comparisons':comparisons,'automatic_promotion':False,'human_review':'pending',
+              'comparisons':comparisons,'complete_coverage':coverage,'automatic_promotion':False,'human_review':'pending',
               'baseline_expected_cases':before['expected_cases'],'candidate_expected_cases':after['expected_cases'],
               'boundary':'Same synthetic frozen evidence and judge contracts. Case bootstrap excludes repeated-judge variance. No overall accuracy claim.'}
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({'matching':matching,'metrics':{k:{n:v[n] for n in ['mean_delta','delta_ci95','improved','regressed','paired_score_gate_passed']} for k,v in comparisons.items()}}))
-    return 0 if matching and comparisons['faithfulness']['paired_score_gate_passed'] else 3
+    return 0 if matching and coverage and comparisons['faithfulness']['paired_score_gate_passed'] and comparisons['sql_factual_faithfulness']['mean_delta'] is not None and comparisons['sql_factual_faithfulness']['mean_delta'] >= 0 else 3
 
 
 if __name__=='__main__':

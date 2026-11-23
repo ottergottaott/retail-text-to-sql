@@ -45,6 +45,31 @@ def validate_suite(cases):
     return cases
 
 
+
+def judge_contexts(case, contract="sql-only"):
+    """Independent judge evidence; never promote generated prose into evidence."""
+    import json
+    contexts = list(case["sql_contexts"])
+    if contract == "sql-only":
+        return contexts
+    if contract != "schema-v1":
+        raise ValueError("Unknown judge evidence contract.")
+    if len(contexts) >= 5:
+        raise ValueError("Schema evidence would exceed the five-context judge limit.")
+    schema = case.get("context", {}).get("schema")
+    if not isinstance(schema, dict) or not schema or any(
+        not isinstance(table, str) or not isinstance(columns, dict) or not columns
+        or any(not isinstance(column, str) or not isinstance(kind, str)
+               for column, kind in columns.items()) for table, columns in schema.items()
+    ):
+        raise ValueError("Schema evidence requires explicit logical column types.")
+    contexts.append(json.dumps({"logical_schema": schema}, sort_keys=True))
+    serialized = json.dumps(contexts)
+    if len(serialized) > 64000:
+        raise ValueError("Judge evidence exceeds context budget.")
+    safe_output(serialized)
+    return contexts
+
 def compare_runs(baseline, candidate, split="development", independent_review=False, sealed_test_passed=False):
     def index(rows):
         ids = [r["id"] for r in rows]

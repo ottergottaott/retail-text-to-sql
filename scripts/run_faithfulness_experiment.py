@@ -9,7 +9,7 @@ import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from retail.faithfulness_experiments import validate_suite, check_answer
+from retail.faithfulness_experiments import validate_suite, check_answer, judge_contexts
 from retail.experiment_tracking import digest
 from retail.ragas_evaluation import summarize
 from retail.security import safe_output
@@ -20,6 +20,28 @@ def write(path, data):
     temporary = path.with_suffix('.tmp')
     temporary.write_text(json.dumps(data, indent=2, allow_nan=False) + '\n')
     temporary.replace(path)
+
+
+async def judge_batch(live, samples, config, model, max_calls, names, workers=1):
+    """Separate per-case metric instances and fixed shares of the HTTP ceiling."""
+    if workers == 1 or not samples:
+        return await live(samples, config, model, max_calls, names, diagnostics=True)
+    if max_calls < len(samples):
+        raise ValueError("Judge budget must cover each selected case.")
+    semaphore = asyncio.Semaphore(workers)
+    quotient, remainder = divmod(max_calls, len(samples))
+    async def score(index, sample):
+        async with semaphore:
+            return await live([sample], config, model, quotient + (index < remainder),
+                              names, diagnostics=True)
+    reports = await asyncio.gather(*(score(i, sample) for i, sample in enumerate(samples)))
+    cases = [case for report in reports for case in report["cases"]]
+    return {**summarize(cases, names), "cases": cases,
+            "attempted_provider_calls": sum(r.get("attempted_provider_calls", 0) for r in reports),
+            "measured_total_tokens": sum(r.get("measured_total_tokens") or 0 for r in reports),
+            "call_count_complete": all(r.get("call_count_complete", True) for r in reports),
+            "judge_model": model, "max_provider_calls": max_calls,
+            "judge_workers": workers, "human_review": "pending"}
 
 
 def main():
@@ -33,6 +55,10 @@ def main():
     parser.add_argument('--batch-size', type=int, default=8)
     parser.add_argument('--max-seconds', type=int, default=1800)
     parser.add_argument('--max-calls-per-batch', type=int, default=48)
+    parser.add_argument('--judge-model', default='', help='Pin an independent judge model at the configured endpoint.')
+    parser.add_argument('--judge-context', choices=['sql-only', 'schema-v1'], default='sql-only')
+    parser.add_argument('--judge-workers', type=int, default=1)
+    parser.add_argument('--generation-seconds', type=int, default=30)
     parser.add_argument('--allow-test', action='store_true', help='Explicit sealed-test execution; never use for tuning.')
     args = parser.parse_args()
     out = args.output_dir
@@ -43,6 +69,10 @@ def main():
     try:
         if not 1 <= args.limit <= 80 or not 1 <= args.batch_size <= 8 or not 60 <= args.max_seconds <= 3600 or not 1 <= args.max_calls_per_batch <= 96:
             raise ValueError('Bounds invalid.')
+        if not 1 <= args.judge_workers <= 4 or not 1 <= args.generation_seconds <= 60:
+            raise ValueError('Invalid concurrency or generation budget.')
+        if args.judge_workers > 1 and args.max_calls_per_batch < args.batch_size:
+            raise ValueError('Judge budget cannot cover the batch.')
         all_cases = validate_suite(json.loads(args.cases.read_text()))
         cases = all_cases[:args.limit]
         selected_ids = {c['id'] for c in cases}
@@ -51,6 +81,7 @@ def main():
             raise ValueError('Limit must not cut a task family.')
         if any(c['split'] == 'test' for c in cases) and not args.allow_test:
             raise ValueError('Sealed test requires --allow-test.')
+        contexts = {c['id']: judge_contexts(c, args.judge_context) for c in cases}
         prompt = args.prompt.read_text()
         if not 1 <= len(prompt) <= 24000:
             raise ValueError('Invalid prompt size.')
@@ -64,12 +95,17 @@ def main():
     import retail.deepinfra as provider
     model = generation_model_name(cfg)
     cfg = generation_config(cfg)
-    judge_model = model
+    judge_model = args.judge_model or model
     identity = {'dataset_sha256': digest(cases), 'prompt_sha256': hashlib.sha256(prompt.encode()).hexdigest(),
                 'model': model, 'judge_model': judge_model, 'ragas_version': '0.4.4',
                 'generation_provider': getattr(cfg, 'llm_provider', 'deepinfra'),
                 'gateway_base_url': getattr(cfg, 'deepinfra_base_url', 'https://api.deepinfra.com/v1/openai'),
                 'metric_contract': 'standard-faithfulness-unchanged; separate-sql-aware-v1',
+                'judge_context_contract': args.judge_context,
+                'judge_contexts_sha256': digest(contexts),
+                'judge_workers': args.judge_workers,
+                'judge_timeout_seconds': getattr(cfg, 'ragas_judge_timeout', 60),
+                'generation_seconds': args.generation_seconds,
                 'batch_size': args.batch_size, 'max_calls_per_batch': args.max_calls_per_batch,
                 'evidence_boundary': 'Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing.'}
     identity_path = out / 'identity.json'
@@ -95,7 +131,7 @@ def main():
             remaining = deadline-time.monotonic()
             if remaining <= 0:
                 raise TimeoutError()
-            decision, usage = provider.DeepInfraModel(cfg).decide(c['context'], min(30, remaining))
+            decision, usage = provider.DeepInfraModel(cfg).decide(c['context'], min(args.generation_seconds, remaining))
             safe_output(decision.model_dump_json())
             record = {'id': c['id'], 'family': c['family'], 'split': c['split'], 'action': decision.action,
                       'response': decision.text, 'status': 'generated' if decision.action == 'answer' else 'unexpected_action',
@@ -118,7 +154,7 @@ def main():
             records = list(pool.map(generate, batch))
         generations.extend(records)
         samples = [{**{k: c[k] for k in ('id', 'question', 'sql_contexts', 'source')},
-                    'response': r['response'], 'retrieved_contexts': []}
+                    'sql_contexts': contexts[c['id']], 'response': r['response'], 'retrieved_contexts': []}
                    for c, r in zip(batch, records) if r['status'] == 'generated']
         judge_path = out / f'judge-{offset//args.batch_size:02}.json'
         previous = json.loads(judge_path.read_text()) if judge_path.exists() else None
@@ -130,8 +166,8 @@ def main():
             if previous:
                 write(out/f'judge-{offset//args.batch_size:02}.attempt-{attempt}.json', previous)
             async def bounded():
-                return await asyncio.wait_for(live(pending, cfg, judge_model,
-                    args.max_calls_per_batch, names, diagnostics=True), timeout=deadline-time.monotonic())
+                return await asyncio.wait_for(judge_batch(live, pending, cfg, judge_model,
+                    args.max_calls_per_batch, names, args.judge_workers), timeout=deadline-time.monotonic())
             try:
                 judge_report = asyncio.run(bounded())
             except TimeoutError:
@@ -176,7 +212,7 @@ def main():
               'rechecks_disclosed': 'At most one generation recheck per failed case and one judge recheck per batch; original attempt artifacts retained.',
               'human_review': 'pending', 'cost': None}
     write(out/'results.json', report)
-    write(out/'samples.json', [{**{k:c[k] for k in ('id','question','sql_contexts','source')}, 'response':r['response']}
+    write(out/'samples.json', [{**{k:c[k] for k in ('id','question','sql_contexts','source')}, 'sql_contexts':contexts[c['id']], 'response':r['response']}
         for c in cases for r in generations if c['id']==r['id'] and r['status']=='generated'])
     print(json.dumps({k:report[k] for k in ('status','means','scored_cases','expected_cases','checks_passed')}), flush=True)
     return 0 if report['acceptance'] == 'passed' else 3
