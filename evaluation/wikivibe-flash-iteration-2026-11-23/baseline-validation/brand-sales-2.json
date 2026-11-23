@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nScope: Authorized products across all recorded history, filtered to completed items (`status = 'Complete'`) [q1]. Revenue reflects `SUM(sale_price)` on completed order items.\n\n| brand | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n- Both authorized brands recorded an identical volume of 7 completed items [q1].\n- Brand \"West\" generated higher completed revenue (210.0) compared to brand \"South\" (140.0) [q1].\n\n### Limitations\n- Measures completed item revenue (`sale_price`); product costs, profit margins, and discounts relative to retail price were not queried [q1].\n- Coverage across specific time windows or date ranges was not measured.\n- Excludes canceled, returned, or pending item statuses.\n- Order and unique customer grains were not evaluated.\n\n### Action items (proposed)\n- Evaluate product `retail_price` and `cost` against `sale_price` to examine margins and pricing variance by brand.\n- Break down item volume and revenue by time periods (e.g., month or quarter) to assess sales trends.\n- Query distinct order and customer counts to determine average units per order and customer concentration.",
+  "status": "generated",
+  "seconds": 11.556605046993354,
+  "usage": {
+    "input_tokens": 2141,
+    "output_tokens": 1224,
+    "total_tokens": 3365,
+    "thought_tokens": 900,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

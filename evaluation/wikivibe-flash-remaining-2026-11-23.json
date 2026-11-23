@@ -1,0 +1,203 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.21428571428571427
+  },
+  "combined_means": {
+    "faithfulness": 0.21428571428571427
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 3,
+      "rule_scored": 0,
+      "applicable": 3,
+      "total_samples": 3
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "pending-items",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.14285714285714285,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis is a fixture demonstration.",
+                "reason": "The context specifies that the mode is \"fixture\", but it does not state that the analysis is a demonstration.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis is not a live model analysis.",
+                "reason": "The context does not mention whether or not the analysis is a live model analysis.",
+                "verdict": 0
+              },
+              {
+                "statement": "Complete-item revenue uses only authorized purchases across all fixture history.",
+                "reason": "The context mentions authorized products and a count of complete items, but it does not mention revenue or fixture history.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query evidence contains the returned values.",
+                "reason": "The context includes the query execution along with the returned rows containing complete_items: 5.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query data does not establish causes or conversion rates.",
+                "reason": "The context does not provide information or statements regarding causes or conversion rates.",
+                "verdict": 0
+              },
+              {
+                "statement": "Item volume and status mix should be compared before changing pricing.",
+                "reason": "The context contains no recommendations, guidance, or information about pricing, item volume, or status mix.",
+                "verdict": 0
+              },
+              {
+                "statement": "Any observed differences should be investigated with additional evidence.",
+                "reason": "The context does not mention investigating observed differences or collecting additional evidence.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 30.66470321599627
+        }
+      }
+    },
+    {
+      "id": "missing-save-receipt",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.25,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis is a fixture demonstration.",
+                "reason": "The context explicitly specifies \"mode\": \"fixture\", directly supporting that the analysis is a fixture demonstration.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis is not a live model analysis.",
+                "reason": "The context specifies \"mode\": \"fixture\", but does not mention or discuss a \"live model analysis\".",
+                "verdict": 0
+              },
+              {
+                "statement": "Complete-item revenue uses only authorized purchases across all fixture history.",
+                "reason": "The context mentions authorized products in the execution scope, but does not state that complete-item revenue uses only authorized purchases across all fixture history.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query evidence contains the returned values.",
+                "reason": "The query evidence in the context includes the returned rows and values, specifically `{\"complete_revenue\": 73}`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The provided data does not establish causes.",
+                "reason": "The context consists purely of JSON metadata, a query, and query results, with no statement regarding establishing causes.",
+                "verdict": 0
+              },
+              {
+                "statement": "The provided data does not establish conversion rates.",
+                "reason": "Conversion rates are neither mentioned nor discussed in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Item volume and status mix should be compared before changing pricing.",
+                "reason": "There is no recommendation or mention in the context about comparing item volume and status mix before changing pricing.",
+                "verdict": 0
+              },
+              {
+                "statement": "Any observed differences should be investigated with additional evidence.",
+                "reason": "The context contains raw query output and execution metadata without any recommendations on investigating observed differences.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 29.516084963004687
+        }
+      }
+    },
+    {
+      "id": "pending-prose-preference",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.25,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The demonstration is a fixture demonstration.",
+                "reason": "The context explicitly specifies \"mode\": \"fixture\".",
+                "verdict": 1
+              },
+              {
+                "statement": "The demonstration is not a live model analysis.",
+                "reason": "The context specifies \"mode\": \"fixture\", but does not explicitly state that it is not a live model analysis, nor is live model analysis mentioned.",
+                "verdict": 0
+              },
+              {
+                "statement": "Complete-item revenue uses only authorized purchases across all fixture history.",
+                "reason": "The context mentions authorized_products under execution_scope, but does not state anything about complete-item revenue or authorized purchases across fixture history.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query evidence contains the returned values.",
+                "reason": "The context provides query q1 along with its returned rows [{\"catalogue_products\": 2}].",
+                "verdict": 1
+              },
+              {
+                "statement": "The data does not establish causes.",
+                "reason": "There is no mention or direct inference in the context establishing or discussing causality.",
+                "verdict": 0
+              },
+              {
+                "statement": "The data does not establish conversion rates.",
+                "reason": "The context does not mention conversion rates or whether data establishes them.",
+                "verdict": 0
+              },
+              {
+                "statement": "Item volume and status mix should be compared before changing pricing.",
+                "reason": "The context does not mention item volume, status mix, or changing pricing.",
+                "verdict": 0
+              },
+              {
+                "statement": "Observed differences should be investigated with additional evidence.",
+                "reason": "The context only mentions finishing the analysis with insights and action items; it does not mention investigating observed differences with additional evidence.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 38.06763350700203
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 6,
+  "max_provider_calls": 6,
+  "measured_total_tokens": 11105,
+  "usage_responses": 6,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "benchmark": false,
+  "data_source": "FixtureModel placeholder answers with frozen synthetic SQL evidence; no BigQuery executed",
+  "evidence_boundary": "Judge connectivity and diagnostic test only. Not model answer quality or prompt improvement."
+}

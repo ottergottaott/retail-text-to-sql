@@ -1,0 +1,25 @@
+{
+  "id": "category-price-2",
+  "family": "category-price",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross all available order history without date filtering, the mean realized price (`AVG(sale_price)`) was calculated at the completed item grain (`status = 'Complete'`) grouped by category for authorized products [q1].\n\n| category | mean_realized_price |\n| :--- | :--- |\n| Footwear | 30.0 |\n| Outerwear | 20.0 |\n\n### Limitations\n- Item and order counts were not queried, so the underlying sample size and transaction volume for each category are unmeasured [q1].\n- Temporal trends and comparisons against current catalogue reference prices (`retail_price`) were not evaluated [q1].\n\n### Action items (proposed)\n- What are the completed item count (`COUNT(*)`), distinct order count (`COUNT(DISTINCT order_key)`), and minimum and maximum `sale_price` by category for authorized products?\n- How does the average realized `sale_price` for completed items compare to the catalogue `retail_price` by category?",
+  "status": "generated",
+  "seconds": 17.30274217101396,
+  "usage": {
+    "input_tokens": 2524,
+    "output_tokens": 1345,
+    "total_tokens": 3869,
+    "thought_tokens": 1096,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

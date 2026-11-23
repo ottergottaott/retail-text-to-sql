@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-1",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products, Complete-item revenue and item counts by brand are summarized below [q1]:\n\n| brand | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\n- **North**: Generated 70.0 in revenue across 7 completed items [q1].\n- **South**: Generated 140.0 in revenue across 7 completed items [q1].\n- While both brands had an identical completed item volume (7 items each), South generated double the revenue of North. Currency is not specified in the underlying dataset.\n\n### Limitations\n- Only items with `status = 'Complete'` were queried; cancelled, returned, or pending items were not evaluated [q1].\n- Scope is restricted to authorized products (IDs 1 and 2) via executor-bound scoping; catalog-wide performance outside this scope was not queried.\n- Analysis is aggregated at the item level; order-level grouping, distinct customer counts, and transaction frequency were not measured.\n- No date or promotional dimensions were included, so time trends and price variation over time remain unmeasured.\n\n### Action items (proposed)\n- Propose calculating distinct order and customer counts to evaluate whether purchasing patterns differ by brand.\n- Propose analyzing unit sale prices relative to product retail prices to compare observed pricing levels between North and South.\n- Propose examining status distributions (e.g., returns or cancellations) to assess completion rates across both brands.",
+  "status": "generated",
+  "seconds": 14.715498883000691,
+  "usage": {
+    "input_tokens": 2142,
+    "output_tokens": 1494,
+    "total_tokens": 3636,
+    "thought_tokens": 1127,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

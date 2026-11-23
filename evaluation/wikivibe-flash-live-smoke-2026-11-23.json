@@ -1,0 +1,122 @@
+{
+  "status": "tested",
+  "provider": "openai_compatible",
+  "base_url": "https://api.wikivibe.dev/v1",
+  "generation_model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "data_source": "frozen synthetic SQL evidence; no BigQuery executed",
+  "human_review": "pending",
+  "max_generation_calls": 1,
+  "max_judge_calls": 2,
+  "case_id": "pending-reviewed-save",
+  "generation_adapter": "DeepInfraModel",
+  "benchmark": false,
+  "generation": {
+    "action": "answer",
+    "response": "### Findings\n| products |\n| --- |\n| 2 |\n\n* The total authorized catalogue product count is 2 [q1].\n\n### Limitations\n* The query measured only the count of authorized catalogue items and did not retrieve item attributes like category, brand, or price [q1].\n* Transactional performance and order history were not queried [q1].\n\n### Action items (proposed)\n* Query category, department, and pricing fields in `products` to inspect authorized catalogue structure.\n* Check order volume and completion status across `order_items` for these products.",
+    "usage": {
+      "input_tokens": 2107,
+      "output_tokens": 1343,
+      "total_tokens": 3450,
+      "thought_tokens": 1190,
+      "usage_source": "provider_measured",
+      "cost": null
+    },
+    "seconds": 16.013561699990532
+  },
+  "judge": {
+    "status": "tested",
+    "aggregation_version": "v2",
+    "means": {
+      "faithfulness": 0.75
+    },
+    "combined_means": {
+      "faithfulness": 0.75
+    },
+    "coverage": {
+      "faithfulness": {
+        "ragas_scored": 1,
+        "rule_scored": 0,
+        "applicable": 1,
+        "total_samples": 1
+      }
+    },
+    "evaluation": "ragas_advisory",
+    "cases": [
+      {
+        "id": "pending-reviewed-save",
+        "metrics": {
+          "faithfulness": {
+            "status": "measured",
+            "value": 0.75,
+            "source": "ragas",
+            "statement_diagnostics": {
+              "statements": [
+                {
+                  "statement": "The total count of products in the findings table is 2.",
+                  "reason": "The query result table shows a products count of 2.",
+                  "verdict": 1
+                },
+                {
+                  "statement": "The total authorized catalogue product count is 2.",
+                  "reason": "The context defines the authorized execution scope for products as [1, 2] and the query returns a count of 2.",
+                  "verdict": 1
+                },
+                {
+                  "statement": "The query measured only the count of authorized catalogue items.",
+                  "reason": "The SQL query is 'SELECT COUNT(*) AS products FROM products', which only counts the items.",
+                  "verdict": 1
+                },
+                {
+                  "statement": "The query did not retrieve item attributes such as category, brand, or price.",
+                  "reason": "The query only executes a COUNT(*) and does not select any specific attribute columns such as category, brand, or price.",
+                  "verdict": 1
+                },
+                {
+                  "statement": "Transactional performance was not queried.",
+                  "reason": "The only executed query in the context is a product count, with no transactional performance metrics queried.",
+                  "verdict": 1
+                },
+                {
+                  "statement": "Order history was not queried.",
+                  "reason": "The context shows only a query against the products table, not order history.",
+                  "verdict": 1
+                },
+                {
+                  "statement": "A proposed action item is to query category, department, and pricing fields in `products` to inspect authorized catalogue structure.",
+                  "reason": "The context mentions that the report needs insights and action items, but does not propose this specific action item.",
+                  "verdict": 0
+                },
+                {
+                  "statement": "A proposed action item is to check order volume and completion status across `order_items` for the authorized catalogue products.",
+                  "reason": "The context does not state or propose this specific action item.",
+                  "verdict": 0
+                }
+              ]
+            },
+            "seconds": 22.679802396000014
+          }
+        }
+      }
+    ],
+    "limitations": [
+      "LLM judge scores are not independent SQL correctness or human acceptance.",
+      "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+      "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+    ],
+    "judge_provider": "openai_compatible",
+    "judge_model": "gemini-3.8-flash",
+    "ragas_version": "0.4.4",
+    "attempted_provider_calls": 2,
+    "max_provider_calls": 2,
+    "measured_total_tokens": 4350,
+    "usage_responses": 2,
+    "cost": null,
+    "human_review": "pending",
+    "metric_definitions": {
+      "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+      "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+      "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+    }
+  }
+}

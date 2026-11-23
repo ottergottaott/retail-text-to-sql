@@ -1,0 +1,19 @@
+{
+  "phase": "bounded missing-coverage resume",
+  "provider": "WikiVibe OpenAI-compatible",
+  "base_url": "https://api.wikivibe.dev/v1",
+  "generation_model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "judge_metric_timeout_seconds": 120,
+  "previous_timeout_seconds": 60,
+  "reason": "Standard faithfulness has sequential statement-extraction and entailment calls; preserve incomplete original attempts.",
+  "maximum_judge_calls_per_variant_this_invocation": 80,
+  "maximum_seconds_per_variant": 1800,
+  "generation_rechecks": "Only failed generation; at most two total attempts per case.",
+  "judge_rechecks": "At most two total attempts per batch. Cached measured metrics retained.",
+  "grader_correction": "Recognize no records as empty-result wording, applied symmetrically; does not relax nonempty oracle.",
+  "metric_contract_changed": false,
+  "prompt_changed": false,
+  "cost": null,
+  "human_review": "pending"
+}

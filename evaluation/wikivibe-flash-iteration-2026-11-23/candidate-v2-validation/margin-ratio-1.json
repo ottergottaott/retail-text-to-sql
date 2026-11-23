@@ -1,0 +1,25 @@
+{
+  "id": "margin-ratio-1",
+  "family": "margin-ratio",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross all available history within the authorized product scope, the aggregate cost-proxy margin divided by Complete-item revenue was evaluated at item grain joined to the products catalogue with `status = 'Complete'` and no date filter applied [q1]. The execution yielded an aggregate cost-proxy margin ratio of -1.3333333333333333 [q1].\n\n| cost_proxy_margin_ratio |\n| --- |\n| -1.3333333333333333 |\n\n### Limitations\n- The query did not return item counts, order counts, or absolute revenue and cost amounts [q1].\n- The metric was aggregated into a single ratio across the entire scope, without breakdowns by product ID, category, or time period [q1].\n\n### Action items (proposed)\n- What are the item count, total revenue (`SUM(sale_price)`), and total cost (`SUM(cost)`) broken down by `product_id` for Complete items within authorized scope?\n- What is the monthly breakdown of Complete-item revenue and cost-proxy margin ratio across `created_at` date buckets?",
+  "status": "generated",
+  "seconds": 17.427204695006367,
+  "usage": {
+    "input_tokens": 2513,
+    "output_tokens": 1674,
+    "total_tokens": 4187,
+    "thought_tokens": 1390,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

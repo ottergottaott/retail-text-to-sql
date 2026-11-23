@@ -1,0 +1,28 @@
+{
+  "id": "brand-return-2",
+  "family": "brand-return",
+  "split": "validation",
+  "original_run": "evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-validation",
+  "supplemental_attempt": 1,
+  "generation_timeout_seconds": 60,
+  "prompt_sha256": "5cfa4199ef32a039dc0e6b75dae29cef1d03e956fdc014cb76a61d0217fcf6e1",
+  "boundary": "Additional attempt after original run exhausted its preregistered generation cap. Not an original-run success.",
+  "action": "answer",
+  "response": "### Findings\nAcross all available records with no date filter applied, an item-grain count of returned order items was aggregated by catalogue brand under the authorized execution scope (authorized products [2, 3]) with status filtered to `status = 'Returned'` [q1].\n\n| brand | returned_items |\n| :--- | :--- |\n| South | 1 |\n| West | 1 |\n\nBoth brands show a very small observed count of returned items (1 item each) [q1].\n\n### Limitations\n- The query only returned item counts for items with `status = 'Returned'`; total order items, return rates, and distinct order counts were not queried [q1].\n- Sale price, product cost, customer attributes, and temporal breakdown over time were not retrieved [q1].\n\n### Action items (proposed)\n- What is the overall return rate by brand when comparing `Returned` items to total ordered items across all statuses for authorized products?\n- What are the corresponding product names and sale prices for the returned items within the authorized scope?",
+  "status": "generated",
+  "usage": {
+    "input_tokens": 2494,
+    "output_tokens": 1603,
+    "total_tokens": 4097,
+    "thought_tokens": 1328,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  }
+}

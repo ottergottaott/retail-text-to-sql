@@ -1,0 +1,19 @@
+{
+  "purpose": "Complete missing generated answers without erasing original bounded-run failures.",
+  "original_attempt_limit": 2,
+  "supplemental_attempts_per_failed_case": 1,
+  "maximum_generation_requests": 2,
+  "maximum_judge_http_requests": 8,
+  "generation_timeout_seconds": 60,
+  "metric_timeout_seconds": 120,
+  "maximum_judge_seconds_per_case": 250,
+  "provider": "https://api.wikivibe.dev/v1",
+  "generation_model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "prompts": "Unchanged baseline.txt and candidate-v2.txt",
+  "selection": "Only cases whose original two generation attempts failed, independent of judge score.",
+  "publication": "Original run remains incomplete. Supplemental aggregate must retain source pointers and disclose third generation attempt; never claim first-attempt success.",
+  "script": "run-supplement.py",
+  "human_review": "pending",
+  "cost": null
+}

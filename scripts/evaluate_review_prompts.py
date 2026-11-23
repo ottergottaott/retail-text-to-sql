@@ -16,6 +16,33 @@ from retail.model import SYSTEM
 from retail.security import safe_output
 
 
+def provider_ready(config):
+    """Return whether the configured generation gateway has its own credentials."""
+    if getattr(config, 'llm_provider', '') == 'openai_compatible':
+        return all(getattr(config, name, '') for name in (
+            'openai_compatible_api_key', 'openai_compatible_base_url',
+            'openai_compatible_model'))
+    return bool(getattr(config, 'deepinfra_api_key', ''))
+
+
+def generation_model_name(config):
+    if getattr(config, 'llm_provider', '') == 'openai_compatible':
+        return config.openai_compatible_model
+    return config.deepinfra_review_model or config.deepinfra_model
+
+
+def generation_config(config):
+    """Live review evaluation bypasses application fixture routing; no SQL is run."""
+    if getattr(config, 'llm_provider', '') == 'openai_compatible':
+        return config.model_copy(update={
+            'deepinfra_api_key': config.openai_compatible_api_key,
+            'deepinfra_base_url': config.openai_compatible_base_url,
+            'deepinfra_model': config.openai_compatible_model,
+            'deepinfra_use_tool_call': True,
+        })
+    return config.model_copy(update={'deepinfra_model': generation_model_name(config)})
+
+
 def validate_cases(cases):
     if not isinstance(cases,list) or not 1 <= len(cases) <= 8:
         raise ValueError('Provide 1–8 cases.')
@@ -46,6 +73,8 @@ def main():
     parser.add_argument('--candidate',type=Path,default=default/'candidate.txt')
     parser.add_argument('--env-file',type=Path,default=Path('.env.live'))
     parser.add_argument('--output-dir',type=Path,required=True)
+    parser.add_argument('--judge-model', default='',
+        help='Override the judge model; otherwise use the configured gateway model for custom gateways.')
     args=parser.parse_args()
     OUT=args.output_dir
     OUT.mkdir(parents=True,exist_ok=True)
@@ -69,11 +98,16 @@ def main():
         cfg=Settings(_env_file=args.env_file)
     except ValueError:
         parser.error('Invalid provider settings; check configuration without printing credentials.')
-    if not cfg.deepinfra_api_key:
-        parser.error('DeepInfra credentials are required for this evaluation.')
-    model_name=cfg.deepinfra_review_model or cfg.deepinfra_model
-    cfg=cfg.model_copy(update={'deepinfra_model':model_name})
-    report={'status':'running','model':model_name,'judge_model':'google/gemini-3.5-flash',
+    if not provider_ready(cfg):
+        parser.error('Configured provider credentials are required for this evaluation.')
+    model_name=generation_model_name(cfg)
+    cfg=generation_config(cfg)
+    judge_model = args.judge_model or (
+        model_name if getattr(cfg, 'llm_provider', '') == 'openai_compatible'
+        else 'google/gemini-3.5-flash')
+    report={'status':'running','model':model_name,'generation_provider':
+        'openai_compatible' if getattr(cfg, 'llm_provider', '') == 'openai_compatible' else 'deepinfra',
+        'judge_model':judge_model,
         'data_source':'frozen synthetic SQL evidence; no query executed',
         'live_bigquery_verified':False,'production_changed':False,'repetitions':1,
         'selection':{'split_counts':{split:sum(c['split']==split for c in cases)
@@ -85,7 +119,8 @@ def main():
         def generate(c):
             t=time.monotonic()
             try:
-                d,usage=provider.DeepInfraModel(cfg).decide(c['context'],30)
+                generator = provider.DeepInfraModel(cfg)
+                d,usage=generator.decide(c['context'],30)
                 safe_output(d.model_dump_json())
                 return {'id':c['id'],'split':c['split'],'status':'generated','action':d.action,'response':d.text,
                     'seconds':time.monotonic()-t,'usage':usage}
@@ -112,7 +147,7 @@ def main():
         report.update(status='incomplete',reason='No valid generated answers; judge not called.')
         OUT.joinpath('results.json').write_text(json.dumps(report,indent=2)+'\n')
         return 3
-    judge=asyncio.run(live(all_samples,cfg,'google/gemini-3.5-flash',96,
+    judge=asyncio.run(live(all_samples,cfg,judge_model,96,
         ['faithfulness','sql_factual_faithfulness']))
     OUT.joinpath('judge-results.json').write_text(json.dumps(judge,indent=2)+'\n')
     from retail.ragas_evaluation import summarize

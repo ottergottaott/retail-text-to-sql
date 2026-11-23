@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-1",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n- **Definition & Scope**: Revenue is calculated as `SUM(sale_price)` for items with `status = 'Complete'` across all available history within the authorized product scope [q1].\n- The single recorded category with completed items among authorized products is Outerwear, accounting for 14 completed items and 210.0 in revenue [q1].\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Outerwear | 210.0 | 14 |\n\n### Limitations\n- The analysis is bounded by authorized products (IDs 1 and 2) and records with `status = 'Complete'` [q1].\n- Date coverage and historical completeness were not evaluated, so seasonality or trends cannot be determined from this aggregate [q1].\n- Distinct order and customer volumes were not queried, meaning transaction frequency and customer concentration remain unmeasured [q1].\n- Inventory levels, stock availability, and non-completed statuses (such as cancelled or returned orders) were not queried [q1].\n\n### Action items (proposed)\n- Propose breaking down completed items by time bucket (e.g., monthly or quarterly) to evaluate volume stability over time [q1].\n- Propose querying distinct customer and order counts to measure average order values and buyer concentration [q1].\n- Propose analyzing non-complete order statuses (e.g., Cancelled, Returned) to evaluate completion rates for authorized items [q1].",
+  "status": "generated",
+  "seconds": 13.914582352008438,
+  "usage": {
+    "input_tokens": 2116,
+    "output_tokens": 1312,
+    "total_tokens": 3428,
+    "thought_tokens": 964,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

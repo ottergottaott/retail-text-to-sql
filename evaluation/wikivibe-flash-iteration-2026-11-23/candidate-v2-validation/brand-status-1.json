@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-1",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe analysis evaluates item-level counts from `order_items` grouped by brand from `products` [q1]. Scope is restricted to authorized products (IDs 1 and 2), enforced via executor-bound views. The metric aggregates item counts using conditional sums for items with status 'Complete' and 'Returned'. No date filter was applied, encompassing all recorded history in the dataset.\n\n| brand | complete_items | returned_items |\n| :--- | :--- | :--- |\n| North | 7 | 1 |\n| South | 7 | 1 |\n\nBoth brand North and brand South recorded 7 Complete items and 1 Returned item each [q1].\n\n### Limitations\n- The query did not apply a date filter or return order timestamps, so item completion and return timing or historical trends were not measured [q1].\n- Other item statuses (such as Shipped, Processing, or Cancelled) and distinct order or customer counts were not queried [q1].\n\n### Action items (proposed)\n- How do Complete and Returned item counts for these brands distribute by calendar year or month based on `order_items.created_at`?\n- What are the Complete and Returned item volumes broken down by individual product ID or category within each brand?",
+  "status": "generated",
+  "seconds": 13.444970797005226,
+  "usage": {
+    "input_tokens": 2552,
+    "output_tokens": 1139,
+    "total_tokens": 3691,
+    "thought_tokens": 839,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "brand-return-2",
+    "question": "Show Returned items by catalogue brand for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"brand\": \"South\", \"returned_items\": 1}, {\"brand\": \"West\", \"returned_items\": 1}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `p`.`brand` AS `brand`, COUNT(*) AS `returned_items` FROM `order_items` AS `i` JOIN `products` AS `p` ON `p`.`id` = `i`.`product_id` WHERE `i`.`status` = 'Returned' GROUP BY `brand` ORDER BY `brand`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nAcross all available records with no date filter applied, an item-grain count of returned order items was aggregated by catalogue brand under the authorized execution scope (authorized products [2, 3]) with status filtered to `status = 'Returned'` [q1].\n\n| brand | returned_items |\n| :--- | :--- |\n| South | 1 |\n| West | 1 |\n\nBoth brands show a very small observed count of returned items (1 item each) [q1].\n\n### Limitations\n- The query only returned item counts for items with `status = 'Returned'`; total order items, return rates, and distinct order counts were not queried [q1].\n- Sale price, product cost, customer attributes, and temporal breakdown over time were not retrieved [q1].\n\n### Action items (proposed)\n- What is the overall return rate by brand when comparing `Returned` items to total ordered items across all statuses for authorized products?\n- What are the corresponding product names and sale prices for the returned items within the authorized scope?"
+  }
+]

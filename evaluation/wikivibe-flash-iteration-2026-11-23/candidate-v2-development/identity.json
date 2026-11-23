@@ -1,0 +1,13 @@
+{
+  "dataset_sha256": "d363f81abfdce09c1a460fe9800890ff1d54b42598a3456c5f02dd752c0fff5a",
+  "prompt_sha256": "5cfa4199ef32a039dc0e6b75dae29cef1d03e956fdc014cb76a61d0217fcf6e1",
+  "model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "generation_provider": "openai_compatible",
+  "gateway_base_url": "https://api.wikivibe.dev/v1",
+  "metric_contract": "standard-faithfulness-unchanged; separate-sql-aware-v1",
+  "batch_size": 4,
+  "max_calls_per_batch": 16,
+  "evidence_boundary": "Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing."
+}

@@ -1,0 +1,25 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nAcross all available history for authorized products, item counts grouped by status are as follows [q1]:\n\n| status | items |\n| --- | --- |\n| Complete | 14 |\n| Returned | 2 |\n\n- **Scope & Grain:** Authorized products; item grain grouped by `order_items.status` [q1].\n- **Observations:** Out of 16 observed items, 14 are marked as `Complete` and 2 are marked as `Returned` [q1].\n\n### Limitations\n- The query only counted items by status; order dates, financial values (`sale_price`), product IDs, and customer counts were not queried [q1].\n- Historical coverage and completeness over time were not measured [q1].\n- Total observed volume is small (16 items total) [q1].\n\n### Action items (proposed)\n- Proposed check: Query item status distributions over time (e.g., monthly buckets) to determine whether returns are concentrated in specific periods.\n- Proposed check: Analyze sales price and revenue associated with `Complete` versus `Returned` items across authorized products.",
+  "status": "generated",
+  "seconds": 10.495150450005895,
+  "usage": {
+    "input_tokens": 2064,
+    "output_tokens": 845,
+    "total_tokens": 2909,
+    "thought_tokens": 576,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

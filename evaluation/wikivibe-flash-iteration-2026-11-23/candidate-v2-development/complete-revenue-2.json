@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-2",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n- Aggregation executed: `SUM(order_items.sale_price)` aliased as `complete_revenue` [q1].\n- Grain and status: Item grain filtered to `status = 'Complete'` [q1].\n- Execution scope: Bound by the executor to authorized products (IDs 2, 3).\n- Date predicate: No date filter was applied across the available history.\n\n| complete_revenue |\n| --- |\n| 350.0 |\n\n### Limitations\n- The query did not return item counts or distinct order counts, so transaction volume was not measured [q1].\n- The result did not break down revenue by product, customer, or time period [q1].\n\n### Action items (proposed)\n- How is completed revenue and item volume distributed between product IDs 2 and 3?\n- What is the breakdown of completed item revenue and order counts by calendar month?",
+  "status": "generated",
+  "seconds": 12.106732501997612,
+  "usage": {
+    "input_tokens": 2448,
+    "output_tokens": 961,
+    "total_tokens": 3409,
+    "thought_tokens": 734,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

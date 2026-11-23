@@ -1,0 +1,25 @@
+{
+  "id": "price-range-2",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nAcross all recorded history with no date filter applied, the observed `sale_price` range for items with status `'Complete'` within the authorized product scope (products 2 and 3, enforced by executor-bound views) spans from 20.0 to 30.0 [q1].\n\n| min_price | max_price |\n|---|---|\n| 20.0 | 30.0 |\n\n### Limitations\n- The query did not return item counts or order frequencies, so the distribution of sales across this price range is unknown [q1].\n- Product identifiers, catalogue reference prices (`retail_price`), and costs were not retrieved, meaning product-level pricing variation and margins were not measured [q1].\n\n### Action items (proposed)\n- Query the count of completed items and average `sale_price` grouped by `product_id` to observe item volume across authorized products.\n- Compare observed completed `sale_price` against catalogue `retail_price` and `cost` from `products` to evaluate price realization and cost proxies.",
+  "status": "generated",
+  "seconds": 9.301607071000035,
+  "usage": {
+    "input_tokens": 2474,
+    "output_tokens": 869,
+    "total_tokens": 3343,
+    "thought_tokens": 588,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,283 @@
+{
+  "mode": "offline_fixture",
+  "dataset_version": "fixture-v1",
+  "planner": "rule_based_fixture",
+  "generated_at": "2026-11-23T00:51:58.757264+00:00",
+  "summary": {
+    "passed": 20,
+    "failed": 1,
+    "total": 21
+  },
+  "cases": [
+    {
+      "name": "Alice complete-item revenue by month",
+      "suite": "fixture_sql",
+      "status": "passed",
+      "detail": {
+        "actual_rows": [
+          {
+            "month": "2026-01-01 00:00:00",
+            "revenue": 100.0
+          },
+          {
+            "month": "2026-02-01 00:00:00",
+            "revenue": 110.0
+          }
+        ],
+        "expected_rows": [
+          {
+            "month": "2026-01-01 00:00:00",
+            "revenue": 100.0
+          },
+          {
+            "month": "2026-02-01 00:00:00",
+            "revenue": 110.0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bob complete-item revenue by month",
+      "suite": "fixture_sql",
+      "status": "passed",
+      "detail": {
+        "actual_rows": [
+          {
+            "month": "2026-01-01 00:00:00",
+            "revenue": 120.0
+          },
+          {
+            "month": "2026-02-01 00:00:00",
+            "revenue": 90.0
+          }
+        ],
+        "expected_rows": [
+          {
+            "month": "2026-01-01 00:00:00",
+            "revenue": 120.0
+          },
+          {
+            "month": "2026-02-01 00:00:00",
+            "revenue": 90.0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Alice product comparison",
+      "suite": "fixture_sql",
+      "status": "passed",
+      "detail": {
+        "actual_rows": [
+          {
+            "id": 1,
+            "name": "Trail Jacket",
+            "items": 8,
+            "revenue": 70.0
+          },
+          {
+            "id": 2,
+            "name": "City Jacket",
+            "items": 8,
+            "revenue": 140.0
+          }
+        ],
+        "expected_rows": [
+          {
+            "id": 1,
+            "name": "Trail Jacket",
+            "items": 8,
+            "revenue": 70.0
+          },
+          {
+            "id": 2,
+            "name": "City Jacket",
+            "items": 8,
+            "revenue": 140.0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Alice customer-state spend",
+      "suite": "fixture_sql",
+      "status": "failed",
+      "detail": {
+        "actual_rows": [],
+        "expected_rows": [
+          {
+            "state": "California",
+            "customers": 4,
+            "revenue": 210.0
+          }
+        ]
+      }
+    },
+    {
+      "name": "Alice scoped orders",
+      "suite": "fixture_sql",
+      "status": "passed",
+      "detail": {
+        "actual_rows": [
+          {
+            "orders": 16
+          }
+        ],
+        "expected_rows": [
+          {
+            "orders": 16
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bob authorized catalogue",
+      "suite": "fixture_sql",
+      "status": "passed",
+      "detail": {
+        "actual_rows": [
+          {
+            "id": 3,
+            "name": "Hidden Boots"
+          }
+        ],
+        "expected_rows": [
+          {
+            "id": 3,
+            "name": "Hidden Boots"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deny: SELECT email FROM users",
+      "suite": "safety",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Deny: SELECT first_name FROM users",
+      "suite": "safety",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Deny: SELECT * FROM project.dataset.users",
+      "suite": "safety",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Deny: DELETE FROM products",
+      "suite": "safety",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Deny: SELECT * FROM products; SELECT * FROM users",
+      "suite": "safety",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Deny: WITH q AS (SELECT * FROM secrets) SELECT * FROM q",
+      "suite": "safety",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Compare product revenue and return rates",
+      "suite": "lexical_retrieval_smoke",
+      "status": "passed",
+      "detail": {
+        "found": [
+          "product-comparison",
+          "monthly-revenue"
+        ],
+        "relevant": [
+          "product-comparison"
+        ]
+      }
+    },
+    {
+      "name": "Monthly revenue trend over time",
+      "suite": "lexical_retrieval_smoke",
+      "status": "passed",
+      "detail": {
+        "found": [
+          "monthly-revenue",
+          "product-comparison"
+        ],
+        "relevant": [
+          "monthly-revenue"
+        ]
+      }
+    },
+    {
+      "name": "Customer spend by state",
+      "suite": "lexical_retrieval_smoke",
+      "status": "passed",
+      "detail": {
+        "found": [
+          "customer-spend"
+        ],
+        "relevant": [
+          "customer-spend"
+        ]
+      }
+    },
+    {
+      "name": "Weather forecast for tomorrow",
+      "suite": "lexical_retrieval_smoke",
+      "status": "passed",
+      "detail": {
+        "found": [],
+        "relevant": []
+      }
+    },
+    {
+      "name": "Fixture agent query and save",
+      "suite": "workflow",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Report persists and is owner scoped",
+      "suite": "workflow",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Preview is non-destructive",
+      "suite": "workflow",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Exact confirmation and replay",
+      "suite": "workflow",
+      "status": "passed",
+      "detail": null
+    },
+    {
+      "name": "Correlated metadata without raw result rows",
+      "suite": "observability",
+      "status": "passed",
+      "detail": null
+    }
+  ],
+  "retrieval": {
+    "kind": "lexical_smoke_not_held_out",
+    "recall_at_2": 1.0,
+    "mrr": 1.0,
+    "negative_false_match_rate": 0.0
+  },
+  "not_evaluated": [
+    "real Gemini planning/report quality",
+    "real embedding relevance",
+    "live BigQuery",
+    "Docker/PostgreSQL runtime",
+    "Open WebUI browser behavior",
+    "human executive usability"
+  ]
+}

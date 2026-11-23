@@ -109,9 +109,14 @@ def test_live_cli_without_measured_metrics_exits_nonzero(tmp_path, monkeypatch):
 
 
 def test_live_judge_uses_configured_gateway_base_url():
-    from scripts.evaluate_ragas import judge_base_url, judge_http_timeout, judge_api_key, judge_provider
+    from scripts.evaluate_ragas import judge_base_url, judge_http_timeout, judge_api_key, judge_provider, judge_retry_count, judge_instructor_mode
+    from instructor import Mode
     assert judge_base_url(SimpleNamespace(deepinfra_base_url="https://gateway.example/v1")) == "https://gateway.example/v1/"
     assert judge_http_timeout(SimpleNamespace(deepinfra_base_url="https://gateway.example/v1")) == 60
+    assert judge_http_timeout(SimpleNamespace(deepinfra_base_url="https://gateway.example/v1", ragas_judge_timeout=120)) == 120
+    assert judge_retry_count() == 0
+    assert judge_instructor_mode(SimpleNamespace(llm_provider='openai_compatible')) == Mode.MD_JSON
+    assert judge_instructor_mode(SimpleNamespace(llm_provider='deepinfra')) == Mode.JSON
 
 
 def test_live_judge_labels_custom_gateway_without_calling_it_deepinfra():

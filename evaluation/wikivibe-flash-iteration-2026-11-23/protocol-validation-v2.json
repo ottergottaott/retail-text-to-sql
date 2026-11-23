@@ -1,0 +1,81 @@
+{
+  "provider": "openai_compatible",
+  "base_url": "https://api.wikivibe.dev/v1",
+  "generation_model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "development_selection": "First 8 cases / 4 whole task families from the existing development split; selected before calls.",
+  "development_case_count": 8,
+  "generation_calls_per_variant": 20,
+  "maximum_judge_calls_per_variant": 80,
+  "maximum_seconds_per_invocation": 1800,
+  "temperature": 0,
+  "ragas_version": "0.4.4",
+  "metrics": [
+    "faithfulness",
+    "sql_factual_faithfulness"
+  ],
+  "baseline_origin": "git HEAD retail/model.py SYSTEM",
+  "baseline_commit": "13916ab46f04ba6fa6da7baf2904db3945e9c3af",
+  "production_changed": false,
+  "human_review": "pending",
+  "evidence_boundary": "Frozen synthetic SQL evidence, review stage only; no live BigQuery, planner, retrieval or human acceptance. Same model generates and judges; scores are not accuracy.",
+  "cost": null,
+  "baseline_sha256": "6b6a21684780182312818b6dde626040e7d8c0f8dcf76fca26526d508585b81a",
+  "candidate_sha256": "5cfa4199ef32a039dc0e6b75dae29cef1d03e956fdc014cb76a61d0217fcf6e1",
+  "development_dataset_sha256": "419668b05251df921025a909167c73bea063cd2b226cc79eecc88035b72fa4da",
+  "implementation_sha256": {
+    "retail/model.py": "c41371ec0dca3c8f4303cf05db8deadc912457793788038e89eb2620617a3b95",
+    "retail/deepinfra.py": "5c4355f6e7cc8c18dc21b256afc62fb43ab8eb2573dea793f8266d42da97bec2",
+    "retail/ragas_evaluation.py": "5fe4d28ed8c1f078e8fe68ef4ce90056a978582c8ead865a88f6ed7cb29b7b3c",
+    "retail/ragas_metrics.py": "54266544ee9c16a8623fdb1e0ea8f31d24daa2f0ffc84c7e1007119132af6f08",
+    "retail/faithfulness_experiments.py": "1ef0c487f5a6c442d5bff38b12f7669a029b47d4c5623333f6fb6936ebf56e3a",
+    "scripts/run_faithfulness_experiment.py": "f8de96e280958203e31da85953c39ac372fadb38aeaa9eeec87c4656c884dddf",
+    "scripts/evaluate_ragas.py": "d1c026eebb645aede39f3cde454be8720ead9f650863fc0f671e271a9f1a7658",
+    "scripts/evaluate_review_prompts.py": "4c7baa14f4456ab6fba3224178606ce77526a45e95bc6e39f914ac0727ae8fcd"
+  },
+  "judge_http_timeout_seconds": 60,
+  "judge_factory_retries": 0,
+  "judge_transport_retries": 0,
+  "generation_timeout_seconds": 30,
+  "regression": {
+    "passed": 261,
+    "duration_seconds": 55.48,
+    "junit": "regression.xml"
+  },
+  "iteration": "candidate-v2",
+  "parent_candidate": "candidate.txt",
+  "development_exposure": "Same first 8 development cases previously inspected; tuning material, not held out.",
+  "hypothesis": "Clarify metric/grain/current-price semantics and distinguish unanswered analytical questions from empirical assertions. Preserve tables and useful next checks.",
+  "phase": "frozen broader validation",
+  "validation_dataset_sha256": "e1211c00bbaf79104f35d837983b7870d9c778c84ad1fa75c16f5b76d00394fd",
+  "validation_cases": 20,
+  "validation_families": 10,
+  "candidate_selection": "v2 selected on exposed development mean only; uncertainty and failed development score gate retained. No promotion.",
+  "dev_candidate_means": {
+    "faithfulness": 0.7868298368298369,
+    "sql_factual_faithfulness": 0.9861111111111112
+  },
+  "validation_started_before_output_inspection": true,
+  "repeatability_plan": {
+    "selection_rule": "First scope variant of each validation task family, fixed before full validation completes; independent of scores.",
+    "case_ids": [
+      "category-sales-1",
+      "brand-sales-1",
+      "department-sales-1",
+      "cost-margin-1",
+      "margin-ratio-1",
+      "catalog-reference-gap-1",
+      "unsold-catalog-1",
+      "brand-return-1",
+      "category-price-1",
+      "brand-status-1"
+    ],
+    "samples_per_variant": 10,
+    "responses": "Exact cached validation responses; no regeneration.",
+    "metric": "Unmodified standard Ragas faithfulness only.",
+    "maximum_judge_calls_per_variant": 20,
+    "same_judge_model": true,
+    "maximum_attempts": 1,
+    "gate": "Both original and repeated candidate means >=0.70 and paired mean delta >0; retain full validation uncertainty and deterministic gates. Repeat estimates judge sensitivity, not human agreement."
+  }
+}

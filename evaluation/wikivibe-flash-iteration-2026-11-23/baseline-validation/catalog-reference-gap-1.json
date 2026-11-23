@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-1",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe table below displays the average gap between current catalogue reference price (`retail_price`) and realized item sale price (`sale_price`) for completed items across authorized products over all available records [q1].\n\n| id | current_reference_gap |\n| --- | --- |\n| 1 | 90.0 |\n| 2 | 60.0 |\n\n- For product 1, the average difference between the current catalogue retail price and realized sale price is 90.0 [q1].\n- For product 2, the average difference is 60.0 [q1].\n\n### Limitations\n- Metric definition: The calculation reflects current catalog `retail_price` minus historical realized `sale_price` for `status = 'Complete'` items; it does not reflect historical catalogue price changes or promotional discount records at the time of purchase [q1].\n- Volume and timeframe: Total item counts, order counts, customer counts, and date coverage were not queried, so sample volume and temporal distribution remain unmeasured [q1].\n- Scope & currency: Currency units are not specified in the schema. Costs and profitability were not queried [q1].\n\n### Action items (proposed)\n- Query item counts and date ranges for products 1 and 2 to evaluate transaction volume supporting these averages.\n- Track realized sale prices across time buckets (e.g., monthly) to assess whether realization is trending closer to or further from current catalog prices.\n- Propose joining product cost data to compare realized margins against current reference margins.",
+  "status": "generated",
+  "seconds": 16.67125186699559,
+  "usage": {
+    "input_tokens": 2137,
+    "output_tokens": 1327,
+    "total_tokens": 3464,
+    "thought_tokens": 969,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

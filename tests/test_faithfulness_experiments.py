@@ -60,6 +60,14 @@ def test_table_completeness_and_wrong_values_are_not_rewarded():
     assert not check_answer(c, "## Findings\n|revenue|items|\n|---|---|\n|980|2|\n## Limitations\nUnknown.\n## Action items\nCheck.")["passed"]
 
 
+def test_empty_result_records_wording_does_not_bypass_nonempty_oracle():
+    answer = '|id|complete_items|\n|---|---|\n\n(No records returned)\nLimitations: queried scope only.\nAction items: check status distribution.'
+    empty = {'reference_rows': [], 'required_aliases': ['id', 'complete_items']}
+    assert check_answer(empty, answer)['passed']
+    nonempty = {**empty, 'reference_rows': [{'id': 1, 'complete_items': 2}]}
+    assert not check_answer(nonempty, answer)['passed']
+
+
 def test_exact_table_rows_and_save_claims_are_checked():
     c = {"reference_rows": [{"category": "Tops & Tees", "items": 2}, {"category": "Tops & Tees", "items": 2}],
          "required_aliases": ["category", "items"]}
@@ -80,7 +88,8 @@ def test_suite_requires_declared_source_and_table_oracle():
             validate_suite([c])
 
 
-def test_resume_rechecks_only_missing_case_and_retains_failed_attempt(tmp_path, monkeypatch):
+@pytest.mark.parametrize('custom_gateway', [False, True])
+def test_resume_rechecks_only_missing_case_and_retains_failed_attempt(tmp_path, monkeypatch, custom_gateway):
     import json
     import sys
     import retail.config
@@ -89,11 +98,20 @@ def test_resume_rechecks_only_missing_case_and_retains_failed_attempt(tmp_path, 
     from scripts.run_faithfulness_experiment import main
     cfg = SimpleNamespace(deepinfra_api_key='controlled-key', deepinfra_review_model='controlled', deepinfra_model='controlled')
     cfg.model_copy = lambda **kw: cfg
+    if custom_gateway:
+        cfg = retail.config.Settings(_env_file=None, retail_mode='fixture',
+            llm_provider='openai_compatible', deepinfra_api_key='',
+            openai_compatible_api_key='custom-key', openai_compatible_model='custom-flash',
+            openai_compatible_base_url='https://gateway.example/v1')
     monkeypatch.setattr(retail.config, 'Settings', lambda **kw: cfg)
     attempts = {}
     answer = '## Findings\n|count|\n|---|\n|2|\n## Limitations\nOnly this query.\n## Action items\nCheck month.'
     class Model:
-        def __init__(self, cfg): pass
+        def __init__(self, cfg):
+            if custom_gateway:
+                assert cfg.deepinfra_api_key == 'custom-key'
+                assert cfg.deepinfra_model == 'custom-flash'
+                assert cfg.deepinfra_base_url == 'https://gateway.example/v1'
         def decide(self, context, seconds):
             key = context['case_id']
             attempts[key] = attempts.get(key, 0)+1
@@ -120,3 +138,6 @@ def test_resume_rechecks_only_missing_case_and_retains_failed_attempt(tmp_path, 
     assert (tmp_path/'run/b.attempt-1.json').exists()
     result = json.loads((tmp_path/'run/results.json').read_text())
     assert result['scored_cases'] == 2 and result['generation_attempts'] == 3
+    if custom_gateway:
+        assert result['generation_provider'] == 'openai_compatible'
+        assert result['model'] == 'custom-flash'

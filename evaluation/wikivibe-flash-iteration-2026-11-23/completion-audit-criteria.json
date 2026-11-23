@@ -1,0 +1,47 @@
+{
+  "objective": "Improve standard whole-response Ragas faithfulness toward >=0.70 while preserving SQL/security oracles.",
+  "evidence_scope": "Frozen SQL evidence / report-review stage with working WikiVibe Flash. Not fresh live BigQuery or overall answer accuracy.",
+  "requirements": [
+    {
+      "id": "complete-validation",
+      "evidence": "20/20 cases per variant, unchanged standard Ragas contract, matching dataset/prompt/model/provider identities."
+    },
+    {
+      "id": "target-and-improvement",
+      "evidence": "Candidate validation mean >=0.70; existing paired family-bootstrap gate passes with >=5 families, positive lower delta interval and deterministic candidate checks."
+    },
+    {
+      "id": "judge-repeatability",
+      "evidence": "Same cached responses, fixed 10-family subset, repeated standard judge: candidate mean >=0.70 and positive paired mean delta; disclose failures and variation."
+    },
+    {
+      "id": "sealed-confirmation",
+      "evidence": "Frozen candidate tested on policy-aligned reserved test evidence; complete scoring and deterministic checks. No prompt tuning on reserved results."
+    },
+    {
+      "id": "oracles",
+      "evidence": "Development and validation SQL replay match; preserved privacy/access policy. Full regression passes after any source promotion."
+    },
+    {
+      "id": "independent-ai-review",
+      "evidence": "DeepSeek review via Alibaba China with no unresolved substantive blocking answer errors. Human review remains pending."
+    },
+    {
+      "id": "source-promotion",
+      "evidence": "Serving SYSTEM matches tested frozen candidate only if gates pass; retain baseline and all rejected/incomplete artifacts."
+    },
+    {
+      "id": "honest-reporting",
+      "evidence": "Record provider, requested model, budgets, coverage, bounded rechecks, token receipts and source limits; no cross-dataset improvement or overall accuracy claim."
+    }
+  ],
+  "status": "not_achieved",
+  "validation_status": "paused_by_user; incomplete; no promotion",
+  "production_prompt": "baseline; no promotion",
+  "latest_regression": {
+    "passed": 262,
+    "seconds": 53.95,
+    "junit": "regression-empty-wording.xml"
+  },
+  "latest_preference_edits": "unverified; test execution paused"
+}

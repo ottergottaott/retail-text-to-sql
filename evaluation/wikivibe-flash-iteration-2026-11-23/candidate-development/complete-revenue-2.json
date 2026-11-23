@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-2",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nRevenue is defined as `SUM(sale_price)` for items with `status = 'Complete'` across all available history within the authorized product scope enforced by the executor [q1].\n\n| complete_revenue |\n| --- |\n| 350.0 |\n\nTotal Complete-item revenue for authorized products across all recorded history is 350.0 [q1].\n\n### Limitations\n- The query did not return transaction or item counts, so unit volume and sample size were not measured [q1].\n- The query did not break down revenue by date bucket, product ID, or customer cohort [q1].\n\n### Action items (proposed)\n- Query Complete-item revenue segmented by date intervals (such as month or year) to evaluate revenue distribution over time.\n- Query item counts and distinct customer counts alongside revenue to measure order volume and purchasing breadth.",
+  "status": "generated",
+  "seconds": 27.892936910997378,
+  "usage": {
+    "input_tokens": 2137,
+    "output_tokens": 1413,
+    "total_tokens": 3550,
+    "thought_tokens": 1197,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

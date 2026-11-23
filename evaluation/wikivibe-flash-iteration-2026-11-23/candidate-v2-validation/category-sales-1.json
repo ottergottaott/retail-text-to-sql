@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-1",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products enforced via executor-bound views, order item records joined with products were aggregated at the product category grain with filter `status = 'Complete'`. No date filter was applied [q1]. Total complete revenue (`SUM(sale_price)`) is 210.0 across 14 complete items (`COUNT(*)`), all belonging to the Outerwear category [q1].\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Outerwear | 210.0 | 14 |\n\n### Limitations\n- The query filtered strictly for completed items and did not return records for other order statuses (such as cancelled or returned items) [q1].\n- No date constraints were applied, so the distribution of items across time and chronological coverage were not measured [q1].\n\n### Action items (proposed)\n- How is completed Outerwear revenue and item volume distributed across time when grouped by calendar month or year?\n- What are the distinct order count (`COUNT(DISTINCT order_key)`) and distinct customer count (`COUNT(DISTINCT customer_key)`) for these completed items?",
+  "status": "generated",
+  "seconds": 11.165089728005114,
+  "usage": {
+    "input_tokens": 2512,
+    "output_tokens": 1134,
+    "total_tokens": 3646,
+    "thought_tokens": 856,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

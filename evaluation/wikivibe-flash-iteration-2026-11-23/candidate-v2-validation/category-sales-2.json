@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-2",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThis analysis summarizes completed items at the category grain for authorized products (product IDs 2 and 3, enforced via executor-bound views). Aggregations are calculated at the item grain (`order_items` joined to `products`), filtered by `status = 'Complete'`, with no date filter applied [q1]. Complete revenue is defined as `SUM(sale_price)` and completed volume as item count `COUNT(*)`.\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\nAcross all recorded history within the authorized scope, Footwear produced 210.0 in complete revenue across 7 items, while Outerwear produced 140.0 in complete revenue across 7 items [q1].\n\n### Limitations\n- The query did not apply a date filter or date grouping, so date range and historical trend coverage were not measured [q1].\n- Distinct order and customer counts were not queried, so the distribution of items across individual orders or customers remains unmeasured [q1].\n\n### Action items (proposed)\n- What is the monthly breakdown of complete revenue and completed item counts by category across authorized products?\n- How many distinct orders (`COUNT(DISTINCT order_key)`) and distinct customers (`COUNT(DISTINCT customer_key)`) generated the completed items in each category?",
+  "status": "generated",
+  "seconds": 11.346796302997973,
+  "usage": {
+    "input_tokens": 2541,
+    "output_tokens": 1139,
+    "total_tokens": 3680,
+    "thought_tokens": 795,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,25 @@
+{
+  "id": "margin-ratio-2",
+  "family": "margin-ratio",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n- **Metric & Aggregation:** Cost-proxy margin ratio calculated as `SUM(sale_price - cost) / NULLIF(SUM(sale_price), 0)` [q1]. This calculation uses product cost as a proxy and does not represent net profit.\n- **Grain & Scope:** Item grain (`order_items` joined to `products`), filtered to `status = 'Complete'` across authorized products (enforced via executor-bound views) [q1].\n- **Date Filter:** No date filter was applied; coverage and completeness across time were not measured [q1].\n- **Results:**\n\n| cost_proxy_margin_ratio |\n| --- |\n| -1.0 |\n\nAcross all recorded completed items within authorized scope, the aggregate cost-proxy margin ratio is -1.0 [q1].\n\n### Limitations\n- The query did not return item counts, distinct order counts, or separate totals for revenue and cost [q1].\n- Results were aggregated into a single ratio without breakdowns by product ID, department, or time period [q1].\n\n### Action items (proposed)\n- What are the separate item counts, total Complete revenue (`SUM(sale_price)`), and total cost (`SUM(cost)`) broken down by `product_id`?\n- How does the cost-proxy margin ratio vary by calendar year or month for completed orders?",
+  "status": "generated",
+  "seconds": 29.197657758006244,
+  "usage": {
+    "input_tokens": 2501,
+    "output_tokens": 1372,
+    "total_tokens": 3873,
+    "thought_tokens": 1047,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

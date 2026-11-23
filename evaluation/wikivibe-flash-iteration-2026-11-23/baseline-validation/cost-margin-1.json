@@ -1,0 +1,25 @@
+{
+  "id": "cost-margin-1",
+  "family": "cost-margin",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n- **Scope & Window:** All available recorded orders with status 'Complete' within authorized product scope [q1].\n- **Metric Definition:** Total sale price minus current catalogue cost proxy (`cost_proxy_margin`), which reflects a gross catalog proxy rather than net profit [q1].\n- Across 14 completed items, the aggregate cost proxy margin is -280.0 [q1]. Note that this observation is based on a small sample of 14 items [q1].\n\n| cost_proxy_margin | complete_items |\n| --- | --- |\n| -280.0 | 14 |\n\n### Limitations\n- **Cost Proxy vs. Historical Cost:** The analysis uses current `products.cost` as a proxy, which does not reflect historical cost of goods sold at the exact time of transaction [q1].\n- **Excluded Costs:** Net profit was not calculated; fulfillment fees, shipping, taxes, marketing costs, and customer returns are excluded.\n- **Data Coverage:** All available history was queried; completeness and date boundaries were not measured [q1].\n- **Scope Enforcement:** Product filtering is handled via executor-bound scoping.\n\n### Action items (proposed)\n- Propose grouping `cost_proxy_margin` by product ID and item grain to identify which specific authorized items generated negative margins.\n- Propose querying item-level `sale_price` alongside `retail_price` and `cost` over time to check for observed price variations relative to catalog cost.\n- Propose bucketing completed items by date to determine whether the negative proxy margin is concentrated in specific periods.",
+  "status": "generated",
+  "seconds": 18.89541348700004,
+  "usage": {
+    "input_tokens": 2108,
+    "output_tokens": 1750,
+    "total_tokens": 3858,
+    "thought_tokens": 1377,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

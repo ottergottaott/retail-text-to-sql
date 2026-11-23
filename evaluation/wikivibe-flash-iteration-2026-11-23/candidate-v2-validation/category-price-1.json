@@ -1,0 +1,25 @@
+{
+  "id": "category-price-1",
+  "family": "category-price",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products (enforced via executor-bound scope), mean realized price was calculated at item grain using `AVG(sale_price)` filtered to `status = 'Complete'` across all available records without a date filter [q1]. Only one category was returned:\n\n| category | mean_realized_price |\n| :--- | :--- |\n| Outerwear | 15.0 |\n\n### Limitations\n- Query [q1] did not return completed item counts or order counts, so the volume underlying this average is unmeasured.\n- Query [q1] did not apply a date filter or date grouping, so price trends across time periods were not measured.\n\n### Action items (proposed)\n- What is the completed item volume and distinct order count for Outerwear within the authorized scope?\n- How does the completed mean realized price for Outerwear vary by month or year?",
+  "status": "generated",
+  "seconds": 11.66642100000172,
+  "usage": {
+    "input_tokens": 2500,
+    "output_tokens": 1084,
+    "total_tokens": 3584,
+    "thought_tokens": 864,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

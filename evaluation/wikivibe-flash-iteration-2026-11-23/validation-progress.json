@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-11-23T01:28:04.953662+00:00",
+  "status": "incomplete",
+  "variants": {
+    "baseline-validation": {
+      "expected": 20,
+      "generated": 19,
+      "deterministic_passed": 17,
+      "fully_scored_saved": 8,
+      "judge_calls_saved": 60
+    },
+    "candidate-v2-validation": {
+      "expected": 20,
+      "generated": 19,
+      "deterministic_passed": 19,
+      "fully_scored_saved": 18,
+      "judge_calls_saved": 80
+    }
+  },
+  "boundary": "Partial coverage; no promotion or comparison of partial means. Frozen synthetic SQL evidence; no live BigQuery."
+}

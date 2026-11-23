@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-1",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nTotal revenue for Complete items across authorized products is 210.0 [q1].\n\n| complete_revenue |\n| --- |\n| 210.0 |\n\n### Limitations\n- Scope is limited to `order_items` where `status = 'Complete'` for authorized products enforced via executor binding [q1].\n- Currency is not defined in the supplied dataset.\n- Total item volume, distinct customer count, order count, and date coverage were not queried; sample size cannot be determined from aggregate revenue alone [q1].\n- Inventory levels, pricing history, and promotions were not measured.\n\n### Action items (proposed)\n- Query unit volume, order counts, and distinct customer counts to understand transaction depth behind the revenue figure.\n- Break down Complete-item revenue by authorized product ID and time period (e.g., monthly) to observe distribution and trends.\n- Examine item status distributions (e.g., returned or cancelled items) to evaluate order completion rates.",
+  "status": "generated",
+  "seconds": 11.896886504007853,
+  "usage": {
+    "input_tokens": 2049,
+    "output_tokens": 824,
+    "total_tokens": 2873,
+    "thought_tokens": 583,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

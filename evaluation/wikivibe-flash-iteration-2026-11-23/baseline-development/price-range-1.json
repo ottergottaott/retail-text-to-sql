@@ -1,0 +1,25 @@
+{
+  "id": "price-range-1",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nBased on completed order items across authorized products, the observed price range is summarized below [q1]:\n\n| min_price | max_price |\n| --- | --- |\n| 10.0 | 20.0 |\n\n- The minimum observed `sale_price` for completed items is 10.0 [q1].\n- The maximum observed `sale_price` for completed items is 20.0 [q1].\n\n### Limitations\n- The analysis is limited to items with `status = 'Complete'` within authorized product scope; other order statuses were excluded [q1].\n- Currency is not specified in the source data.\n- Overall item counts, order counts, and customer volume were not queried, so sample size and transaction volume remain unmeasured [q1].\n- Historical date coverage and product-level price distributions were not evaluated [q1].\n\n### Action items (proposed)\n- Query item counts, averages, and product-level breakdowns to examine price variance across individual authorized products.\n- Evaluate `sale_price` against `retail_price` over time to analyze observed pricing patterns.",
+  "status": "generated",
+  "seconds": 21.445964064012514,
+  "usage": {
+    "input_tokens": 2081,
+    "output_tokens": 1282,
+    "total_tokens": 3363,
+    "thought_tokens": 1011,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

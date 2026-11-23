@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-2",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n- **Aggregation & Grain**: Item-level count (`COUNT(*)` aliased as `complete_items`) from `order_items` grouped by `product_id` [q1].\n- **Status Predicate**: Filtered to `status = 'Complete'` [q1].\n- **Scope & Date Filter**: Scoped to authorized products (products 2 and 3, enforced by the executor); no date filter was applied [q1].\n\n| product_id | complete_items |\n| --- | --- |\n| 2 | 7 |\n| 3 | 7 |\n\nEach authorized product (product_id 2 and product_id 3) has 7 completed items [q1].\n\n### Limitations\n- The query does not return revenue totals (`sale_price`), distinct order counts, or distinct customer counts [q1].\n- The query did not filter or group by date, so the timing and distribution of completed items across periods was not measured [q1].\n\n### Action items (proposed)\n- What is the total completed revenue (`SUM(sale_price)`) and distinct customer count (`COUNT(DISTINCT customer_key)`) for each authorized product?\n- How are completed items distributed by calendar year (`EXTRACT(YEAR FROM created_at)`) for products 2 and 3?",
+  "status": "generated",
+  "seconds": 11.250978618001682,
+  "usage": {
+    "input_tokens": 2491,
+    "output_tokens": 1026,
+    "total_tokens": 3517,
+    "thought_tokens": 711,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

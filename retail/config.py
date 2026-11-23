@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     deepinfra_model: str = "google/gemini-3.7-flash"
     deepinfra_review_model: str = ""
     deepinfra_embedding_model: str = "Qwen/Qwen3-Embedding-8B"
+    ragas_judge_timeout: int = Field(default=60, ge=10, le=300)
     openai_compatible_api_key: str = ""
     openai_compatible_base_url: str = ""
     openai_compatible_model: str = ""

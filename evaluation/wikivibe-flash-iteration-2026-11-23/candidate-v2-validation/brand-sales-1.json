@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-1",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nFor authorized products (IDs 1 and 2, enforced via executor-bound views), the aggregation evaluates item-grain records from `order_items` joined to `products` where `status = 'Complete'` [q1]. No date filter was applied, covering all returned records. Revenue is defined as `SUM(sale_price)` (`complete_revenue`) and item count as `COUNT(*)` (`complete_items`), grouped by `brand`.\n\n| brand | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\n### Limitations\n- The query did not filter by date or return time-period breakdowns [q1].\n- The query did not measure order volume (`COUNT(DISTINCT order_key)`) or customer counts (`COUNT(DISTINCT customer_key)`) [q1].\n\n### Action items (proposed)\n- How does `complete_revenue` and `complete_items` break down by calendar year or month for each brand?\n- What is the distinct order count (`COUNT(DISTINCT order_key)`) for completed items across each brand?",
+  "status": "generated",
+  "seconds": 16.465616126006353,
+  "usage": {
+    "input_tokens": 2538,
+    "output_tokens": 1374,
+    "total_tokens": 3912,
+    "thought_tokens": 1082,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

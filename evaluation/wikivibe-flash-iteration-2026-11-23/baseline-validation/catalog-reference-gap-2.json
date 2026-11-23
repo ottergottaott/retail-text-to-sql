@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-2",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe table below displays the average gap between the current catalogue reference price (`retail_price`) and the realized `sale_price` for completed items (`status = 'Complete'`) across authorized products [q1].\n\n| id | current_reference_gap |\n|---|---|\n| 2 | 60.0 |\n| 3 | 170.0 |\n\n- Product 2 shows an average gap of 60.0 between current catalogue retail price and realized sale price on completed items [q1].\n- Product 3 shows an average gap of 170.0 between current catalogue retail price and realized sale price on completed items [q1].\n\n### Limitations\n- Scope is confined to authorized product IDs 2 and 3 with `status = 'Complete'` [q1].\n- The metric reflects current catalogue `retail_price` minus historical `sale_price`; it does not measure historical catalogue prices at transaction time or recorded promotional discounts.\n- Volume metrics (such as item or order counts) and transaction date ranges were not queried.\n- Product costs and net profit were not queried.\n\n### Action items (proposed)\n- Query item counts and transaction frequencies for products 2 and 3 to evaluate the volume supporting each average.\n- Propose analyzing `sale_price` over time to determine whether the difference from catalogue reference has varied across periods.\n- Propose joining product cost to evaluate realized gross margins alongside the catalogue gap.",
+  "status": "generated",
+  "seconds": 11.227260280997143,
+  "usage": {
+    "input_tokens": 2136,
+    "output_tokens": 1246,
+    "total_tokens": 3382,
+    "thought_tokens": 904,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

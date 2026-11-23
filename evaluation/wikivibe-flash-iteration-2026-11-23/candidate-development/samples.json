@@ -1,0 +1,82 @@
+[
+  {
+    "id": "complete-revenue-1",
+    "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": 210.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBased on query [q1], Complete-item revenue was calculated using `SUM(sale_price)` for items with `status = 'Complete'` across authorized products over all available history.\n\n| complete_revenue |\n| --- |\n| 210.0 |\n\n- Total Complete-item revenue across the authorized scope is 210.0 [q1].\n\n### Limitations\n- Query [q1] did not return item quantities, transaction counts, or distinct customer counts.\n- Query [q1] did not break down revenue by time period, product ID, or category.\n\n### Action items (proposed)\n- Query item and order counts for items with `status = 'Complete'` to measure transaction volume alongside revenue.\n- Evaluate Complete-item revenue segmented by product ID and date buckets to observe distribution and time trends across authorized products."
+  },
+  {
+    "id": "complete-revenue-2",
+    "question": "Show Complete-item revenue for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"complete_revenue\": 350.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nRevenue is defined as `SUM(sale_price)` for items with `status = 'Complete'` across all available history within the authorized product scope enforced by the executor [q1].\n\n| complete_revenue |\n| --- |\n| 350.0 |\n\nTotal Complete-item revenue for authorized products across all recorded history is 350.0 [q1].\n\n### Limitations\n- The query did not return transaction or item counts, so unit volume and sample size were not measured [q1].\n- The query did not break down revenue by date bucket, product ID, or customer cohort [q1].\n\n### Action items (proposed)\n- Query Complete-item revenue segmented by date intervals (such as month or year) to evaluate revenue distribution over time.\n- Query item counts and distinct customer counts alongside revenue to measure order volume and purchasing breadth."
+  },
+  {
+    "id": "item-status-1",
+    "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"items\": 14}, {\"status\": \"Returned\", \"items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nThe item counts by status for authorized products are summarized below [q1]:\n\n| status | items |\n| --- | --- |\n| Complete | 14 |\n| Returned | 2 |\n\n- In the queried records, 14 items have a status of 'Complete' and 2 items have a status of 'Returned' [q1].\n\n### Limitations\n- The query returned status counts only; it did not return monetary values, order counts, or distinct customer counts [q1].\n- The query did not return timestamps or date boundaries, so the time window and historical trends were not measured [q1].\n\n### Action items (proposed)\n- Propose querying order item counts grouped by status across monthly or quarterly time periods to observe status patterns over time.\n- Propose querying total `sale_price` alongside item status to measure the revenue associated with completed versus returned items."
+  },
+  {
+    "id": "item-status-2",
+    "question": "Show item counts by status for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"status\": \"Complete\", \"items\": 14}, {\"status\": \"Returned\", \"items\": 2}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`status` AS `status`, COUNT(*) AS `items` FROM `order_items` AS `order_items` GROUP BY `status` ORDER BY `status`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nBelow are the item counts by status for authorized products [q1]:\n\n| status | items |\n| :--- | :--- |\n| Complete | 14 |\n| Returned | 2 |\n\n- In the returned records for authorized products, 14 items have a status of 'Complete' and 2 items have a status of 'Returned' [q1].\n\n### Limitations\n- The query returned order item counts by status; it did not return sale prices, margins, or discount details [q1].\n- Date ranges and temporal completeness were not queried [q1].\n\n### Action items (proposed)\n- Propose calculating return rates over specific monthly or quarterly date buckets [q1].\n- Propose breaking down item status counts by individual authorized product ID [q1]."
+  },
+  {
+    "id": "item-volume-1",
+    "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 1, \"complete_items\": 7}, {\"product_id\": 2, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nThe query measures the count of completed order items (`status = 'Complete'`) across authorized products [q1].\n\n| product_id | complete_items |\n| --- | --- |\n| 1 | 7 |\n| 2 | 7 |\n\n- Both authorized products (product 1 and product 2) have 7 completed items recorded [q1].\n\n### Limitations\n- The query only aggregates completed item counts and does not return order counts, unique customers, sale prices, costs, or margins [q1].\n- Other order item statuses (such as cancelled, returned, or processing) and date ranges were not queried [q1].\n\n### Action items (proposed)\n- Propose querying item volume across all statuses (e.g., returned, cancelled) to evaluate completion rates by product.\n- Propose breaking down completed items by time period and joining with `products` to review product names, categories, and revenue metrics."
+  },
+  {
+    "id": "item-volume-2",
+    "question": "Show Complete item counts by product for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"product_id\": 2, \"complete_items\": 7}, {\"product_id\": 3, \"complete_items\": 7}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT `order_items`.`product_id` AS `product_id`, COUNT(*) AS `complete_items` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete' GROUP BY `product_id` ORDER BY `product_id`\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nThe query [q1] returned the count of items with status `'Complete'` grouped by product across authorized scope:\n\n| product_id | complete_items |\n| --- | --- |\n| 2 | 7 |\n| 3 | 7 |\n\n- Product 2 has 7 completed items [q1].\n- Product 3 has 7 completed items [q1].\n\n### Limitations\n- The query was restricted to items where `status = 'Complete'` and did not measure other item statuses, sale prices, or total revenue [q1].\n- Order dates, date ranges, and distinct customer counts were not queried, leaving time trends and customer concentration unmeasured [q1].\n\n### Action items (proposed)\n- Propose breaking down completed item counts by date buckets (e.g., monthly) to assess order volume trends over time.\n- Propose checking distinct customer counts and total revenue (`SUM(sale_price)`) for products 2 and 3."
+  },
+  {
+    "id": "price-range-1",
+    "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"min_price\": 10.0, \"max_price\": 20.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [1, 2], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nFor completed order items within authorized product scope, the observed sale price range is presented below [q1]:\n\n| min_price | max_price |\n| --- | --- |\n| 10.0 | 20.0 |\n\n- The minimum observed sale price among items with status 'Complete' is 10.0 [q1].\n- The maximum observed sale price among items with status 'Complete' is 20.0 [q1].\n\n### Limitations\n- The query returned aggregate minimum and maximum values only; it did not return item counts, distributions, or individual product identifiers [q1].\n- Historical price changes over time and comparison against catalog retail prices were not queried [q1].\n\n### Action items (proposed)\n- Propose querying sale price distributions broken down by individual `product_id` to identify which products represent the minimum and maximum boundaries.\n- Propose querying monthly price ranges along with completed item counts to assess how price boundaries have trended over time."
+  },
+  {
+    "id": "price-range-2",
+    "question": "Show observed Complete-item price range for my authorized products. Use a Markdown table with the SQL aliases. Include limitations and useful next analytical checks. Do not save.",
+    "sql_contexts": [
+      "{\"rows\": [{\"min_price\": 20.0, \"max_price\": 30.0}], \"mode\": \"fixture\", \"job_id\": null, \"bytes_processed\": null, \"sql\": \"SELECT MIN(`order_items`.`sale_price`) AS `min_price`, MAX(`order_items`.`sale_price`) AS `max_price` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'\", \"truncated\": false, \"query_id\": \"q1\"}",
+      "{\"execution_scope\": {\"authorized_products\": [2, 3], \"enforcement\": \"executor_bound_views\"}}"
+    ],
+    "source": "synthetic",
+    "response": "### Findings\nFor authorized products under executor-bound scope, the observed item sale price range for items with `status = 'Complete'` ranges from 20.0 to 30.0 [q1].\n\n| min_price | max_price |\n| --- | --- |\n| 20.0 | 30.0 |\n\n### Limitations\n- Item and order counts were not queried, so transaction volume and price distributions are unmeasured [q1].\n- Specific product IDs, date ranges, and catalog retail prices were not retrieved by this query [q1].\n\n### Action items (proposed)\n- Propose querying item counts and average sale prices broken down by `product_id` to analyze volume at each price point.\n- Propose comparing observed `sale_price` against `retail_price` in `products` to inspect how realized sale prices compare to catalog prices."
+  }
+]

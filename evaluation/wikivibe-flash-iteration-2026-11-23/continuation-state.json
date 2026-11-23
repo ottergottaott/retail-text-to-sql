@@ -1,0 +1,19 @@
+{
+  "as_of": "2026-11-23T01:37:23.565221+00:00",
+  "status": "paused_by_user",
+  "paid_processes": "Stopped; process inventory confirmed no evaluator/supplement processes remaining.",
+  "new_provider_calls_allowed": false,
+  "new_test_runs_allowed": false,
+  "candidate_original_validation": "incomplete; 19/20 fully scored, one generation failed twice",
+  "baseline_resume": "Interrupted; original incomplete result and completed batch checkpoints retained.",
+  "candidate_repeat": "Interrupted; no complete repeated-judge result.",
+  "candidate_supplement": "Generation completed; judge interrupted; separate supplemental directory, not original acceptance.",
+  "source_prompt": "baseline; no promotion",
+  "latest_completed_regression": {
+    "passed": 262,
+    "seconds": 53.95,
+    "boundary": "Predates new preference-application edits."
+  },
+  "preference_edits": "Implemented with prepared tests, not executed.",
+  "goal": "Active, not achieved; user paused evaluation."
+}

@@ -1,0 +1,128 @@
+{
+  "matching_contracts_and_data": true,
+  "baseline": "evaluation/wikivibe-flash-iteration-2026-11-23/baseline-development/results.json",
+  "candidate": "evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-development/results.json",
+  "comparisons": {
+    "faithfulness": {
+      "complete": true,
+      "paired_cases": 8,
+      "mean_delta": 0.03160797535797538,
+      "delta_ci95": [
+        -0.015909090909090914,
+        0.06624000999001005
+      ],
+      "ci_method": "2000 family-cluster paired bootstrap; seed=20261122",
+      "improved": 6,
+      "regressed": 2,
+      "unchanged": 0,
+      "pairs": [
+        {
+          "id": "complete-revenue-1",
+          "delta": 0.027272727272727337,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "complete-revenue-2",
+          "delta": 0.07272727272727275,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "item-status-1",
+          "delta": -0.015151515151515138,
+          "family": "item-status"
+        },
+        {
+          "id": "item-status-2",
+          "delta": -0.06060606060606066,
+          "family": "item-status"
+        },
+        {
+          "id": "item-volume-1",
+          "delta": 0.11818181818181828,
+          "family": "item-volume"
+        },
+        {
+          "id": "item-volume-2",
+          "delta": 0.032467532467532534,
+          "family": "item-volume"
+        },
+        {
+          "id": "price-range-1",
+          "delta": 0.027972027972027913,
+          "family": "price-range"
+        },
+        {
+          "id": "price-range-2",
+          "delta": 0.050000000000000044,
+          "family": "price-range"
+        }
+      ],
+      "paired_score_gate_passed": false,
+      "promotable": false,
+      "limitation": "Single-run judge uncertainty is not captured by case bootstrap. Promotion also requires independent review and sealed-test confirmation."
+    },
+    "sql_factual_faithfulness": {
+      "complete": true,
+      "paired_cases": 8,
+      "mean_delta": 0.035714285714285726,
+      "delta_ci95": [
+        -0.02777777777777779,
+        0.09920634920634924
+      ],
+      "ci_method": "2000 family-cluster paired bootstrap; seed=20261122",
+      "improved": 3,
+      "regressed": 1,
+      "unchanged": 4,
+      "pairs": [
+        {
+          "id": "complete-revenue-1",
+          "delta": 0.0,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "complete-revenue-2",
+          "delta": 0.1428571428571429,
+          "family": "complete-revenue"
+        },
+        {
+          "id": "item-status-1",
+          "delta": 0.0,
+          "family": "item-status"
+        },
+        {
+          "id": "item-status-2",
+          "delta": 0.0,
+          "family": "item-status"
+        },
+        {
+          "id": "item-volume-1",
+          "delta": -0.11111111111111116,
+          "family": "item-volume"
+        },
+        {
+          "id": "item-volume-2",
+          "delta": 0.0,
+          "family": "item-volume"
+        },
+        {
+          "id": "price-range-1",
+          "delta": 0.11111111111111116,
+          "family": "price-range"
+        },
+        {
+          "id": "price-range-2",
+          "delta": 0.1428571428571429,
+          "family": "price-range"
+        }
+      ],
+      "paired_score_gate_passed": false,
+      "promotable": false,
+      "limitation": "Single-run judge uncertainty is not captured by case bootstrap. Promotion also requires independent review and sealed-test confirmation."
+    }
+  },
+  "automatic_promotion": false,
+  "human_review": "pending",
+  "baseline_expected_cases": 8,
+  "candidate_expected_cases": 8,
+  "boundary": "Same synthetic frozen evidence and judge contracts. Case bootstrap excludes repeated-judge variance. No overall accuracy claim."
+}

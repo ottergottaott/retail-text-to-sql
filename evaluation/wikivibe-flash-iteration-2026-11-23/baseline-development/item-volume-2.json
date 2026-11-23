@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-2",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nBased on all available historical order item records scoped to your authorized products [q1], both authorized products have an equal count of completed items.\n\n| product_id | complete_items |\n| --- | --- |\n| 2 | 7 |\n| 3 | 7 |\n\n- Metric & Scope: Total completed item count (`status = 'Complete'`) across authorized products (`product_id` 2 and 3) [q1].\n- Both product 2 and product 3 have 7 completed item records [q1].\n\n### Limitations\n- Only items with `status = 'Complete'` were queried; other order item statuses (such as cancelled or returned items) were excluded and not measured [q1].\n- Product metadata (such as product names, categories, or retail prices) and revenue metrics were not retrieved [q1].\n- Date filters were not applied, and temporal distribution or coverage across time was not measured [q1].\n\n### Action items (proposed)\n- Check order item counts across all statuses (e.g., Returned, Cancelled, Shipped) to evaluate fulfillment and completion rates by product.\n- Measure completed item volume grouped by monthly or quarterly date buckets to assess sales trajectory over time.\n- Join with the `products` table to display product names alongside `product_id`.",
+  "status": "generated",
+  "seconds": 14.992527829002938,
+  "usage": {
+    "input_tokens": 2095,
+    "output_tokens": 1228,
+    "total_tokens": 3323,
+    "thought_tokens": 916,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

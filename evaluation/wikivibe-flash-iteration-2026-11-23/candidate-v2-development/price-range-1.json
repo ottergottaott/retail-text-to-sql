@@ -1,0 +1,25 @@
+{
+  "id": "price-range-1",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n- Aggregation: Minimum and maximum `sale_price` at item grain (`order_items`) filtered to `status = 'Complete'`.\n- Scope: Authorized products [1, 2] enforced via executor-bound views; no date filter was applied [q1].\n- Observed Complete-item price range:\n\n| min_price | max_price |\n| ---: | ---: |\n| 10.0 | 20.0 |\n\n### Limitations\n- The query returns only overall boundary values; it does not measure item or order volume, price distributions, or historical date completeness [q1].\n- Price metrics were not broken down by individual product ID or category within the authorized scope [q1].\n\n### Action items (proposed)\n- What are the completed item count, average `sale_price`, and price range grouped by `product_id` for authorized products?\n- How do completed item sales prices break down across calendar years or quarters?",
+  "status": "generated",
+  "seconds": 11.01750915098819,
+  "usage": {
+    "input_tokens": 2477,
+    "output_tokens": 897,
+    "total_tokens": 3374,
+    "thought_tokens": 658,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

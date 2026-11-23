@@ -15,6 +15,18 @@ from retail.security import PolicyError
 DEFAULT_DEEPINFRA_BASE_URL = "https://api.deepinfra.com/v1/openai"
 
 
+def judge_retry_count():
+    """Ragas must not retry behind the evaluator's own bounded call budget."""
+    return 0
+
+
+def judge_instructor_mode(config):
+    """Use markdown JSON only for gateways known to fence structured output."""
+    from instructor import Mode
+    return (Mode.MD_JSON if getattr(config, "llm_provider", "") == "openai_compatible"
+            else Mode.JSON)
+
+
 def _uses_openai_compatible_gateway(config):
     return getattr(config, "llm_provider", "") == "openai_compatible" and bool(
         getattr(config, "openai_compatible_base_url", "")
@@ -43,7 +55,9 @@ def judge_provider(config):
 
 
 def judge_http_timeout(config):
-    return 60 if judge_base_url(config).rstrip("/") != DEFAULT_DEEPINFRA_BASE_URL else 30
+    default = 30 if judge_base_url(config).rstrip("/") == DEFAULT_DEEPINFRA_BASE_URL else 60
+    value = getattr(config, "ragas_judge_timeout", default)
+    return max(10, min(300, int(value)))
 
 
 async def live(samples, config, model, max_calls, metric_names=None, diagnostics=False):
@@ -78,7 +92,8 @@ async def live(samples, config, model, max_calls, metric_names=None, diagnostics
     transport = BoundedTransport()
     async with httpx.AsyncClient(transport=transport, timeout=judge_http_timeout(config)) as http:
         async with AsyncOpenAI(api_key=judge_api_key(config), base_url=judge_base_url(config), max_retries=0, http_client=http) as client:
-            judge = llm_factory(model, client=client, mode=Mode.JSON, temperature=0, max_tokens=6000, max_retries=1)
+            judge = llm_factory(model, client=client, mode=judge_instructor_mode(config), temperature=0,
+                                max_tokens=6000, max_retries=judge_retry_count())
             metrics = {"faithfulness": Faithfulness(judge), "context_precision": ContextPrecision(judge), "context_recall": ContextRecall(judge)}
             if metric_names:
                 if "factual_faithfulness" in metric_names:
@@ -90,7 +105,9 @@ async def live(samples, config, model, max_calls, metric_names=None, diagnostics
                 from retail.faithfulness_experiments import record_diagnostics
                 metrics = {name: record_diagnostics(metric) if "faithfulness" in name else metric
                            for name, metric in metrics.items()}
-            report = await evaluate_samples(samples, metrics)
+            # Ragas has its own per-metric timeout; keep it bounded while
+            # allowing slower custom gateways to finish structured judge calls.
+            report = await evaluate_samples(samples, metrics, timeout=min(120, judge_http_timeout(config)))
     report.update(judge_provider=judge_provider(config), judge_model=model, ragas_version="0.4.4",
                   attempted_provider_calls=transport.attempts, max_provider_calls=max_calls,
                   measured_total_tokens=transport.tokens if transport.usage_responses else None,

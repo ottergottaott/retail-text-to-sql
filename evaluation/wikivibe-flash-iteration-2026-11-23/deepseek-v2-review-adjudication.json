@@ -1,0 +1,45 @@
+{
+  "boundary": "Local source and recorded-result inspection; not another judge call, independent SQL verification or human acceptance.",
+  "blocking_sample_findings": 0,
+  "schema_premise_findings": {
+    "reviewer_limitation": "Attached samples omit the full schema; model generation contexts include it.",
+    "checks": [
+      {
+        "table": "order_items",
+        "field": "order_key",
+        "present_in_serving_schema": true
+      },
+      {
+        "table": "order_items",
+        "field": "customer_key",
+        "present_in_serving_schema": true
+      },
+      {
+        "table": "order_items",
+        "field": "created_at",
+        "present_in_serving_schema": true
+      },
+      {
+        "table": "products",
+        "field": "retail_price",
+        "present_in_serving_schema": true
+      },
+      {
+        "table": "products",
+        "field": "cost",
+        "present_in_serving_schema": true
+      }
+    ],
+    "resolution": "All named columns are permitted in the schema supplied to generation; no prompt change made."
+  },
+  "recheck_documentation": {
+    "original_frozen_protocol": "protocol-v2.json",
+    "actual_results": "candidate-v2-development/results.json",
+    "original_failed_batch": "candidate-v2-development/judge-00.attempt-1.json",
+    "actual_judge_requests": 36,
+    "per_invocation_ceiling": 32,
+    "resolution": "Results and README disclose the resume. The frozen pre-run protocol is retained; the ceiling was per invocation, not total including resume."
+  },
+  "candidate_status": "No promotion; full validation, repeated judge and sealed-test checks pending.",
+  "human_review": "pending"
+}

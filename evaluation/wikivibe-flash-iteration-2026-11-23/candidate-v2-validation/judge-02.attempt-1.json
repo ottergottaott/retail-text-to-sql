@@ -1,0 +1,525 @@
+{
+  "status": "incomplete",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.74491341991342,
+    "sql_factual_faithfulness": 0.9629629629629629
+  },
+  "combined_means": {
+    "faithfulness": 0.74491341991342,
+    "sql_factual_faithfulness": 0.9629629629629629
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 3,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "margin-ratio-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across all available history within the authorized product scope, the aggregate cost-proxy margin divided by Complete-item revenue was evaluated at item grain joined to the products catalogue.",
+                "reason": "The SQL query joins order_items with products on product_id without date constraints within the authorized scope to compute the margin ratio.",
+                "verdict": 1
+              },
+              {
+                "statement": "The evaluation of aggregate cost-proxy margin divided by Complete-item revenue used the condition status = 'Complete'.",
+                "reason": "The SQL query explicitly contains the clause WHERE `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date filter was applied to the evaluation of aggregate cost-proxy margin divided by Complete-item revenue.",
+                "reason": "The SQL query contains only WHERE `i`.`status` = 'Complete' with no date-based filtering conditions.",
+                "verdict": 1
+              },
+              {
+                "statement": "The execution yielded an aggregate cost-proxy margin ratio of -1.3333333333333333.",
+                "reason": "The rows result explicitly shows cost_proxy_margin_ratio as -1.3333333333333333.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return item counts or order counts.",
+                "reason": "The SQL query and output rows only select and return the single column cost_proxy_margin_ratio.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return absolute revenue and cost amounts.",
+                "reason": "The SQL query only selects the calculated ratio and does not return the separate absolute revenue or cost totals.",
+                "verdict": 1
+              },
+              {
+                "statement": "The cost-proxy margin metric was aggregated into a single ratio across the entire authorized scope.",
+                "reason": "The SQL query contains aggregate functions without a GROUP BY clause, yielding a single aggregated ratio.",
+                "verdict": 1
+              },
+              {
+                "statement": "The cost-proxy margin metric did not include breakdowns by product ID, category, or time period.",
+                "reason": "The query does not group by product ID, category, or any temporal dimension, producing only a single global ratio.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to find the item count, total revenue (SUM(sale_price)), and total cost (SUM(cost)) broken down by product_id for Complete items within the authorized scope.",
+                "reason": "The context only contains raw execution results and SQL metadata; it does not mention any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to find the monthly breakdown of Complete-item revenue and cost-proxy margin ratio across created_at date buckets.",
+                "reason": "The context does not contain any mention of future or proposed analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 27.963604055999895
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across all available history within the authorized product scope, the aggregate cost-proxy margin divided by Complete-item revenue was evaluated at item grain joined to the products catalogue with status = 'Complete'.",
+                "reason": "The SQL query joins order_items to products at item grain with status = 'Complete', computing SUM(i.sale_price - p.cost) / NULLIF(SUM(i.sale_price), 0), within the executor-bound authorized product scope across all history.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all available history within the authorized product scope, no date filter was applied to the evaluation.",
+                "reason": "The query only filters on i.status = 'Complete' and does not include any date filter or time restriction.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query execution yielded an aggregate cost-proxy margin ratio (cost_proxy_margin_ratio) of -1.3333333333333333.",
+                "reason": "The returned row directly shows cost_proxy_margin_ratio equal to -1.3333333333333333.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return item counts, order counts, or absolute revenue and cost amounts.",
+                "reason": "The SELECT clause exclusively projects the calculated ratio cost_proxy_margin_ratio, omitting item counts, order counts, and absolute revenue or cost totals.",
+                "verdict": 1
+              },
+              {
+                "statement": "The metric was aggregated into a single ratio across the entire scope, without breakdowns by product ID, category, or time period.",
+                "reason": "The query lacks a GROUP BY clause and outputs a single row representing the aggregate across the entire scope without any dimensional breakdowns.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 20.05784558900632
+        }
+      }
+    },
+    {
+      "id": "margin-ratio-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The cost-proxy margin ratio is calculated as `SUM(sale_price - cost) / NULLIF(SUM(sale_price), 0)`.",
+                "reason": "The context provides the exact SQL query calculating `SUM(`i`.`sale_price` - `p`.`cost`) / NULLIF(SUM(`i`.`sale_price`), 0)` as `cost_proxy_margin_ratio`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The cost-proxy margin ratio calculation uses product cost as a proxy.",
+                "reason": "The context only contains the SQL query and execution details; it does not state that product cost is used as a proxy.",
+                "verdict": 0
+              },
+              {
+                "statement": "The cost-proxy margin ratio calculation does not represent net profit.",
+                "reason": "The context makes no mention of net profit or what the calculation represents beyond the formula itself.",
+                "verdict": 0
+              },
+              {
+                "statement": "The grain of the analysis is at the item level, joining `order_items` to `products`.",
+                "reason": "The SQL query explicitly joins `order_items` AS `i` to `products` AS `p` on `p.id = i.product_id`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis is filtered to items with `status = 'Complete'` across authorized products.",
+                "reason": "The SQL query contains `WHERE i.status = 'Complete'` and the execution scope explicitly specifies `authorized_products: [2, 3]`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The scope of authorized products is enforced via executor-bound views.",
+                "reason": "The execution scope in the context explicitly states `\"enforcement\": \"executor_bound_views\"`.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date filter was applied to the analysis.",
+                "reason": "The SQL query in the context shows only a filter on status (`status = 'Complete'`), with no date filter present.",
+                "verdict": 1
+              },
+              {
+                "statement": "Coverage and completeness across time were not measured.",
+                "reason": "The context does not state or discuss whether coverage and completeness across time were measured.",
+                "verdict": 0
+              },
+              {
+                "statement": "The aggregate cost-proxy margin ratio across all recorded completed items within the authorized scope is -1.0.",
+                "reason": "The context shows `\"rows\": [{\"cost_proxy_margin_ratio\": -1.0}]` resulting from the query executed within the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return item counts.",
+                "reason": "The query selects only the `cost_proxy_margin_ratio` expression and does not return item counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return distinct order counts.",
+                "reason": "The query selects only the single ratio `cost_proxy_margin_ratio` and does not include distinct order counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return separate totals for revenue and cost.",
+                "reason": "The query outputs only a single aggregated ratio column without separate columns for total revenue or cost.",
+                "verdict": 1
+              },
+              {
+                "statement": "Results were aggregated into a single ratio without breakdowns by product ID, department, or time period.",
+                "reason": "The SQL query contains no `GROUP BY` clause, producing a single scalar aggregate row without any breakdowns.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is to determine separate item counts, total Complete revenue (`SUM(sale_price)`), and total cost (`SUM(cost)`) broken down by `product_id`.",
+                "reason": "The context contains only query execution metadata and results, with no mention of proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is to investigate how the cost-proxy margin ratio varies by calendar year or month for completed orders.",
+                "reason": "The context contains no recommendations or proposed next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 38.426189759004046
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00202772799821
+        }
+      }
+    },
+    {
+      "id": "catalog-reference-gap-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7272727272727273,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query aggregated item-level records grouped by product catalogue identifier (`id`) within authorized execution scope for products 1 and 2.",
+                "reason": "The SQL query groups by product ID (`p`.`id`), and the execution scope explicitly lists authorized products as [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The query calculated the average difference between the current catalogue reference price (`products.retail_price`) and the realized item sale price (`order_items.sale_price`) for items where `status = 'Complete'`.",
+                "reason": "The SQL query calculates `AVG(p.retail_price - i.sale_price)` filtered by `i.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date filter was applied in the query.",
+                "reason": "The WHERE clause in the SQL query only filters by `i.status = 'Complete'`, with no date filter present.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across completed items, Product 1 had an average current reference gap of 90.0.",
+                "reason": "The query output rows explicitly include `{\"id\": 1, \"current_reference_gap\": 90.0}` for completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across completed items, Product 2 had an average current reference gap of 60.0.",
+                "reason": "The query output rows explicitly include `{\"id\": 2, \"current_reference_gap\": 60.0}` for completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The metric compares realized prices against the current catalogue reference (`retail_price`).",
+                "reason": "The SQL query subtracts `i.sale_price` from `p.retail_price` and aliases it as `current_reference_gap`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The current catalogue reference (`retail_price`) does not reflect historical list prices or past discount changes.",
+                "reason": "The context contains only the query and execution metadata; it does not state whether `retail_price` reflects historical list prices or past discount changes.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query did not return item counts, order volumes, or transaction dates.",
+                "reason": "The SELECT clause and resulting rows only contain `id` and `current_reference_gap`, omitting item counts, order volumes, and dates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sample sizes and temporal distribution were not measured due to the omission of item counts, order volumes, and transaction dates.",
+                "reason": "Because the query omitted counts, volumes, and transaction dates, sample sizes and temporal distribution were indeed not measured in the returned output.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to find the total count of completed items (`COUNT(*)`) and distinct orders (`COUNT(DISTINCT order_key)`) for products 1 and 2.",
+                "reason": "The context does not mention any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to assess how the average realized `sale_price` for products 1 and 2 has varied by year based on `created_at`.",
+                "reason": "The context does not mention any proposed analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 27.033676826002193
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.8888888888888888,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The query aggregated item-level records grouped by product catalogue identifier (`id`) within the authorized execution scope of products 1 and 2.",
+                "reason": "The query groups by product id (`p.id`) and the execution scope explicitly bounds authorized products to [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The query calculated the average difference between the current catalogue reference price (`products.retail_price`) and the realized item sale price (`order_items.sale_price`) for items where `status = 'Complete'`.",
+                "reason": "The SQL query computes `AVG(p.retail_price - i.sale_price)` filtered by `WHERE i.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date filter was applied in the query.",
+                "reason": "The SQL WHERE clause only filters on `i.status = 'Complete'` with no date or timestamp constraints.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across completed items, Product 1 had an average current reference gap of 90.0.",
+                "reason": "The returned results show product id 1 has a `current_reference_gap` of 90.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across completed items, Product 2 had an average current reference gap of 60.0.",
+                "reason": "The returned results show product id 2 has a `current_reference_gap` of 60.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The metric compares realized prices against the current catalogue reference (`retail_price`).",
+                "reason": "The metric `current_reference_gap` directly computes the difference between `p.retail_price` and `i.sale_price`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The current catalogue reference (`retail_price`) does not reflect historical list prices or past discount changes.",
+                "reason": "The supplied context does not document schema metadata or historical price tracking rules; claiming that `retail_price` does not reflect historical list prices or past discount changes introduces an unverified empirical premise.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query did not return item counts, order volumes, or transaction dates.",
+                "reason": "The SQL SELECT clause only returns `id` and `current_reference_gap`, omitting counts, volumes, and dates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sample sizes and temporal distribution were not measured.",
+                "reason": "Measurement boundaries established by the SQL confirm that neither observation counts nor temporal columns were measured in this query.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 31.19435485699796
+        }
+      }
+    },
+    {
+      "id": "catalog-reference-gap-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7857142857142857,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis calculated the average difference between the current catalogue retail price (`products.retail_price`) and realized sale price (`order_items.sale_price`) at item grain.",
+                "reason": "The SQL query in the context calculates `AVG(p.retail_price - i.sale_price)` by joining `products` and `order_items` on product ID.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was filtered to orders with `status = 'Complete'`.",
+                "reason": "The SQL query explicitly filters rows with `WHERE i.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis included authorized products with product IDs 2 and 3.",
+                "reason": "The execution scope explicitly specifies `authorized_products: [2, 3]`, which match the product IDs returned in the rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date filter was applied to the analysis.",
+                "reason": "The SQL query only contains a filter on `i.status = 'Complete'` and does not filter by date.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 2, the current reference gap is 60.0.",
+                "reason": "The context rows explicitly list `{\"id\": 2, \"current_reference_gap\": 60.0}`.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 3, the current reference gap is 170.0.",
+                "reason": "The context rows explicitly list `{\"id\": 3, \"current_reference_gap\": 170.0}`.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 2, the realized Complete-item price is on average 60.0 below the current catalogue retail reference price.",
+                "reason": "The gap is computed as `retail_price - sale_price` for Complete items, which equals 60.0 for product ID 2, meaning sale price is on average 60.0 below retail price.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 3, the realized Complete-item price is on average 170.0 below the current catalogue retail reference price.",
+                "reason": "The gap is computed as `retail_price - sale_price` for Complete items, which equals 170.0 for product ID 3, meaning sale price is on average 170.0 below retail price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return item or order counts.",
+                "reason": "The query only selects `id` and `current_reference_gap`, omitting any count metric.",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction volumes supporting each average are not established.",
+                "reason": "Because no count or volume metric is queried or returned in the rows, transaction volumes cannot be determined from the output.",
+                "verdict": 1
+              },
+              {
+                "statement": "Comparing current catalogue `retail_price` to realized `sale_price` measures a current catalogue reference gap.",
+                "reason": "The SQL query aliases `AVG(p.retail_price - i.sale_price)` as `current_reference_gap`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Comparing current catalogue `retail_price` to realized `sale_price` does not measure historical discount rates, promotions, or net profit.",
+                "reason": "The context does not discuss historical discount rates, promotions, or net profit.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to determine the item count, minimum sale price, and maximum sale price for Complete items for product IDs 2 and 3.",
+                "reason": "There is no mention of any proposed analytical checks in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to determine the average difference between `sale_price` and product `cost` for Complete items across authorized products IDs 2 and 3.",
+                "reason": "There is no mention of product cost or proposed analytical checks in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 27.94150609499775
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis calculated the average difference between the current catalogue retail price (products.retail_price) and realized sale price (order_items.sale_price) at item grain.",
+                "reason": "The SQL query computes AVG(p.retail_price - i.sale_price) by joining products and order_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was filtered to records where status = 'Complete'.",
+                "reason": "The SQL query contains the predicate WHERE i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was filtered across authorized products with IDs 2 and 3.",
+                "reason": "The execution scope explicitly binds the analysis to authorized products [2, 3] via executor_bound_views.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date filter was applied in the analysis.",
+                "reason": "The SQL query contains no date filtering clause.",
+                "verdict": 1
+              },
+              {
+                "statement": "According to the query results, the current_reference_gap for product ID 2 is 60.0.",
+                "reason": "The returned row for product ID 2 shows current_reference_gap is 60.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "According to the query results, the current_reference_gap for product ID 3 is 170.0.",
+                "reason": "The returned row for product ID 3 shows current_reference_gap is 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 2, the realized Complete-item price is on average 60.0 below the current catalogue retail reference price.",
+                "reason": "The metric AVG(p.retail_price - i.sale_price) equals 60.0 for product ID 2 on Complete items, meaning sale price is on average 60.0 below retail price.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product ID 3, the realized Complete-item price is on average 170.0 below the current catalogue retail reference price.",
+                "reason": "The metric AVG(p.retail_price - i.sale_price) equals 170.0 for product ID 3 on Complete items, meaning sale price is on average 170.0 below retail price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return item or order counts.",
+                "reason": "The SELECT clause only returns id and current_reference_gap, omitting any count aggregate.",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction volumes supporting each average are not established.",
+                "reason": "Because no counts or volume metrics are queried or returned, transaction volumes are not established.",
+                "verdict": 1
+              },
+              {
+                "statement": "Comparing current catalogue retail_price to realized sale_price measures a current catalogue reference gap.",
+                "reason": "The query directly calculates this metric and labels it current_reference_gap based on current retail_price minus historical sale_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "Comparing current catalogue retail_price to realized sale_price does not measure historical discount rates, promotions, or net profit.",
+                "reason": "The query does not incorporate historical retail prices, promotion tracking, or product cost data, so those dimensions are not measured.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 26.357625621996704
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 16,
+  "max_provider_calls": 16,
+  "measured_total_tokens": 40237,
+  "usage_responses": 15,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

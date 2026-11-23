@@ -1,0 +1,25 @@
+{
+  "id": "price-range-1",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nFor completed order items within authorized product scope, the observed sale price range is presented below [q1]:\n\n| min_price | max_price |\n| --- | --- |\n| 10.0 | 20.0 |\n\n- The minimum observed sale price among items with status 'Complete' is 10.0 [q1].\n- The maximum observed sale price among items with status 'Complete' is 20.0 [q1].\n\n### Limitations\n- The query returned aggregate minimum and maximum values only; it did not return item counts, distributions, or individual product identifiers [q1].\n- Historical price changes over time and comparison against catalog retail prices were not queried [q1].\n\n### Action items (proposed)\n- Propose querying sale price distributions broken down by individual `product_id` to identify which products represent the minimum and maximum boundaries.\n- Propose querying monthly price ranges along with completed item counts to assess how price boundaries have trended over time.",
+  "status": "generated",
+  "seconds": 22.553565388996503,
+  "usage": {
+    "input_tokens": 2166,
+    "output_tokens": 969,
+    "total_tokens": 3135,
+    "thought_tokens": 725,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

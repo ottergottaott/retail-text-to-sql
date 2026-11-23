@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-2",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n- **Scope & Definition**: Analyzed Complete-item revenue (`SUM(sale_price)`) and item count (`COUNT(*)`) where `status = 'Complete'` across all recorded history for authorized products, grouped by product category [q1].\n- Execution scope is restricted to authorized products (IDs 2, 3) enforced by the executor.\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\n- Both Footwear and Outerwear record exactly 7 completed items [q1].\n- Footwear generated 210.0 in completed revenue (average 30.0 per completed item), whereas Outerwear generated 140.0 (average 20.0 per completed item) [q1].\n- Note that both categories are supported by a small sample of 7 completed items each [q1].\n\n### Limitations\n- Reflects only items with `status = 'Complete'`; cancelled, returned, or pending items were not queried [q1].\n- Distinct order counts, customer counts, and date coverage/time ranges were not measured [q1].\n- Schema does not define currency.\n\n### Action items (proposed)\n- Propose querying monthly or quarterly trends to see whether completed item volumes are ongoing or concentrated in specific periods.\n- Propose evaluating non-complete statuses (cancellations and returns) by category to understand full pipeline volume.\n- Propose calculating distinct order and customer counts to determine whether completed items represent repeat purchases or unique buyers.",
+  "status": "generated",
+  "seconds": 14.801740588998655,
+  "usage": {
+    "input_tokens": 2145,
+    "output_tokens": 1463,
+    "total_tokens": 3608,
+    "thought_tokens": 1077,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThis analysis evaluates completed item revenue (`SUM(sale_price)`) and completed item volume (`COUNT(*)`) grouped by brand at the order-item grain [q1]. Results are filtered to completed items (`status = 'Complete'`), scoped to authorized products via execution scope, and include all available records without a date filter [q1].\n\n| brand | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n- Brand **South** generated 140.0 in complete revenue across 7 completed items [q1].\n- Brand **West** generated 210.0 in complete revenue across 7 completed items [q1].\n\n### Limitations\n- The query did not include a date filter or date dimensions, so time trends, seasonality, and dataset date coverage were not measured [q1].\n- The query measures item-level gross sale price and item counts, without querying distinct orders, customer counts, or product costs [q1].\n\n### Action items (proposed)\n- How does completed revenue and item volume for these authorized brands break down by calendar month or year?\n- What are the distinct order count (`COUNT(DISTINCT order_key)`) and average item sale price for each brand among completed items?",
+  "status": "generated",
+  "seconds": 15.779026917007286,
+  "usage": {
+    "input_tokens": 2537,
+    "output_tokens": 1574,
+    "total_tokens": 4111,
+    "thought_tokens": 1248,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

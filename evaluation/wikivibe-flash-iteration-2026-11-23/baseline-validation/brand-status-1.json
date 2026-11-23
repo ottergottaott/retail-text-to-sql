@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-1",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross all available historical order item records for authorized products [q1]:\n\n| brand | complete_items | returned_items |\n| --- | --- | --- |\n| North | 7 | 1 |\n| South | 7 | 1 |\n\n- Brand **North** recorded 7 Complete items and 1 Returned item [q1].\n- Brand **South** recorded 7 Complete items and 1 Returned item [q1].\n- Both brands reflect small observed item sample sizes (7 Complete and 1 Returned item each).\n\n### Limitations\n- Measured only item-level records with statuses 'Complete' and 'Returned' for authorized products; other item statuses (e.g., 'Cancelled', 'Shipped', 'Processing') were not counted [q1].\n- Customer identifiers, order groupings, transaction timing, revenue, and return reasons were not queried.\n- Temporal coverage and data completeness across dates were not measured.\n\n### Action items (proposed)\n- Query the distribution of all order item statuses to evaluate overall fulfillment outcomes across brands.\n- Analyze Complete and Returned item volumes across date buckets to check whether returns cluster in specific time windows.\n- Query return rates at the individual product level to assess whether specific items drive returns.",
+  "status": "generated",
+  "seconds": 14.887850236991653,
+  "usage": {
+    "input_tokens": 2156,
+    "output_tokens": 1488,
+    "total_tokens": 3644,
+    "thought_tokens": 1194,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

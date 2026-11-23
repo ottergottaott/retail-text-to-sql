@@ -1,0 +1,25 @@
+{
+  "id": "brand-return-1",
+  "family": "brand-return",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on the authorized product scope enforced by executor-bound views, the query [q1] aggregates `order_items` at item grain with `status = 'Returned'`, with no date filter applied across the available records. Both observed brands have a very small returned item count:\n\n| brand | returned_items |\n| --- | --- |\n| North | 1 |\n| South | 1 |\n\nWith only 1 returned item observed per brand, this represents a very small sample of returns.\n\n### Limitations\n- The query counts only items where `status = 'Returned'` and did not retrieve total item volume or calculate return rates by brand [q1].\n- No date filter was applied, and timestamps were not returned to evaluate return activity over time [q1].\n\n### Action items (proposed)\n- What is the total item volume and return rate (`COUNT(CASE WHEN status = 'Returned' THEN 1 END) / COUNT(*)`) for each brand within the authorized products?\n- How are returned items distributed by `product_id` and `category` across these brands?",
+  "status": "generated",
+  "seconds": 14.640936925992719,
+  "usage": {
+    "input_tokens": 2497,
+    "output_tokens": 994,
+    "total_tokens": 3491,
+    "thought_tokens": 733,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

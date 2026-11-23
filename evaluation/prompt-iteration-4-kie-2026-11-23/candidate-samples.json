@@ -1,0 +1,45 @@
+[
+  {
+    "id": "pending-reviewed-save",
+    "question": "Show authorized catalogue product count in a table, then save the completed report.",
+    "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS products FROM products\", \"rows\": [{\"products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-items",
+    "question": "Return authorized Complete items as a Markdown table and save this analysis.",
+    "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS complete_items FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_items\": 5}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "missing-save-receipt",
+    "question": "Show authorized Complete revenue as a table and save the analysis.",
+    "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT SUM(sale_price) AS complete_revenue FROM order_items WHERE status='Complete'\", \"rows\": [{\"complete_revenue\": 73}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}"
+    ],
+    "retrieved_contexts": []
+  },
+  {
+    "id": "pending-prose-preference",
+    "question": "Return a Markdown table of authorized catalogue products and save it; use one sentence of interpretation.",
+    "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+    "sql_contexts": [
+      "{\"query_id\": \"q1\", \"mode\": \"fixture\", \"sql\": \"SELECT COUNT(*) AS catalogue_products FROM products\", \"rows\": [{\"catalogue_products\": 2}], \"truncated\": false}",
+      "{\"execution_scope\": {\"enforcement\": \"executor_bound_views\", \"authorized_products\": [1, 2]}}",
+      "{\"action\": \"save_report\", \"result\": {\"status\": \"pending_final_answer\", \"instruction\": \"Finish the analysis with insights and action items; it will then be saved.\"}}"
+    ],
+    "retrieved_contexts": []
+  }
+]

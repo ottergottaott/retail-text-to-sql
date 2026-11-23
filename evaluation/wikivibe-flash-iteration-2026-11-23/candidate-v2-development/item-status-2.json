@@ -1,0 +1,25 @@
+{
+  "id": "item-status-2",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nFor authorized products (enforced via executor-bound views), item volume was aggregated across all available records without a date filter. Across the order items grain, 14 items have a status of Complete and 2 items have a status of Returned [q1].\n\n| status | items |\n| :--- | :--- |\n| Complete | 14 |\n| Returned | 2 |\n\n### Limitations\n- The query counted item rows across all recorded history without filtering or grouping by time periods [q1].\n- The query did not include order counts, customer counts, or monetary metrics such as `sale_price` [q1].\n\n### Action items (proposed)\n- What is the total completed revenue (`SUM(sale_price) WHERE status = 'Complete'`) and order volume (`COUNT(DISTINCT order_key)`) for these authorized products?\n- How do completed versus returned item counts break down by year or month over time?",
+  "status": "generated",
+  "seconds": 10.628584578997106,
+  "usage": {
+    "input_tokens": 2458,
+    "output_tokens": 955,
+    "total_tokens": 3413,
+    "thought_tokens": 722,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

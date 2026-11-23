@@ -1,0 +1,25 @@
+{
+  "id": "price-range-2",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nFor authorized products under executor-bound scope, the observed item sale price range for items with `status = 'Complete'` ranges from 20.0 to 30.0 [q1].\n\n| min_price | max_price |\n| --- | --- |\n| 20.0 | 30.0 |\n\n### Limitations\n- Item and order counts were not queried, so transaction volume and price distributions are unmeasured [q1].\n- Specific product IDs, date ranges, and catalog retail prices were not retrieved by this query [q1].\n\n### Action items (proposed)\n- Propose querying item counts and average sale prices broken down by `product_id` to analyze volume at each price point.\n- Propose comparing observed `sale_price` against `retail_price` in `products` to inspect how realized sale prices compare to catalog prices.",
+  "status": "generated",
+  "seconds": 15.297271388000809,
+  "usage": {
+    "input_tokens": 2163,
+    "output_tokens": 1414,
+    "total_tokens": 3577,
+    "thought_tokens": 1194,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,167 @@
+{
+  "data_source": "Deterministic DuckDB fixture; no live BigQuery",
+  "checks": [
+    {
+      "id": "complete-revenue-1",
+      "status": "passed"
+    },
+    {
+      "id": "complete-revenue-2",
+      "status": "passed"
+    },
+    {
+      "id": "item-status-1",
+      "status": "passed"
+    },
+    {
+      "id": "item-status-2",
+      "status": "passed"
+    },
+    {
+      "id": "item-volume-1",
+      "status": "passed"
+    },
+    {
+      "id": "item-volume-2",
+      "status": "passed"
+    },
+    {
+      "id": "price-range-1",
+      "status": "passed"
+    },
+    {
+      "id": "price-range-2",
+      "status": "passed"
+    },
+    {
+      "id": "realized-price-1",
+      "status": "passed"
+    },
+    {
+      "id": "realized-price-2",
+      "status": "passed"
+    },
+    {
+      "id": "returned-value-1",
+      "status": "passed"
+    },
+    {
+      "id": "returned-value-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-count-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-count-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-price-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-price-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-cost-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-cost-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-department-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-department-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-category-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-category-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-brand-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-brand-2",
+      "status": "passed"
+    },
+    {
+      "id": "reference-spread-1",
+      "status": "passed"
+    },
+    {
+      "id": "reference-spread-2",
+      "status": "passed"
+    },
+    {
+      "id": "order-status-1",
+      "status": "passed"
+    },
+    {
+      "id": "order-status-2",
+      "status": "passed"
+    },
+    {
+      "id": "order-count-1",
+      "status": "passed"
+    },
+    {
+      "id": "order-count-2",
+      "status": "passed"
+    },
+    {
+      "id": "order-value-1",
+      "status": "passed"
+    },
+    {
+      "id": "order-value-2",
+      "status": "passed"
+    },
+    {
+      "id": "empty-population-1",
+      "status": "passed"
+    },
+    {
+      "id": "empty-population-2",
+      "status": "passed"
+    },
+    {
+      "id": "limited-ranking-1",
+      "status": "passed"
+    },
+    {
+      "id": "limited-ranking-2",
+      "status": "passed"
+    },
+    {
+      "id": "return-denominator-1",
+      "status": "passed"
+    },
+    {
+      "id": "return-denominator-2",
+      "status": "passed"
+    },
+    {
+      "id": "complete-share-1",
+      "status": "passed"
+    },
+    {
+      "id": "complete-share-2",
+      "status": "passed"
+    }
+  ],
+  "passed": 40,
+  "total": 40
+}

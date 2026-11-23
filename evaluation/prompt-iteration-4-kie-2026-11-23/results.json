@@ -1,0 +1,206 @@
+{
+  "status": "incomplete",
+  "model": "gemini-4-neon",
+  "generation_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "data_source": "frozen synthetic SQL evidence; no query executed",
+  "live_bigquery_verified": false,
+  "production_changed": false,
+  "repetitions": 1,
+  "selection": {
+    "split_counts": {
+      "calibration": 2,
+      "validation": 4
+    },
+    "protocol": "Inputs fixed before calls; prior exposure must be documented by the experiment author."
+  },
+  "cases_sha256": "2a46689a99f3923c0053131cfc4e5d54bb96ae6ebe06417e849c58852caf6365",
+  "variants": {
+    "baseline": {
+      "prompt_sha256": "9a3cbd9b78c773680a6bd6ce588abd19959a4956e89bdb223920a9bd6f275717",
+      "responses": [
+        {
+          "id": "save-claim",
+          "split": "calibration",
+          "status": "generated",
+          "action": "save_report",
+          "response": "",
+          "seconds": 0.0009428709890926257,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "pending-reviewed-save",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 0.001128539995988831,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "pending-items",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 7.249199552461505e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "confirmed-existing-report",
+          "split": "validation",
+          "status": "generated",
+          "action": "save_report",
+          "response": "",
+          "seconds": 2.7139001758769155e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "missing-save-receipt",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 5.816800694447011e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "pending-prose-preference",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 5.5598997278138995e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        }
+      ],
+      "generation_summary": {
+        "mean_seconds": 0.000380801497764575,
+        "measured_input_tokens": 0,
+        "measured_output_tokens": 0
+      }
+    },
+    "candidate": {
+      "prompt_sha256": "8e86bb2ebb0cac15e71e7c938f8f8ea019e8777e118d3ca2d93b76e99a1f4b09",
+      "responses": [
+        {
+          "id": "save-claim",
+          "split": "calibration",
+          "status": "generated",
+          "action": "save_report",
+          "response": "",
+          "seconds": 3.775200457312167e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "pending-reviewed-save",
+          "split": "calibration",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 7.180299144238234e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "pending-items",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 5.6909004342742264e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "confirmed-existing-report",
+          "split": "validation",
+          "status": "generated",
+          "action": "save_report",
+          "response": "",
+          "seconds": 2.65179987763986e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "missing-save-receipt",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 5.7322002248838544e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        },
+        {
+          "id": "pending-prose-preference",
+          "split": "validation",
+          "status": "generated",
+          "action": "answer",
+          "response": "Fixture demonstration; not a live model analysis.\n\n### Definition and scope\nComplete-item revenue uses only authorized purchases across all fixture history.\n\n### Observations\nThe query evidence below contains the returned values.\n\n### Limits\nThis data does not establish causes or conversion rates.\n\n### Action items\nCompare item volume and status mix before changing pricing; investigate any observed differences with additional evidence.",
+          "seconds": 5.540900747291744e-05,
+          "usage": {
+            "usage_source": "fixture",
+            "input_tokens": null,
+            "output_tokens": null
+          }
+        }
+      ],
+      "generation_summary": {
+        "mean_seconds": 5.095216814273348e-05,
+        "measured_input_tokens": 0,
+        "measured_output_tokens": 0
+      }
+    }
+  },
+  "previous_recorded_status": "running",
+  "benchmark_valid": false,
+  "reason": "Interrupted run; candidate-samples contain FixtureModel placeholders, not gateway-generated answers. Configured gateway/model labels do not prove provider generation.",
+  "generation_evidence_audit": {
+    "candidate_sample_count": 4,
+    "fixture_placeholder_count": 4,
+    "root_cause": "model_for selects FixtureModel when retail_mode=fixture; evaluator did not force live generation.",
+    "usable_for_prompt_comparison": false,
+    "audit_date": "2026-11-23"
+  }
+}

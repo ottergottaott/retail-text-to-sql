@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-1",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe query aggregated item-level records grouped by product catalogue identifier (`id`) within authorized execution scope (products 1 and 2) [q1]. It calculated the average difference between the current catalogue reference price (`products.retail_price`) and the realized item sale price (`order_items.sale_price`) for items where `status = 'Complete'` [q1]. No date filter was applied [q1].\n\n| id | current_reference_gap |\n| --- | --- |\n| 1 | 90.0 |\n| 2 | 60.0 |\n\nAcross completed items, Product 1 had an average current reference gap of 90.0, and Product 2 had an average current reference gap of 60.0 [q1].\n\n### Limitations\n- The metric compares realized prices against the current catalogue reference (`retail_price`), which does not reflect historical list prices or past discount changes [q1].\n- The query did not return item counts, order volumes, or transaction dates, so sample sizes and temporal distribution were not measured [q1].\n\n### Action items (proposed)\n- What is the total count of completed items (`COUNT(*)`) and distinct orders (`COUNT(DISTINCT order_key)`) for products 1 and 2?\n- How has the average realized `sale_price` for products 1 and 2 varied by year based on `created_at`?",
+  "status": "generated",
+  "seconds": 16.55123062999337,
+  "usage": {
+    "input_tokens": 2533,
+    "output_tokens": 1756,
+    "total_tokens": 4289,
+    "thought_tokens": 1420,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

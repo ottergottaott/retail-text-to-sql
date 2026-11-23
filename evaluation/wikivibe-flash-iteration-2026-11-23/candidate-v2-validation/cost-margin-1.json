@@ -1,0 +1,25 @@
+{
+  "id": "cost-margin-1",
+  "family": "cost-margin",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products (enforced via executor-bound views), the aggregation calculated the sum of item sale price minus current catalogue cost (`products.cost`) as a cost proxy, alongside total completed items, filtered by `status = 'Complete'` with no date filter applied [q1].\n\n| cost_proxy_margin | complete_items |\n| --- | --- |\n| -280.0 | 14 |\n\nFor the 14 completed items observed, the total sale price minus current catalogue cost proxy (`cost_proxy_margin`) was -280.0 [q1].\n\n### Limitations\n- The query returned an aggregate total and did not break down results by individual `product_id`, order, or time period [q1].\n- Current catalogue cost represents a static reference proxy and does not reflect historical cost at transaction time or net profit.\n\n### Action items (proposed)\n- What is the breakdown of `SUM(sale_price - cost)` and completed item count by `product_id`?\n- How does `SUM(sale_price - cost)` break down when grouped by order creation year or month?",
+  "status": "generated",
+  "seconds": 13.129242026989232,
+  "usage": {
+    "input_tokens": 2504,
+    "output_tokens": 1318,
+    "total_tokens": 3822,
+    "thought_tokens": 1045,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,9 @@
+{
+  "serving_source_system_sha256": "6b6a21684780182312818b6dde626040e7d8c0f8dcf76fca26526d508585b81a",
+  "matches_frozen_baseline": true,
+  "unpromoted_six_line_candidate_removed": true,
+  "candidate_v2": "candidate-v2.txt",
+  "reason": "First candidate regressed; v2 requires broader validation and repeatability.",
+  "deployment_restarted": false,
+  "boundary": "Source comparison only; no deployed-process inspection."
+}

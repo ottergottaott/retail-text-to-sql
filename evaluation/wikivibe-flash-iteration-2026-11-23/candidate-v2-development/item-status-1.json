@@ -1,0 +1,25 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products (enforced via executor-bound views), item counts were aggregated at the order item grain (`order_items`) by `status` with no date filter applied [q1].\n\n| status | items |\n| :--- | :--- |\n| Complete | 14 |\n| Returned | 2 |\n\nA total of 16 items were observed across authorized products, consisting of 14 Complete items and 2 Returned items [q1].\n\n### Limitations\n- The query did not apply date filters, so date ranges, periodicity, and trends over time were not measured [q1].\n- The query measured item counts only and did not evaluate revenue (`sale_price`), order volume, or customer counts [q1].\n\n### Action items (proposed)\n- How do item counts and revenue (`SUM(sale_price)`) for Complete versus Returned items break down by year or month?\n- What is the distribution of item statuses when grouped by individual `product_id`?",
+  "status": "generated",
+  "seconds": 12.494771334007964,
+  "usage": {
+    "input_tokens": 2460,
+    "output_tokens": 1166,
+    "total_tokens": 3626,
+    "thought_tokens": 894,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

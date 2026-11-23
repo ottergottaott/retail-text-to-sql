@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-2",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAnalysis executed the average difference between the current catalogue retail price (`products.retail_price`) and realized sale price (`order_items.sale_price`) at item grain, filtered to `status = 'Complete'`, across authorized products (IDs 2 and 3) with no date filter applied [q1].\n\n| id | current_reference_gap |\n| --- | --- |\n| 2 | 60.0 |\n| 3 | 170.0 |\n\nFor product ID 2, the realized Complete-item price is on average 60.0 below the current catalogue retail reference price [q1]. For product ID 3, the realized Complete-item price is on average 170.0 below the current catalogue retail reference price [q1].\n\n### Limitations\n- The query did not return item or order counts, so transaction volumes supporting each average are not established [q1].\n- Comparing current catalogue `retail_price` to realized `sale_price` measures a current catalogue reference gap; it does not measure historical discount rates, promotions, or net profit [q1].\n\n### Action items (proposed)\n- What are the item count, minimum sale price, and maximum sale price for Complete items for product IDs 2 and 3?\n- What is the average difference between `sale_price` and product `cost` for Complete items across these authorized products?",
+  "status": "generated",
+  "seconds": 13.991601667003124,
+  "usage": {
+    "input_tokens": 2532,
+    "output_tokens": 1558,
+    "total_tokens": 4090,
+    "thought_tokens": 1228,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

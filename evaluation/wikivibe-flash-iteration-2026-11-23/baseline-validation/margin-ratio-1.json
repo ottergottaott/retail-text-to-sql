@@ -1,0 +1,25 @@
+{
+  "id": "margin-ratio-1",
+  "family": "margin-ratio",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on all available historical records for authorized products where item status is 'Complete' [q1]:\n\n| cost_proxy_margin_ratio |\n| --- |\n| -1.3333333333333333 |\n\nThe overall cost-proxy margin divided by Complete-item revenue (`SUM(sale_price - cost) / SUM(sale_price)`) is approximately -1.33, indicating that aggregate product catalog cost exceeded aggregate Complete-item revenue across the evaluated records [q1].\n\n### Limitations\n- Scope is limited to authorized products with `status = 'Complete'`; other order statuses (e.g., Cancelled, Returned) were not queried [q1].\n- Item counts, order counts, customer counts, and time frames were not measured in this aggregate query [q1].\n- Catalog `cost` serves as a proxy and does not reflect actual historical purchase costs, shipping, taxes, or operational expenses.\n- Pricing variations, discounts, and date coverage were not queried.\n\n### Action items (proposed)\n- Check item counts and order volume alongside revenue to determine the transaction size underlying this aggregate ratio.\n- Check product-level margin ratios for authorized product IDs (1 and 2) to see whether one or both products account for the negative margin ratio.\n- Query item-level `sale_price` relative to catalog `retail_price` and `cost` over time to see if items were sold below catalog cost.",
+  "status": "generated",
+  "seconds": 14.69010799699754,
+  "usage": {
+    "input_tokens": 2117,
+    "output_tokens": 1312,
+    "total_tokens": 3429,
+    "thought_tokens": 965,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

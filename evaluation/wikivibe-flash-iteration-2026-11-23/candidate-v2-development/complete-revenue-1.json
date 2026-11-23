@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-1",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products (scoped via executor-bound views), item-level revenue was aggregated with the status filter `status = 'Complete'` and no date filters applied [q1]. Total Complete-item revenue is 210.0.\n\n| complete_revenue |\n| --- |\n| 210.0 |\n\n### Limitations\n- The query returns aggregate revenue only and does not report item counts, order counts, or distinct customer counts [q1].\n- No date filtering or time-based grouping was applied, so historical trends and period completeness were not measured [q1].\n\n### Action items (proposed)\n- What is the breakdown of Complete-item revenue, distinct order count, and item volume by `product_id` across authorized products?\n- What is the monthly Complete-item revenue trend for authorized products over all recorded dates?",
+  "status": "generated",
+  "seconds": 11.59297284600325,
+  "usage": {
+    "input_tokens": 2445,
+    "output_tokens": 892,
+    "total_tokens": 3337,
+    "thought_tokens": 680,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

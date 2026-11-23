@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-2",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe analysis aggregates item-level records from `order_items` joined to `products` by brand within authorized product scope, applying no date filter [q1]. Item counts are calculated conditionally for statuses 'Complete' and 'Returned' [q1].\n\n| brand | complete_items | returned_items |\n|---|---|---|\n| South | 7 | 1 |\n| West | 7 | 1 |\n\n### Limitations\n- The query only returned counts for 'Complete' and 'Returned' statuses, without accounting for other item statuses such as 'Cancelled' or 'Processing' [q1].\n- Date coverage and completeness were not measured because no date filter or time dimension was queried [q1].\n\n### Action items (proposed)\n- What is the breakdown of Complete and Returned item counts by year or month for these authorized brands?\n- What are the distinct order counts (`COUNT(DISTINCT order_key)`) by brand for Complete versus Returned items?",
+  "status": "generated",
+  "seconds": 15.127103459992213,
+  "usage": {
+    "input_tokens": 2550,
+    "output_tokens": 1343,
+    "total_tokens": 3893,
+    "thought_tokens": 1106,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

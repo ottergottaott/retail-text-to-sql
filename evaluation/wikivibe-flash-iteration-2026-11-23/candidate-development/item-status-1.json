@@ -1,0 +1,25 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe item counts by status for authorized products are summarized below [q1]:\n\n| status | items |\n| --- | --- |\n| Complete | 14 |\n| Returned | 2 |\n\n- In the queried records, 14 items have a status of 'Complete' and 2 items have a status of 'Returned' [q1].\n\n### Limitations\n- The query returned status counts only; it did not return monetary values, order counts, or distinct customer counts [q1].\n- The query did not return timestamps or date boundaries, so the time window and historical trends were not measured [q1].\n\n### Action items (proposed)\n- Propose querying order item counts grouped by status across monthly or quarterly time periods to observe status patterns over time.\n- Propose querying total `sale_price` alongside item status to measure the revenue associated with completed versus returned items.",
+  "status": "generated",
+  "seconds": 27.65902431998984,
+  "usage": {
+    "input_tokens": 2149,
+    "output_tokens": 1162,
+    "total_tokens": 3311,
+    "thought_tokens": 941,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

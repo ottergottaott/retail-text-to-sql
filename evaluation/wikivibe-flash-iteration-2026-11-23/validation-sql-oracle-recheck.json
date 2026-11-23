@@ -1,0 +1,87 @@
+{
+  "data_source": "Deterministic DuckDB fixture; no live BigQuery",
+  "checks": [
+    {
+      "id": "category-sales-1",
+      "status": "passed"
+    },
+    {
+      "id": "category-sales-2",
+      "status": "passed"
+    },
+    {
+      "id": "brand-sales-1",
+      "status": "passed"
+    },
+    {
+      "id": "brand-sales-2",
+      "status": "passed"
+    },
+    {
+      "id": "department-sales-1",
+      "status": "passed"
+    },
+    {
+      "id": "department-sales-2",
+      "status": "passed"
+    },
+    {
+      "id": "cost-margin-1",
+      "status": "passed"
+    },
+    {
+      "id": "cost-margin-2",
+      "status": "passed"
+    },
+    {
+      "id": "margin-ratio-1",
+      "status": "passed"
+    },
+    {
+      "id": "margin-ratio-2",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-reference-gap-1",
+      "status": "passed"
+    },
+    {
+      "id": "catalog-reference-gap-2",
+      "status": "passed"
+    },
+    {
+      "id": "unsold-catalog-1",
+      "status": "passed"
+    },
+    {
+      "id": "unsold-catalog-2",
+      "status": "passed"
+    },
+    {
+      "id": "brand-return-1",
+      "status": "passed"
+    },
+    {
+      "id": "brand-return-2",
+      "status": "passed"
+    },
+    {
+      "id": "category-price-1",
+      "status": "passed"
+    },
+    {
+      "id": "category-price-2",
+      "status": "passed"
+    },
+    {
+      "id": "brand-status-1",
+      "status": "passed"
+    },
+    {
+      "id": "brand-status-2",
+      "status": "passed"
+    }
+  ],
+  "passed": 20,
+  "total": 20
+}

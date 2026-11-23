@@ -1,8 +1,79 @@
 [
-  {"name":"Alice complete-item revenue by month","user":"alice","sql":"SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month","expected_rows":[{"month":"2026-01-01 00:00:00","revenue":100.0},{"month":"2026-02-01 00:00:00","revenue":110.0}]},
-  {"name":"Bob complete-item revenue by month","user":"bob","sql":"SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month","expected_rows":[{"month":"2026-01-01 00:00:00","revenue":120.0},{"month":"2026-02-01 00:00:00","revenue":90.0}]},
-  {"name":"Alice product comparison","user":"alice","sql":"SELECT p.id, p.name, COUNT(*) AS items, SUM(CASE WHEN i.status='Complete' THEN i.sale_price ELSE 0 END) AS revenue FROM order_items i JOIN products p ON i.product_id=p.id GROUP BY p.id,p.name ORDER BY p.id","expected_rows":[{"id":1,"name":"Trail Jacket","items":8,"revenue":70.0},{"id":2,"name":"City Jacket","items":8,"revenue":140.0}]},
-  {"name":"Alice customer-state spend","user":"alice","sql":"SELECT u.state, COUNT(DISTINCT i.customer_key) AS customers, SUM(i.sale_price) AS revenue FROM order_items i JOIN users u ON i.customer_key=u.customer_key WHERE i.status='Complete' GROUP BY u.state","expected_rows":[{"state":"California","customers":4,"revenue":210.0}]},
-  {"name":"Alice scoped orders","user":"alice","sql":"SELECT COUNT(*) AS orders FROM orders","expected_rows":[{"orders":16}]},
-  {"name":"Bob authorized catalogue","user":"bob","sql":"SELECT id,name FROM products ORDER BY id","expected_rows":[{"id":3,"name":"Hidden Boots"}]}
+  {
+    "name": "Alice complete-item revenue by month",
+    "user": "alice",
+    "sql": "SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month",
+    "expected_rows": [
+      {
+        "month": "2026-01-01 00:00:00",
+        "revenue": 100.0
+      },
+      {
+        "month": "2026-02-01 00:00:00",
+        "revenue": 110.0
+      }
+    ]
+  },
+  {
+    "name": "Bob complete-item revenue by month",
+    "user": "bob",
+    "sql": "SELECT DATE_TRUNC(DATE(created_at), MONTH) AS month, SUM(sale_price) AS revenue FROM order_items WHERE status='Complete' GROUP BY month ORDER BY month",
+    "expected_rows": [
+      {
+        "month": "2026-01-01 00:00:00",
+        "revenue": 120.0
+      },
+      {
+        "month": "2026-02-01 00:00:00",
+        "revenue": 90.0
+      }
+    ]
+  },
+  {
+    "name": "Alice product comparison",
+    "user": "alice",
+    "sql": "SELECT p.id, p.name, COUNT(*) AS items, SUM(CASE WHEN i.status='Complete' THEN i.sale_price ELSE 0 END) AS revenue FROM order_items i JOIN products p ON i.product_id=p.id GROUP BY p.id,p.name ORDER BY p.id",
+    "expected_rows": [
+      {
+        "id": 1,
+        "name": "Trail Jacket",
+        "items": 8,
+        "revenue": 70.0
+      },
+      {
+        "id": 2,
+        "name": "City Jacket",
+        "items": 8,
+        "revenue": 140.0
+      }
+    ]
+  },
+  {
+    "name": "Alice customer-state spend",
+    "user": "alice",
+    "sql": "SELECT u.state, COUNT(DISTINCT i.customer_key) AS customers, SUM(i.sale_price) AS revenue FROM order_items i JOIN users u ON i.customer_key=u.customer_key WHERE i.status='Complete' GROUP BY u.state",
+    "expected_rows": [],
+    "privacy_expectation": "Suppress state aggregate: four distinct customers are below the default minimum cohort size of five."
+  },
+  {
+    "name": "Alice scoped orders",
+    "user": "alice",
+    "sql": "SELECT COUNT(*) AS orders FROM orders",
+    "expected_rows": [
+      {
+        "orders": 16
+      }
+    ]
+  },
+  {
+    "name": "Bob authorized catalogue",
+    "user": "bob",
+    "sql": "SELECT id,name FROM products ORDER BY id",
+    "expected_rows": [
+      {
+        "id": 3,
+        "name": "Hidden Boots"
+      }
+    ]
+  }
 ]

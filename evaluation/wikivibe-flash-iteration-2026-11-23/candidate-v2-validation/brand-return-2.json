@@ -1,0 +1,9 @@
+{
+  "id": "brand-return-2",
+  "family": "brand-return",
+  "split": "validation",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 30.335231268996722,
+  "attempt": 2
+}

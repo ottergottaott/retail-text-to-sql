@@ -13,6 +13,7 @@ from retail.faithfulness_experiments import validate_suite, check_answer
 from retail.experiment_tracking import digest
 from retail.ragas_evaluation import summarize
 from retail.security import safe_output
+from scripts.evaluate_review_prompts import generation_config, generation_model_name, provider_ready
 
 
 def write(path, data):
@@ -55,17 +56,19 @@ def main():
             raise ValueError('Invalid prompt size.')
         from retail.config import Settings
         cfg = Settings(_env_file=args.env_file)
-        if not cfg.deepinfra_api_key:
+        if not provider_ready(cfg):
             raise ValueError('Provider configuration missing.')
     except (ValueError, OSError):
         parser.error('Invalid inputs, split authorization, limits or provider configuration.')
     from scripts.evaluate_ragas import live
     import retail.deepinfra as provider
-    model = cfg.deepinfra_review_model or cfg.deepinfra_model
-    cfg = cfg.model_copy(update={'deepinfra_model': model})
-    judge_model = cfg.deepinfra_review_model or cfg.deepinfra_model
+    model = generation_model_name(cfg)
+    cfg = generation_config(cfg)
+    judge_model = model
     identity = {'dataset_sha256': digest(cases), 'prompt_sha256': hashlib.sha256(prompt.encode()).hexdigest(),
                 'model': model, 'judge_model': judge_model, 'ragas_version': '0.4.4',
+                'generation_provider': getattr(cfg, 'llm_provider', 'deepinfra'),
+                'gateway_base_url': getattr(cfg, 'deepinfra_base_url', 'https://api.deepinfra.com/v1/openai'),
                 'metric_contract': 'standard-faithfulness-unchanged; separate-sql-aware-v1',
                 'batch_size': args.batch_size, 'max_calls_per_batch': args.max_calls_per_batch,
                 'evidence_boundary': 'Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing.'}

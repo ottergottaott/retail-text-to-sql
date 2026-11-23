@@ -1,0 +1,25 @@
+{
+  "id": "unsold-catalog-2",
+  "family": "unsold-catalog",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n- **Scope & Grain**: Analysis evaluated catalogue products at the product grain (`p.id`) within the authorized product scope (`product_id` 2 and 3), left-joined to `order_items` [q1].\n- **Filters & Definition**: Filtered for item status `status = 'Complete'` with a `HAVING COUNT(i.item_key) = 0` predicate to find catalogue products with zero completed items [q1]. No date filters were applied across the available history.\n- **Observation**: Zero rows were returned [q1]. Within the authorized product scope, all catalogue products have at least one associated `Complete` item.\n\n| id | complete_items |\n| --- | --- |\n\n*(0 rows returned)*\n\n### Limitations\n- The query did not return order item counts or distributions for non-complete statuses (such as Cancelled, Returned, or Processing) [q1].\n- The query did not return item creation timestamps, so it does not indicate when the completed items occurred [q1].\n\n### Action items (proposed)\n- What is the total count and revenue of `Complete` items broken down by authorized product ID across the recorded history?\n- What is the distribution of item statuses across all records for authorized product IDs 2 and 3?",
+  "status": "generated",
+  "seconds": 18.102736219996586,
+  "usage": {
+    "input_tokens": 2496,
+    "output_tokens": 1711,
+    "total_tokens": 4207,
+    "thought_tokens": 1405,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

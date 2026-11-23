@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-1",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe query measures the count of completed order items (`status = 'Complete'`) across authorized products [q1].\n\n| product_id | complete_items |\n| --- | --- |\n| 1 | 7 |\n| 2 | 7 |\n\n- Both authorized products (product 1 and product 2) have 7 completed items recorded [q1].\n\n### Limitations\n- The query only aggregates completed item counts and does not return order counts, unique customers, sale prices, costs, or margins [q1].\n- Other order item statuses (such as cancelled, returned, or processing) and date ranges were not queried [q1].\n\n### Action items (proposed)\n- Propose querying item volume across all statuses (e.g., returned, cancelled) to evaluate completion rates by product.\n- Propose breaking down completed items by time period and joining with `products` to review product names, categories, and revenue metrics.",
+  "status": "generated",
+  "seconds": 11.49733197799651,
+  "usage": {
+    "input_tokens": 2178,
+    "output_tokens": 977,
+    "total_tokens": 3155,
+    "thought_tokens": 744,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,25 @@
+{
+  "id": "category-price-2",
+  "family": "category-price",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nMean realized price for completed items (`status = 'Complete'`) across authorized products by category [q1]:\n\n| category | mean_realized_price |\n| :--- | ---: |\n| Footwear | 30.0 |\n| Outerwear | 20.0 |\n\n*Note: Currency is not defined in the source data.*\n\n### Limitations\n- **Scope & Population**: Results reflect only authorized products (products 2 and 3) bound by the execution environment and include exclusively items where `status = 'Complete'` [q1]. Other order statuses were not evaluated.\n- **Unmeasured Volumes**: Item counts, order counts, and distinct customer counts were not queried; sample volume per category is unmeasured [q1].\n- **Pricing Context**: Product catalog retail prices (`retail_price`), costs (`cost`), and promotional discounts were not queried.\n- **Time Window**: No time boundary was specified or queried; historical date coverage and completeness were not measured.\n\n### Action items (proposed)\n- Query item counts (`COUNT(*)`) and distinct orders alongside mean realized price to establish the volume underlying each category average.\n- Compare `sale_price` against `retail_price` and `cost` from `products` to analyze realized margin and markdown depth.\n- Segment completed sale prices by date buckets (e.g., month or quarter) to evaluate price trends over time.",
+  "status": "generated",
+  "seconds": 16.316427320998628,
+  "usage": {
+    "input_tokens": 2128,
+    "output_tokens": 1349,
+    "total_tokens": 3477,
+    "thought_tokens": 1021,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

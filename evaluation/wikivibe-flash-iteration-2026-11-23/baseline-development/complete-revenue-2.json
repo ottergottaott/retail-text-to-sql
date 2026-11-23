@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-2",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nComplete-item revenue for authorized products is summarized below [q1]. The metric is calculated as `SUM(sale_price)` for records with `status = 'Complete'`. Currency is not specified in the underlying dataset.\n\n| complete_revenue |\n| --- |\n| 350.0 |\n\n### Limitations\n- **Metric definition & scope**: Aggregation reflects only items with `status = 'Complete'` across authorized products, bound by the executor [q1].\n- **Unmeasured dimensions**: Item counts, order counts, customer counts, and date ranges were not queried; transaction volume and time coverage remain unmeasured [q1].\n- **Discounts and pricing**: Item-level list prices, discounts, and margins were not queried.\n\n### Action items (proposed)\n- Query item counts and distinct customer counts alongside revenue to evaluate transaction volume and average spend per customer.\n- Break down revenue by authorized product ID and category to observe product-level contribution.\n- Aggregate complete revenue across date buckets (e.g., monthly) to assess historical trajectory.",
+  "status": "generated",
+  "seconds": 27.398275054001715,
+  "usage": {
+    "input_tokens": 2052,
+    "output_tokens": 1027,
+    "total_tokens": 3079,
+    "thought_tokens": 771,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

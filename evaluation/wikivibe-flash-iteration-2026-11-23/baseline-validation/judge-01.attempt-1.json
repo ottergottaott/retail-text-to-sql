@@ -1,0 +1,427 @@
+{
+  "status": "incomplete",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.7279411764705883,
+    "sql_factual_faithfulness": 0.9666666666666667
+  },
+  "combined_means": {
+    "faithfulness": 0.7279411764705883,
+    "sql_factual_faithfulness": 0.9666666666666667
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 3,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "department-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status equals 'Complete'.",
+                "reason": "The SQL query in the context explicitly selects SUM(`i`.`sale_price`) AS `complete_revenue` with the condition WHERE `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products across all recorded history, the Men department has 70.0 in complete revenue and 7 complete items.",
+                "reason": "The execution scope restricts the query to authorized products with no date filter, and the Men department row shows 70.0 in complete_revenue and 7 complete_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products across all recorded history, the Women department has 140.0 in complete revenue and 7 complete items.",
+                "reason": "The execution scope restricts the query to authorized products with no date filter, and the Women department row shows 140.0 in complete_revenue and 7 complete_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Both the Men and Women departments have an equal volume of 7 completed items.",
+                "reason": "The data rows show complete_items is 7 for both the Men and Women departments.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Women department generated 140.0 in completed item revenue.",
+                "reason": "The Women department row explicitly shows a complete_revenue of 140.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Men department generated 70.0 in completed item revenue.",
+                "reason": "The Men department row explicitly shows a complete_revenue of 70.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measures completed item revenue as SUM(sale_price), rather than net profit, margins, or deductions.",
+                "reason": "The SQL query specifically calculates SUM(`i`.`sale_price`) and does not compute or deduct net profit, margins, or other costs.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order volume, distinct customer counts, product costs, discount history, and time trends were not queried.",
+                "reason": "The provided SQL query only aggregates count of items and sum of sale price grouped by department, omitting order counts, customer counts, costs, discounts, and dates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency units are not specified in the data schema.",
+                "reason": "The context provides the query, rows, and schema fields with numeric values, but no currency units are defined or specified.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is calculating gross margins by comparing sale_price against product cost across departments.",
+                "reason": "The context contains only query results and metadata, with no mention of proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is evaluating average unit selling prices and customer counts to understand the price variation between departments.",
+                "reason": "There is no mention of any proposed analytical checks in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is analyzing status breakdowns, such as Returns and Cancelled, to assess department completion rates.",
+                "reason": "The context does not mention or propose any analytical checks regarding status breakdowns or completion rates.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 26.626900782008306
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status = 'Complete'.",
+                "reason": "The SQL query defines `complete_revenue` as SUM(`i`.`sale_price`) with the filter WHERE `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all recorded history for authorized products, the Men department generated 70.0 in complete-item revenue.",
+                "reason": "The context row for the 'Men' department shows complete_revenue of 70.0 across all recorded history within the executor-bound authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all recorded history for authorized products, the Men department has 7 completed items.",
+                "reason": "The context row for the 'Men' department shows complete_items equal to 7 within the executor-bound scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all recorded history for authorized products, the Women department generated 140.0 in complete-item revenue.",
+                "reason": "The context row for the 'Women' department reports complete_revenue of 140.0 within the executor-bound scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all recorded history for authorized products, the Women department has 7 completed items.",
+                "reason": "The context row for the 'Women' department reports complete_items equal to 7 within the executor-bound scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Both the Men and Women departments have an equal volume of 7 completed items for authorized products across all recorded history.",
+                "reason": "Both Men and Women rows show exactly 7 complete_items in the query results.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Women department generated 140.0 in completed item revenue, whereas the Men department generated 70.0 for authorized products across all recorded history.",
+                "reason": "The context confirms complete_revenue of 140.0 for Women and 70.0 for Men across the executor-bound authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The completed item revenue metric measures SUM(sale_price) and does not measure net profit, margins, or deductions.",
+                "reason": "The SQL query only aggregates SUM(`i`.`sale_price`) and does not measure net profit, margins, or deductions.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order volume, distinct customer counts, product costs, discount history, and time trends were not queried.",
+                "reason": "The provided SQL query selects only department, SUM(sale_price), and COUNT(*), without querying order counts, customer counts, costs, discounts, or timestamps.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency units are not specified in the data schema.",
+                "reason": "The provided SQL query, schema columns, and result rows contain numerical values without specifying any currency unit.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 27.988498627004446
+        }
+      }
+    },
+    {
+      "id": "department-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7058823529411765,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue for the Men department across authorized products is 210.0.",
+                "reason": "The context shows that for the Men department, complete_revenue is 210.0 within the execution scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete-item count for the Men department across authorized products is 7.",
+                "reason": "The context shows complete_items is 7 for the Men department.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete-item revenue for the Women department across authorized products is 140.0.",
+                "reason": "The context shows complete_revenue is 140.0 for the Women department.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete-item count for the Women department across authorized products is 7.",
+                "reason": "The context shows complete_items is 7 for the Women department.",
+                "verdict": 1
+              },
+              {
+                "statement": "Both the Men and Women departments have an identical volume of 7 Complete items.",
+                "reason": "Both rows in the context display complete_items equal to 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Men department generated 210.0 in Complete revenue.",
+                "reason": "The row for the Men department states complete_revenue is 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Women department generated 140.0 in Complete revenue.",
+                "reason": "The row for the Women department states complete_revenue is 140.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis is restricted to records with status equal to 'Complete' across authorized products.",
+                "reason": "The SQL query filters explicitly with WHERE `i`.`status` = 'Complete', and the execution scope defines authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other item statuses, such as cancelled or returned, were not queried in the analysis.",
+                "reason": "The SQL query exclusively selects rows where status is 'Complete', confirming other item statuses were not queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer counts were not measured in the query.",
+                "reason": "The SQL query selects only department, SUM(sale_price), and COUNT(*), with no metric or mention of customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order-level groupings were not measured in the query.",
+                "reason": "The SQL query groups solely by department (GROUP BY `department`), with no order-level groupings.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time or date coverage was not measured in the query.",
+                "reason": "The SQL query does not filter, aggregate, or select by any date or timestamp columns.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined in the underlying dataset.",
+                "reason": "The context does not state whether currency is defined or undefined in the underlying dataset.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to query average sale price and catalog retail price (retail_price) by product.",
+                "reason": "The context contains only query results and execution metadata, with no proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "Evaluating average sale price and catalog retail price by product can assess pricing factors driving the revenue difference between departments.",
+                "reason": "This analytical suggestion and reasoning are not present anywhere in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to break down item volume and revenue by time periods.",
+                "reason": "The context does not mention any proposed checks or future analyses.",
+                "verdict": 0
+              },
+              {
+                "statement": "Breaking down item volume and revenue by time periods helps determine if performance varies historically.",
+                "reason": "This analytical recommendation is not found in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 34.05377619499632
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.9,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products, the Men department has 7 Complete items.",
+                "reason": "The query results for authorized products show that the Men department has a complete_items count of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the Men department generated 210.0 in complete_revenue.",
+                "reason": "The query results for authorized products show complete_revenue of 210.0 for the Men department.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the Women department has 7 Complete items.",
+                "reason": "The query results for authorized products show that the Women department has a complete_items count of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the Women department generated 140.0 in complete_revenue.",
+                "reason": "The query results for authorized products show complete_revenue of 140.0 for the Women department.",
+                "verdict": 1
+              },
+              {
+                "statement": "Both the Men and Women departments have an identical volume of 7 Complete items for authorized products.",
+                "reason": "Both departments show an identical complete_items count of 7 in the returned rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the Men department generated higher Complete revenue (210.0) than the Women department (140.0).",
+                "reason": "Comparing the returned complete_revenue values, Men (210.0) is higher than Women (140.0).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis is restricted to records with status = 'Complete' across authorized products.",
+                "reason": "The SQL query explicitly filters by WHERE `i`.`status` = 'Complete' and execution scope is bound to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other item statuses, such as cancelled or returned, were not queried.",
+                "reason": "The SQL query filters strictly for status = 'Complete', meaning other item statuses were not included in the query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer counts, order-level groupings, and time/date coverage were not measured in query q1.",
+                "reason": "Query q1 only groups by department and aggregates sale_price and row count without measuring customer counts, order groupings, or time/date coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined in the underlying dataset.",
+                "reason": "The context does not specify whether currency is defined in the underlying dataset; omitting currency from query q1 does not establish that it is absent from the dataset.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 28.186655462995986
+        }
+      }
+    },
+    {
+      "id": "cost-margin-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.013347283995245
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00076179999451
+        }
+      }
+    },
+    {
+      "id": "cost-margin-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00177102901216
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across all available history for the authorized product scope, there are 14 completed items.",
+                "reason": "The query executed without date filters or truncation against the authorized product scope, returning a count of 14 completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across the 14 completed items for authorized products, the aggregate difference between total sale price and current catalogue cost proxy is negative.",
+                "reason": "The returned cost_proxy_margin is -350.0, which is negative across the 14 completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The total sale price minus current catalogue cost proxy (cost_proxy_margin) for the 14 completed items is -350.0.",
+                "reason": "The SQL aggregates SUM(sale_price - cost) as cost_proxy_margin, and the result explicitly shows -350.0 for the 14 completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The calculation represents sale_price minus current catalogue cost proxy for completed items, not net profit.",
+                "reason": "The SQL query computes SUM(`i`.`sale_price` - `p`.`cost`) without incorporating operating expenses, overhead, or taxes, representing a gross cost proxy margin rather than net profit.",
+                "verdict": 1
+              },
+              {
+                "statement": "Operating costs, returns, shipping, taxes, and promotional allowances are not included in the calculation.",
+                "reason": "The SQL query strictly calculates `i`.`sale_price` - `p`.`cost` filtered to completed items, without inspecting or factoring in operating costs, returns, shipping, taxes, or promotional allowances.",
+                "verdict": 1
+              },
+              {
+                "statement": "The catalogue cost is a current snapshot proxy.",
+                "reason": "The query joins directly to `products`.`cost` from the products catalogue table without historical cost tracking or effective dates, functioning as a current snapshot proxy.",
+                "verdict": 1
+              },
+              {
+                "statement": "The finding is based on a sample of 14 items.",
+                "reason": "The query returned a total count of 14 completed items (`complete_items`: 14) upon which the aggregate result is based.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date boundaries and historical completeness were not measured in the analysis.",
+                "reason": "The SQL query does not filter on, group by, or inspect transaction dates or audit data completeness over time.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency units are not specified in the supplied data.",
+                "reason": "Neither the SQL query nor the returned rows define or specify currency units for sale prices or costs.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 43.49951055699785
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 16,
+  "max_provider_calls": 16,
+  "measured_total_tokens": 33752,
+  "usage_responses": 13,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

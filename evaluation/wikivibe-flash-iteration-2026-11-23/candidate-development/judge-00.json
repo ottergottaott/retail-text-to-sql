@@ -1,0 +1,414 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6800595238095238,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.6800595238095238,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "complete-revenue-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue was calculated based on query [q1] using `SUM(sale_price)` for items with `status = 'Complete'` across authorized products over all available history.",
+                "reason": "The context shows query [q1] uses `SELECT SUM(`order_items`.`sale_price`) AS `complete_revenue` FROM `order_items` AS `order_items` WHERE `order_items`.`status` = 'Complete'` with an execution scope enforcing authorized products and no date filter.",
+                "verdict": 1
+              },
+              {
+                "statement": "The total complete_revenue value for authorized products is 210.0 in query [q1].",
+                "reason": "The context directly displays `\"complete_revenue\": 210.0` for query [q1] within the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total Complete-item revenue across the authorized scope is 210.0 based on query [q1].",
+                "reason": "The context states the row result for complete_revenue is 210.0 under the authorized execution scope for query [q1].",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not return item quantities, transaction counts, or distinct customer counts.",
+                "reason": "Query [q1] only selected `SUM(`order_items`.`sale_price`) AS `complete_revenue``, with no columns returned for item quantities, transaction counts, or distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not break down revenue by time period, product ID, or category.",
+                "reason": "Query [q1] does not include any GROUP BY clauses or breakdown dimensions by time period, product ID, or category.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query item and order counts for items with `status = 'Complete'` to measure transaction volume alongside revenue.",
+                "reason": "The context contains only query execution logs and metadata, with no mention of proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to evaluate Complete-item revenue segmented by product ID and date buckets to observe distribution and time trends across authorized products.",
+                "reason": "The context contains only query execution logs and metadata, with no mention of proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 28.03082781600824
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], Complete-item revenue was calculated using SUM(sale_price) for items with status = \"Complete\" across authorized products over all available history.",
+                "reason": "The SQL query computes SUM(sale_price) filtered on status = 'Complete' with no date restrictions, and the executor provenance restricts the source data to authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "Total Complete-item revenue (complete_revenue) across the authorized scope over all available history is 210.0 based on query [q1].",
+                "reason": "The query result returns a single complete_revenue value of 210.0 over the executor-bound authorized scope without truncation or date filtering.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not return item quantities, transaction counts, or distinct customer counts.",
+                "reason": "The SQL query selects only SUM(`order_items`.`sale_price`) AS `complete_revenue` and does not query or return item quantities, transaction counts, or distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not break down revenue by time period, product ID, or category.",
+                "reason": "The SQL query performs a single scalar aggregation without any GROUP BY clauses for time period, product ID, or category.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 15.825303305013222
+        }
+      }
+    },
+    {
+      "id": "complete-revenue-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.625,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue is defined as SUM(sale_price) for items with status equal to Complete across all available history within the authorized product scope enforced by the executor.",
+                "reason": "The context provides the SQL query calculating SUM(`order_items`.`sale_price`) AS `complete_revenue` with status = 'Complete', and specifies the execution scope with executor-bound views.",
+                "verdict": 1
+              },
+              {
+                "statement": "The complete_revenue value is 350.0.",
+                "reason": "The context explicitly shows rows containing 'complete_revenue': 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total Complete-item revenue for authorized products across all recorded history is 350.0.",
+                "reason": "The SQL query sums the sale price for complete items without date filters under the authorized product scope, resulting in a value of 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return transaction or item counts.",
+                "reason": "The context displays the SQL query and returned rows, which select only the sum of sale_price and do not include any transaction or item counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Unit volume and sample size were not measured because transaction or item counts were not returned.",
+                "reason": "The context contains raw query results and execution metadata, but does not state or discuss whether unit volume and sample size were measured or why.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query did not break down revenue by date bucket, product ID, or customer cohort.",
+                "reason": "The SQL query in the context shows an aggregate calculation without any GROUP BY clauses for date bucket, product ID, or customer cohort.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query Complete-item revenue segmented by date intervals, such as month or year, to evaluate revenue distribution over time.",
+                "reason": "The context contains only query data and execution scope, with no mention of proposed action items or recommendations.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query item counts and distinct customer counts alongside revenue to measure order volume and purchasing breadth.",
+                "reason": "There are no proposed action items or recommendations present in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 38.00676352198934
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue is defined as SUM(sale_price) for items with status = 'Complete' across all available history within the authorized product scope enforced by the executor.",
+                "reason": "The SQL query computes SUM(sale_price) filtered on status = 'Complete' without date restrictions, and the execution metadata shows executor-bound view enforcement limiting the scope to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total Complete-item revenue (complete_revenue) for authorized products across all recorded history is 350.0.",
+                "reason": "The returned row shows complete_revenue of 350.0 for the authorized products across the full history queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return transaction or item counts.",
+                "reason": "The SELECT clause and returned rows only contain complete_revenue, with no transaction or item counts requested or returned.",
+                "verdict": 1
+              },
+              {
+                "statement": "Unit volume and sample size were not measured by the query.",
+                "reason": "The query only measures the sum of sale prices and does not count units, rows, orders, or sample size.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not break down revenue by date bucket, product ID, or customer cohort.",
+                "reason": "The SQL query aggregates the entire matching dataset into a single scalar value without any GROUP BY clauses.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 17.257041573990136
+        }
+      }
+    },
+    {
+      "id": "item-status-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The item counts by status for authorized products are summarized in the findings.",
+                "reason": "The context provides the execution scope specifying authorized products and the resulting rows summarizing item counts grouped by status.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the queried records, 14 items have a status of Complete.",
+                "reason": "The context explicitly shows a row with status 'Complete' and items count of 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the queried records, 2 items have a status of Returned.",
+                "reason": "The context explicitly shows a row with status 'Returned' and items count of 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query returned status counts only.",
+                "reason": "The SQL query and output rows confirm that only the status and the count of items were selected and returned.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return monetary values, order counts, or distinct customer counts.",
+                "reason": "The query and result set contain only status and item count, with no monetary values, order counts, or distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return timestamps or date boundaries.",
+                "reason": "The SQL query and output rows do not include any date or timestamp fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "The time window and historical trends were not measured because timestamps and date boundaries were omitted from the query.",
+                "reason": "The context does not mention historical trends or provide reasoning about what was or was not intentionally measured.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query order item counts grouped by status across monthly or quarterly time periods to observe status patterns over time.",
+                "reason": "The context contains only query results and execution metadata, with no mention of proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query total sale_price alongside item status to measure the revenue associated with completed versus returned items.",
+                "reason": "There is no mention of any proposed action items or measuring sale_price in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 29.448880642012227
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "In the queried records for authorized products, 14 items have a status of 'Complete'.",
+                "reason": "The execution scope restricts the query to authorized products via executor-bound views, and the returned data shows 14 items with status 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the queried records for authorized products, 2 items have a status of 'Returned'.",
+                "reason": "The execution scope restricts the query to authorized products via executor-bound views, and the returned data shows 2 items with status 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query returned status counts only.",
+                "reason": "The SQL query selects only `status` and `COUNT(*) AS items` grouped by `status`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return monetary values.",
+                "reason": "The query selects only `status` and `COUNT(*) AS items`, with no monetary columns or calculations returned.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return order counts.",
+                "reason": "The query counts rows from `order_items` (`COUNT(*)`), not distinct orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return distinct customer counts.",
+                "reason": "The query does not measure or return customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return timestamps or date boundaries.",
+                "reason": "The query does not select or return any timestamps, date filters, or date boundaries.",
+                "verdict": 1
+              },
+              {
+                "statement": "The time window and historical trends were not measured.",
+                "reason": "The supplied SQL query aggregates overall status counts without grouping by or filtering on time-related attributes.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 20.68469562199607
+        }
+      }
+    },
+    {
+      "id": "item-status-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7142857142857143,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "In the returned records for authorized products, 14 items have a status of Complete.",
+                "reason": "The context shows rows within the execution scope of authorized products where the status 'Complete' has 14 items.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the returned records for authorized products, 2 items have a status of Returned.",
+                "reason": "The context explicitly shows rows within the execution scope where the status 'Returned' has 2 items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query returned order item counts by status.",
+                "reason": "The SQL query groups by status and counts items, returning rows with each status and its corresponding item count.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return sale prices, margins, or discount details.",
+                "reason": "The SQL query and returned rows only include status and item count, omitting sale prices, margins, or discount details.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges and temporal completeness were not queried.",
+                "reason": "The SQL query in the context contains no date filters, date ranges, or temporal fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is calculating return rates over specific monthly or quarterly date buckets.",
+                "reason": "The context contains only query results and execution metadata, with no mention of proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is breaking down item status counts by individual authorized product ID.",
+                "reason": "There is no mention of any proposed action items in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 40.668427961005364
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "In the records for authorized products, 14 items have a status of 'Complete'.",
+                "reason": "The execution metadata restricts the scope to authorized products, and the query results explicitly show 14 items with status 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the records for authorized products, 2 items have a status of 'Returned'.",
+                "reason": "Under the executor-bound scope for authorized products, the query results confirm 2 items with status 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query returned order item counts by status.",
+                "reason": "The SQL query groups by status and calculates COUNT(*) as items, returning order item counts broken down by status.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return sale prices, margins, or discount details.",
+                "reason": "The SQL query only selects status and COUNT(*), returning no columns or data regarding sale prices, margins, or discount details.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges and temporal completeness were not queried.",
+                "reason": "The SQL query does not inspect, select, or filter by date fields, confirming date ranges and temporal completeness were not queried.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 16.857132163000642
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 16,
+  "max_provider_calls": 16,
+  "measured_total_tokens": 31972,
+  "usage_responses": 16,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

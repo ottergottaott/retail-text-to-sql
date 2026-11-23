@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-2",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nItem counts for 'Complete' and 'Returned' statuses by brand within authorized product scope [q1]:\n\n| brand | complete_items | returned_items |\n| :--- | :--- | :--- |\n| South | 7 | 1 |\n| West | 7 | 1 |\n\n- Both brand \"South\" and brand \"West\" reflect identical observed volumes: 7 completed items and 1 returned item [q1].\n- Note that these counts reflect a small sample size (8 total items per brand across these two statuses) and should not be taken as established demand or baseline return rates.\n\n### Limitations\n- Scope is confined to items with status 'Complete' or 'Returned' within authorized products [q1]; other statuses (e.g., 'Shipped', 'Processing', 'Cancelled') were not queried.\n- Item creation dates were not queried, so temporal distribution and historical coverage/completeness were not measured.\n- Order-level counts, distinct customer counts, pricing, and financial metrics such as net profit were not included in the query.\n\n### Action items (proposed)\n- Query all item statuses across available time buckets to evaluate total volume and observe status distribution over time.\n- Propose breaking down item counts and return counts by specific product IDs or categories to evaluate item-level variation.\n- Examine customer or order-level metrics to check whether returns are associated with specific repeat patterns or single orders.",
+  "status": "generated",
+  "seconds": 19.139677131999633,
+  "usage": {
+    "input_tokens": 2154,
+    "output_tokens": 1689,
+    "total_tokens": 3843,
+    "thought_tokens": 1355,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}
