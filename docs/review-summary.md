@@ -9,8 +9,8 @@ brands. Privacy checks also apply to the CEO.
 
 Reports include tables, SQL evidence, an HTML view and a saved-report library.
 Personal format/depth preferences persist across chats. Current-turn overrides
-and bounded learning from repeated presentation directives are implemented but
-not yet verified after the latest edits. Automatic Golden Bucket updates and tone
+and bounded learning from repeated presentation directives passed focused local
+checks. Automatic Golden Bucket updates and tone
 quality gates remain designs; shared-knowledge publication uses operator review.
 
 ## Run it
@@ -35,6 +35,7 @@ it does not test either provider. [Walkthrough](../START_HERE.md).
 
 | Check | Result | Scope |
 | --- | --- | --- |
+| Clean client startup | Fixture workflow and direct-Gemini startup passed; 24 local tests passed | Clean git archive and new Docker volumes. Direct startup used synthetic credentials; Google SDK HTTP transport was intercepted. No real Google/BigQuery calls. [Evidence](../evaluation/client-startup-2026-11-23.json) |
 | Outbound privacy / workflow follow-up | 109 passed | Local synthetic PII, mocked model/embedding boundaries, retrieval, brand/cohort guards and preference application. No new live calls or full-suite rerun. [Evidence](../evaluation/model-payload-privacy-2026-11-23.json) |
 | Latest regression suite | 262 passed | Predates the latest preference edits. Controlled tests, including custom-gateway evaluation routing and empty-result oracle wording. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/regression-empty-wording.xml) |
 | Latest Flash validation candidate | Standard Ragas: **0.756** | 19/20 synthetic cases scored; one generation failed. WikiVibe / gemini-3.8-flash, same generator/judge. Evaluation paused; no promotion. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-validation/results.json) |

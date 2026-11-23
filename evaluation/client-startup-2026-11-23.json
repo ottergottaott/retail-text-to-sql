@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-23",
+  "source_revision": "b64f1e8",
+  "boundary": "Clean git archive; new Docker projects and empty application volumes. No real model or BigQuery calls. Direct-Google startup used explicitly synthetic unusable credentials.",
+  "fixture": {
+    "source": "clean git archive b64f1e8",
+    "checks": {
+      "fixture_health": true,
+      "analysis_succeeded": true,
+      "report_saved": true,
+      "report_html": true,
+      "webui_model_installed": true,
+      "retail-reports_page": true,
+      "retail-learning_page": true
+    },
+    "all_passed": true,
+    "cloud_calls": 0
+  },
+  "direct_google_startup": {
+    "checks": {
+      "live_mode": true,
+      "direct_gemini_provider": true,
+      "official_google_endpoint": true,
+      "synthetic_key_imported": true,
+      "credential_file_0600": true,
+      "credential_directory_0700": true,
+      "non_root_owner": true,
+      "google_credentials_load": true,
+      "local_pii_model_loaded": true,
+      "live_health": true,
+      "webui_model_installed": true,
+      "google_volume_read_only": true
+    },
+    "all_passed": true,
+    "credentials": "synthetic; not usable for Google",
+    "cloud_calls": 0
+  },
+  "local_tests": {
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "google_transport": "Real google-genai SDK, intercepted httpx transport; official endpoint, model route, API-key header, structured schema and response parsing verified. No remote request.",
+  "cli": "Installed CLI --help exited 0 in the new live-configured container.",
+  "pending": [
+    "A real direct-Google Gemini answer with a Google AI Studio key.",
+    "Fresh end-to-end BigQuery acceptance with client project, IAM and quota."
+  ]
+}

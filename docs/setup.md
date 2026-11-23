@@ -31,7 +31,10 @@ the selected provider env/Google JSON files through `docker cp`. It never mounts
 the host repository or Docker socket into a container and does not modify
 Docker Desktop File Sharing. Temporary setup containers are removed on exit.
 
-## Open WebUI Pipe
+## Manual WebUI installation (existing deployments only)
+
+Skip this section when using `start.sh`: it installs the Pipe, report pages,
+feedback and preference integrations automatically.
 
 1. Create the first local WebUI account as administrator.
 2. In Workspace → Functions, create/import `integrations/openwebui_pipe.py` and
@@ -95,6 +98,44 @@ existing approved service-account/external-account credential JSON. Do not
 commit credential files or create a broad administrator key for this demo.
 See Google's [BigQuery authentication](https://cloud.google.com/bigquery/docs/authentication)
 and [IAM role reference](https://cloud.google.com/bigquery/docs/access-control).
+
+For the standard direct-Google launch, the complete configuration is:
+
+```dotenv
+GOOGLE_CLOUD_PROJECT=your-execution-project
+LLM_PROVIDER=gemini
+GEMINI_BASE_URL=https://generativelanguage.googleapis.com
+GEMINI_API_KEY=your-google-ai-studio-key
+GEMINI_MODEL=your-enabled-model-id
+EMBEDDING_PROVIDER=none
+```
+
+Edit these values locally in the copied `.env.providers`, never in the tracked
+example. Keep the Google JSON outside the repository. With user ADC on macOS/Linux:
+
+```sh
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials "$HOME/.config/gcloud/application_default_credentials.json"
+```
+
+For an existing service-account JSON, replace only the final path. No host Python,
+manual Docker environment export, credential mounting or WebUI plugin setup is needed.
+The model URL above is Google's Gemini API, not Vertex AI; Vertex credentials and
+endpoints are not interchangeable with this API-key configuration.
+
+### First-launch troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Docker unavailable | Start Docker Desktop/Engine and ensure Compose v2 is installed. |
+| Port already allocated | Add `--api-port 8010 --webui-port 3010`; open `http://localhost:3010`. |
+| Invalid Google credential JSON | Pass ADC/service-account JSON, not the Gemini key or a downloaded OAuth client configuration. |
+| Model dependency error on the first question | Check the Google AI Studio key, exact model ID, model access and quota; a gateway key is not a Google key. |
+| BigQuery dependency error | Check the execution project, enabled BigQuery API, `roles/bigquery.jobUser`, dataset access and billing/quota. |
+| Ready, but cannot sign in | Use generated `WEBUI_ADMIN_EMAIL` / `WEBUI_ADMIN_PASSWORD` from `.env.docker-retail-live`, not Google credentials. |
+
+After correcting local credentials, rerun the same launch command. It imports the
+updated provider settings and Google JSON while keeping local identities and reports.
+Do not send credential files, tokens or populated env files with a support request.
 
 Fill `GOOGLE_CLOUD_PROJECT`, `GEMINI_API_KEY`, and an enabled `GEMINI_MODEL` in
 `.env.providers`. Keep `EMBEDDING_PROVIDER=none` for the first launch. If the model

@@ -17,27 +17,30 @@ cd retail-text-to-sql
 cp deployment/live.env.example .env.providers
 ```
 
-Edit `.env.providers`: set `GOOGLE_CLOUD_PROJECT` and choose your model API:
+The template uses **Google Gemini directly**; no gateway account is needed.
+Edit only these three values in `.env.providers`:
 
-- **Direct Gemini:** `LLM_PROVIDER=gemini`, `GEMINI_API_KEY`, `GEMINI_MODEL`
-  and `GEMINI_BASE_URL` (default: `https://generativelanguage.googleapis.com`).
-- **OpenAI-compatible gateway:** `LLM_PROVIDER=openai_compatible`,
-  `OPENAI_COMPATIBLE_BASE_URL` (your provider's API base URL, usually ending in
-  `/v1`), `OPENAI_COMPATIBLE_API_KEY` and `OPENAI_COMPATIBLE_MODEL`.
-  Google model-key settings are unused on this path.
+- `GOOGLE_CLOUD_PROJECT`: your BigQuery execution project.
+- `GEMINI_API_KEY`: your [Google AI Studio key](https://aistudio.google.com/apikey).
+- `GEMINI_MODEL`: a model ID enabled for that key.
 
-Use a model ID enabled by your provider. The URL must match the selected API
-protocol. Keep `EMBEDDING_PROVIDER=none` for the first launch.
+Leave `LLM_PROVIDER=gemini`, the prefilled Google `GEMINI_BASE_URL` and
+`EMBEDDING_PROVIDER=none` unchanged for the first launch.
 
-Supply a Google application-default credential JSON with BigQuery query-job
-permissions. Gemini and BigQuery use separate credentials.
-[How to obtain credentials](docs/setup.md#credentials-checklist).
+BigQuery needs **separate Google credentials**, not the Gemini key. Use an
+existing credential JSON, or run `gcloud auth application-default login` with
+the Google Cloud CLI. On macOS/Linux its output is normally
+`$HOME/.config/gcloud/application_default_credentials.json`; pass that file below.
+Your execution project needs the BigQuery API enabled and your identity needs
+permission to create query jobs.
+[Credentials and permissions checklist](docs/setup.md#credentials-checklist).
 
 ```sh
 ./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
 ```
 
-Open **http://localhost:3000**. Sign in with `WEBUI_ADMIN_EMAIL` and
+The first build downloads images and dependencies; allow several minutes.
+Wait for **Ready (live)**. Open **http://localhost:3000**. Sign in with `WEBUI_ADMIN_EMAIL` and
 `WEBUI_ADMIN_PASSWORD` from the generated `.env.docker-retail-live`, then select
 **Retail Intelligence**. Ask **Create and save a monthly revenue report.**
 Open **Reports**, select the report and expand **Query evidence**.
@@ -53,6 +56,17 @@ Rerun the same launch command to resume. Stop with
 
 [CLI and reviewer walkthrough](START_HERE.md) ·
 [Alternative model endpoints and troubleshooting](docs/setup.md)
+
+<details>
+<summary>Use an OpenAI-compatible gateway instead</summary>
+
+Set `LLM_PROVIDER=openai_compatible`, `OPENAI_COMPATIBLE_BASE_URL` (usually ending
+in `/v1`), `OPENAI_COMPATIBLE_API_KEY` and `OPENAI_COMPATIBLE_MODEL` in the same
+file. Google model-key settings are unused on this path. BigQuery still needs
+its separate Google credential JSON. Choose an endpoint that speaks the selected
+API protocol.
+
+</details>
 
 ## Optional fixture preview
 
@@ -91,6 +105,12 @@ accuracy or fresh BigQuery execution. The candidate has not been promoted.
 The subsequent [focused privacy/workflow run](evaluation/model-payload-privacy-2026-11-23.json)
 passed **109 local tests**, including outbound payload checks and preference application.
 Providers were mocked; this does not replace a fresh live acceptance run.
+
+A [clean Docker startup check](evaluation/client-startup-2026-11-23.json) passed
+the fixture report workflow and direct-Gemini configuration/credential mounting.
+Another 24 local tests passed, including the real Google SDK with intercepted
+HTTP transport. Startup used synthetic credentials; real Google access remains
+an external acceptance check.
 
 Current schema metadata covers four approved logical tables. Personal format/depth
 learning has a bounded, locally tested deterministic implementation.
