@@ -76,3 +76,6 @@ Tests used isolated temporary stores; default application remains fixture.
 
 Current evidence is consolidated in docs/final-acceptance.md. Ragas scores and
 DeepSeek review do not close human acceptance. The overall goal remains open.
+
+- [x] Add durable automatic feedback processing, scoped publication and bounded retries.
+- [x] Add CEO tone editor, automatic fixed-case gate and version rollback.

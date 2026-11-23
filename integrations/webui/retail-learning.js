@@ -41,9 +41,50 @@
     el('feedback-fields').disabled=true;status('feedback-status','Sending feedback…');
     try {
       const result=await api('/feedback','POST',{...reference,revision,rating,comment:el('comment').value});
-      status('feedback-status','Feedback received · '+result.feedback_id+' · Awaiting analyst review.');
+      status('feedback-status','Feedback received · Automatic checks pending.');
+      pollFeedback(result.feedback_id);
       el('send-feedback').textContent='Feedback received';
     } catch (error) { status('feedback-status',error.message,true);el('feedback-fields').disabled=false; }
+  });
+  async function pollFeedback(id,attempt=0) {
+    try {
+      const value=await api('/feedback/'+encodeURIComponent(id));
+      if (value.status==='published') {status('feedback-status','Applied · This validated example is now available to authorized future queries.');return;}
+      if (['rejected','failed'].includes(value.status)) {status('feedback-status','Feedback retained · '+(value.reason||'Not promoted to knowledge.'));return;}
+      status('feedback-status',value.status==='retry_pending'?'Feedback retained · Evaluation unavailable; retry scheduled.':'Feedback received · Automatic checks pending.');
+      if (attempt<90) setTimeout(()=>pollFeedback(id,attempt+1),2000);
+    } catch (_) {status('feedback-status','Feedback received. Status is temporarily unavailable.');}
+  }
+  async function loadTone() {
+    try {
+      const value=await api('/organization/tone');
+      if (!value.can_edit) return;
+      el('organization-tone').hidden=false;
+      el('tone-current').textContent='Active version '+value.version+' · '+value.tone;
+      el('tone-text').value=value.tone;
+      el('tone-version').replaceChildren(...value.versions.map(v=>{
+        const option=document.createElement('option');option.value=v.version;option.textContent='Version '+v.version;return option;
+      }));
+      el('tone-rollback').disabled=!value.versions.length;
+    } catch (_) { /* Personal settings stay available if organization settings cannot load. */ }
+  }
+  async function pollTone(id,attempt=0) {
+    try {
+      const value=await api('/automation/'+encodeURIComponent(id));
+      if (value.status==='activated') {status('tone-status','Applied automatically · version '+value.version);el('tone-submit').disabled=false;loadTone();return;}
+      if (['rejected','failed','superseded'].includes(value.status)) {status('tone-status',value.reason||'Gate failed. Previous tone retained.',true);el('tone-submit').disabled=false;return;}
+      if (attempt<90) setTimeout(()=>pollTone(id,attempt+1),2000);
+      else {status('tone-status','Evaluation remains pending. The current tone stays active.');el('tone-submit').disabled=false;}
+    } catch (error) {status('tone-status',error.message,true);el('tone-submit').disabled=false;}
+  }
+  el('tone-form').addEventListener('submit',async event=>{
+    event.preventDefault();el('tone-submit').disabled=true;status('tone-status','Queued for automatic evaluation…');
+    try {const value=await api('/organization/tone','POST',{tone:el('tone-text').value});pollTone(value.job_id);}
+    catch (error) {status('tone-status',error.message,true);el('tone-submit').disabled=false;}
+  });
+  el('tone-rollback').addEventListener('click',async()=>{
+    try {const value=await api('/organization/tone/rollback','POST',{version:Number(el('tone-version').value)});status('tone-status','Restored as version '+value.version);loadTone();}
+    catch (error) {status('tone-status',error.message,true);}
   });
   function setPreferences(value) { el('format').value=value.format;el('depth').value=value.depth; }
   async function loadPreferences() {
@@ -65,5 +106,5 @@
     event.preventDefault();savePreferences({format:el('format').value,depth:el('depth').value});
   });
   el('reset-preferences').addEventListener('click',()=>savePreferences({format:'tables',depth:'standard'}));
-  loadTarget();loadPreferences();
+  loadTarget();loadPreferences();loadTone();
 })();

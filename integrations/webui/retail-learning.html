@@ -13,11 +13,19 @@
 <form id="feedback-form"><fieldset id="feedback-fields" disabled><legend>How was this answer?</legend>
 <div class="ratings"><label><input type="radio" name="rating" value="helpful" required><strong>Helpful</strong><span>Answered my question</span></label><label><input type="radio" name="rating" value="unhelpful"><strong>Incomplete</strong><span>Missed what I needed</span></label><label><input type="radio" name="rating" value="correction"><strong>Needs correction</strong><span>Something is incorrect</span></label></div>
 <label class="field" for="comment">What should change? <span>Optional</span></label><textarea id="comment" rows="4" maxlength="4000" placeholder="For example: use completed items only, or explain the comparison period. Please omit personal or confidential information."></textarea>
-<p class="note">Feedback goes to analyst review. It does not automatically change shared knowledge.</p><button type="submit" id="send-feedback">Send feedback</button></fieldset></form>
+<p class="note">Feedback is processed automatically. Only examples passing evidence, access and quality checks enter shared knowledge. Unsupported corrections are retained without publication.</p><button type="submit" id="send-feedback">Send feedback</button></fieldset></form>
 <p id="feedback-status" role="status" aria-live="polite"></p></section>
 <section class="card" id="preferences" aria-labelledby="preferences-title"><div class="section-top"><span class="number">02</span><div><h2 id="preferences-title">Your presentation preferences</h2><p>Remembered across conversations. Applied to future answers.</p></div></div>
 <form id="preferences-form"><fieldset id="preference-fields" disabled><legend class="sr-only">Presentation settings</legend><div class="settings"><label for="format">Preferred format<select id="format"><option value="tables">Tables</option><option value="bullets">Bullet points</option><option value="prose">Prose</option></select></label><label for="depth">Analysis depth<select id="depth"><option value="concise">Concise</option><option value="standard">Standard</option><option value="detailed">Detailed</option></select></label></div>
 <p class="note">An explicit request for a table still takes priority. Existing saved reports stay as snapshots.</p><div class="actions"><button type="submit">Save preferences</button><button id="reset-preferences" type="button" class="secondary">Reset to defaults</button></div></fieldset></form>
-<p id="preference-status" role="status" aria-live="polite">Loading preferences…</p></section></main>
-<footer>Retail Intelligence · Your preferences are personal. Shared knowledge changes require review.</footer>
+<p id="preference-status" role="status" aria-live="polite">Loading preferences…</p></section><section class="card" id="organization-tone" aria-labelledby="tone-title" hidden>
+<div class="section-top"><span class="number">03</span><div><h2 id="tone-title">Organization report tone</h2><p>CEO settings. Personal preferences still apply on top.</p></div></div>
+<p id="tone-current"></p>
+<form id="tone-form"><label class="field" for="tone-text">Presentation style</label><textarea id="tone-text" rows="3" maxlength="2000" required placeholder="Use concise, plain business language."></textarea>
+<p class="note">A fixed regression gate checks factual preservation, privacy and tone adherence. Passing changes activate automatically; failed changes keep the current tone.</p>
+<button type="submit" id="tone-submit">Evaluate and apply tone</button></form>
+<div class="actions"><label for="tone-version">Previous version <select id="tone-version"></select></label><button type="button" id="tone-rollback" class="secondary">Restore version</button></div>
+<p id="tone-status" role="status" aria-live="polite"></p></section>
+</main>
+<footer>Retail Intelligence · Your preferences are personal. Shared knowledge changes pass automatic checks.</footer>
 </div></body></html>

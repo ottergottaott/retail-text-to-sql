@@ -56,3 +56,37 @@ def test_feedback_action_uses_only_encoded_message_reference():
     code=calls[0]['data']['code']
     assert 'retail-learning.html' in code and 'message-123' in code and 'chat-123' in code
     assert 'trace_id' not in code and 'token' not in code
+
+
+def test_automatic_learning_proxy_exposes_only_owned_status_and_tone_controls(monkeypatch):
+    extension(monkeypatch)
+    module=load('automatic_learning_event','openwebui_learning_event.py')
+    from fastapi import FastAPI
+    event=module.Event()
+    async def configuration(id):return event.Valves(API_URL='http://backend',ADAPTER_SECRET='private-adapter')
+    event.configuration=configuration
+    app=FastAPI()
+    asyncio.run(event.event({},__event_name__='system.startup.completed',__app__=app,__id__='learning'))
+    seen=[]
+    def handler(request):
+        seen.append(request)
+        if request.url.path.startswith('/feedback/'):
+            return httpx.Response(200,json={'feedback_id':'fee_123','status':'published','reason':'','trio_id':'learned-abc','source':{'secret':'hidden'}})
+        if request.method=='POST':return httpx.Response(200,json={'job_id':'aut_123','status':'pending','secret':'hidden'})
+        return httpx.Response(200,json={'tone':'Professional','version':1,'can_edit':True,'versions':[],'secret':'hidden'})
+    real=httpx.AsyncClient
+    monkeypatch.setattr(module.httpx,'AsyncClient',lambda **kw:real(**kw,transport=httpx.MockTransport(handler)))
+    async def check():
+        async with real(transport=httpx.ASGITransport(app=app),base_url='http://webui') as c:
+            headers={'Authorization':'Bearer session'}
+            response=await c.get('/api/retail-learning/feedback/fee_123',headers=headers)
+            assert response.status_code==200 and response.json()['status']=='published'
+            assert 'source' not in response.json()
+            response=await c.post('/api/retail-learning/organization/tone',headers=headers,json={'tone':'Professional'})
+            assert response.json()=={'job_id':'aut_123','status':'pending'}
+            assert seen[-1].headers['X-Webui-User']=='verified-alice'
+            response=await c.post('/api/retail-learning/organization/tone',headers=headers,json={'tone':'Professional','role':'ceo'})
+            assert response.status_code==422
+            response=await c.get('/api/retail-learning/organization/tone',headers=headers)
+            assert 'secret' not in response.json() and response.json()['can_edit']
+    asyncio.run(check())

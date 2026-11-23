@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-23",
+  "mode": "local headless Chrome; actual extension page and FastAPI backend with a local test proxy; synthetic fixture data",
+  "checks": [
+    {
+      "name": "Helpful feedback automatically published and displayed Applied",
+      "status": "passed"
+    },
+    {
+      "name": "CEO concise tone automatically activated version 1",
+      "status": "passed"
+    },
+    {
+      "name": "Unsupported fixture tone rejected and active version retained",
+      "status": "passed"
+    },
+    {
+      "name": "Second accepted tone activated version 2",
+      "status": "passed"
+    },
+    {
+      "name": "Rollback restored version 1 as version 3",
+      "status": "passed"
+    }
+  ],
+  "screenshots": [
+    "screenshots/feedback-automatic-fixture-2026-11-23.jpg",
+    "screenshots/ceo-tone-automatic-fixture-2026-11-23.jpg"
+  ],
+  "boundary": "Scoped browser smoke; does not establish native Open WebUI proxy integration, live model/BQ behavior or human acceptance.",
+  "human_review": "pending"
+}

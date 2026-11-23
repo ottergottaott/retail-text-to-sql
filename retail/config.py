@@ -44,6 +44,8 @@ class Settings(BaseSettings):
     max_result_bytes: int = Field(default=64000, ge=1024, le=1000000)
     max_context_chars: int = Field(default=80000, ge=2000, le=250000)
     log_path: str = "./events.jsonl"
+    automation_enabled: bool = True
+    automation_poll_seconds: float = Field(default=5, ge=0.1, le=300)
     langfuse_enabled: bool = False
     langfuse_public_key: str = ""
     langfuse_secret_key: str = ""

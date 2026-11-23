@@ -97,7 +97,7 @@ compute is a later option; it is not needed for the bounded MVP request path.
 | Preferences | Per-user format/depth/source/version | Explicit overrides, automatically applied inferred preferences, reset/retention |
 | Golden trios | Labeled synthetic seeds and reviewed SQL records | Versioned object source plus SQL metadata/index publication manifest |
 | Embeddings | Model/content/version-keyed SQL records | pgvector index when corpus size warrants it |
-| Persona | Append-only tone versions in SQL | Editor RBAC, preview, publication and rollback audit |
+| Persona | CEO WebUI/API, automatic fixed-case gate, version history and rollback | Broader calibrated gates and replica-wide scheduling |
 | Feedback, candidates and evaluations | SQL records linked to turn/reviewer | Restricted review workspace, held-out gates and release history |
 | Telemetry | Metadata-only JSONL, optional Langfuse | Restricted centralized logs/traces with retention |
 
@@ -228,22 +228,18 @@ retrying. Saved-report idempotency keys are pending production hardening.
 
 ## 4. Continuous improvement
 
-User-level personalization is separate from shared model/knowledge improvement.
-Explicit format/depth choices persist by user, are loaded into each plan and
-control deterministic evidence formatting. A one-turn override should not change
-the default unless requested. Inferred preferences take effect automatically,
-as confirmed by Roi. The design records evidence/confidence and allows inspection,
-explicit override and reset; automatic inference is not implemented in the MVP. Do not claim that
-storing an explicit preference is autonomous learning of behavior.
+Personal format/depth preferences persist per user and layer over org tone.
+Repeated supported directives are learned automatically; users can inspect,
+override or reset them. Explicit current instructions take precedence.
 
-System-level feedback references an owned trace/conversation and remains
-unreviewed. An operator creates a sanitized candidate and runs independently
-authored expected-row cases. Failed cases block publication; passing cases plus
-reviewer produce a version and evaluation provenance. Tests demonstrate that a
-new approved example changes retrieval while failed reviews do not. This is a
-reviewed knowledge improvement loop, not fine-tuning or autonomous self-modifying
-instructions. Production additionally requires held-out retrieval/report/safety
-gates, staged rollout, alerts and rollback. See [workflow](improvement.md).
+Feedback is bound to an owned response and immutable query-evidence snapshot.
+One API worker processes durable SQL jobs automatically. Helpful examples pass
+scope, SQL and grounding gates. Corrections require an exact matching approved
+question/SQL definition and equivalent execution results before the model gate.
+Passing examples publish in the original scope; unsupported changes stay retained
+with a reason. Live gates use sanitized contexts and the configured model.
+Dependency retries and batches are bounded; pending jobs survive restart.
+This updates retrieved knowledge, not model weights. [Details](improvement.md).
 
 ## 5. Resilience and controlled cost
 
@@ -343,19 +339,14 @@ to actual policy. Never enable default raw Langfuse prompt/result capture.
 
 ## 8. Persona agility
 
-Persona is versioned presentation data in SQL. An operator publishes a tone file
-through `retail-admin persona`; next-turn reads apply it without redeployment,
-and traces record the version. Republish a prior tone as a new version to roll
-back. Policy and tool code remain outside persona. Tests verify refresh without
-recreating Agent. The nondeveloper production editor needs authenticated editor
-RBAC, constrained tone/style fields, sample-report preview, publish/rollback and
-audit. A submitted tone passes an automated gate, without manual approval:
-fixed reference reports must preserve facts, obey privacy/security constraints
-and follow the requested style. A failed or incomplete gate keeps the current
-version; a passing gate activates a new version with rollback. These gate criteria
-are engineering defaults accepted for specification by client delegation. The
-operator CLI bypasses that proposed production gate and is not claimed to be
-the finished CEO-facing editor.
+The configured CEO can submit report tone through My preferences without editing
+code or redeploying. A durable job renders and judges two fixed synthetic reports;
+numeric/privacy checks and an LLM rubric gate factual preservation and tone.
+A pass automatically activates a version; a failed/incomplete gate keeps the
+previous one. Newer requests supersede older jobs. The editor shows history and
+supports rollback. User preferences remain above shared presentation defaults;
+security and analytical policy remain outside tone. The worker is single-process
+and live gates still need fresh provider acceptance. [Details](improvement.md).
 
 ## Framework/model rationale and experience statement
 

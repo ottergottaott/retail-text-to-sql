@@ -64,6 +64,8 @@ to check both integrations.
 5. Click the **Give feedback** link below a new assistant response.
    Select **Helpful**, **Incomplete** or **Needs correction**
    and optionally add a comment. The form is linked to that specific response.
+   The page shows the automatic evaluation outcome. Passing examples become
+   available to authorized future queries; unsupported corrections are retained.
    Native WebUI thumbs up/down are separate and do not submit this feedback.
    **My preferences** beside it opens your saved format/depth settings.
    Older responses use the **Give feedback** toolbar action.
@@ -73,7 +75,7 @@ to check both integrations.
 <details>
 <summary>Feedback form preview (synthetic demo)</summary>
 
-![Feedback form opened from a specific answer](evaluation/screenshots/webui-feedback-fixture-2026-11-23.jpg)
+![Feedback automatically applied after checks](evaluation/screenshots/feedback-automatic-fixture-2026-11-23.jpg)
 
 </details>
 
@@ -103,6 +105,15 @@ fixture data. Your live report titles, rows and IDs will differ.
 ![Query evidence showing returned rows and expanded SQL and execution details](evaluation/screenshots/client-fixture-sql-2026-11-22.jpg)
 
 </details>
+
+## CEO report tone
+
+Sign in as the configured CEO, then open **My preferences** beneath an answer.
+The **Organization report tone** section appears only for the CEO. Enter a style,
+choose **Evaluate and apply tone**, and wait for the automatic gate result.
+A pass activates the tone for future answers; a failure keeps the previous version.
+Use **Restore version** to roll back. Managers retain their personal settings.
+In fixture mode try **Use concise, plain business language.**
 
 ## CLI
 
@@ -154,3 +165,13 @@ Stop a deployment with `./start.sh --stop --project NAME`. Volumes retain data;
 
 A fresh installation on another machine and human report acceptance remain
 unverified. See the review summary for live versus fixture evidence and current gaps.
+
+<details>
+<summary>CEO tone editor and automatic gate</summary>
+
+![CEO tone editor with active version and rollback](evaluation/screenshots/ceo-tone-automatic-fixture-2026-11-23.jpg)
+
+Local fixture page/backend with a test proxy. Automatic activation, rejection and
+rollback were checked; this capture is not a live-provider or native WebUI acceptance test.
+
+</details>

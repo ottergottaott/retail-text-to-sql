@@ -1,4 +1,4 @@
-"""Explicit feedback → evaluation → reviewer publication; no automatic learning."""
+"""Feedback capture plus automatic gates; explicit operator tools remain available."""
 import hashlib
 import json
 from .analytics import Analytics, validate
@@ -21,8 +21,16 @@ class Governance:
             raise PolicyError("Provide a supported rating and a comment of at most 4000 characters.")
         comment = comment.strip() or {'helpful':'Marked helpful.', 'unhelpful':'Marked unhelpful.',
             'correction':'Requested correction.'}[rating]
-        return self.store.put("feedback", principal.user_id, {"conversation": conversation,
-            "trace_id": trace_id, "comment": clean(comment), "rating": rating, "status": "unreviewed"})
+        try:
+            source=self.store.get("learning_source",principal.user_id,"src_"+trace_id)["body"]
+        except PolicyError:
+            source=None
+        id=self.store.put("feedback", principal.user_id, {"conversation": conversation,
+            "trace_id": trace_id, "comment": clean(comment), "rating": rating, "status": "unreviewed",
+            "source":source})
+        from .automation import Automation
+        Automation.enqueue(self.store,principal.user_id,id)
+        return id
 
     def candidate(self, source_user, feedback_id, trio):
         self.store.get("feedback", source_user, feedback_id)

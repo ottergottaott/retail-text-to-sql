@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-23",
+  "prompt_version": "retail-v10-auto-improvement",
+  "command": ".venv/bin/python -m pytest -q --junitxml=/tmp/retail-automatic-learning-final.xml",
+  "tests": 303,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 112.708,
+  "source": "automatic-learning-2026-11-23.xml",
+  "boundary": "Local regression suite; controlled providers and fixture data. Not live Google/BigQuery or human acceptance.",
+  "human_review": "pending"
+}

@@ -41,12 +41,14 @@ Synthetic seeds are explicitly labeled. Retrieved examples guide method; current
 BigQuery results ground findings. Retrieval does not grant execution authority.
 
 ## Learning and persona
-Persist explicit presentation preferences; proposed inferred preferences need
-user confirmation. A turn may override presentation without changing entitlement
-or privacy policy. Feedback creates candidates, never automatic trusted examples.
-Reviewers sanitize a candidate, run regression and retrieval evaluation, publish
-a version and retain rollback references. Persona is versioned presentation data,
-loaded at turn start; it cannot redefine tools, access policy or PII restrictions.
+Personal preferences persist and repeated supported directives are learned automatically,
+with inspection, override and reset. A current turn can override presentation.
+Feedback queues an automatic evidence/access/quality gate; passing examples are
+published with their original scope and evaluation provenance. Corrections require
+an independently approved definition, not a user-supplied result oracle.
+CEO tone requests are rendered/judged on fixed cases and automatically activate
+on pass, with history and rollback. No manual approval step is required.
+See docs/improvement.md for bounds, fixture/live separation and remaining work.
 
 ## Security and operations
 API bearer tokens resolve identities server side. WebUI integration uses a

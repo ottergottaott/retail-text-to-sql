@@ -51,6 +51,14 @@ class Store:
             self.get(kind, owner, id, c)
             c.execute(update(records).where(and_(records.c.id == id, records.c.owner == owner)).values(body=json.dumps(body, default=str), version=secrets.token_hex(6)))
 
+    def compare_replace(self, kind, owner, id, version, body):
+        """Claim durable work only if its observed revision is still current."""
+        with self.engine.begin() as c:
+            changed=c.execute(update(records).where(and_(records.c.id==id,
+                records.c.kind==kind,records.c.owner==owner,records.c.version==version)).values(
+                body=json.dumps(body,default=str),version=secrets.token_hex(6)))
+            return changed.rowcount==1
+
     def conversation(self, principal, id=None):
         if id:
             self.get("conversation", principal.user_id, id)

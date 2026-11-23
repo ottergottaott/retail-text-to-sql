@@ -62,6 +62,30 @@ application. PII sanitization transforms copies sent to generation/embedding
 providers; it does not delete Trio fields or overwrite stored originals.
 SQL validation separately prevents queries from accessing restricted columns.
 
+## 3. Automatic improvement — outside the analysis request
+
+```mermaid
+flowchart LR
+  Feedback[Answer feedback + evidence snapshot] --> Jobs[(Durable jobs)]
+  CEO[CEO tone request] --> Jobs
+  Jobs --> Worker[API background worker]
+  Worker --> Local[Access, SQL, evidence and privacy checks]
+  Local --> Privacy[Sanitized evaluation context]
+  Privacy --> Model[Configured model quality gate]
+  Model --> Pass{Pass?}
+  Pass -->|knowledge| Trios[(Versioned scoped Trios)]
+  Pass -->|tone| Tone[(Active tone version)]
+  Pass -->|no| Retained[Retain feedback / keep previous tone]
+  Trios --> Retrieval[Next-query retrieval]
+  Tone --> Agent[Next-turn presentation]
+```
+
+Helpful responses require evidence-grounding checks. Corrections additionally
+require an exact matching approved definition and equivalent SQL/results; arbitrary
+user corrections are not truth labels. CEO tone uses fixed synthetic render/judge
+cases, numeric/privacy checks and version rollback. Worker retries are bounded;
+no separate queue service is required. [Flow and limits](improvement.md).
+
 ## Current request path
 
 1. Resolve identity and brand scope; use the original question for local retrieval
@@ -107,8 +131,9 @@ The synthetic offline mode uses SQLite/DuckDB. Langfuse is optional and off by d
 ## Current limits
 
 Schema metadata is a static four-table contract. Bounded personal preference
-learning has focused local test coverage; live acceptance remains pending. Automatic shared
-knowledge/tone promotion remains design work; publication uses operator review.
+learning and automatic feedback/tone gates have local test coverage; live
+acceptance of the new workflows remains pending. Broad arbitrary-correction
+learning and multi-replica scheduling remain extensions.
 Conversations persist, but mid-turn recovery does not.
 Local NER and pattern rules can miss PII or mask non-sensitive text; this is not
 a complete detector for arbitrary prose, languages or address formats.

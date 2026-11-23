@@ -155,7 +155,7 @@ class Agent:
         if len(json.dumps(context, default=str)) > self.config.max_context_chars:
             return {"stop": True, "outcome": "budget_exhausted",
                 "answer": "The analysis context exceeds its size budget. Request a smaller aggregation or start a narrower analysis."}
-        s["trace"].event("model_context", system_prompt_version="retail-v9-client-policy",
+        s["trace"].event("model_context", system_prompt_version="retail-v10-auto-improvement",
             model_call_id=f"{s['trace'].id}:model:{s['calls'] + 1}",
             context_digest=hashlib.sha256(json.dumps(context, sort_keys=True, default=str).encode()).hexdigest(),
             tool_results=len(s["tools"]))
@@ -200,7 +200,7 @@ class Agent:
             return {"stop": True, "outcome": "budget_exhausted",
                     "answer": "The report review exceeds the context budget. No completed report was saved."}
         call_id = f"{s['trace'].id}:model:{s['calls'] + 1}"
-        s["trace"].event("model_context", system_prompt_version="retail-v9-client-policy", phase="report_review",
+        s["trace"].event("model_context", system_prompt_version="retail-v10-auto-improvement", phase="report_review",
                          model_call_id=call_id, context_digest=hashlib.sha256(
                              json.dumps(context, sort_keys=True, default=str).encode()).hexdigest())
         try:
@@ -362,6 +362,10 @@ class Agent:
                             answer += f"\n\nSaved report **{final['save_title']}** (`{rid}`)."
             safe_output(answer)
             self.store.append(principal, conversation, clean(question), answer, trace.id)
+            if final.get("completed_analysis"):
+                self.store.put("learning_source", principal.user_id, {"question": clean(question),
+                    "answer": safe_output(final["answer"]), "evidence": final["evidence"],
+                    "completed_analysis": True, **scope_snapshot(principal)}, id="src_" + trace.id)
             outcome = final.get("outcome", "succeeded")
             trace.event("response", outcome=outcome, seconds=time.monotonic() - start)
             return {"conversation_id": conversation, "trace_id": trace.id, "mode": self.config.retail_mode,

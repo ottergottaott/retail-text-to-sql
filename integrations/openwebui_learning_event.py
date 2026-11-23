@@ -2,7 +2,7 @@
 title: Retail Learning API
 author: Retail assessment project
 version: 0.1.0
-description: Verified-user feedback and explicit preference proxy. No publication endpoint.
+description: Verified-user feedback, preferences and CEO tone proxy. Gates run in backend.
 requirements: httpx>=0.27.0
 """
 from typing import Literal
@@ -26,6 +26,16 @@ class PreferenceInput(BaseModel):
     model_config=ConfigDict(extra='forbid')
     format: Literal['tables','bullets','prose']
     depth: Literal['concise','standard','detailed']
+
+
+class ToneInput(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    tone: str = Field(min_length=1,max_length=2000)
+
+
+class RollbackInput(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    version: int = Field(ge=1)
 
 
 class Event:
@@ -94,9 +104,33 @@ class Event:
         async def save_preferences(body:PreferenceInput,user=Depends(get_verified_user)):
             return output(await fetch('PUT','/preferences',user,body.model_dump()),('format','depth','version'))
 
+        async def feedback_status(feedback_id:str,user=Depends(get_verified_user)):
+            if not feedback_id.startswith('fee_') or not feedback_id[4:].isalnum() or len(feedback_id)>80:
+                raise HTTPException(422,'Invalid feedback identifier.')
+            value=await fetch('GET','/feedback/'+feedback_id,user)
+            return output(value,('feedback_id','status','reason','trio_id'))
+
+        async def tone(user=Depends(get_verified_user)):
+            return output(await fetch('GET','/organization/tone',user),('tone','version','can_edit','versions'))
+
+        async def change_tone(body:ToneInput,user=Depends(get_verified_user)):
+            return output(await fetch('POST','/organization/tone',user,body.model_dump()),('job_id','status'))
+
+        async def rollback(body:RollbackInput,user=Depends(get_verified_user)):
+            return output(await fetch('POST','/organization/tone/rollback',user,body.model_dump()),('version','tone'))
+
+        async def job(job_id:str,user=Depends(get_verified_user)):
+            if not job_id.startswith('aut_') or not job_id[4:].isalnum() or len(job_id)>80:
+                raise HTTPException(422,'Invalid job identifier.')
+            value=await fetch('GET','/automation/'+job_id,user)
+            return JSONResponse({k:value[k] for k in ('status','type','attempts','reason','version') if k in value},headers={'Cache-Control':'no-store'})
+
         previous=len(__app__.routes)
         for path,handler,method in [('/feedback-target',target,'GET'),('/feedback',feedback,'POST'),
-                ('/preferences',preferences,'GET'),('/preferences',save_preferences,'PUT')]:
+                ('/preferences',preferences,'GET'),('/preferences',save_preferences,'PUT'),
+                ('/feedback/{feedback_id}',feedback_status,'GET'),('/organization/tone',tone,'GET'),
+                ('/organization/tone',change_tone,'POST'),('/organization/tone/rollback',rollback,'POST'),
+                ('/automation/{job_id}',job,'GET')]:
             __app__.add_api_route(prefix+path,handler,methods=[method])
         added=__app__.routes[previous:];del __app__.routes[previous:]
         index=next((i for i,r in enumerate(__app__.routes) if getattr(r,'path',None)==''),len(__app__.routes))

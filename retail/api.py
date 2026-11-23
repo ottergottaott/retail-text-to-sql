@@ -4,6 +4,7 @@ import asyncio
 import hmac
 import json
 import logging
+import threading
 from contextlib import asynccontextmanager
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
@@ -19,6 +20,7 @@ from .store import Store
 from .governance import Governance
 from .report_presentation import render_report
 from .learning import Learning
+from .automation import Automation
 
 
 class ChatInput(BaseModel):
@@ -68,6 +70,16 @@ class WebUIFeedback(BaseModel):
     comment: str = Field(default='',max_length=4000)
 
 
+class ToneInput(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    tone: str = Field(min_length=1,max_length=2000)
+
+
+class ToneRollback(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    version: int = Field(ge=1)
+
+
 def create_app(config=None, model=None):
     config = config or settings()
     config.validate_live()
@@ -75,13 +87,32 @@ def create_app(config=None, model=None):
     agent = Agent(config, store, model=model)
     # Bound simultaneous agent executions. Each invocation has isolated state.
     executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="retail")
+    automation=Automation(config,store,agent.model)
+    stopping=threading.Event()
+    def process_jobs():
+        while not stopping.is_set():
+            try:
+                automation.run_once()
+            except Exception:
+                logging.warning('Automatic improvement poll unavailable; pending jobs retained.')
+            stopping.wait(config.automation_poll_seconds)
     @asynccontextmanager
     async def lifespan(app):
-        yield
-        executor.shutdown(wait=False, cancel_futures=True)
-        store.engine.dispose()
+        worker=None
+        if config.automation_enabled:
+            worker=threading.Thread(target=process_jobs,name="retail-improvement",daemon=True)
+            worker.start()
+        try:
+            yield
+        finally:
+            stopping.set()
+            if worker:
+                await asyncio.to_thread(worker.join)
+            executor.shutdown(wait=False, cancel_futures=True)
+            store.engine.dispose()
     app = FastAPI(title="Retail Assistant", version="0.1.0", lifespan=lifespan)
     app.state.store, app.state.agent = store, agent
+    app.state.automation = automation
 
     @app.middleware("http")
     async def sanitized_errors(request: Request, call_next):
@@ -251,5 +282,33 @@ def create_app(config=None, model=None):
         id=Learning(config,store).feedback(principal,body.external_chat_id,body.external_message_id,
             body.revision,body.rating,body.comment)
         return {'feedback_id':id,'status':'unreviewed'}
+
+    @app.get('/feedback/{feedback_id}')
+    def feedback_status(feedback_id: str, principal=Depends(identity)):
+        body=store.get('feedback',principal.user_id,feedback_id)['body']
+        return {'feedback_id':feedback_id,'status':body['status'],
+            'reason':body.get('reason',''),'trio_id':body.get('trio_id')}
+
+    @app.get('/automation/{job_id}')
+    def automation_status(job_id: str,principal=Depends(identity)):
+        return automation.job(principal,job_id)
+
+    @app.get('/organization/tone')
+    def organization_tone(principal=Depends(identity)):
+        current=automation.active_tone()
+        versions=store.list('persona','system')
+        return {'tone':current['tone'],'version':current['version'],'can_edit':principal.all_brands,
+            'versions':[{'version':r['body']['version'],'tone':r['body']['tone']} for r in versions] if principal.all_brands else []}
+
+    @app.post('/organization/tone')
+    def change_tone(body:ToneInput,principal=Depends(identity)):
+        if not config.automation_enabled:
+            raise PolicyError('Automatic evaluation is disabled by the operator.')
+        return {'job_id':automation.request_tone(principal,body.tone),'status':'pending'}
+
+    @app.post('/organization/tone/rollback')
+    def rollback_tone(body:ToneRollback,principal=Depends(identity)):
+        value=automation.rollback_tone(principal,body.version)
+        return {'version':value['version'],'tone':value['tone']}
 
     return app

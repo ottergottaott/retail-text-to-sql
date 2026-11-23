@@ -35,8 +35,9 @@ credentials must work. Open WebUI is an existing additional interface.
 
 Mandatory implemented requirements: safety/PII/access, destructive-operation
 confirmation, resilience and observability. Continuous improvement, Golden Bucket
-updates and persona quality gates are design-only; additional implementations
-are welcome but are not prerequisites for acceptance. [A Deliverables 3; C2.1]
+updates and persona quality gates are design scope; additional implementations
+are welcome but are not prerequisites for acceptance. A bounded automatic worker
+and CEO tone editor are now implemented; see [workflow](improvement.md). [A Deliverables 3; C2.1]
 
 ## Mandatory runtime acceptance
 
@@ -182,7 +183,7 @@ are welcome but are not prerequisites for acceptance. [A Deliverables 3; C2.1]
   approval step; keep the previous version on failure and support rollback.
 - Project gate criteria (C3 specifies no additional criteria): factual preservation, privacy, analytical
   instruction compliance and requested tone adherence on a fixed regression set.
-- Proposed authorization: CEO/admin edits tone; data/admin owns analytical and
+- Implemented authorization: configured CEO edits tone; data/admin owns analytical and
   privacy defaults. These are distinct permissions.
 
 ### DES-04 — Evaluation, UX and extensibility [A6; A task/deliverables]

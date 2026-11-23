@@ -148,10 +148,12 @@ class Knowledge:
             if not candidate.get(field):
                 raise PolicyError("Trio is missing a required field.")
         validate(candidate["sql"])
-        if candidate.get("scope") not in {"shared", "products"}:
+        if candidate.get("scope") not in {"shared", "products", "brands"}:
             raise PolicyError("Explicit publication scope is required.")
         if candidate.get("scope") == "products" and not candidate.get("products"):
             raise PolicyError("Product-scoped examples require explicit product IDs.")
+        if candidate.get("scope") == "brands" and not (candidate.get("brands") or candidate.get("all_brands")):
+            raise PolicyError("Brand-scoped examples require brands or explicit CEO scope.")
         if candidate.get("schema_version") != "safe-v1":
             raise PolicyError("Trio schema version is incompatible.")
         previous = [r["body"]["version"] for r in self.store.list("trio", "system") if r["body"]["id"] == candidate["id"]]
