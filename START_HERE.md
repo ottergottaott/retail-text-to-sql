@@ -1,16 +1,58 @@
 # Reviewer guide
 
-## Start Gemini and BigQuery
+## Launch with your credentials
 
-Follow [Run with your credentials](README.md#run-with-your-credentials).
+Requires Docker with Compose v2. Python and uv run inside the containers.
+
+```sh
+git clone https://github.com/ottergottaott/retail-text-to-sql.git
+cd retail-text-to-sql
+cp deployment/live.env.example .env.providers
+```
+
+Edit these values in `.env.providers`:
+
+- `GOOGLE_CLOUD_PROJECT`: your BigQuery execution project.
+- `GEMINI_API_KEY`: your Google AI Studio key.
+- `GEMINI_MODEL`: a model ID enabled for your key.
+
+For direct Google access, keep `LLM_PROVIDER=gemini`, the prefilled
+`GEMINI_BASE_URL` and `EMBEDDING_PROVIDER=none` unchanged.
+[Alternative endpoints](docs/setup.md) are also supported.
+
+BigQuery uses a **separate Google credential JSON**. Use an existing file,
+or create application-default credentials with the Google Cloud CLI:
+
+```sh
+gcloud auth application-default login
+```
+
+On macOS/Linux, the generated file is normally
+`$HOME/.config/gcloud/application_default_credentials.json`.
+Enable the BigQuery API in your execution project and give your Google identity
+permission to create query jobs.
+[Credentials and permissions checklist](docs/setup.md#credentials-checklist).
+
+Launch with the absolute path to that JSON:
+
+```sh
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
+```
+
 The launcher builds the containers, generates local login secrets and installs
-the WebUI integrations. You need Docker with Compose v2, your model key and
-Google credentials. No host Python installation is required.
+the WebUI integrations. Allow several minutes for the first build.
+Wait for **Ready (live)**, then open **http://localhost:3000**.
+Sign in using `WEBUI_ADMIN_EMAIL` and `WEBUI_ADMIN_PASSWORD` from the generated
+`.env.docker-retail-live` and select **Retail Intelligence**.
+The API and interactive reference are at **http://localhost:8000/docs**.
 
 Use a fresh WebUI volume for the initial administrator account. If ports are
 occupied, append `--api-port 8010 --webui-port 3010` to the launch command.
 The selected env file and Google JSON are copied through the Docker API; Google
 credentials are stored in a private volume mounted read-only by the API.
+Model and BigQuery calls use your credentials and may incur charges. Startup
+readiness does not verify cloud permissions or quota; ask a live question below
+to check both integrations.
 
 ## Try the workflow
 
