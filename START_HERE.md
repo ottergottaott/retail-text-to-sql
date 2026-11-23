@@ -31,6 +31,13 @@ credentials are stored in a private volume mounted read-only by the API.
 6. Ask **Delete reports** to preview the targets. Use `/cancel ID` to keep them;
    deletion requires the displayed `/confirm ID` command.
 
+<details>
+<summary>Feedback form preview (synthetic demo)</summary>
+
+![Feedback form opened from a specific answer](evaluation/screenshots/webui-feedback-fixture-2026-11-23.jpg)
+
+</details>
+
 The static live demo permissions give Alice Seven7/Calvin Klein, Bob Diesel and
 the CEO all brands. Adjust `BRAND_ACCESS_JSON` before launching if needed.
 Demographic results require the configured minimum cohort size, including for the CEO.

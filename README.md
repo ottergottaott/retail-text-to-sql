@@ -90,7 +90,7 @@ messages before backend sanitization.
 
 ## WebUI preview
 
-![Open WebUI chat with a saved report and the Artifacts panel](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
+![Open WebUI chat with a saved report, Artifacts panel and visible feedback link](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
 
 Local synthetic-data preview, captured 23 November. [Report workflow and CLI](START_HERE.md).
 

@@ -8,9 +8,11 @@
     "height": 1000
   },
   "question": "Create and save a monthly revenue report.",
-  "report_id": "rep_eb94a78252381b50",
-  "observed": "WebUI chat, saved-report receipt and rendered Artifacts report with revenue chart.",
+  "report_id": "rep_1b3307506b432700",
+  "observed": "WebUI chat, saved-report receipt, rendered Artifacts report with revenue chart, and visible Give feedback / My preferences links below the response.",
+  "feedback_image": "screenshots/webui-feedback-fixture-2026-11-23.jpg",
+  "feedback_observed": "Give feedback opens the response-linked form in a separate browser tab. Response loaded successfully and rating/comment controls are enabled. No feedback was submitted.",
   "paid_calls": 0,
-  "boundary": "Running local fixture deployment; no Gemini/BigQuery or latest preference-code acceptance asserted. Screenshot documentation only.",
+  "boundary": "Running local fixture deployment with the updated Pipe; no Gemini/BigQuery, native thumbs bridge, feedback submission or latest preference-code acceptance asserted. Screenshot documentation only; no test suite run.",
   "human_review": "pending"
 }
