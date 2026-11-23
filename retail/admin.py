@@ -37,7 +37,7 @@ def main():
         embedder = embeddings_for(config)
         if embedder is None:
             parser.error("Indexing requires an enabled embedding provider")
-        result = Knowledge(store, embedder).index()
+        result = Knowledge(store, embedder, privacy_secret=config.label_secret).index()
     elif args.command == "load-demo":
         result = load_demo_corpus(store, args.file)
     elif args.command == "candidate":

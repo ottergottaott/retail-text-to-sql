@@ -4,11 +4,21 @@ version = "0.1.0"
 description = "Scoped retail analysis agent for the OpsFleet assessment"
 requires-python = ">=3.11"
 dependencies = [
-  "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "httpx>=0.27,<1",
-  "pydantic-settings>=2.6,<3", "sqlalchemy>=2.0,<3", "psycopg[binary]>=3.2,<4",
-  "langgraph>=1.0,<2", "google-genai>=1.0,<3", "google-cloud-bigquery>=3.25,<4",
-  "sqlglot>=26,<31", "duckdb>=1.1,<2", "langfuse>=3,<5",
-  "cryptography>=44,<46"
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "httpx>=0.27,<1",
+  "pydantic-settings>=2.6,<3",
+  "sqlalchemy>=2.0,<3",
+  "psycopg[binary]>=3.2,<4",
+  "langgraph>=1.0,<2",
+  "google-genai>=1.0,<3",
+  "google-cloud-bigquery>=3.25,<4",
+  "sqlglot>=26,<31",
+  "duckdb>=1.1,<2",
+  "langfuse>=3,<5",
+  "cryptography>=44,<46",
+  "spacy>=3.8,<3.9",
+  "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
 ]
 
 [project.optional-dependencies]
@@ -27,6 +37,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["retail"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

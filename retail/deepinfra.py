@@ -12,6 +12,7 @@ import httpx
 
 from .embeddings import EmbeddingUnavailable
 from .model import SYSTEM, Decision, ModelError
+from .model_privacy import sanitize_payload
 
 ORIGIN = "https://api.deepinfra.com/v1/openai"
 BASE_URL = ORIGIN + "/"
@@ -87,6 +88,7 @@ class DeepInfraModel:
         self.config = config
 
     def decide(self, context, remaining_seconds):
+        context = sanitize_payload(context, getattr(self.config, 'label_secret', 'local-fixture-label-secret'))
         use_tool_call = getattr(self.config, "deepinfra_use_tool_call", False)
         timeout = _model_timeout(remaining_seconds, tool_call=use_tool_call)
         payload = {
@@ -150,6 +152,7 @@ class DeepInfraEmbeddings:
     def embed(self, texts, task, timeout=10):
         if not texts:
             return []
+        texts = sanitize_payload(texts, getattr(self.config, 'label_secret', 'local-fixture-label-secret'))
         timeout = _embedding_timeout(timeout)
         inputs = [
             QUERY_INSTRUCTION + text if task == "RETRIEVAL_QUERY" else text

@@ -8,6 +8,7 @@ from pathlib import Path
 from .analytics import validate
 from .security import PolicyError, safe_output
 from .embeddings import EmbeddingUnavailable
+from .model_privacy import POLICY_VERSION, sanitize_payload
 
 SEEDS = [
     {"id": "monthly-revenue", "version": 1, "question": "How did monthly revenue change?", "tags": ["revenue", "sales", "month", "time", "trend"],
@@ -39,9 +40,11 @@ def cosine(a, b):
 
 
 class Knowledge:
-    def __init__(self, store, embedder=None, min_similarity=0.65, lexical_min_similarity=0.60):
+    def __init__(self, store, embedder=None, min_similarity=0.65, lexical_min_similarity=0.60,
+                 privacy_secret='local-fixture-label-secret'):
         self.store = store
         self.embedder = embedder
+        self.privacy_secret = privacy_secret
         self.min_similarity = min_similarity
         self.lexical_min_similarity = min(lexical_min_similarity, min_similarity)
         for trio in SEEDS:
@@ -59,7 +62,8 @@ class Knowledge:
 
     def vector_id(self, t):
         content = json.dumps({"id": t["id"], "version": t["version"], "schema": t.get("schema_version"),
-            "model": self.embedder.version, "document": document(t)}, sort_keys=True)
+            "model": self.embedder.version, "privacy_policy": POLICY_VERSION,
+            "document": sanitize_payload(document(t), self.privacy_secret)}, sort_keys=True)
         return "emb_" + hashlib.sha256(content.encode()).hexdigest()
 
     def index(self):
@@ -71,13 +75,15 @@ class Knowledge:
         for t in self.published():
             key = self.vector_id(t)
             if key not in existing and t.get("schema_version") == "safe-v1":
-                vector = self.embedder.embed([document(t)], "RETRIEVAL_DOCUMENT")[0]
+                text = sanitize_payload(document(t), self.privacy_secret)
+                vector = self.embedder.embed([text], "RETRIEVAL_DOCUMENT")[0]
                 self.store.put("embedding", "system", {"trio": t["id"], "version": t["version"],
                     "model": self.embedder.version, "vector": vector}, id=key)
                 indexed += 1
         return {"indexed": indexed, "model": self.embedder.version}
 
     def retrieve(self, question, principal, k=2, emit=None, remaining_seconds=10):
+        question = sanitize_payload(question, self.privacy_secret)
         q = tokens(question)
         candidates = []
         # Resolve latest publication before access filtering, so an older broader
@@ -131,7 +137,7 @@ class Knowledge:
                  lexical_rejected=rejected, index_complete=coverage == len(candidates),
                  lexical_min_similarity=self.lexical_min_similarity,
                  semantic_min_similarity=self.min_similarity)
-        return result
+        return sanitize_payload(result, self.privacy_secret)
 
     def publish(self, candidate, reviewer, evaluation):
         if not reviewer or evaluation.get("verdict") != "pass" or not evaluation.get("cases"):

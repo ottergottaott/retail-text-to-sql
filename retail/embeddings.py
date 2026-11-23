@@ -9,6 +9,8 @@ class GeminiEmbeddings:
         self.version = config.embedding_model
 
     def embed(self, texts, task, timeout=10):
+        from .model_privacy import sanitize_payload
+        texts = sanitize_payload(texts, self.config.label_secret)
         from google import genai
         from google.genai import types
         client = genai.Client(api_key=self.config.gemini_api_key,

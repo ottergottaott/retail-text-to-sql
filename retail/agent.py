@@ -13,6 +13,7 @@ from sqlglot import exp
 from .knowledge import Knowledge
 from .model import Decision, FixtureModel, GeminiModel, ModelError
 from .security import PolicyError, FORBIDDEN_REQUEST, clean, safe_output
+from .model_privacy import sanitize_payload
 from .telemetry import Trace
 from .providers import model_for, embeddings_for
 from .preferences import resolve_preferences
@@ -66,7 +67,8 @@ class Agent:
         self.analytics = analytics or Analytics(config)
         self.knowledge = Knowledge(store,
             embeddings_for(config) if config.retail_mode == "live" else None,
-            config.retrieval_min_similarity, config.retrieval_lexical_min_similarity)
+            config.retrieval_min_similarity, config.retrieval_lexical_min_similarity,
+            privacy_secret=config.label_secret)
         self.model = model or model_for(config)
         self.review_model = review_model or self.model
         self.review_model_name = config.deepinfra_model if config.llm_provider == "deepinfra" else config.gemini_model
@@ -159,7 +161,7 @@ class Agent:
             tool_results=len(s["tools"]))
         try:
             with s["trace"].stage("model"):
-                decision, usage = self.model.decide(context, self.remaining(s))
+                decision, usage = self.model.decide(sanitize_payload(context, self.config.label_secret), self.remaining(s))
                 # Applies to every generated field before any storage or tools.
                 safe_output(decision.model_dump_json())
                 s["trace"].event("model_usage",
@@ -203,7 +205,7 @@ class Agent:
                              json.dumps(context, sort_keys=True, default=str).encode()).hexdigest())
         try:
             with s["trace"].stage("report_review"):
-                decision, usage = self.review_model.decide(context, self.remaining(s))
+                decision, usage = self.review_model.decide(sanitize_payload(context, self.config.label_secret), self.remaining(s))
                 safe_output(decision.model_dump_json())
                 s["trace"].event("model_usage", model_call_id=call_id,
                     model=self.review_model_name, phase="report_review",

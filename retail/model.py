@@ -3,6 +3,7 @@ import json
 import re
 from typing import Literal
 from pydantic import BaseModel, Field, ConfigDict, model_validator
+from .model_privacy import sanitize_payload
 
 
 class Decision(BaseModel):
@@ -134,6 +135,7 @@ class GeminiModel:
         self.config = config
 
     def decide(self, context, remaining_seconds):
+        context = sanitize_payload(context, self.config.label_secret)
         from google import genai
         from google.genai import types
         # One bounded attempt; orchestration owns the retry budget.
