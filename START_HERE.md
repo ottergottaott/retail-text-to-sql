@@ -27,10 +27,7 @@ or create application-default credentials with the Google Cloud CLI:
 gcloud auth application-default login
 ```
 
-On macOS/Linux, the generated file is normally
-`$HOME/.config/gcloud/application_default_credentials.json`.
-Enable the BigQuery API in your execution project and give your Google identity
-permission to create query jobs.
+Use the JSON path printed by `gcloud`.
 [Credentials and permissions checklist](docs/setup.md#credentials-checklist).
 
 Launch with the absolute path to that JSON:
