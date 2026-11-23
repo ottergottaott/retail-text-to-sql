@@ -29,7 +29,6 @@ class Governance:
         allowed = {"id", "question", "sql", "report", "tags", "scope", "products", "schema_version", "origin"}
         if set(trio) - allowed:
             raise PolicyError("Candidate contains unsupported fields.")
-        safe_output(json.dumps(trio))
         validate(trio.get("sql", ""))
         if not all(trio.get(k) for k in ["id", "question", "report", "tags", "origin"]):
             raise PolicyError("A candidate needs ID, question, SQL, report, tags and origin.")

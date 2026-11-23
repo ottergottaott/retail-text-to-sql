@@ -27,7 +27,10 @@ def test_pipe_forwards_trusted_identity_and_persists_final_text(monkeypatch):
     async def emit(event): events.append(event)
     result = asyncio.run(pipe.pipe({"messages": [{"role": "user", "content": "Analyze sales"}], "user": "forged-bob"},
         __user__={"id": "trusted-alice"}, __chat_id__="trusted-chat", __message_id__='trusted-message', __event_emitter__=emit))
-    assert result == "Grounded answer"
+    assert result.startswith("Grounded answer\n\n---\n\n")
+    assert "[**Give feedback**](/static/retail-learning.html?chat=trusted-chat&message=trusted-message)" in result
+    assert "[**My preferences**](/static/retail-learning.html#preferences)" in result
+    assert "server-secret" not in result
     assert sent["headers"]["X-Webui-User"] == "trusted-alice"
     assert sent["json"]["external_chat_id"] == "trusted-chat"
     assert sent["json"]["external_message_id"] == 'trusted-message'

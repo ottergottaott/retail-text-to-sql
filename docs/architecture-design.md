@@ -177,7 +177,10 @@ separate totals; prior history/analysis is removed from subsequent model context
 Repeated-question inference needs production query auditing/complementary
 suppression or stronger privacy controls; it is explicitly outside prototype scope.
 
-The initial input filter masks email/phone/IPv4 patterns before backend storage.
+The original question is used for local lexical retrieval; publication retains
+original Trio content. Email/phone/IPv4 patterns are masked before conversation
+storage. Publication validates SQL, scope, schema and evaluation evidence; PII
+sanitization transforms copies at generation/embedding boundaries.
 Source projection is the primary database PII control. A separate local outbound
 scan sanitizes copies before generation/review and embedding transports, including
 retrieved Trio question/SQL/report, history and tool results. It combines packaged

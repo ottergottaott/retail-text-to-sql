@@ -2,9 +2,16 @@
 import copy
 import json
 import pytest
-
 from retail.security import PolicyError
 
+
+def test_opaque_report_id_is_not_a_person_but_adjacent_name_is_masked():
+    from retail.model_privacy import sanitize_payload
+    report_id = 'rep_fa85d246bdc5dbf0'
+    assert sanitize_payload('open report ' + report_id, 'unit-key') == 'open report ' + report_id
+    value = sanitize_payload({'report_id': report_id, 'question': 'John Smith requested report ' + report_id}, 'unit-key')
+    assert value['report_id'] == report_id
+    assert 'John Smith' not in value['question']
 
 def test_trio_copy_keeps_fields_and_original_while_removing_restricted_values():
     from retail.model_privacy import sanitize_payload

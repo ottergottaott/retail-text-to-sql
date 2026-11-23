@@ -13,9 +13,10 @@ from threading import RLock
 
 from .security import EMAIL, IP, PolicyError
 
-POLICY_VERSION = 'model-payload-privacy-v1'
+POLICY_VERSION = 'model-payload-privacy-v2'
 _LOCK = RLock()
 _MARKER = re.compile(r'\[(?:REDACTED_[A-Z_]+|CUSTOMER_[a-f0-9]{24})\]')
+_REPORT_ID = re.compile(r'rep_[a-f0-9]{16}')
 _PHONE = re.compile(r'(?<!\w)(?:\+\d[\d ()-]{8,}\d|(?:\(\d{3}\)|\d{3})[- .]\d{3}[- .]\d{4})(?!\w)')
 _STREET = re.compile(r'\b\d{1,6}\s+(?:[A-Za-z0-9.\'-]+\s+){1,6}(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd|Court|Ct|Way|Place|Pl)\b(?:\.?\s*(?:Apt|Suite|Unit|#)\s*[A-Za-z0-9-]+)?', re.I)
 _UK_POSTAL = re.compile(r'\b[A-Z]{1,2}\d[A-Z\d]?\s+\d[A-Z]{2}\b', re.I)
@@ -91,7 +92,11 @@ def sanitize_payload(payload, secret):
             for entity in entities:
                 # The small model labels the standalone verb "Draft" as PERSON.
                 # Retain POS tagging to distinguish it from proper-name tokens.
-                if entity.label_ == 'PERSON' and any(token.pos_ == 'PROPN' for token in entity):
+                # Opaque report handles can be mislabeled PERSON. Exempt only
+                # an entity exactly matching our identifier grammar; adjacent
+                # names still receive the normal scan.
+                if (entity.label_ == 'PERSON' and not _REPORT_ID.fullmatch(entity.text)
+                        and any(token.pos_ == 'PROPN' for token in entity)):
                     add(entity.start_char, entity.end_char, '[REDACTED_PERSON]')
         except Exception:
             raise PolicyError('Local privacy scan failed; no model request was sent.') from None

@@ -1,0 +1,21 @@
+{
+  "scope": "Local regression suite and Golden Trio retrieval alignment",
+  "date": "2026-11-23",
+  "verification": {
+    "tests": 287,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit": "trio-retrieval-alignment-2026-11-23.xml",
+  "changes": [
+    "Original published Trio fields retained in storage",
+    "Original question and Trio text used for local lexical retrieval",
+    "Separate sanitized copies sent to embedding and generation providers",
+    "Latest-version, schema and access filtering precedes scoring",
+    "Opaque report IDs preserved while adjacent personal names remain masked",
+    "Privacy policy version model-payload-privacy-v2 invalidates older embedding keys"
+  ],
+  "regressions": "Three retrieval/publication regressions and deterministic report-ID regression reproduced before fixes",
+  "boundary": "Local controlled tests only; no paid provider calls, fresh cloud acceptance or Docker rebuild. NER-based prose sanitization is probabilistic, not a guarantee for arbitrary PII."
+}

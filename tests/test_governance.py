@@ -54,3 +54,95 @@ def test_user_preferences_reach_model_and_rendered_evidence(tmp_path):
     assert "- month:" in response["answer"]
     assert "| month |" not in response["answer"]
     assert store.profile("bob")["format"] == "tables"
+
+
+@pytest.mark.parametrize("via_feedback", [False, True])
+def test_trio_publication_keeps_original_pii_but_model_copies_are_sanitized(tmp_path, via_feedback):
+    config = Settings(_env_file=None, database_url=f"sqlite:///{tmp_path}/publication.db",
+                      log_path=str(tmp_path / "events.jsonl"))
+    store = Store(config.database_url)
+    alice = principal_for("alice", config)
+    trio = {"id": "catalog-contact-example", "question": "Count catalog products for John Smith",
+            "sql": "SELECT COUNT(*) AS products FROM products",
+            "report": "Catalog contact John Smith: john@example.com, +1 212 555 0199, 192.0.2.12.",
+            "tags": ["catalog", "products"], "scope": "shared", "schema_version": "safe-v1",
+            "origin": "synthetic privacy regression"}
+
+    class Embeddings:
+        version = "test-only"
+        def __init__(self): self.payloads = []
+        def embed(self, texts, task, **kwargs):
+            self.payloads.extend(texts)
+            return [[1., 0.] for _ in texts]
+
+    try:
+        knowledge = Knowledge(store)
+        if via_feedback:
+            governance = Governance(config, store)
+            conversation = store.conversation(alice)
+            store.append(alice, conversation, "Count catalog products", "Clarify", "privacy-trace")
+            feedback = governance.feedback(alice, conversation, "privacy-trace", "Use catalog count", "correction")
+            candidate = governance.candidate("alice", feedback, trio)
+            assert store.get("candidate", "system", candidate)["body"]["trio"] == trio
+            result = governance.review(candidate, "local-reviewer", [
+                {"name": "catalog count", "user": "alice", "expected_rows": [{"products": 2}]}])
+            assert result["status"] == "published"
+        else:
+            knowledge.publish(trio, "local-reviewer", {"verdict": "pass", "cases": [{"passed": True}]})
+        saved = next(t for t in knowledge.published() if t["id"] == trio["id"])
+        assert all(saved[key] == value for key, value in trio.items())
+        embedder = Embeddings()
+        knowledge = Knowledge(store, embedder)
+        knowledge.index()
+        returned = knowledge.retrieve("catalog products", alice, k=10)
+        copy = next(t for t in returned if t["id"] == trio["id"])
+        assert set(trio) <= set(copy)
+        payload = str(embedder.payloads) + str(copy)
+        for private in ["John Smith", "john@example.com", "+1 212 555 0199", "192.0.2.12"]:
+            assert private not in payload
+        # Indexing/retrieval never rewrite the stored original.
+        assert next(t for t in knowledge.published() if t["id"] == trio["id"])["report"] == trio["report"]
+    finally:
+        store.engine.dispose()
+
+
+def test_original_question_is_used_only_for_local_retrieval(tmp_path):
+    config = Settings(_env_file=None, database_url=f"sqlite:///{tmp_path}/retrieval.db",
+                      log_path=str(tmp_path / "events.jsonl"))
+    store = Store(config.database_url)
+    question = "personalpha@example.com"
+    trio = {"id": "original-local-query", "version": 1, "status": "published",
+            "schema_version": "safe-v1", "scope": "shared", "question": question,
+            "report": "Count catalog products", "tags": [],
+            "sql": "SELECT COUNT(*) AS products FROM products"}
+
+    class InspectModel:
+        contexts = []
+        def decide(self, context, remaining_seconds):
+            self.contexts.append(context)
+            return Decision(action="clarify", text="Which metric?"), {}
+
+    try:
+        store.put("trio", "system", trio)
+        alice = principal_for("alice", config)
+        knowledge = Knowledge(store)
+        # Only the original email tokens overlap. Sanitizing before lexical
+        # ranking loses this match; external/model copies must still be masked.
+        selected = knowledge.retrieve(question, alice)
+        assert [t["id"] for t in selected] == [trio["id"]]
+        assert question not in str(selected)
+        model = InspectModel()
+        agent = Agent(config, store, model)
+        seen = []
+        original_retrieve = agent.knowledge.retrieve
+        def retrieve(raw_question, *args, **kwargs):
+            seen.append(raw_question)
+            return original_retrieve(raw_question, *args, **kwargs)
+        agent.knowledge.retrieve = retrieve
+        result = agent.chat(alice, question)
+        assert seen == [question]
+        assert model.contexts and question not in str(model.contexts)
+        assert question not in str(result)
+        assert question not in (tmp_path / "events.jsonl").read_text()
+    finally:
+        store.engine.dispose()

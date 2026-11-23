@@ -340,7 +340,9 @@ class Agent:
                 final = {"answer": answer, "management": result, "evidence": [], "outcome": "succeeded"}
             else:
                 final = self.graph.invoke({"principal": principal, "conversation": conversation,
-                    "question": clean(question), "trace": trace, "started": start,
+                    # Keep the original for local retrieval. Generation/review
+                    # sanitize the complete context at the model boundary.
+                    "question": question, "trace": trace, "started": start,
                     "calls": 0, "queries": 0, "repairs": 0, "evidence": [], "tools": [], "stop": False},
                     {"recursion_limit": self.config.max_model_calls * 3 + 8})
                 answer = final["answer"]

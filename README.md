@@ -95,14 +95,14 @@ workflow; it never publishes itself automatically.
 
 ## Verification and limits
 
-The last completed local suite passed **262 tests**, before the latest preference edits. The [review summary](docs/review-summary.md)
+The latest [local regression suite](evaluation/trio-retrieval-alignment-2026-11-23.json) passed **287 tests**, including preferences and Golden Trio privacy/retrieval checks. The [review summary](docs/review-summary.md)
 separates regression tests, historical live checks and current synthetic prompt
 experiments. **Standard Ragas faithfulness: 0.756** on 19/20 synthetic
 validation cases using WikiVibe Flash. One generation failed; evaluation is paused.
 This evaluates report grounding against frozen SQL evidence, not end-to-end
 accuracy or fresh BigQuery execution. The candidate has not been promoted.
 
-The subsequent [focused privacy/workflow run](evaluation/model-payload-privacy-2026-11-23.json)
+An earlier [focused privacy/workflow run](evaluation/model-payload-privacy-2026-11-23.json)
 passed **109 local tests**, including outbound payload checks and preference application.
 Providers were mocked; this does not replace a fresh live acceptance run.
 

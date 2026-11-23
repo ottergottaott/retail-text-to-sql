@@ -6,7 +6,7 @@ import math
 import re
 from pathlib import Path
 from .analytics import validate
-from .security import PolicyError, safe_output
+from .security import PolicyError
 from .embeddings import EmbeddingUnavailable
 from .model_privacy import POLICY_VERSION, sanitize_payload
 
@@ -83,7 +83,8 @@ class Knowledge:
         return {"indexed": indexed, "model": self.embedder.version}
 
     def retrieve(self, question, principal, k=2, emit=None, remaining_seconds=10):
-        question = sanitize_payload(question, self.privacy_secret)
+        # Lexical ranking is local: compare originals with originals. Sanitize
+        # a separate copy only if an embedding request leaves the application.
         q = tokens(question)
         candidates = []
         # Resolve latest publication before access filtering, so an older broader
@@ -108,7 +109,8 @@ class Knowledge:
             coverage = len(indexed)
             if indexed:
                 try:
-                    query = self.embedder.embed([question], "RETRIEVAL_QUERY", timeout=min(10, remaining_seconds))[0]
+                    query_text = sanitize_payload(question, self.privacy_secret)
+                    query = self.embedder.embed([query_text], "RETRIEVAL_QUERY", timeout=min(10, remaining_seconds))[0]
                     semantic = [{**t, "similarity": cosine(query, vectors[self.vector_id(t)])} for t in indexed]
                     similarities = {t['id']: t['similarity'] for t in semantic}
                     # Lexical overlap may rescue a moderately similar method, but
@@ -142,11 +144,9 @@ class Knowledge:
     def publish(self, candidate, reviewer, evaluation):
         if not reviewer or evaluation.get("verdict") != "pass" or not evaluation.get("cases"):
             raise PolicyError("Publication requires reviewer and passing evaluation case references.")
-        safe_output(json.dumps(candidate))
         for field in ["id", "question", "report", "sql"]:
             if not candidate.get(field):
                 raise PolicyError("Trio is missing a required field.")
-            safe_output(candidate[field])
         validate(candidate["sql"])
         if candidate.get("scope") not in {"shared", "products"}:
             raise PolicyError("Explicit publication scope is required.")

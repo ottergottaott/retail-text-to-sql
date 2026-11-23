@@ -3,31 +3,69 @@
 One Python backend serves Open WebUI and the CLI. The backend owns authorization,
 SQL execution and report persistence; clients send requests and display progress.
 
+## Analysis request
+
 ```mermaid
 flowchart LR
-  UI[WebUI / CLI] -->|HTTP + SSE| API[FastAPI: identity + scope]
-  API --> Input[Input redaction: email / phone / IP patterns]
-  Input --> Agent[LangGraph agent]
-  Agent -->|planning + review payloads| Egress[Local PII scan: sanitized copies only]
-  Egress --> Model[Gemini: Google API or gateway]
-  Model --> Agent
-  Agent --> SQL[SQL + PII boundary: approved columns, hashed IDs, brand scope, cohort >= 5]
-  SQL <--> BQ[BigQuery]
-  Candidate[Trio candidate] --> Gate[Publication checks: SQL + reject email / phone / IP patterns]
-  Gate --> RAG[Versioned Golden Trios]
-  Agent -->|sanitized question| Retrieval[Retrieval: latest version + schema + access filter]
-  RAG --> Retrieval
-  Retrieval -->|PII-scanned methodology copies| Agent
-  RAG -->|index text: question + tags + report| Egress
-  Retrieval -->|search question| Egress
-  Egress --> Embeddings[Embedding provider]
-  Embeddings --> Retrieval
-  API --> DB[(PostgreSQL: conversations, reports, preferences)]
+  UI[WebUI / CLI] --> API[Identity and brand access]
+  API --> Agent[LangGraph agent]
+  Retrieval[Authorized Trio retrieval] -->|selected examples| Agent
+  Agent -->|copy of complete model context| Privacy[Local PII sanitization]
+  Privacy -->|sanitized payload only| Model[Gemini]
+  Model -->|typed decision| Agent
+  Agent --> SQL[SQL validation and scoped execution]
+  SQL --> BQ[BigQuery]
+  BQ -->|approved columns, hashed IDs, cohort checks| SQL
+  SQL -->|query evidence| Agent
+  Agent -->|reviewed answer| Reports[Saved reports and response]
 ```
 
-## Request path
+## 1. Indexing — explicit administrator operation
 
-1. Resolve identity and brand scope; sanitize input and load permitted context.
+```mermaid
+flowchart LR
+  Originals[(Published Golden Trios: originals)] -->|copy: question, tags, report| Privacy[Local PII sanitization]
+  Privacy --> Embeddings[Embedding provider]
+  Embeddings --> Vectors[(Stored document vectors)]
+```
+
+Run indexing when published examples or the embedding/privacy version change.
+It prepares document vectors; it does not run on each question. Originals remain
+unchanged. Index records identify the Trio, version and embedding model. PostgreSQL currently stores
+original Trios and embedding JSON records; similarity is computed in Python.
+pgvector is a possible scaling extension, not a current dependency. Publication
+SQL, scope, schema and evaluation checks are separate from retrieval.
+
+## 2. Search — on each question
+
+```mermaid
+flowchart LR
+  Store[(Golden Trios and stored vectors)] --> Filter[Latest version, schema and access filter]
+  Filter --> Rank[Rank permitted examples: lexical + vector]
+  Question[Analysis question] --> Rank
+  Question -->|copy| Privacy[Local PII sanitization]
+  Privacy --> Embeddings[Embedding provider]
+  Embeddings -->|query vector| Rank
+  Rank -->|top-k example copies| Agent[Agent context]
+```
+
+Access is checked **before either ranking**. First resolve the latest published
+version and compatible schema, then keep only examples permitted for this user.
+Lexical and vector scores are computed within that permitted set. Only then are
+top-k examples selected. The current implementation applies these filters in
+Python before scoring; it does not perform an unrestricted top-k search followed
+by access filtering. The full model context is sanitized at the Gemini boundary
+shown above.
+
+These diagrams show the implemented data flow. Local operations stay inside the
+application. PII sanitization transforms copies sent to generation/embedding
+providers; it does not delete Trio fields or overwrite stored originals.
+SQL validation separately prevents queries from accessing restricted columns.
+
+## Current request path
+
+1. Resolve identity and brand scope; use the original question for local retrieval
+   and load permitted context.
 2. Retrieve relevant Question → SQL → Report examples as methodology. Scan outgoing
    embedding text and retrieved copies locally; keep stored Trios unchanged.
 3. Scan the complete planning/review payload locally, then ask the model for a
@@ -47,7 +85,7 @@ flowchart LR
   with query, byte, row, time and model-call limits.
 - Saved reports are owner-scoped and checked against current access. Deletion requires
   an explicit user confirmation command after a preview.
-- Golden Trio publication rejects email/phone/IP patterns and validates SQL.
+- Golden Trio publication checks SQL, declared scope, schema and evaluation evidence.
   Retrieval filters latest published examples by schema and access, then sanitizes
   copies, including question, SQL and report. The same local scan protects document
   and query embeddings, planning, history, tool results and grounding review.
