@@ -10,8 +10,11 @@ brands. Privacy checks also apply to the CEO.
 Reports include tables, SQL evidence, an HTML view and a saved-report library.
 Personal format/depth preferences persist across chats. Current-turn overrides
 and bounded learning from repeated presentation directives passed focused local
-checks. Automatic Golden Bucket updates and tone
-quality gates remain designs; shared-knowledge publication uses operator review.
+checks. A SQL-backed worker now processes feedback and CEO tone requests with
+automatic gates, scoped publication and version rollback. Corrections without an
+independent approved definition are retained rather than published. These new
+paths have local regression and scoped fixture-browser coverage; fresh client
+Gemini/BigQuery acceptance remains pending.
 
 ## Run it
 
@@ -37,8 +40,10 @@ it does not test either provider. [Walkthrough](../START_HERE.md).
 | --- | --- | --- |
 | Clean client startup | Fixture workflow and direct-Gemini startup passed; 24 local tests passed | Clean git archive and new Docker volumes. Direct startup used synthetic credentials; Google SDK HTTP transport was intercepted. No real Google/BigQuery calls. [Evidence](../evaluation/client-startup-2026-11-23.json) |
 | Outbound privacy / workflow follow-up | 109 passed | Local synthetic PII, mocked model/embedding boundaries, retrieval, brand/cohort guards and preference application. No new live calls or full-suite rerun. [Evidence](../evaluation/model-payload-privacy-2026-11-23.json) |
-| Latest regression suite | 287 passed | Local controlled tests, including Golden Trio storage/retrieval, outbound sanitization, preferences and opaque report IDs. No fresh cloud acceptance. [Evidence](../evaluation/trio-retrieval-alignment-2026-11-23.json) |
+| Latest regression suite | **303 passed** | Local tests, including automatic feedback publication, CEO tone gates, recovery, permissions and rollback. [Evidence](../evaluation/automatic-learning-2026-11-23.json) |
+| Automatic learning browser smoke | **5 checks passed** | Actual extension page/backend, synthetic data and local test proxy; native WebUI integration not retested. [Evidence](../evaluation/automatic-learning-browser-2026-11-23.json) |
 | Previous regression suite | 262 passed | Predates the latest preference edits. Controlled tests, including custom-gateway evaluation routing and empty-result oracle wording. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/regression-empty-wording.xml) |
+| Current Hydrogen evaluation | **Incomplete**; standard 0.588 (4/20), custom SQL-aware 0.956 (4/20) | WikiVibe, current v10 prompt, frozen synthetic SQL; judge timeouts/deadline. Same generator/judge; no quality gain claimed. [Results](../evaluation/hydrogen-2026-11-23/README.md) |
 | Latest Flash validation candidate | Standard Ragas: **0.756** | 19/20 synthetic cases scored; one generation failed. WikiVibe / gemini-3.8-flash, same generator/judge. Evaluation paused; no promotion. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-validation/results.json) |
 | Latest Flash development pilot | Standard Ragas: baseline 0.755; candidate v2 0.787 | 8 synthetic cases / 4 families per variant; same generator/judge. Difference interval includes zero; no promotion. Validation on 20 cases is incomplete and paused. [Protocol and results](../evaluation/wikivibe-flash-iteration-2026-11-23/README.md) |
 | Regression suite | 253 passed | Controlled tests; brand access, stored artifacts and demographic privacy. [Evidence](../evaluation/client-alignment-2026-11-22.json) |
@@ -51,7 +56,7 @@ it does not test either provider. [Walkthrough](../START_HERE.md).
 
 ## Remaining checks
 
-The current `retail-v9-client-policy` changes await live Gemini/BigQuery
+The current `retail-v10-auto-improvement` changes await client Gemini/BigQuery
 acceptance. Historical live results do not validate the new brand/privacy
 policy, and no faithfulness improvement is claimed for this release.
 

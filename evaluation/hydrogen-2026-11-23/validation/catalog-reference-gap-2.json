@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-2",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "**Findings**\n\nFor your authorized products (`2` and `3`), the average difference between current catalogue `retail_price` and realized `sale_price` across `Complete` order items (`current_reference_gap`) is [q1]:\n\n| id | current_reference_gap |\n| --- | --- |\n| 2 | 60.0 |\n| 3 | 170.0 |\n\n- **Metric, grain, and scope:** `AVG(retail_price - sale_price)` computed at the `order_items` grain where `status = 'Complete'`, scoped by executor-bound views to authorized products `[2, 3]` over the available data [q1].\n\n**Limitations**\n\n- Only `AVG(retail_price - sale_price)` for `Complete` items was queried; this does not measure historical discounts, promotional pricing, net profit, or product `cost` [q1].\n- Item counts, order counts, customer counts, date bounds, minimum/maximum `sale_price`, and excluded item statuses were not queried, so sample size, time coverage, and realized price variation are not established [q1].\n- Currency is not defined in the returned data [q1].\n\n**Action items (proposed)**\n\n- Proposed check (not yet measured): Query `Complete` item counts and `MIN`/`MAX(sale_price)` by `id` alongside `AVG(retail_price - sale_price)` to evaluate volume and observed price range.\n- Proposed check (not yet measured): Break down `AVG(retail_price - sale_price)` by `created_at` date buckets to examine whether the gap shifts across periods.\n- Proposed check (not yet measured): Query `retail_price` and `cost` alongside realized `sale_price` if margin analysis is needed.",
+  "status": "generated",
+  "seconds": 11.147430518001784,
+  "usage": {
+    "input_tokens": 2402,
+    "output_tokens": 1947,
+    "total_tokens": 4349,
+    "thought_tokens": 1522,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,20 @@
+{
+  "provider": "WikiVibe",
+  "endpoint": "https://api.wikivibe.dev/v1",
+  "model": "gemini-4-hydrogen",
+  "timeout_seconds": 60,
+  "case_id": "category-sales-1",
+  "source": "synthetic frozen SQL evidence; no BigQuery",
+  "status": "generated",
+  "action": "answer",
+  "response": "### Findings\n\nFor authorized products (`[1, 2]`, enforced via executor-bound views), querying all available history at item grain for records with `status = 'Complete'` shows one category in the results (`Outerwear`), with `complete_revenue` (`SUM(sale_price)`) of `210.0` and `complete_items` (`COUNT(*)`) of `14` [q1]. Because only 14 items support this observation, it represents a small sample and does not establish sustained demand [q1].\n\n| category | complete_revenue | complete_items |\n| --- | ---: | ---: |\n| Outerwear | 210.0 | 14 |\n\n### Limitations\n\n- **Scope and population:** Only `order_items` with `status = 'Complete'` within the authorized product scope were included; other item statuses were not queried [q1].\n- **Unmeasured time and dimensions:** No date filter was applied, so time coverage, completeness, and temporal trends were not measured [q1]. Product-level splits, distinct order or customer counts, `cost`, `retail_price`, and currency units were also not queried [q1].\n- **Absent operational context:** Inventory levels, traffic, conversion, and promotional or discount history are not included in the query results.\n\n### Action items (proposed)\n\nThe following are proposed analytical checks and have not been measured:\n- Query `Complete` item count and `sale_price` revenue by individual authorized product (`id` / `name`) to see how the 14 items are distributed across products.\n- Query item counts across all `status` values to check the share of `Complete` versus non-complete items.\n- Break down `Complete` items by `created_at` period and measure distinct `order_key` and `customer_key` counts to evaluate time distribution and order/customer concentration.",
+  "usage": {
+    "input_tokens": 2383,
+    "output_tokens": 1836,
+    "total_tokens": 4219,
+    "thought_tokens": 1398,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "seconds": 11.86562517398852
+}

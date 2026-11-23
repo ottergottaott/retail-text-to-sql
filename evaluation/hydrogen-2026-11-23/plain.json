@@ -1,0 +1,18 @@
+{
+  "provider": "WikiVibe",
+  "model": "gemini-4-hydrogen",
+  "test": "plain chat/completions, no tools/schema",
+  "endpoint": "https://api.wikivibe.dev/v1",
+  "http_status": 200,
+  "response": "",
+  "usage": {
+    "completion_tokens": 73,
+    "completion_tokens_details": {
+      "reasoning_tokens": 73
+    },
+    "cost": 4.27065e-05,
+    "prompt_tokens": 36,
+    "total_tokens": 109
+  },
+  "seconds": 25.20700171799399
+}

@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-1",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nAcross all available history for your authorized products (`[1, 2]`), the average difference between current catalogue `retail_price` and realized `sale_price` for `Complete` order items (`AVG(retail_price - sale_price)`) is [q1]:\n\n| id | current_reference_gap |\n| --- | --- |\n| 1 | 90.0 |\n| 2 | 60.0 |\n\n- Product `1` has a `current_reference_gap` of `90.0`, and product `2` has a `current_reference_gap` of `60.0` [q1].\n- Metric and scope: `AVG(p.retail_price - i.sale_price)` on `order_items` joined to `products` filtered to `status = 'Complete'` within executor-enforced authorized product scope (`[1, 2]`), with no date filter applied [q1].\n\n### Limitations\n\n- The query only returned `id` and `current_reference_gap` for `Complete` items; item counts, `retail_price`, `sale_price` distributions (min/max), and date coverage were not queried [q1].\n- Because `products.retail_price` represents the current catalogue price rather than historical list prices at order time, `current_reference_gap` does not measure historical discounts [q1].\n- Non-`Complete` item statuses were excluded, currency units are not defined in the supplied schema/results, and no causal factors were measured [q1].\n\n### Action items (proposed)\n\nThe following are proposed next analytical checks and have not been measured:\n- Query `Complete` item counts alongside current `retail_price` and `MIN`/`MAX`/`AVG` `sale_price` by `id` to assess volume and realized price spread.\n- Group `Complete` item counts and `current_reference_gap` by `created_at` date buckets to examine whether the gap varies over time.\n- Inspect counts and `sale_price` across non-`Complete` statuses if needed for broader status comparison.",
+  "status": "generated",
+  "seconds": 25.39460295299068,
+  "usage": {
+    "input_tokens": 2403,
+    "output_tokens": 1881,
+    "total_tokens": 4284,
+    "thought_tokens": 1387,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,10 @@
+{
+  "provider": "WikiVibe",
+  "endpoint": "https://api.wikivibe.dev/v1",
+  "model": "gemini-4-hydrogen",
+  "source": "synthetic frozen SQL evidence; no BigQuery",
+  "case_id": "category-sales-1",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 32.26167999900645
+}

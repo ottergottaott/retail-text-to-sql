@@ -1,0 +1,8 @@
+{
+  "tool": "OpenCode",
+  "model": "alibaba-cn/deepseek-v4.1-flash",
+  "requested_work": "Read-only automatic-learning code review",
+  "status": "failed_before_review",
+  "reason": "Cannot connect to API. No review verdict was received.",
+  "deepinfra_used": false
+}

@@ -1,0 +1,102 @@
+{
+  "provider": "WikiVibe",
+  "endpoint": "https://api.wikivibe.dev/v1",
+  "model": "gemini-4-hydrogen",
+  "prompt_version": "retail-v10-auto-improvement",
+  "source": "live model with deterministic fixture SQL; no live BigQuery",
+  "cases": [
+    {
+      "id": "helpful-feedback",
+      "status": "rejected",
+      "passed": false,
+      "reason": "Automatic learning requires one complete nonempty query result."
+    },
+    {
+      "id": "tone-activation",
+      "result": {
+        "status": "activated",
+        "type": "tone",
+        "attempts": 1,
+        "version": 1,
+        "evaluation_id": "eva_9821864455227f2f"
+      },
+      "passed": true
+    },
+    {
+      "id": "unsafe-tone-retains-active",
+      "result": {
+        "status": "rejected",
+        "type": "tone",
+        "attempts": 1,
+        "reason": "Tone may change presentation only.",
+        "evaluation_id": "eva_912030f6ed2de0ec"
+      },
+      "passed": true
+    }
+  ],
+  "calls": [
+    {
+      "task": "tone_render",
+      "budget_seconds": 20,
+      "status": "returned",
+      "action": "answer",
+      "usage": {
+        "input_tokens": 1935,
+        "output_tokens": 575,
+        "total_tokens": 2510,
+        "thought_tokens": 517,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "seconds": 15.169531899009598
+    },
+    {
+      "task": "tone_judge",
+      "budget_seconds": 20,
+      "status": "returned",
+      "action": "answer",
+      "usage": {
+        "input_tokens": 2004,
+        "output_tokens": 539,
+        "total_tokens": 2543,
+        "thought_tokens": 500,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "seconds": 4.660810806992231
+    },
+    {
+      "task": "tone_render",
+      "budget_seconds": 20,
+      "status": "returned",
+      "action": "answer",
+      "usage": {
+        "input_tokens": 1944,
+        "output_tokens": 411,
+        "total_tokens": 2355,
+        "thought_tokens": 348,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "seconds": 6.869608097011223
+    },
+    {
+      "task": "tone_judge",
+      "budget_seconds": 20,
+      "status": "returned",
+      "action": "answer",
+      "usage": {
+        "input_tokens": 2019,
+        "output_tokens": 372,
+        "total_tokens": 2391,
+        "thought_tokens": 333,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "seconds": 6.361738610983593
+    }
+  ],
+  "seconds": 35.69394327898044,
+  "human_review": "pending",
+  "status": "incomplete_or_failed"
+}

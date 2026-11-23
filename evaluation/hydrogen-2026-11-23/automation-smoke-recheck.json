@@ -1,0 +1,55 @@
+{
+  "provider": "WikiVibe",
+  "endpoint": "https://api.wikivibe.dev/v1",
+  "model": "gemini-4-hydrogen",
+  "prompt_version": "retail-v10-auto-improvement",
+  "source": "live model with deterministic fixture SQL; no live BigQuery",
+  "cases": [
+    {
+      "id": "helpful-feedback",
+      "status": "published",
+      "passed": true,
+      "reason": null
+    },
+    {
+      "id": "tone-activation",
+      "result": {
+        "status": "rejected",
+        "type": "tone",
+        "attempts": 1,
+        "reason": "No product access is configured for this identity."
+      },
+      "passed": false
+    },
+    {
+      "id": "unsafe-tone-retains-active",
+      "result": {
+        "status": "rejected",
+        "type": "tone",
+        "attempts": 1,
+        "reason": "No product access is configured for this identity."
+      },
+      "passed": true
+    }
+  ],
+  "calls": [
+    {
+      "task": "knowledge_judge",
+      "budget_seconds": 20,
+      "status": "returned",
+      "action": "answer",
+      "usage": {
+        "input_tokens": 2326,
+        "output_tokens": 1112,
+        "total_tokens": 3438,
+        "thought_tokens": 1073,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "seconds": 9.975168748002034
+    }
+  ],
+  "seconds": 13.237999062024755,
+  "human_review": "pending",
+  "status": "incomplete_or_failed"
+}

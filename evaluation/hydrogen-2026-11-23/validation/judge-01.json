@@ -1,0 +1,191 @@
+{
+  "status": "incomplete",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.2857142857142857,
+    "sql_factual_faithfulness": null
+  },
+  "combined_means": {
+    "faithfulness": 0.2857142857142857,
+    "sql_factual_faithfulness": null
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 1,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 0,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "department-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00090537799406
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.000648454006296
+        }
+      }
+    },
+    {
+      "id": "department-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00071492602001
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00062422599876
+        }
+      }
+    },
+    {
+      "id": "cost-margin-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.2857142857142857,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The authorized products are `[1, 2]`, enforced via executor-bound views.",
+                "reason": "The execution_scope object in the context explicitly specifies authorized_products as [1, 2] and enforcement as executor_bound_views.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all available history for `order_items` with `status = \"Complete\"`, the aggregate sale price minus current catalogue cost proxy (`SUM(sale_price - cost)`) is `-280.0` across `14` Complete items in `[q1]`.",
+                "reason": "The context does not state that p.cost is a current catalogue cost or that the fixture and executor-bound views cover all available history.",
+                "verdict": 0
+              },
+              {
+                "statement": "The reported `cost_proxy_margin` is `-280.0`.",
+                "reason": "The rows field in the query output explicitly reports cost_proxy_margin as -280.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The reported `complete_items` count is `14`.",
+                "reason": "The rows field in the query output explicitly reports complete_items as 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "In `[q1]`, `cost_proxy_margin` measures `SUM(i.sale_price - p.cost)` as a current catalogue cost proxy rather than net profit.",
+                "reason": "The context shows the SQL expression SUM(i.sale_price - p.cost) AS cost_proxy_margin, but it does not mention current catalogue cost or net profit.",
+                "verdict": 0
+              },
+              {
+                "statement": "In `[q1]`, `complete_items` measures item-level `COUNT(*)` for `status = \"Complete\"` within the authorized product scope (`[1, 2]`).",
+                "reason": "Query q1 computes COUNT(*) AS complete_items on order_items filtered by status = Complete, and execution_scope specifies authorized_products [1, 2] enforced via executor_bound_views.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query `[q1]` subtracts current `products.cost` from `order_items.sale_price`.",
+                "reason": "While query q1 subtracts p.cost from i.sale_price, the context does not indicate that products.cost represents a current cost.",
+                "verdict": 0
+              },
+              {
+                "statement": "Query `[q1]` does not reflect historical unit costs, discounts, shipping, taxes, fees, refunds, or operating expenses.",
+                "reason": "The context makes no mention of historical unit costs, discounts, shipping, taxes, fees, refunds, or operating expenses, so whether any of these are reflected cannot be inferred.",
+                "verdict": 0
+              },
+              {
+                "statement": "As a limitation, the result in `[q1]` reflects a small item sample of `14` Complete items in total.",
+                "reason": "The context reports complete_items as 14, but it does not characterize this count as a limitation or a small item sample.",
+                "verdict": 0
+              },
+              {
+                "statement": "Query `[q1]` does not break down results by `product_id`, date range (`created_at`), separate `sale_price` and `cost` sums, `retail_price`, distinct orders, or distinct customers.",
+                "reason": "The context does not mention created_at, retail_price, distinct orders, or distinct customers.",
+                "verdict": 0
+              },
+              {
+                "statement": "No currency unit is defined in the schema or query output for `[q1]`.",
+                "reason": "Although no currency unit appears in the query output, the full schema is not provided in the context, so it cannot be inferred whether a currency unit is defined in the schema.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed product breakdown check is to run a follow-up query grouping `SUM(sale_price)`, `SUM(cost)`, `SUM(sale_price - cost)`, and item count by `product_id` to check the contribution of each authorized product to `-280.0`.",
+                "reason": "The context contains only the query execution result and scope, with no mention of any proposed follow-up query or product breakdown check.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed timeframe and price comparison check is to query `MIN(created_at)`, `MAX(created_at)`, and observed `sale_price`, `retail_price`, and `cost` ranges for Complete items to inspect the active date span and observed price-to-cost relationship.",
+                "reason": "The context contains no mention of a proposed timeframe and price comparison check, created_at, or retail_price.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed status context check is to query item counts by `status` across authorized products for visibility into non-Complete items alongside the `14` Complete items.",
+                "reason": "The context contains no mention of any proposed status context check or querying non-Complete items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 42.109716328996
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00184431200614
+        }
+      }
+    },
+    {
+      "id": "cost-margin-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.00091804101248
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "timeout",
+          "seconds": 60.001502292987425
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-4-hydrogen",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 16,
+  "max_provider_calls": 16,
+  "measured_total_tokens": 36671,
+  "usage_responses": 9,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

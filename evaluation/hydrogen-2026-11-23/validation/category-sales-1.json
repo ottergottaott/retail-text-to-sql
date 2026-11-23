@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-1",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nFor authorized products (IDs `1` and `2`, enforced by executor-bound views) across all available history, `Complete` items (`order_items.status = 'Complete'`) appear in one category with a small observed sample of 14 items totaling 210.0 in `sale_price` [q1]:\n\n| category | complete_revenue | complete_items |\n| --- | --- | --- |\n| Outerwear | 210.0 | 14 |\n\n*Note: Currency is not specified in the dataset. Because only 14 Complete items were observed, this result reflects a small sample rather than established demand [q1].*\n\n### Limitations\n\n- **Population and grain:** The query filtered strictly to `order_items.status = 'Complete'` at the item grain; non-Complete statuses, distinct order counts, and distinct customer counts were not queried [q1].\n- **Time coverage:** No date filter was applied, so time-window boundaries and whether activity is concentrated in a specific period were not measured [q1].\n- **Granularity:** Results are aggregated at the `category` level and do not show product-level (`product_id`) splits between the two authorized products [q1].\n- **Unmeasured context:** Currency, inventory/stock levels, traffic, and promotional or discount history were not queried and are not established by these figures [q1].\n\n### Action items (proposed)\n\n*(The following are proposed analytical checks that have not been measured.)*\n\n1. **Product and time breakdown:** Query `complete_revenue` and `complete_items` by `product_id` and time period (e.g., monthly `created_at` buckets) to assess how the 14 items are distributed across products and dates.\n2. **Status comparison:** Query item counts and `sale_price` totals across all `order_items.status` values to compare Complete items against other statuses.\n3. **Order and customer concentration:** Query distinct `order_key` and `customer_key` counts for Complete items to see whether the 14 items come from a single order/customer or multiple orders/customers.",
+  "status": "generated",
+  "seconds": 16.857952330989065,
+  "usage": {
+    "input_tokens": 2383,
+    "output_tokens": 2565,
+    "total_tokens": 4948,
+    "thought_tokens": 2062,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

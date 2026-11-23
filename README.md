@@ -5,7 +5,7 @@ Ask a business question, inspect the SQL and save an HTML report.
 
 ![Open WebUI chat with a saved report, Artifacts panel and visible feedback link](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
 
-Synthetic demo · [Quick walkthrough and feedback form](START_HERE.md)
+Synthetic demo · [Quick walkthrough](START_HERE.md) · [Evaluation results](#verification-and-limits)
 
 ## Run with your credentials
 
@@ -90,33 +90,46 @@ they provide methodology, not current facts. Embedding indexing is explicit.
 
 Reports include evidence, limitations and proposed actions. Grounding review
 precedes persistence in live mode. Reports are owner-scoped and checked against
-current product permissions. Feedback enters an operator-reviewed publication
-workflow; it never publishes itself automatically.
+current product permissions. Feedback queues automatic evidence/access/quality checks. Passing examples enter
+the original brand/product scope; unsupported corrections are retained without
+publication. The CEO can change tone in My preferences: a passing quality gate
+activates it automatically, with version history and rollback.
 
 ## Verification and limits
 
-The latest [local regression suite](evaluation/trio-retrieval-alignment-2026-11-23.json) passed **287 tests**, including preferences and Golden Trio privacy/retrieval checks. The [review summary](docs/review-summary.md)
-separates regression tests, historical live checks and current synthetic prompt
-experiments. **Standard Ragas faithfulness: 0.756** on 19/20 synthetic
-validation cases using WikiVibe Flash. One generation failed; evaluation is paused.
-This evaluates report grounding against frozen SQL evidence, not end-to-end
-accuracy or fresh BigQuery execution. The candidate has not been promoted.
+Recorded on 23 November 2026. **Hydrogen evaluation is incomplete due to judge
+timeouts and the run deadline; no quality improvement is established.**
+[Results and reproduction](evaluation/hydrogen-2026-11-23/README.md).
 
-An earlier [focused privacy/workflow run](evaluation/model-payload-privacy-2026-11-23.json)
-passed **109 local tests**, including outbound payload checks and preference application.
-Providers were mocked; this does not replace a fresh live acceptance run.
+| Check | Result | Coverage |
+| --- | ---: | --- |
+| Local regression suite | **303 passed** | [Safety, retrieval, preferences, automatic feedback and tone](evaluation/automatic-learning-2026-11-23.json) |
+| Standard Ragas faithfulness | **0.588** | 4/20 synthetic validation cases scored |
+| Custom SQL-aware faithfulness | **0.956** | 4/20 cases; separate judge contract |
+| Answer structure and table checks | **12/12 generated** | Frozen-row checks passed; 8/20 cases were not generated |
+| Automatic learning browser smoke | **5 checks passed** | [Fixture page/backend: feedback, tone activation/rejection and rollback](evaluation/automatic-learning-browser-2026-11-23.json) |
 
-A [clean Docker startup check](evaluation/client-startup-2026-11-23.json) passed
-the fixture report workflow and direct-Gemini configuration/credential mounting.
-Another 24 local tests passed, including the real Google SDK with intercepted
-HTTP transport. Startup used synthetic credentials; real Google access remains
-an external acceptance check.
+The faithfulness run used **WikiVibe `gemini-4-hydrogen`** for generation and
+judging, with the current `retail-v10-auto-improvement` prompt. It evaluates report
+review against frozen synthetic SQL evidence; it does not execute BigQuery or
+measure end-to-end accuracy. Using the same model as judge can introduce bias.
 
-Current schema metadata covers four approved logical tables. Personal format/depth
-learning has a bounded, locally tested deterministic implementation.
-Shared knowledge/tone promotion still uses operator review. Current brand/privacy changes still need live acceptance
-with client credentials. Do not enter real PII into WebUI: it stores original
-messages before backend sanitization.
+[Clean Docker startup](evaluation/client-startup-2026-11-23.json) was checked with
+fixture data and synthetic Google credentials. Fresh client Gemini/BigQuery
+acceptance and installation on another machine remain unverified. Langfuse is
+optional and off by default. The worker supports one API process;
+[automatic-learning limits](docs/improvement.md) describe the bounded gates.
+Do not enter real PII into WebUI: it stores messages before backend sanitization.
+
+<details>
+<summary>Historical measurements</summary>
+
+Previous Flash validation scored 0.756 on 19/20 synthetic cases. The older live
+BigQuery set scored standard Ragas 0.534 and custom SQL-aware 0.843 on 12 reports.
+These used different prompts/models or evidence and do not establish a paired
+improvement. [Recorded checks and limitations](docs/review-summary.md).
+
+</details>
 
 ## Further reading
 

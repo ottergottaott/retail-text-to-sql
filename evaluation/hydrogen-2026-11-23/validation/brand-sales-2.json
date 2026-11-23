@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nFor your authorized products (product IDs 2 and 3, enforced by executor-bound views), the Complete-item (`order_items.status = 'Complete'`) revenue (`SUM(sale_price)`) and item count (`COUNT(*)`) by brand across all available history are shown below [q1]:\n\n| brand | complete_revenue | complete_items |\n| --- | ---: | ---: |\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n- `West` recorded `210.0` in `complete_revenue` across `7` `complete_items`, while `South` recorded `140.0` across `7` `complete_items` [q1].\n- Note that each brand has a small sample of only 7 Complete items, so this reflects limited observed item volume rather than established demand [q1].\n\n### Limitations\n\n- **Metric definition:** `complete_revenue` is gross `SUM(sale_price)` for `Complete` items, not net profit; `cost` and `retail_price` were not queried, so margins and any price differences relative to retail price or discounts are unknown [q1].\n- **Scope and grain:** Results are at the item grain for `status = 'Complete'` only; non-Complete item statuses, distinct orders, distinct customers, and individual product breakdowns within each brand were not queried [q1].\n- **Time and currency:** Date ranges and temporal coverage were not queried, and the currency unit is not defined in the supplied data.\n\n### Action items (proposed)\n\n- **Time coverage check (proposed):** Query `MIN(created_at)`, `MAX(created_at)`, or monthly buckets for Complete items by brand to see the time span over which these 14 items occurred.\n- **Status and margin check (proposed):** Query item counts across all `status` values by brand, and compare `sale_price` against `retail_price` and `cost` on Complete items if margin or price-variation analysis is needed.",
+  "status": "generated",
+  "seconds": 9.264007182995556,
+  "usage": {
+    "input_tokens": 2408,
+    "output_tokens": 1201,
+    "total_tokens": 3609,
+    "thought_tokens": 719,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

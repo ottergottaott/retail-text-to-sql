@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-2",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\nComplete-item revenue (`SUM(sale_price)`) and Complete-item count (`COUNT(*)`) by `category` across all available history for authorized products (`[2, 3]`, enforced via executor-bound views) are shown below `[q1]`:\n\n| category | complete_revenue | complete_items |\n| --- | ---: | ---: |\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\n- Both `Footwear` and `Outerwear` recorded `7` Complete items (`complete_items`) `[q1]`.\n- `Footwear` had `210.0` in `complete_revenue`, while `Outerwear` had `140.0` in `complete_revenue` `[q1]`.\n- Each category is represented by a small sample of `7` Complete items `[q1]`, so these totals reflect low observed item volume rather than broad demand.\n\n### Limitations\n\n- **Status scope:** `[q1]` filtered to `order_items.status = 'Complete'`; non-Complete statuses were excluded and not measured.\n- **Time coverage:** No date filter was applied in `[q1]`, and the underlying date range or temporal completeness was not queried.\n- **Unqueried dimensions and metrics:** Product-level breakdowns, distinct order counts, distinct customer counts, `retail_price`, `cost`, and any price/discount history were not queried in `[q1]`.\n- **Unit specification:** Currency units are not specified in the returned data.\n- **Authorization scope:** Results cover only authorized products `[2, 3]` as enforced by executor-bound views.\n\n### Action items (proposed)\n\nThe following are proposed next analytical checks (not yet measured):\n\n- **Product-level breakdown:** Query `complete_revenue` and `complete_items` by `product_id` and `name` within each category to see how the `7` items per category are distributed across authorized products `[2, 3]`.\n- **All-status comparison:** Query item counts and `sale_price` totals grouped by `order_items.status` and `category` to compare Complete items against other statuses.\n- **Time coverage check:** Query `MIN(created_at)`, `MAX(created_at)`, and periodic date buckets for Complete items to inspect date coverage and timing.\n- **Order and customer grain check:** Query `COUNT(DISTINCT order_key)` and `COUNT(DISTINCT customer_key)` alongside `COUNT(*)` by category to separate item volume from order and customer counts.",
+  "status": "generated",
+  "seconds": 13.457937796018086,
+  "usage": {
+    "input_tokens": 2412,
+    "output_tokens": 1915,
+    "total_tokens": 4327,
+    "thought_tokens": 1320,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}
