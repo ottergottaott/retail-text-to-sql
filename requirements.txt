@@ -1,0 +1,3 @@
+# Assessment-compatible installation entry point.
+# The project metadata remains the source of truth for dependency versions.
+-e .[dev,evaluation]

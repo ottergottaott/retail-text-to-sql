@@ -1,161 +1,109 @@
-# Retail Intelligence — reviewer guide
+# Reviewer guide
 
-A retail analysis assistant with Gemini, BigQuery and curated analytical knowledge.
-One Python/LangGraph backend serves a CLI and Open WebUI. Reports include tables,
-limitations, proposed actions and inspectable SQL evidence.
+## Start Gemini and BigQuery
 
-## Suggested review order
+Follow [Run with your credentials](README.md#run-with-your-credentials).
+The launcher builds the containers, generates local login secrets and installs
+the WebUI integrations. You need Docker with Compose v2, your model key and
+Google credentials. No host Python installation is required.
 
-Open the [one-page review summary](docs/review-summary.md) for measured results
-and remaining checks.
+Use a fresh WebUI volume for the initial administrator account. If ports are
+occupied, append `--api-port 8010 --webui-port 3010` to the launch command.
+The selected env file and Google JSON are copied through the Docker API; Google
+credentials are stored in a private volume mounted read-only by the API.
 
-1. Read the [architecture overview](docs/technical-overview.html) (about 5 minutes).
-2. Start the credential-free demo below and try the walkthrough.
-3. Inspect the [tool decision prompt](docs/prompts/system.txt) and
-   [decision schema](docs/prompts/decision.schema.json).
-4. Review [test and evaluation evidence](docs/submission-evidence.md).
-5. For real model/data execution, follow [live setup](docs/setup.md#live-gemini-and-bigquery).
+## Try the workflow
 
-## Credential-free Docker demo
+1. Open `http://localhost:3000`, sign in using `.env.docker-retail-live` and
+   select **Retail Intelligence**.
+2. Ask **Create and save a monthly revenue report.** Inspect the evidence table,
+   limitations and saved report ID.
+3. Open **Reports**, select the report, expand **Query evidence** and use
+   **Open tab**. The standalone HTML download is a snapshot.
+4. In a new chat, ask **List my saved reports.** Reports persist independently
+   of their originating chat.
+5. Under the assistant's response, hover over the action icons and choose
+   **Give feedback**. Select **Helpful**, **Incomplete** or **Needs correction**
+   and optionally add a comment. The form is linked to that specific response.
+   Native WebUI thumbs up/down are separate and do not submit this feedback.
+   **My preferences** opens your saved format/depth settings.
+6. Ask **Delete reports** to preview the targets. Use `/cancel ID` to keep them;
+   deletion requires the displayed `/confirm ID` command.
 
-**Fast path:** run `./start.sh`, open `http://localhost:3000`, sign in with the
-generated credentials in `.env.docker-retail-demo`, select **Retail Intelligence**,
-and ask **Create and save a monthly revenue report.** Then open **Reports** →
-report → **Query evidence** → **Open tab**. This checks the main workflow in a
-few minutes without any cloud key.
+The static live demo permissions give Alice Seven7/Calvin Klein, Bob Diesel and
+the CEO all brands. Adjust `BRAND_ACCESS_JSON` before launching if needed.
+Demographic results require the configured minimum cohort size, including for the CEO.
 
+### WebUI and report screens
 
-Prerequisites: Docker with Compose v2 (macOS, Linux or WSL). Run from the extracted
-project directory on a machine with ports 3000 and 8000 available. Initial
-dependency/image installation requires internet access.
+Chat and Artifacts, captured 23 November with synthetic fixture data:
 
-```sh
-./start.sh
-```
+![WebUI conversation, saved-report receipt and Artifacts preview](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
 
-Open **http://localhost:3000**. Sign in with `WEBUI_ADMIN_EMAIL` and
-`WEBUI_ADMIN_PASSWORD` from your locally generated `.env.docker-retail-demo`; the installer
-does not print them. Select **Retail Intelligence**. Bootstrap expects the demo
-account to be the first administrator on a fresh WebUI volume. If you already
-have a WebUI deployment on this port, use a separate environment instead of
-reconfiguring that installation:
+The report-library screenshots below were recorded on 22 November with synthetic
+fixture data. Your live report titles, rows and IDs will differ.
 
-```sh
-./start.sh --project another-demo --api-port 8010 --webui-port 3010
-```
+<details>
+<summary>Reports library: select a report, open a tab or download HTML</summary>
 
-The script builds the runtime, generates persistent local secrets, waits for
-healthy services, installs the WebUI integrations and reloads their configuration.
-No Python or uv installation is required on the host. Rerun the same command
-after a setup interruption; it preserves the existing local login and data.
+![Reports library with report list, embedded report, Open tab and Download HTML controls](evaluation/screenshots/client-fixture-library-2026-11-22.jpg)
 
-**This is fixture mode:** deterministic synthetic data and a small rule-based
-planner, clearly labeled. It demonstrates integration and safety mechanics;
-it does not demonstrate Gemini reasoning, live BigQuery or semantic RAG quality.
-No API keys are included. Live calls require your own credentials and may incur charges.
+</details>
 
-### Five-minute walkthrough
+<details>
+<summary>Query evidence: returned rows and highlighted SQL</summary>
 
-1. Ask **“Create and save a monthly revenue report.”** Inspect progress, the
-   evidence table and saved report ID. Open the HTML Artifact/embedded preview.
-2. Use **My reports**, or the **Reports** sidebar link. Open the saved report,
-   expand SQL evidence and download the standalone HTML snapshot.
-3. Start a new chat and ask **“List my saved reports.”** The earlier report
-   remains available independently of its originating chat.
-4. Under a newly generated answer, use **Give feedback**. Inspect the selected
-   response and submit a rating/comment. It remains unreviewed; it cannot publish knowledge.
-5. Use **My preferences** to save bullets/concise, then start a new chat and
-   ask for monthly revenue. Explicit requests for tables override presentation defaults.
-6. Ask **“Delete reports.”** Inspect the proposed targets. Use the displayed
-   `/cancel ID` to keep them. Actual deletion requires the explicit `/confirm ID`
-   application command; the model cannot confirm for you.
+![Query evidence showing returned rows and expanded SQL and execution details](evaluation/screenshots/client-fixture-sql-2026-11-22.jpg)
 
-Fixture planning supports these examples, not arbitrary business questions.
-For dynamic analysis, use live mode. Saved HTML/downloads are snapshots and cannot
-be remotely revoked when a database report is deleted.
+</details>
 
-### CLI and automated checks
+## CLI
 
-With the Docker API running:
+The CLI uses the same API, permissions and saved reports as WebUI.
+Find the token mapped to `alice` in `API_TOKENS_JSON` inside
+`.env.docker-retail-live`. Paste it after running `read` below, then press Enter;
+input is hidden. The model-provider key is a separate credential.
 
 ```sh
-docker compose -p retail-demo --env-file .env.docker-retail-demo exec -e RETAIL_API_TOKEN=alice-local-token api retail --once 'monthly revenue' --json
+read -rs RETAIL_API_TOKEN
+export RETAIL_API_TOKEN
+docker compose -p retail-live --env-file .env.docker-retail-live exec -e RETAIL_API_TOKEN api retail
 ```
 
-Use `bob-local-token` to exercise a separate fixture user. Alice manages
-North/South; Bob manages West; `ceo-local-token` has all-brand access. These are local demo tokens, not production credentials.
-Omit `--once ... --json` for the interactive CLI, or pass `--conversation ID`
-between invocations. Developer tests use `uv sync --frozen --extra dev` and
-`uv run pytest -q`; uv is optional for reviewer startup.
+At `you>`, enter questions such as **Show monthly revenue**, then
+**Break it down by brand**, then **Save this report**. The interactive session
+retains its conversation. Use `/quit` to exit. Deletion previews use the displayed
+`/confirm ID` or `/cancel ID` commands.
 
-Stop with `./start.sh --stop` (include `--project NAME` for another deployment). Named volumes preserve
-data. Do not use `down -v` unless you intend to erase the demo databases.
-
-## Live model and data
-
-The live backend supports direct Google Gemini or Gemini via DeepInfra;
-the embedding provider is independently selectable. BigQuery requires Google
-application-default credentials and a project with query-job permission.
-See [.env.example](.env.example), [setup](docs/setup.md), and
-[BigQuery verification](docs/bigquery-verification.md). For a host live backend,
-use the documented public launch command; private development helpers are not required.
-
-For the Docker live launch, fill in `.env.providers` from
-[deployment/live.env.example](deployment/live.env.example), then use:
+For one question with JSON output:
 
 ```sh
-./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
+docker compose -p retail-live --env-file .env.docker-retail-live exec -T -e RETAIL_API_TOKEN api retail --once 'Show monthly revenue' --json
 ```
 
-Supply your own Google ADC/service-account credential file with the required
-BigQuery permissions. The script copies the selected env/JSON files through the Docker API. Google
-credentials stay in a private Docker volume mounted read-only by the API;
-they never enter the image. No repository mount or File Sharing changes are needed.
-This creates a new reviewer deployment; it does not import existing developer
-reports or WebUI accounts. The example brand permissions are demonstration
-settings; replace them deliberately. For production, use managed identities.
+Progress and the conversation ID go to stderr; the JSON result goes to stdout.
+To continue in a later invocation, copy the returned conversation ID:
 
-## Shared report tone
+```sh
+docker compose -p retail-live --env-file .env.docker-retail-live exec -T -e RETAIL_API_TOKEN api retail --conversation CONVERSATION_ID --once 'Break it down by brand' --json
+```
 
-Edit [deployment/tone.txt](deployment/tone.txt), then run
-`./start.sh --tone deployment/tone.txt --reviewer owner`. Add
-`--live --project retail-live` for that deployment. The operator command
-publishes a new shared version; the next question uses it without a restart.
-It controls presentation tone. Personal format/depth preferences are separate.
-There is no WebUI editor for this shared setting yet.
+## Optional synthetic preview
 
-Curated examples are explicitly synthetic, not client-supplied analyst history.
-Load them with `retail-admin load-demo` and index with `retail-admin index`
-against the same configured application database. Indexing uses the selected
-provider and can incur charges; it is an operator operation, not a chat-time job.
+Run `./start.sh` and use `.env.docker-retail-demo` for the login. This separate
+fixture mode uses synthetic data and a rule-based planner; it does not execute
+Gemini or BigQuery. It supports the walkthrough's example questions.
 
-The [reviewed learning demo](docs/improvement.md#reproducible-beforeafter-evidence)
-uses a real model and embeddings with isolated fixture SQL. It leaves live shared
-knowledge untouched and records both failed and passing evaluation evidence.
+Stop a deployment with `./start.sh --stop --project NAME`. Volumes retain data;
+`down -v` erases them. Downloaded HTML snapshots cannot be remotely revoked.
 
-## Scope and limitations
+## Review the implementation
 
-This is a bounded assessment MVP. Current schema metadata is a static, minimized
-four-table contract; there is no dynamic BigQuery metadata discovery. There is no
-autonomous training, preference inference, dashboard scheduler or durable mid-turn
-resume. The optional prototype knowledge publisher is operator-reviewed. The required production design uses automatic evaluation gates and exception review. Local Langfuse experiment ingestion and live metadata delivery have been verified.
-See [experiment setup and boundaries](docs/faithfulness-experiments.md).
+- [Measured results and remaining checks](docs/review-summary.md)
+- [Architecture and diagram](docs/architecture.md)
+- [Tool prompt](docs/prompts/system.txt) and [decision schema](docs/prompts/decision.schema.json)
+- [Credential setup and provider options](docs/setup.md#credentials-checklist)
+- [Requirements and implementation boundaries](docs/acceptance-spec.md)
 
-252 tests passed in the latest local run, including brand/CEO authorization, demographic cohort checks and five CLI/HTTP/SSE integration tests. Live business checks and judge scores
-have separate evidence contracts; tests are not an answer-accuracy percentage.
-A fresh installation on another machine and final human report acceptance remain open.
-The latest prompt experiment is incomplete after provider balance exhaustion;
-Historical live evidence uses retail-v7/v8; the retail-v9-client-policy prompt has not yet been evaluated live. Live calls need funded provider credentials;
-the credential-free fixture demo remains available.
-
-## Source map
-
-- `retail/agent.py`: graph, budgets, tool dispatch and grounding review.
-- `retail/model.py`, `retail/deepinfra.py`: prompts, typed decisions and providers.
-- `retail/analytics.py`, `retail/security.py`: SQL and data-access boundaries.
-- `retail/knowledge.py`: versioned retrieval and explicit indexing.
-- `retail/store.py`, `retail/governance.py`, `retail/learning.py`: persistence and reviewed improvement.
-- `integrations/`: thin WebUI Pipe, Actions and authenticated pages.
-- `evaluation/`, `tests/`: recorded measurements and regression coverage.
-
-Detailed architecture and all eight requirement areas: [technical design](docs/architecture.md).
+A fresh installation on another machine and human report acceptance remain
+unverified. See the review summary for live versus fixture evidence and current gaps.

@@ -1,0 +1,39 @@
+{
+  "scope": "Documentation rendering only; no application browser acceptance",
+  "desktop": {
+    "viewport": [
+      1280,
+      1050
+    ],
+    "visually_reviewed": true,
+    "screenshot": "screenshots/architecture-compact-desktop-2026-11-23.jpg"
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "visually_reviewed": true,
+    "document_width": 390,
+    "diagram_scrolls_within_container": true,
+    "screenshot": "screenshots/architecture-compact-mobile-2026-11-23.jpg"
+  },
+  "cli_integration_tests": {
+    "passed": 5,
+    "seconds": 32.31,
+    "mode": "local HTTP/SSE fixture; no live provider"
+  },
+  "pii_diagram": {
+    "source_verified": [
+      "retail/security.py:clean",
+      "retail/analytics.py:physical_sources",
+      "retail/analytics.py:Analytics.execute"
+    ],
+    "shown": [
+      "Input redaction before model context",
+      "Approved-column source binding and hashed customer keys",
+      "Brand scope and aggregate cohort enforcement"
+    ],
+    "limitation": "Pattern redaction is incomplete PII detection; WebUI persists original input before backend sanitization."
+  }
+}

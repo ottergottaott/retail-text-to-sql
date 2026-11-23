@@ -1,0 +1,16 @@
+{
+  "kind": "documentation screenshot",
+  "mode": "fixture",
+  "url": "http://localhost:3014",
+  "image": "screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "question": "Create and save a monthly revenue report.",
+  "report_id": "rep_eb94a78252381b50",
+  "observed": "WebUI chat, saved-report receipt and rendered Artifacts report with revenue chart.",
+  "paid_calls": 0,
+  "boundary": "Running local fixture deployment; no Gemini/BigQuery or latest preference-code acceptance asserted. Screenshot documentation only.",
+  "human_review": "pending"
+}

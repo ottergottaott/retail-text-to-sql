@@ -8,52 +8,36 @@ execution is read-only and scoped to the manager's brands. The CEO sees all
 brands. Privacy checks also apply to the CEO.
 
 Reports include tables, SQL evidence, an HTML view and a saved-report library.
-Personal format/depth preferences persist across chats. Automatic preference
-learning, Golden Bucket updates and tone quality gates are documented designs;
-the prototype's shared-knowledge publication uses operator review.
+Personal format/depth preferences persist across chats. Current-turn overrides
+and bounded learning from repeated presentation directives are implemented but
+not yet verified after the latest edits. Automatic Golden Bucket updates and tone
+quality gates remain designs; shared-knowledge publication uses operator review.
 
 ## Run it
 
-With Docker and Compose v2 installed:
+Start with [the README credential setup](../README.md#run-with-your-credentials).
+Supply your Gemini API key/model, a BigQuery execution project and Google
+credential JSON, then launch:
 
 ```sh
-./start.sh
+./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
 ```
 
-Open http://localhost:3000. Use the generated WebUI login in
-`.env.docker-retail-demo`. This mode uses synthetic fixtures and requires no
-cloud credentials. [Walkthrough](../START_HERE.md#five-minute-walkthrough).
+Open `http://localhost:3000` and sign in using `.env.docker-retail-live`.
+Select **Retail Intelligence**, ask **Create and save a monthly revenue report**,
+then inspect **Reports → Query evidence → Open tab**.
+The backend is at `http://localhost:8000`, with its API reference at `/docs`.
 
-For real queries, supply your own model-provider key, BigQuery execution project
-and Google credential JSON. Direct Gemini, DeepInfra, and OpenAI-compatible gateways are supported. [Credential and endpoint instructions](setup.md#credentials-checklist).
-
-Default local endpoints: WebUI `http://localhost:3000`, backend
-`http://localhost:8000`, API reference `http://localhost:8000/docs`.
-These are local services; this repository does not include a hosted public API.
-
-## Fastest verification path
-
-```sh
-git clone git@github.com:ottergottaott/retail-text-to-sql.git
-cd retail-text-to-sql
-./start.sh
-```
-
-Open `http://localhost:3000`, sign in with the generated credentials from
-`.env.docker-retail-demo`, select **Retail Intelligence**, then ask:
-**Create and save a monthly revenue report.** Open **Reports**, select the saved
-report, expand **Query evidence**, and click **Open tab**. This verifies the core
-question → progress → table → save → report-library flow using fixture data.
-No provider or BigQuery credentials are needed for this smoke test.
-
-For live mode, copy `deployment/live.env.example` or use the OpenAI-compatible
-example in `docs/setup.md`, provide the model key and Google credential JSON, then
-run the documented `./start.sh --live ...` command.
+An optional `./start.sh` fixture preview uses synthetic data without cloud keys;
+it does not test either provider. [Walkthrough](../START_HERE.md).
 
 ## Recorded checks
 
 | Check | Result | Scope |
 | --- | --- | --- |
+| Latest regression suite | 262 passed | Predates the latest preference edits. Controlled tests, including custom-gateway evaluation routing and empty-result oracle wording. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/regression-empty-wording.xml) |
+| Latest Flash validation candidate | Standard Ragas: **0.756** | 19/20 synthetic cases scored; one generation failed. WikiVibe / gemini-3.8-flash, same generator/judge. Evaluation paused; no promotion. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-validation/results.json) |
+| Latest Flash development pilot | Standard Ragas: baseline 0.755; candidate v2 0.787 | 8 synthetic cases / 4 families per variant; same generator/judge. Difference interval includes zero; no promotion. Validation on 20 cases is incomplete and paused. [Protocol and results](../evaluation/wikivibe-flash-iteration-2026-11-23/README.md) |
 | Regression suite | 253 passed | Controlled tests; brand access, stored artifacts and demographic privacy. [Evidence](../evaluation/client-alignment-2026-11-22.json) |
 | Current Docker/CLI | 10 HTTP/CLI checks + 4 rerun checks passed | Fresh fixture deployment, retained login/report, installed-source match. [Evidence](../evaluation/client-runtime-2026-11-22.json) |
 | Current browser smoke | Report library, embedded report, separate tab and SQL highlighting checked | Fixture data; screenshots linked in [runtime evidence](../evaluation/client-runtime-2026-11-22.json). |

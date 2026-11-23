@@ -282,7 +282,19 @@ the DeepInfra adapter. It does not require a Gemini SDK endpoint.
 
 ```env
 LLM_PROVIDER=openai_compatible
-OPENAI_COMPATIBLE_BASE_URL=https://api.wikivibe.dev/v1
-OPENAI_COMPATIBLE_API_KEY=...
-OPENAI_COMPATIBLE_MODEL=gemini-4-neon
+OPENAI_COMPATIBLE_BASE_URL=https://your-provider.example/v1
+OPENAI_COMPATIBLE_API_KEY=replace-with-your-provider-key
+OPENAI_COMPATIBLE_MODEL=replace-with-your-enabled-model-id
+```
+
+## Host Python development
+
+Optional; Docker startup does not require this.
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+pytest -q
+python -m retail.evaluate --output /tmp/retail-evaluation.json
 ```

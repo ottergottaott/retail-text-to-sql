@@ -1,100 +1,61 @@
 # Retail Intelligence
 
-A retail analysis assistant built with Python, LangGraph, Gemini and BigQuery.
-Ask a business question, inspect the SQL and results, and save an HTML report.
-The CLI and Open WebUI use the same backend.
+A retail analysis assistant with Gemini, BigQuery, Open WebUI and a CLI.
+Ask a business question, inspect the SQL and save an HTML report.
 
-## Start here
+## Run with your credentials
 
-Client requirements and runtime/design boundaries: [acceptance spec](docs/acceptance-spec.md).
-
-- [Review summary and current verification status](docs/review-summary.md)
-- [Reviewer guide and Docker/WebUI walkthrough](START_HERE.md)
-- [Architecture overview](docs/technical-overview.html) and [technical design](docs/architecture.md)
-- [Evaluation evidence and limitations](docs/submission-evidence.md)
-
-## Quick start: no credentials required
-
-Requires Docker with Compose v2 (macOS, Linux or WSL). From the repository root:
+Requires Docker with Compose v2. Python and uv run inside the containers.
 
 ```sh
-./start.sh
-```
-
-Open **http://localhost:3000** and select **Retail Intelligence**. The script
-creates a private `.env.docker-retail-demo`; use its `WEBUI_ADMIN_EMAIL` and
-`WEBUI_ADMIN_PASSWORD` to sign in. It installs the Pipe, Reports library,
-feedback and preference pages. Python and uv run inside Docker.
-
-CLI against the same demo:
-
-```sh
-docker compose -p retail-demo --env-file .env.docker-retail-demo exec -e RETAIL_API_TOKEN=alice-local-token api retail --once 'monthly revenue' --json
-```
-
-This is **fixture mode**: synthetic data and a small rule-based planner. It
-shows workflows and safety mechanics, not live model reasoning. Try
-`monthly revenue`, `compare products`, `save report` and `list reports`.
-The interactive CLI retains the conversation. Deletion requires an explicit
-application confirmation command after a preview.
-
-Docker volumes persist PostgreSQL, reports and WebUI data. Alice manages North/South; Bob
-(`bob-local-token`) manages West. CEO (`ceo-local-token`) can analyze all brands. These are demo identities and tokens.
-Stop with `./start.sh --stop`; rerun `./start.sh` to resume. For alternate ports
-and the walkthrough, see [the reviewer guide](START_HERE.md#credential-free-docker-demo).
-
-## Live Gemini and BigQuery
-
-Follow [live setup](docs/setup.md#live-gemini-and-bigquery) and use
-[.env.example](.env.example) as a configuration reference. You need:
-
-- Google application-default credentials and a BigQuery execution project.
-- A Gemini API key and model name, or a DeepInfra key for Gemini serving.
-- Replacement API tokens, a dedicated label secret and explicit brand permissions.
-
-The dataset is `bigquery-public-data.thelook_ecommerce`. Live model, embedding
-and BigQuery calls may incur charges. No credentials are included. The default
-configuration remains fixture mode; API health does not establish provider readiness.
-
-Copy [deployment/live.env.example](deployment/live.env.example) to `.env.providers`,
-and fill in your project/model/key:
-
-```sh
+git clone https://github.com/ottergottaott/retail-text-to-sql.git
+cd retail-text-to-sql
 cp deployment/live.env.example .env.providers
 ```
 
-For Gemini through DeepInfra, use [deployment/deepinfra.env.example](deployment/deepinfra.env.example)
-instead. The [setup guide](docs/setup.md#gemini-through-deepinfra) lists provider
-and local API URLs.
+Edit `.env.providers`: set `GOOGLE_CLOUD_PROJECT` and choose your model API:
 
-Then run:
+- **Direct Gemini:** `LLM_PROVIDER=gemini`, `GEMINI_API_KEY`, `GEMINI_MODEL`
+  and `GEMINI_BASE_URL` (default: `https://generativelanguage.googleapis.com`).
+- **OpenAI-compatible gateway:** `LLM_PROVIDER=openai_compatible`,
+  `OPENAI_COMPATIBLE_BASE_URL` (your provider's API base URL, usually ending in
+  `/v1`), `OPENAI_COMPATIBLE_API_KEY` and `OPENAI_COMPATIBLE_MODEL`.
+  Google model-key settings are unused on this path.
+
+Use a model ID enabled by your provider. The URL must match the selected API
+protocol. Keep `EMBEDDING_PROVIDER=none` for the first launch.
+
+Supply a Google application-default credential JSON with BigQuery query-job
+permissions. Gemini and BigQuery use separate credentials.
+[How to obtain credentials](docs/setup.md#credentials-checklist).
 
 ```sh
 ./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
 ```
 
-The script copies only the selected configuration files through the Docker API.
-Google credentials are stored in a private Docker volume and mounted read-only
-by the API; the source file is unchanged. No host directory sharing is needed.
-The private generated
-`.env.docker-retail-live` keeps local application/login secrets across restarts.
-Use different ports if the demo is still running. Startup does not run model
-evaluations or embed the corpus; live chat and explicit indexing may incur charges.
+Open **http://localhost:3000**. Sign in with `WEBUI_ADMIN_EMAIL` and
+`WEBUI_ADMIN_PASSWORD` from the generated `.env.docker-retail-live`, then select
+**Retail Intelligence**. Ask **Create and save a monthly revenue report.**
+Open **Reports**, select the report and expand **Query evidence**.
 
-## Shared report tone
+The backend is at `http://localhost:8000`; its API reference is at `/docs`.
+The source dataset is `bigquery-public-data.thelook_ecommerce`. You supply your
+own keys and GCP project; model and BigQuery calls may incur charges. Credentials
+are excluded from Git and container images. Startup readiness does not verify
+cloud permissions or quota: submit a live question to check both integrations.
 
-Edit [deployment/tone.txt](deployment/tone.txt), then publish it:
+Rerun the same launch command to resume. Stop with
+`./start.sh --stop --project retail-live`; Docker volumes retain data.
 
-```sh
-./start.sh --tone deployment/tone.txt --reviewer owner
-```
+[CLI and reviewer walkthrough](START_HERE.md) ·
+[Alternative model endpoints and troubleshooting](docs/setup.md)
 
-For a live deployment, add `--live --project retail-live`. The next turn uses
-the new shared tone without a restart. Versions are recorded; publish an older
-text again to roll back. Personal format/depth preferences remain per user.
-This is an operator command; a tone editor in WebUI is not implemented.
-The fixture planner does not demonstrate arbitrary tone changes; live generation
-receives the versioned tone in its context.
+## Optional fixture preview
+
+`./start.sh` starts a separate synthetic demo without cloud keys. Its rule-based
+planner supports examples such as `monthly revenue` and `save report`; this mode
+does not test Gemini or BigQuery. Login details are in `.env.docker-retail-demo`.
+Stop it before live startup, or choose different ports.
 
 ## How it works
 
@@ -112,44 +73,31 @@ precedes persistence in live mode. Reports are owner-scoped and checked against
 current product permissions. Feedback enters an operator-reviewed publication
 workflow; it never publishes itself automatically.
 
-## Tests and evaluations
+## Verification and limits
 
-```sh
-uv run pytest -q
-uv run python -m retail.evaluate --output /tmp/retail-evaluation.json
-uv run python scripts/verify_offline.py --output /tmp/retail-workflow.json
-```
+The last completed local suite passed **262 tests**, before the latest preference edits. The [review summary](docs/review-summary.md)
+separates regression tests, historical live checks and current synthetic prompt
+experiments. **Standard Ragas faithfulness: 0.756** on 19/20 synthetic
+validation cases using WikiVibe Flash. One generation failed; evaluation is paused.
+This evaluates report grounding against frozen SQL evidence, not end-to-end
+accuracy or fresh BigQuery execution. The candidate has not been promoted.
 
-The latest local regression run passed 221 tests. Evaluators separately measure
-SQL results, retrieval ranking, workflow safety and report faithfulness. Live
-checks and synthetic tests have different evidence boundaries. There is no single
-overall accuracy score or automated GitHub Actions gate yet.
+Current schema metadata covers four approved logical tables. Personal format/depth
+learning now has a bounded deterministic implementation; its latest edits await
+verification. Shared knowledge/tone promotion still uses operator review. Current brand/privacy changes still need live acceptance
+with client credentials. Do not enter real PII into WebUI: it stores original
+messages before backend sanitization.
 
-See [recorded evidence](docs/submission-evidence.md),
-[retrieval evaluation](docs/retrieval-verification.md) and
-[Ragas/Langfuse experiments](docs/faithfulness-experiments.md). Paid evals require
-explicit opt-in. The latest 80-case synthetic study is incomplete after provider
-balance exhaustion; its candidate was not promoted. Serving remains retail-v8.
+## WebUI preview
 
-## Privacy and prototype limits
+![Open WebUI chat with a saved report and the Artifacts panel](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
 
-Direct customer identifiers are excluded from the analytical schema. Customer
-keys are pseudonyms, not anonymity. Input/output pattern checks supplement source
-restrictions; they are not a complete PII detector. WebUI stores original messages
-before backend sanitization: do not enter real PII into this demonstration.
+Local synthetic-data preview, captured 23 November. [Report workflow and CLI](START_HERE.md).
 
-Production requires governed database access, approved small-group disclosure
-rules, retention policies and organizational identity integration. Schema metadata
-is a static four-table contract. Automated preference inference, a full persona
-editor and durable mid-turn recovery remain design work. Human report acceptance
-and installation on another machine remain open.
+## Further reading
 
-## Project layout
-
-- `retail/`: agent, SQL boundary, providers, retrieval, storage and presentation.
-- `integrations/`: Open WebUI Pipe, Actions and authenticated report pages.
-- `tests/`: controlled regression and local integration tests.
-- `scripts/`: setup, verification and opt-in evaluation tools.
-- `evaluation/`: datasets and dated evidence, including unsuccessful attempts.
-- `docs/`: setup, architecture and operations. Dated plans and acceptance documents
-  are historical records; start with this README and START_HERE.
+- [Architecture and diagram](docs/architecture.md)
+- [Requirements and implementation status](docs/acceptance-spec.md)
+- [Evaluation evidence](docs/submission-evidence.md)
+- [Shared tone and learning workflow](docs/improvement.md)
+- [Developer setup](docs/setup.md#host-python-development)
