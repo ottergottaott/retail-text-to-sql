@@ -11,7 +11,11 @@ flowchart LR
   Agent <--> Model[Gemini: Google API or gateway]
   Agent --> SQL[SQL + PII boundary: approved columns, hashed IDs, brand scope, cohort >= 5]
   SQL <--> BQ[BigQuery]
-  Agent --> RAG[Versioned Golden Trios]
+  Candidate[Trio candidate] --> Gate[Publication checks: SQL + reject email / phone / IP patterns]
+  Gate --> RAG[Versioned Golden Trios]
+  Agent -->|sanitized question| Retrieval[Retrieval: latest version + schema + access filter]
+  RAG --> Retrieval
+  Retrieval -->|methodology examples| Agent
   API --> DB[(PostgreSQL: conversations, reports, preferences)]
 ```
 
@@ -35,6 +39,10 @@ flowchart LR
   with query, byte, row, time and model-call limits.
 - Saved reports are owner-scoped and checked against current access. Deletion requires
   an explicit user confirmation command after a preview.
+- Golden Trio publication rejects email/phone/IP patterns and validates SQL.
+  Retrieval filters the latest published examples by schema and access before
+  passing them to the agent. It does not run a second redaction pass. These
+  pattern checks are not a complete PII detector; bundled seeds are synthetic.
 
 ## State and deployment
 
@@ -45,9 +53,10 @@ The synthetic offline mode uses SQLite/DuckDB. Langfuse is optional and off by d
 
 ## Current limits
 
-Schema metadata is a static four-table contract. Automatic preference learning and
-automatic knowledge/tone promotion are documented production designs; the prototype
-uses operator review. Conversations persist, but mid-turn recovery does not.
+Schema metadata is a static four-table contract. Bounded personal preference
+learning is implemented but its latest edits await verification. Automatic shared
+knowledge/tone promotion remains design work; publication uses operator review.
+Conversations persist, but mid-turn recovery does not.
 Input redaction detects email/phone/IP patterns; it is not a complete PII detector.
 WebUI stores original messages before backend sanitization: do not submit real PII.
 Current brand/privacy changes still require live acceptance with client credentials.
