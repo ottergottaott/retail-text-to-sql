@@ -1,6 +1,6 @@
 # Reviewed improvement and persona workflow
 
-Client scope and defaults: [consolidated specification](acceptance-spec.md). Learning
+Client scope and defaults: [consolidated specification](acceptance-spec.md). Shared-knowledge automation
 and persona quality gates remain design-only; optional commands below describe
 the existing operator-driven demonstration.
 
@@ -24,14 +24,32 @@ formats are tables, bullets and prose. No learning can change product scope or
 PII policy. Fixture planning is intentionally limited; use the API to exercise
 preference changes without Gemini.
 
-Inferred preferences are design scope: repeated presentation corrections produce
-a confidence-scored preference, applied automatically as confirmed by Roi.
-Explicit current instructions take precedence; retain its source and allow
-inspection, override and reset. Privacy/admin defaults are never inferred. HTML reports now include a limited deterministic revenue chart. Persisted
-chart/text preference and automatic preference inference are still not implemented; the
-renderer does not yet consult a chart preference.
-The preferences page supports explicit format/depth changes and reset to
-tables/standard; saving creates a new per-user version. Existing reports remain snapshots.
+### Presentation preference application
+
+The current English-only deterministic implementation uses this order:
+current question → saved personal format/depth → application defaults.
+Shared persona controls tone; presentation preferences layer on top of it without
+changing safety or analytical definitions. The same effective format reaches the
+model and the backend Query evidence renderer. Explicit table requests override
+saved bullets/prose. Existing saved reports remain snapshots.
+
+- “Use bullets. Keep it concise.” applies to this response immediately.
+- Repeating the same directive on two turns stores that field automatically,
+  without a confirmation step. Counters persist across sessions per user.
+- “From now on, use bullets.” saves immediately and preserves unspecified depth.
+- “Use prose for this answer only.” neither changes the profile nor trains it.
+- My preferences shows saved format/depth and source; save overrides learning,
+  and reset restores tables/standard and clears pending learning signals.
+
+This is bounded learning from presentation directives, not general inference from
+ratings, demographics or user behavior. Quoted examples and negated directive
+clauses are ignored. Supported formats are tables, bullets and prose; depths are
+concise, standard and detailed. Chart preference is not implemented. Natural
+language beyond the supported patterns still depends on model interpretation.
+
+**Verification:** these latest preference edits and prepared regression cases
+have not been executed; the user paused tests/evals. The earlier passing suite
+predates them. No new paid calls are required for preference learning.
 
 ## Feedback from Open WebUI
 
@@ -120,9 +138,10 @@ finished autonomous learning system.
 
 1. **Implemented:** Give feedback Action, trusted response mapping, revision guard,
    authenticated feedback/preferences proxy and page. Feedback never publishes knowledge.
-2. **Implemented:** explicit preferences UI and reset. **Future:** proposals from repeated explicit corrections. Confirm
-   inferred defaults; record source/version, allow reset, scope to authenticated
-   user. Add chart/text choice only when the renderer honors it.
+2. **Implemented, latest edits unverified:** explicit preferences UI/reset,
+   current-turn overrides and automatic learning from repeated format/depth
+   directives. No inferred-preference confirmation is required. Chart/text
+   preference remains unimplemented.
 3. Operator review queue: feedback → sanitized draft candidate → evaluate → compare
    current/candidate versions → approve/reject → index → monitor/rollback.
 4. Strengthen the publication gate beyond exact SQL rows: held-out intent/report
@@ -131,8 +150,8 @@ finished autonomous learning system.
 5. Treat current ratings as noisy signals, not labels of objective correctness.
    Track before/after measurements and retain human review for shared changes.
 
-Prioritize a visible feedback-to-reviewed-publication demonstration over autonomous
-preference inference or a separate indexing microservice. Repeated analysis jobs
+The operator-driven shared-knowledge demonstration remains separate from the
+bounded personal presentation learner. Repeated analysis jobs
 are an independent extension described in request-completion-and-scheduling.md.
 
 ## Reproducible before/after evidence

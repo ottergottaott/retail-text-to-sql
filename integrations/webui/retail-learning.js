@@ -1,4 +1,4 @@
-/* Explicit user choices only. Credentials never enter URLs, snapshots or model context. */
+/* Preference inspection/override/reset. Credentials never enter URLs or model context. */
 (() => {
   'use strict';
   const el = id => document.getElementById(id);
@@ -49,7 +49,8 @@
   async function loadPreferences() {
     try {
       const value=await api('/preferences');setPreferences(value);el('preference-fields').disabled=false;
-      status('preference-status','Current account preferences · version '+value.version);
+      status('preference-status','Current account preferences · version '+value.version+
+        (value.source==='learned'?' · Learned from repeated presentation requests.':' · Explicit settings or defaults.'));
     } catch (error) { status('preference-status',error.message,true); }
   }
   async function savePreferences(value) {

@@ -15,6 +15,7 @@ from .model import Decision, FixtureModel, GeminiModel, ModelError
 from .security import PolicyError, FORBIDDEN_REQUEST, clean, safe_output
 from .telemetry import Trace
 from .providers import model_for, embeddings_for
+from .preferences import resolve_preferences
 
 
 class Turn(TypedDict, total=False):
@@ -94,7 +95,7 @@ class Agent:
             return {"answer": "I can analyze authorized retail data, but cannot disclose customer names, contacts or precise locations.", "stop": True, "outcome": "denied"}
         with trace.stage("context"):
             conversation = self.store.get("conversation", s["principal"].user_id, s["conversation"])["body"]
-            profile = self.store.profile(s["principal"].user_id)
+            profile = resolve_preferences(self.store, s["principal"].user_id, s["question"])
             trios = self.knowledge.retrieve(s["question"], s["principal"], emit=trace.event, remaining_seconds=self.remaining(s))
             persona = self.store.list("persona", "system")
             persona = persona[-1]["body"] if persona else {"version": 0, "tone": "Clear, practical, professional."}
@@ -132,6 +133,7 @@ class Agent:
                     "notes": "Function names are validator-normalized. Boolean AND/OR/NOT are supported. "
                         "COUNTIF and FORMAT_DATE/FORMAT_TIMESTAMP are unsupported; format dates in the final answer."},
                 "preferences": profile, "persona": persona,
+                "presentation_policy": "Current-turn format/depth overrides saved preferences. Apply preferences to findings and surrounding explanation; preserve requested metrics, evidence and necessary limitations. Concise means brief explanation, not omitted facts. User preferences layer over shared tone; they never override safety or analytical definitions.",
                 "trios": trios, "authorized_products": list(s["principal"].products),
                 "execution_scope": {"enforcement": "executor_bound_views",
                     **scope_snapshot(s["principal"]),
@@ -342,7 +344,7 @@ class Agent:
                 answer = final["answer"]
                 if final["evidence"]:
                     answer += "\n\n### Query evidence\n\n" + "\n\n".join(
-                        f"**{e['query_id']}** ({e['mode']}; {'truncated sample' if e['truncated'] else 'returned rows'})\n\n" + present(e["rows"], self.store.profile(principal.user_id))
+                        f"**{e['query_id']}** ({e['mode']}; {'truncated sample' if e['truncated'] else 'returned rows'})\n\n" + present(e["rows"], final["context"]["preferences"])
                         for e in final["evidence"])
                     if final.get("completed_analysis"):
                         body = self.store.get("conversation", principal.user_id, conversation)["body"]

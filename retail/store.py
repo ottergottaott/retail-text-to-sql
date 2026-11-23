@@ -84,14 +84,16 @@ class Store:
         except PolicyError:
             return {"format": "tables", "depth": "standard", "version": 0}
 
-    def preference(self, user, format, depth):
-        if format not in {"tables", "bullets", "prose"} or depth not in {"concise", "standard", "detailed"}:
+    def preference(self, user, format, depth, source="explicit"):
+        if format not in {"tables", "bullets", "prose"} or depth not in {"concise", "standard", "detailed"} or source not in {"explicit", "learned"}:
             raise PolicyError("Unsupported presentation preference.")
-        p = {"format": format, "depth": depth, "source": "explicit", "version": self.profile(user)["version"] + 1}
+        p = {"format": format, "depth": depth, "source": source, "version": self.profile(user)["version"] + 1}
         if self.list("profile", user):
             self.replace("profile", user, f"profile_{user}", p)
         else:
             self.put("profile", user, p, f"profile_{user}")
+        with self.engine.begin() as c:
+            c.execute(delete(records).where(and_(records.c.kind == "preference_signal", records.c.owner == user)))
         return p
 
     def reports(self, principal):
