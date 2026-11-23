@@ -68,6 +68,17 @@ def test_empty_result_records_wording_does_not_bypass_nonempty_oracle():
     assert not check_answer(nonempty, answer)['passed']
 
 
+def test_numeric_zero_rows_phrase_covers_empty_result_only():
+    answer = ('|id|complete_items|\n|---|---|\n\n'
+              'No products met this condition (0 rows returned).\n'
+              'Limitations: queried scope only.\n'
+              'Action items: check status distribution.')
+    empty = {'reference_rows': [], 'required_aliases': ['id', 'complete_items']}
+    assert check_answer(empty, answer)['passed']
+    nonempty = {**empty, 'reference_rows': [{'id': 1, 'complete_items': 2}]}
+    assert not check_answer(nonempty, answer)['passed']
+
+
 def test_exact_table_rows_and_save_claims_are_checked():
     c = {"reference_rows": [{"category": "Tops & Tees", "items": 2}, {"category": "Tops & Tees", "items": 2}],
          "required_aliases": ["category", "items"]}

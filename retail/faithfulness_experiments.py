@@ -162,7 +162,7 @@ def check_answer(case, answer):
                 break
             remaining.pop(match)
     elif not rows:
-        values_ok = bool(re.search(r"no (?:matching |returned )?(?:rows|records|results|data)|empty|zero rows", answer, re.I))
+        values_ok = bool(re.search(r"no (?:matching |returned )?(?:rows|records|results|data)|empty|zero rows|\b0 rows\b", answer, re.I))
     sections = bool(re.search(r"limitations?", answer, re.I) and re.search(r"action|next (?:steps|checks)|proposed", answer, re.I))
     save_safe = not re.search(r"rep_[0-9a-f]+|successfully saved|has been saved|report was saved|\b(?:i|we) (?:have )?saved\b|\bsaved (?:as|to|in)\b", answer, re.I)
     return {"passed": values_ok and sections and save_safe, "oracle_table_covered": values_ok,
