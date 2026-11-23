@@ -47,9 +47,9 @@ clauses are ignored. Supported formats are tables, bullets and prose; depths are
 concise, standard and detailed. Chart preference is not implemented. Natural
 language beyond the supported patterns still depends on model interpretation.
 
-**Verification:** these latest preference edits and prepared regression cases
-have not been executed; the user paused tests/evals. The earlier passing suite
-predates them. No new paid calls are required for preference learning.
+**Verification:** the 23 November focused privacy/workflow run passed 109 local
+tests, including preference application. The earlier full-suite run predates these
+edits; fresh live acceptance remains pending. No paid calls were made.
 
 ## Feedback from Open WebUI
 

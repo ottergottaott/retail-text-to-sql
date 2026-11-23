@@ -177,9 +177,18 @@ separate totals; prior history/analysis is removed from subsequent model context
 Repeated-question inference needs production query auditing/complementary
 suppression or stronger privacy controls; it is explicitly outside prototype scope.
 
-User input is sanitized before backend model/storage. Source projection is the
-primary PII control; email/phone/IP detection additionally checks generated fields,
-results and saved content. These regex checks do not recognize all names or PII.
+The initial input filter masks email/phone/IPv4 patterns before backend storage.
+Source projection is the primary database PII control. A separate local outbound
+scan sanitizes copies before generation/review and embedding transports, including
+retrieved Trio question/SQL/report, history and tool results. It combines packaged
+English spaCy PERSON NER with value/field rules for contacts, street addresses,
+postal codes, exact coordinates, IPv4/IPv6 and raw customer IDs (keyed pseudonyms).
+Stored Trio fields and values remain unchanged. Detector failure blocks egress;
+versioned sanitized embedding keys prevent reuse of the prior raw-text index.
+The scanner may miss obfuscated/unsupported PII and overmask safe text; it does
+not prove complete arbitrary-prose privacy. Aggregate geography remains permitted;
+the SQL cohort policy separately governs demographic query results.
+Email/phone/IP detection additionally checks generated fields and saved content.
 Telemetry never records raw exception messages, credentials, prompts or result
 rows. Metadata hashes support comparison without exporting those contents.
 WebUI stores original input before the backend: production must add ingress

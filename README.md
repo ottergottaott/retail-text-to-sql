@@ -3,6 +3,10 @@
 A retail analysis assistant with Gemini, BigQuery, Open WebUI and a CLI.
 Ask a business question, inspect the SQL and save an HTML report.
 
+![Open WebUI chat with a saved report, Artifacts panel and visible feedback link](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
+
+Synthetic demo · [Quick walkthrough and feedback form](START_HERE.md)
+
 ## Run with your credentials
 
 Requires Docker with Compose v2. Python and uv run inside the containers.
@@ -63,6 +67,8 @@ The agent makes typed decisions inside a bounded LangGraph workflow. SQLGlot
 validates generated SQL against four approved logical tables. The executor binds
 those tables to product-scoped BigQuery sources, dry-runs queries and enforces
 query, time, byte and result limits. One repair is allowed for repairable SQL errors.
+Local PII scanning sanitizes copies before generation and embedding calls,
+including retrieved examples; stored Golden Trios remain unchanged.
 
 Golden Trio retrieval supplies question/SQL/report examples using lexical and
 vector rankings with RRF fusion. Examples are versioned and filtered by access;
@@ -82,17 +88,15 @@ validation cases using WikiVibe Flash. One generation failed; evaluation is paus
 This evaluates report grounding against frozen SQL evidence, not end-to-end
 accuracy or fresh BigQuery execution. The candidate has not been promoted.
 
+The subsequent [focused privacy/workflow run](evaluation/model-payload-privacy-2026-11-23.json)
+passed **109 local tests**, including outbound payload checks and preference application.
+Providers were mocked; this does not replace a fresh live acceptance run.
+
 Current schema metadata covers four approved logical tables. Personal format/depth
-learning now has a bounded deterministic implementation; its latest edits await
-verification. Shared knowledge/tone promotion still uses operator review. Current brand/privacy changes still need live acceptance
+learning has a bounded, locally tested deterministic implementation.
+Shared knowledge/tone promotion still uses operator review. Current brand/privacy changes still need live acceptance
 with client credentials. Do not enter real PII into WebUI: it stores original
 messages before backend sanitization.
-
-## WebUI preview
-
-![Open WebUI chat with a saved report, Artifacts panel and visible feedback link](evaluation/screenshots/webui-chat-artifacts-fixture-2026-11-23.jpg)
-
-Local synthetic-data preview, captured 23 November. [Report workflow and CLI](START_HERE.md).
 
 ## Further reading
 

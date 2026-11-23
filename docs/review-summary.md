@@ -35,6 +35,7 @@ it does not test either provider. [Walkthrough](../START_HERE.md).
 
 | Check | Result | Scope |
 | --- | --- | --- |
+| Outbound privacy / workflow follow-up | 109 passed | Local synthetic PII, mocked model/embedding boundaries, retrieval, brand/cohort guards and preference application. No new live calls or full-suite rerun. [Evidence](../evaluation/model-payload-privacy-2026-11-23.json) |
 | Latest regression suite | 262 passed | Predates the latest preference edits. Controlled tests, including custom-gateway evaluation routing and empty-result oracle wording. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/regression-empty-wording.xml) |
 | Latest Flash validation candidate | Standard Ragas: **0.756** | 19/20 synthetic cases scored; one generation failed. WikiVibe / gemini-3.8-flash, same generator/judge. Evaluation paused; no promotion. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-validation/results.json) |
 | Latest Flash development pilot | Standard Ragas: baseline 0.755; candidate v2 0.787 | 8 synthetic cases / 4 families per variant; same generator/judge. Difference interval includes zero; no promotion. Validation on 20 cases is incomplete and paused. [Protocol and results](../evaluation/wikivibe-flash-iteration-2026-11-23/README.md) |

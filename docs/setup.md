@@ -188,7 +188,11 @@ control. Neither fixture SQL nor tests prove actual BigQuery service behavior.
 
 Document embeddings use `gemini-embedding-001` with retrieval document/query task
 types, following [Google's embeddings documentation](https://ai.google.dev/gemini-api/docs/embeddings).
-The embedding model and source content/version identify each index record.
+The embedding model, source content/version, outbound privacy policy and sanitized
+document identify each index record. After this privacy update, rerun explicit
+indexing to create sanitized-document vectors; previous keys are not reused.
+The packaged local English spaCy model scans outbound generation/embedding copies;
+installation downloads its pinned wheel, but runtime scanning makes no network call.
 Index explicitly through the administrator command once available. Missing index
 or provider failure uses lexical retrieval and records that fact in telemetry.
 The default cosine threshold is a starting assumption requiring calibration;
@@ -239,7 +243,7 @@ To import/index against this exact environment (explicitly invokes billed
 embeddings), use the same protected config and database:
 
 ```sh
-uv run python -c 'from retail.config import Settings; from retail.store import Store; from retail.golden import load_demo_corpus; from retail.knowledge import Knowledge; from retail.providers import embeddings_for; c=Settings(_env_file=".env.live"); c.validate_live(); c.validate_embeddings(); s=Store(c.database_url); print(load_demo_corpus(s)); print(Knowledge(s, embeddings_for(c), c.retrieval_min_similarity).index())'
+uv run python -c 'from retail.config import Settings; from retail.store import Store; from retail.golden import load_demo_corpus; from retail.knowledge import Knowledge; from retail.providers import embeddings_for; c=Settings(_env_file=".env.live"); c.validate_live(); c.validate_embeddings(); s=Store(c.database_url); print(load_demo_corpus(s)); print(Knowledge(s, embeddings_for(c), c.retrieval_min_similarity, privacy_secret=c.label_secret).index())'
 ```
 
 Do not index a fixture or evaluation store and expect it to affect the live process.

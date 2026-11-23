@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-23",
+  "status": "focused_local_checks_passed",
+  "counts": {
+    "tests": 109,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit": "model-payload-privacy-2026-11-23.xml",
+  "paid_provider_calls": 0,
+  "detector": "local spaCy en_core_web_sm 3.8.0; English PERSON + value/field rules",
+  "covered": [
+    "Trio storage unchanged; sanitized copies preserve fields",
+    "Gemini generation and embeddings mocked at SDK boundary",
+    "OpenAI-compatible generation mocked at HTTP transport boundary",
+    "legacy Trio retrieval and embedding indexing",
+    "planning, review, history and tool context",
+    "stable customer pseudonyms and already-hashed IDs",
+    "detector failure stops HTTP calls",
+    "previous embedding key invalidation",
+    "existing brand access and demographic cohort guards",
+    "personal preference application regressions"
+  ],
+  "boundary": "Controlled local regressions, synthetic PII and mocked providers. No live Gemini/BigQuery, fresh Docker deployment, full-suite rerun, Ragas evaluation or human acceptance.",
+  "remaining": [
+    "Probabilistic English NER can miss PII and overmask safe text.",
+    "Address/postal/coordinate patterns are not exhaustive across locales.",
+    "Individual demographic prose in imported records lacks SQL-equivalent cohort proof.",
+    "WebUI and storage retain original text; access/retention policy still required."
+  ],
+  "human_review": "pending"
+}
