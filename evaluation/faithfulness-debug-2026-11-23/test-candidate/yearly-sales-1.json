@@ -1,0 +1,25 @@
+{
+  "id": "yearly-sales-1",
+  "family": "yearly-sales",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nRevenue was calculated as `SUM(sale_price)` for items where `status = 'Complete'`, grouped by the year extracted from `created_at` across authorized products [q1].\n\n| year | complete_revenue |\n| --- | --- |\n| 2026 | 210.0 |\n\nObserved Complete-item revenue for 2026 is 210.0 [q1].\n\n### Limitations\n- This analysis did not measure date boundaries or calendar coverage for 2026, so historical completeness cannot be determined from this query [q1].\n- Item volumes, order counts, and items with non-complete statuses were not queried [q1].\n\n### Action items (proposed)\n1. Would you like to query the minimum and maximum `created_at` timestamps to determine the date range covered in 2026?\n2. Would you like to break down `complete_revenue` alongside item and order counts by month?",
+  "status": "generated",
+  "seconds": 14.119985272991471,
+  "usage": {
+    "input_tokens": 2581,
+    "output_tokens": 1529,
+    "total_tokens": 4110,
+    "thought_tokens": 1287,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

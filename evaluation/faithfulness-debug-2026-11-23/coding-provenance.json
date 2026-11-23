@@ -1,0 +1,132 @@
+{
+  "tool": "OpenCode CLI",
+  "model": "alibaba-cn/deepseek-v4.1-flash",
+  "provider": "Alibaba China; not DeepInfra",
+  "scope": "Experimental prompt candidate and query-scoped limitation fix",
+  "sessions": [
+    {
+      "session_id": "ses_df5fbf68affe42QMiYhep1Jrr6",
+      "completed": true,
+      "input_output_token_usage": [
+        {
+          "total": 14951,
+          "input": 9774,
+          "output": 57,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 5120
+          }
+        },
+        {
+          "total": 18657,
+          "input": 2420,
+          "output": 1759,
+          "reasoning": 142,
+          "cache": {
+            "write": 0,
+            "read": 14336
+          }
+        },
+        {
+          "total": 18755,
+          "input": 2032,
+          "output": 83,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 16640
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "ses_df5fb56cfffeCtWsxkzr9hpv9h",
+      "completed": true,
+      "input_output_token_usage": [
+        {
+          "total": 14931,
+          "input": 12774,
+          "output": 64,
+          "reasoning": 45,
+          "cache": {
+            "write": 0,
+            "read": 2048
+          }
+        },
+        {
+          "total": 17651,
+          "input": 2538,
+          "output": 191,
+          "reasoning": 586,
+          "cache": {
+            "write": 0,
+            "read": 14336
+          }
+        },
+        {
+          "total": 17669,
+          "input": 1281,
+          "output": 4,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 16384
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "ses_df5f2bdcfffexET7T2jWaZ7hJD",
+      "completed": true,
+      "input_output_token_usage": [
+        {
+          "total": 15027,
+          "input": 9843,
+          "output": 64,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 5120
+          }
+        },
+        {
+          "total": 19053,
+          "input": 2648,
+          "output": 1921,
+          "reasoning": 148,
+          "cache": {
+            "write": 0,
+            "read": 14336
+          }
+        },
+        {
+          "total": 19086,
+          "input": 2684,
+          "output": 18,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 16384
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "ses_df5e4f0c5ffe4jvX6LDZ5KSWF8",
+      "completed": true,
+      "scope": "Numeric-zero empty-result checker regression and fix"
+    },
+    {
+      "session_id": "ses_df5e3264fffe2JKRdZmJ3PBNYD",
+      "completed": true,
+      "scope": "Independent read-only review of 17 synthetic reports and prompt safeguards"
+    },
+    {
+      "session_id": "ses_df5dce5e7ffeMw45oh12LcYa7F",
+      "completed": true,
+      "scope": "Installed exact evaluated candidate SYSTEM, documentation and v11 trace version"
+    }
+  ],
+  "review": "Prompt invariant review preserved safeguards; exact frozen candidate v2 installed after complete validation and reserved test."
+}

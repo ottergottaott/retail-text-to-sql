@@ -1,0 +1,10 @@
+{
+  "reviewer": "Primary coding assistant; not human acceptance",
+  "reviewed_ids": [
+    "category-price-2",
+    "brand-status-1",
+    "brand-status-2"
+  ],
+  "findings": [],
+  "boundary": "Read-only comparison with the supplied frozen SQL/result/scope; no SQL execution. Complements independent AI review of the other 17 validation reports."
+}

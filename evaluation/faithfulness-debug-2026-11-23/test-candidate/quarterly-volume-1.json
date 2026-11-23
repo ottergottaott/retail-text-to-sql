@@ -1,0 +1,25 @@
+{
+  "id": "quarterly-volume-1",
+  "family": "quarterly-volume",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nThe quarterly volume of completed items for authorized products is shown below [q1]:\n\n| quarter | complete_items |\n| --- | --- |\n| 2026-01-01 00:00:00 | 14 |\n\nAcross the authorized product scope, 14 items with status 'Complete' were recorded in the quarter beginning 2026-01-01 00:00:00 [q1].\n\n### Limitations\nThis analysis measured only item counts where `status = 'Complete'` aggregated by calendar quarter; it did not measure non-complete statuses, distinct order counts, sales revenue, or historical coverage beyond the observed quarter [q1].\n\n### Action items (proposed)\n1. How is this completed item volume distributed across the individual authorized product IDs within that quarter?\n2. What are the item volumes for other order statuses (such as cancelled or returned) over the same time frame?",
+  "status": "generated",
+  "seconds": 28.241290030971868,
+  "usage": {
+    "input_tokens": 2577,
+    "output_tokens": 1429,
+    "total_tokens": 4006,
+    "thought_tokens": 1191,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

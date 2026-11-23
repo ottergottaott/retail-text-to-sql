@@ -1,0 +1,279 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.8333333333333334,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.8333333333333334,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "realized-price-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for completed items across authorized products is 15.0.",
+                "reason": "The query result returns mean_price: 15.0 for completed items within the execution scope enforcing authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only calculated the average sale price for items with the status 'Complete'.",
+                "reason": "The SQL query explicitly filters with WHERE `order_items`.`status` = 'Complete' and only selects the average sale price.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return transaction volume or item counts.",
+                "reason": "The SQL query only selects AVG(`order_items`.`sale_price`) and does not include any count or volume metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "The sample size was not measured.",
+                "reason": "The query only calculates the average sale price without measuring or selecting the count/sample size.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries were not queried.",
+                "reason": "The query contains no date filters or timestamp selections despite created_at fields existing in the schema.",
+                "verdict": 1
+              },
+              {
+                "statement": "Completeness over time was not queried.",
+                "reason": "The query does not group by time or include any temporal analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined in the schema.",
+                "reason": "The provided logical schema contains data types for all columns and does not include any currency field or specification.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed statuses were not evaluated.",
+                "reason": "The query strictly filters for `order_items`.`status` = 'Complete', excluding all non-completed statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Costs were not evaluated.",
+                "reason": "The query only references `sale_price` from `order_items` and does not evaluate `cost`.",
+                "verdict": 1
+              },
+              {
+                "statement": "List retail prices were not evaluated.",
+                "reason": "The query only queries `sale_price` and does not reference or evaluate `retail_price`.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to determine the item counts and total realized revenue for completed items across each authorized product ID.",
+                "reason": "The context only contains raw data, query results, execution scope, and schema; it mentions no proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze how the realized sale price compares to the catalog retail price over monthly intervals.",
+                "reason": "The context does not mention any recommendations or proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 22.704698042973178
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for completed items across authorized products is 15.0.",
+                "reason": "The query calculates the average sale price of order items with status 'Complete' within the executor-bound scope of authorized products, returning 15.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only calculated the average sale price for items with status 'Complete'.",
+                "reason": "The SQL query specifically filters with WHERE order_items.status = 'Complete' and selects only AVG(order_items.sale_price).",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not return transaction volume or item counts.",
+                "reason": "The SQL select list contains only AVG(sale_price) as mean_price, without returning any order or item count metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sample size was not measured.",
+                "reason": "No count of items or rows was calculated or included in the query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries and completeness over time were not queried.",
+                "reason": "The query does not filter by, group by, or inspect created_at timestamps or any date ranges.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined in the schema.",
+                "reason": "None of the tables in the provided logical schema include a currency field.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed statuses, costs, and list retail prices were not evaluated.",
+                "reason": "The query filters exclusively for status 'Complete' and does not query cost or retail_price from the products table.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 30.060259809019044
+        }
+      }
+    },
+    {
+      "id": "realized-price-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for Complete items within the authorized product scope is 25.0.",
+                "reason": "The context shows a query calculating AVG(sale_price) for Complete status with a resulting mean_price of 25.0 executed under the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The metric is confined to items with status 'Complete' within the authorized scope.",
+                "reason": "The SQL query explicitly filters WHERE `order_items`.`status` = 'Complete' under the specified execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-Complete items were excluded from the metric.",
+                "reason": "The WHERE clause restricts the records strictly to `status` = 'Complete', excluding non-Complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total item volume was not queried.",
+                "reason": "The SQL query only selects AVG(`order_items`.`sale_price`) and does not query or count item volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order counts were not queried.",
+                "reason": "The SQL query only calculates AVG(`order_items`.`sale_price`) and does not query or count orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer counts were not queried.",
+                "reason": "The SQL query does not select or aggregate any customer identifiers or counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges were not queried.",
+                "reason": "The SQL query does not include any date/timestamp filters or groupings.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency was not measured.",
+                "reason": "The SQL query only measures sale_price and does not include any currency measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "Retail catalog prices were not measured.",
+                "reason": "The query only measures `sale_price` from `order_items`, not `retail_price` from the `products` table.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product-level price variation was not measured.",
+                "reason": "The query computes a single aggregate average without grouping by product.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to analyze how the mean realized price varies across individual authorized products or product categories.",
+                "reason": "The context contains only data results, execution scope, and schema metadata; it does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze how the realized Complete-item price has trended across monthly or quarterly time periods.",
+                "reason": "The context contains only data results, execution scope, and schema metadata; it does not mention any proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 61.665635949000716
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for Complete items within the authorized product scope is 25.0.",
+                "reason": "The query calculates the average sale_price for items with status 'Complete' under executor-bound enforcement for authorized products [2, 3], returning 25.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The metric is confined to items with status 'Complete' within the authorized product scope.",
+                "reason": "The SQL query explicitly filters for status = 'Complete', and the execution scope enforces binding to authorized products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-Complete items were excluded from the metric.",
+                "reason": "The SQL filter WHERE `order_items`.`status` = 'Complete' restricts the aggregation to Complete items, excluding all non-Complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total item volume, order counts, customer counts, and date ranges were not queried.",
+                "reason": "The SQL query only selects AVG(sale_price) and does not aggregate counts of items, orders, customers, or filter/select date ranges.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency, retail catalog prices, and product-level price variation were not measured.",
+                "reason": "The query only measures the overall mean sale_price of complete order items, without joining catalog prices from the products table or measuring variance/currency.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 28.445075029012514
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 8,
+  "measured_total_tokens": 16983,
+  "usage_responses": 8,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

@@ -1,68 +1,63 @@
 # Retail Intelligence: review summary
 
-[Start the demo](../START_HERE.md) · [Architecture](architecture.md) · [Acceptance spec](acceptance-spec.md)
+[Launch with your credentials](../README.md#run-with-your-credentials) · [Screenshots and walkthrough](../START_HERE.md) · [Architecture](architecture.md)
 
-A retail analysis assistant with Open WebUI and CLI interfaces sharing a
-FastAPI/LangGraph backend. Gemini plans queries and reviews reports; BigQuery
-execution is read-only and scoped to the manager's brands. The CEO sees all
-brands. Privacy checks also apply to the CEO.
+Open WebUI and CLI share a Python/FastAPI and LangGraph backend. Gemini plans
+analysis and reviews reports. SQLGlot validates read-only SQL before scoped,
+budgeted BigQuery execution. PostgreSQL stores reports, preferences and Golden
+Trios. Langfuse is optional and off by default.
 
-Reports include tables, SQL evidence, an HTML view and a saved-report library.
-Personal format/depth preferences persist across chats. Current-turn overrides
-and bounded learning from repeated presentation directives passed focused local
-checks. A SQL-backed worker now processes feedback and CEO tone requests with
-automatic gates, scoped publication and version rollback. Corrections without an
-independent approved definition are retained rather than published. These new
-paths have local regression and scoped fixture-browser coverage; fresh client
-Gemini/BigQuery acceptance remains pending.
+Brand managers analyze their assigned brands; the CEO sees all brands. Privacy
+rules still apply to the CEO. Reports retain SQL evidence. Personal preferences
+persist across sessions; feedback and CEO tone changes use automatic quality
+gates with scoped publication, version history and rollback.
 
 ## Run it
 
-Start with [the README credential setup](../README.md#run-with-your-credentials).
-Supply your Gemini API key/model, a BigQuery execution project and Google
-credential JSON, then launch:
+Supply a Gemini key/model, BigQuery project and separate Google credential JSON
+using [the README setup](../README.md#run-with-your-credentials), then launch:
 
 ```sh
 ./start.sh --live --project retail-live --env-file .env.providers --google-credentials /absolute/path/google-credentials.json
 ```
 
-Open `http://localhost:3000` and sign in using `.env.docker-retail-live`.
-Select **Retail Intelligence**, ask **Create and save a monthly revenue report**,
-then inspect **Reports → Query evidence → Open tab**.
-The backend is at `http://localhost:8000`, with its API reference at `/docs`.
+Open `http://localhost:3000`, sign in using `.env.docker-retail-live` and select
+**Retail Intelligence**. Ask **Create and save a monthly revenue report**.
+Open **Reports → Query evidence → Open tab**. The API reference is at
+`http://localhost:8000/docs`.
 
-An optional `./start.sh` fixture preview uses synthetic data without cloud keys;
-it does not test either provider. [Walkthrough](../START_HERE.md).
+## Latest evidence
 
-## Recorded checks
+| Check | Result | Coverage |
+| --- | ---: | --- |
+| Local regression suite | **308 passed** | [Safety, retrieval, preferences, learning and evaluator checks](../evaluation/faithfulness-debug-2026-11-23/regression.xml) |
+| Standard Ragas, validation | **0.683 → 0.718** | 20/20 baseline; 20/20 candidate |
+| Standard Ragas, reserved test | **0.752** | 20/20 candidate; not used for tuning |
+| Custom SQL-aware, validation / test | **0.988 / 1.000** | 20/20 each; separate metric contract |
+| Answer tables and structure | **20/20 validation; 20/20 test** | Exact frozen-row checks |
+| Automatic learning browser smoke | **5 checks passed** | [Fixture feedback, tone and rollback](../evaluation/automatic-learning-browser-2026-11-23.json) |
 
-| Check | Result | Scope |
-| --- | --- | --- |
-| Clean client startup | Fixture workflow and direct-Gemini startup passed; 24 local tests passed | Clean git archive and new Docker volumes. Direct startup used synthetic credentials; Google SDK HTTP transport was intercepted. No real Google/BigQuery calls. [Evidence](../evaluation/client-startup-2026-11-23.json) |
-| Outbound privacy / workflow follow-up | 109 passed | Local synthetic PII, mocked model/embedding boundaries, retrieval, brand/cohort guards and preference application. No new live calls or full-suite rerun. [Evidence](../evaluation/model-payload-privacy-2026-11-23.json) |
-| Latest regression suite | **303 passed** | Local tests, including automatic feedback publication, CEO tone gates, recovery, permissions and rollback. [Evidence](../evaluation/automatic-learning-2026-11-23.json) |
-| Automatic learning browser smoke | **5 checks passed** | Actual extension page/backend, synthetic data and local test proxy; native WebUI integration not retested. [Evidence](../evaluation/automatic-learning-browser-2026-11-23.json) |
-| Previous regression suite | 262 passed | Predates the latest preference edits. Controlled tests, including custom-gateway evaluation routing and empty-result oracle wording. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/regression-empty-wording.xml) |
-| Current Hydrogen evaluation | **Incomplete**; standard 0.588 (4/20), custom SQL-aware 0.956 (4/20) | WikiVibe, current v10 prompt, frozen synthetic SQL; judge timeouts/deadline. Same generator/judge; no quality gain claimed. [Results](../evaluation/hydrogen-2026-11-23/README.md) |
-| Latest Flash validation candidate | Standard Ragas: **0.756** | 19/20 synthetic cases scored; one generation failed. WikiVibe / gemini-3.8-flash, same generator/judge. Evaluation paused; no promotion. [Evidence](../evaluation/wikivibe-flash-iteration-2026-11-23/candidate-v2-validation/results.json) |
-| Latest Flash development pilot | Standard Ragas: baseline 0.755; candidate v2 0.787 | 8 synthetic cases / 4 families per variant; same generator/judge. Difference interval includes zero; no promotion. Validation on 20 cases is incomplete and paused. [Protocol and results](../evaluation/wikivibe-flash-iteration-2026-11-23/README.md) |
-| Regression suite | 253 passed | Controlled tests; brand access, stored artifacts and demographic privacy. [Evidence](../evaluation/client-alignment-2026-11-22.json) |
-| Current Docker/CLI | 10 HTTP/CLI checks + 4 rerun checks passed | Fresh fixture deployment, retained login/report, installed-source match. [Evidence](../evaluation/client-runtime-2026-11-22.json) |
-| Current browser smoke | Report library, embedded report, separate tab and SQL highlighting checked | Fixture data; screenshots linked in [runtime evidence](../evaluation/client-runtime-2026-11-22.json). |
-| Historical live SQL/save/structure | 12 selected reports | 11/12 initial passes plus 1/1 recheck; 13 requests, retail-v7. [Evidence](../evaluation/live-business-pro-final-2026-11-21.json) |
-| Historical live faithfulness | Ragas 0.534; custom SQL-aware 0.843 | Different judge contracts, 12 reports each. Neither is overall accuracy. [Evidence](../evaluation/faithfulness-pro-live-results-2026-11-21.json) |
-| Historical retrieval | Recall@2 1.00 on 40 positive cases | Synthetic English cases with cached live embeddings. [Evidence](../evaluation/retrieval-gate-2026-11-21/english-results.json) |
-| Historical browser acceptance | 17/21 passed; 4 untested | Local headless Chrome; [scope and limits](../evaluation/browser-acceptance-2026-11-22.json). |
+Generation and judging used WikiVibe's `gemini-3.8-flash` gateway alias. These
+scores cover report review over frozen synthetic SQL results and supplied schema,
+not live SQL execution or overall accuracy. The two metrics have different
+contracts. One repetition; same-model judging can introduce bias. The paired family-bootstrap
+interval includes zero, so a reliable improvement is not established. Validation was
+previously exposed; reserved test cases were not used for tuning.
+[Protocols, retained failures and complete results](../evaluation/faithfulness-debug-2026-11-23/README.md).
 
-## Remaining checks
+## Other recorded checks
 
-The current `retail-v10-auto-improvement` changes await client Gemini/BigQuery
-acceptance. Historical live results do not validate the new brand/privacy
-policy, and no faithfulness improvement is claimed for this release.
+- [Clean Docker startup](../evaluation/client-startup-2026-11-23.json): fixture workflow and intercepted direct-Gemini transport; synthetic credentials.
+- [Docker/CLI workflow](../evaluation/client-runtime-2026-11-22.json): 10 checks plus 4 rerun checks with fixture data.
+- [Historical live BigQuery reports](../evaluation/live-business-pro-final-2026-11-21.json): 11/12 initial passes plus 1/1 recheck; 13 requests, retail-v7.
+- [Historical browser acceptance](../evaluation/browser-acceptance-2026-11-22.json): 17/21 passed; 4 untested.
+- [Historical live faithfulness](../evaluation/faithfulness-pro-live-results-2026-11-21.json): standard 0.534 and custom SQL-aware 0.843 on 12 reports; different prompts/evidence from the latest experiment.
 
-Human report review, installation on another machine and optional live Langfuse
-delivery remain unverified. Browser smoke does not establish downloaded-file
-persistence, native fullscreen or live browser fault handling. Cross-question
-privacy inference protection is a documented production extension.
+## Limits
 
-The [HTML review page](review-summary.html) is available for local viewing.
+Fresh direct-Gemini/client-BigQuery acceptance, another-machine installation,
+human report acceptance and optional live Langfuse delivery remain unverified.
+Historical live results do not validate the current brand/privacy policy.
+Browser checks do not establish native fullscreen, downloaded-file persistence
+or live fault handling. Cross-question privacy inference protection is a
+[documented production extension](architecture.md).

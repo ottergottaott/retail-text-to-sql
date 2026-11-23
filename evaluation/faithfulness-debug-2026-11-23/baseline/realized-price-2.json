@@ -1,0 +1,9 @@
+{
+  "id": "realized-price-2",
+  "family": "realized-price",
+  "split": "development",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.35223290798603557,
+  "attempt": 1
+}

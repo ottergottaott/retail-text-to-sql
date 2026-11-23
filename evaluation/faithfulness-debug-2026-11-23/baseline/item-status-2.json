@@ -1,0 +1,25 @@
+{
+  "id": "item-status-2",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nItem counts from `order_items` grouped by `status` across all available history for your authorized products (`2` and `3`, enforced by executor-bound views) [q1]:\n\n| status | items |\n| --- | --- |\n| Complete | 14 |\n| Returned | 2 |\n\n- Across the authorized scope, `14` items have status `Complete` and `2` items have status `Returned` (`16` total items observed) [q1].\n- The `Returned` count (`2` items) and overall observed volume (`16` items) represent a small sample [q1].\n\n### Limitations\n\n- This query measured item-level row counts (`COUNT(*)`) by `status` only; it did not measure net profit, revenue, `sale_price`, `cost`, or discounts [q1].\n- No date filter was applied, and date coverage or temporal trends across `created_at` were not queried [q1].\n- Results are aggregated across authorized products `2` and `3` combined; per-product counts, distinct order counts (`order_key`), and distinct customer counts (`customer_key`) were not queried [q1].\n- Only statuses present in the data appear in the grouped result [q1].\n\n### Action items (proposed)\n\n- **Proposed check (not yet measured):** Query item counts grouped by `product_id` and `status` to compare `Complete` and `Returned` volumes between products `2` and `3`.\n- **Proposed check (not yet measured):** Query `SUM(sale_price)` (such as for `status = 'Complete'`) alongside item counts and distinct `order_key` counts by `status` to assess revenue and order-level volume.\n- **Proposed check (not yet measured):** Query item counts by `status` across `created_at` date buckets to examine temporal distribution and date coverage.",
+  "status": "generated",
+  "seconds": 33.459568329009926,
+  "usage": {
+    "input_tokens": 2333,
+    "output_tokens": 1623,
+    "total_tokens": 3956,
+    "thought_tokens": 1177,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

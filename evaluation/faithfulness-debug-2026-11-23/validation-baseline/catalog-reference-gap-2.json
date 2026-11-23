@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-2",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products with completed orders (`status = 'Complete'`), the average difference between the current catalogue reference price (`products.retail_price`) and realized item sale price (`order_items.sale_price`) is shown below [q1]. This calculation represents the gap against current catalogue pricing rather than historical discount values at the time of purchase.\n\n| id | current_reference_gap |\n|---|---|\n| 2 | 60.0 |\n| 3 | 170.0 |\n\n- Product 2 exhibits an average gap of 60.0 between current catalogue retail price and realized sale price [q1].\n- Product 3 exhibits an average gap of 170.0 between current catalogue retail price and realized sale price [q1].\n\n### Limitations\n- **Catalogue timing**: The gap reflects current static catalogue reference prices (`products.retail_price`) minus realized historical prices, not verified discounts or promotions active at the time of transaction [q1].\n- **Sample size unmeasured**: Transaction counts, order volume, and customer counts were not queried; the number of items contributing to these averages is unmeasured [q1].\n- **Scope of status**: Only completed items (`status = 'Complete'`) were included; pending, cancelled, or returned items were not measured [q1].\n- **Currency**: Currency units are not specified in the underlying schema.\n\n### Action items (proposed)\n- Propose querying completed item counts and date ranges for products 2 and 3 to evaluate the sample volume and temporal distribution behind each average gap.\n- Propose calculating minimum, maximum, and standard deviation of realized `sale_price` alongside catalogue `retail_price` to identify sale price variability.\n- Propose querying product cost (`products.cost`) against realized `sale_price` to evaluate realized gross margins rather than catalogue price gaps.",
+  "status": "generated",
+  "seconds": 31.126448680995964,
+  "usage": {
+    "input_tokens": 2386,
+    "output_tokens": 1225,
+    "total_tokens": 3611,
+    "thought_tokens": 798,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

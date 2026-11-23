@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-2",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nRevenue is measured as `SUM(sale_price)` for items with status 'Complete' across authorized products (IDs 2, 3), evaluated across all available history [q1].\n\n| category | complete_revenue | complete_items |\n| --- | --- | --- |\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\n- Footwear recorded 210.0 in total complete revenue across 7 complete items [q1].\n- Outerwear recorded 140.0 in total complete revenue across 7 complete items [q1].\n\n### Limitations\n- This query evaluated only items where `status = 'Complete'`; non-complete statuses (such as returns, cancellations, or processing orders) were not measured.\n- No time window or date filtering was specified, and historical data completeness or date coverage was not measured.\n- Product costs, margins, retail price variance, and customer-level order volume were not included in this analysis.\n\n### Action items (proposed)\n1. How does complete revenue and item volume for each category trend when broken down by order creation date over quarters or years?\n2. What are the item counts and total sale amounts for other order item statuses (such as returned or cancelled) across these categories?",
+  "status": "generated",
+  "seconds": 20.711937608983135,
+  "usage": {
+    "input_tokens": 2628,
+    "output_tokens": 1698,
+    "total_tokens": 4326,
+    "thought_tokens": 1384,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,25 @@
+{
+  "id": "monthly-sales-1",
+  "family": "monthly-sales",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nThis analysis measures monthly revenue for authorized products based on order items with a status of 'Complete', defining revenue as `SUM(sale_price)` [q1].\n\n| month | complete_revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |\n\nObserved complete item revenue increased from 100.0 in January 2026 to 110.0 in February 2026 [q1].\n\n### Limitations\n- This analysis only evaluated `SUM(sale_price)` for items with `status = 'Complete'`; it did not measure item counts, product costs, net profit, discounts, or other order statuses [q1].\n- Historical completeness and date coverage outside the returned months were not measured [q1].\n\n### Action items (proposed)\n1. Would comparing monthly complete revenue against item order volumes provide additional insight into growth drivers?\n2. How does monthly complete revenue compare to cost and return volumes over the same period?",
+  "status": "generated",
+  "seconds": 12.777557479013922,
+  "usage": {
+    "input_tokens": 2625,
+    "output_tokens": 985,
+    "total_tokens": 3610,
+    "thought_tokens": 693,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

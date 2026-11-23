@@ -1,0 +1,23 @@
+{
+  "validation_candidate": {
+    "reason": "Three missing custom metric results after provider 502; preserve measured scores. Deterministic checks also recomputed after numeric-zero wording fix.",
+    "cases": [
+      "margin-ratio-1",
+      "catalog-reference-gap-1",
+      "catalog-reference-gap-2"
+    ],
+    "maximum_new_generation_calls": 0,
+    "maximum_additional_judge_calls": 12,
+    "maximum_rechecks": 1
+  },
+  "validation_baseline": {
+    "reason": "Two missing standard results after malformed judge output and provider failure; preserve measured scores. Recompute deterministic checks with numeric-zero fix.",
+    "cases": [
+      "margin-ratio-1",
+      "unsold-catalog-2"
+    ],
+    "maximum_new_generation_calls": 0,
+    "maximum_additional_judge_calls": 8,
+    "maximum_rechecks": 1
+  }
+}

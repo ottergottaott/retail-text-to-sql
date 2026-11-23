@@ -1,0 +1,249 @@
+{
+  "matching_contracts_and_data": true,
+  "baseline": "evaluation/faithfulness-debug-2026-11-23/validation-baseline/results.json",
+  "candidate": "evaluation/faithfulness-debug-2026-11-23/validation-candidate/results.json",
+  "comparisons": {
+    "faithfulness": {
+      "complete": true,
+      "paired_cases": 20,
+      "mean_delta": 0.034172457444516274,
+      "delta_ci95": [
+        -0.012345073227426178,
+        0.08389273716479602
+      ],
+      "ci_method": "2000 family-cluster paired bootstrap; seed=20261122",
+      "improved": 12,
+      "regressed": 8,
+      "unchanged": 0,
+      "pairs": [
+        {
+          "id": "brand-return-1",
+          "delta": -0.10457516339869277,
+          "family": "brand-return"
+        },
+        {
+          "id": "brand-return-2",
+          "delta": 0.09090909090909094,
+          "family": "brand-return"
+        },
+        {
+          "id": "brand-sales-1",
+          "delta": -0.022222222222222254,
+          "family": "brand-sales"
+        },
+        {
+          "id": "brand-sales-2",
+          "delta": 0.0854700854700855,
+          "family": "brand-sales"
+        },
+        {
+          "id": "brand-status-1",
+          "delta": -0.005347593582887611,
+          "family": "brand-status"
+        },
+        {
+          "id": "brand-status-2",
+          "delta": 0.11363636363636365,
+          "family": "brand-status"
+        },
+        {
+          "id": "catalog-reference-gap-1",
+          "delta": -0.07272727272727275,
+          "family": "catalog-reference-gap"
+        },
+        {
+          "id": "catalog-reference-gap-2",
+          "delta": 0.018181818181818188,
+          "family": "catalog-reference-gap"
+        },
+        {
+          "id": "category-price-1",
+          "delta": -0.1785714285714286,
+          "family": "category-price"
+        },
+        {
+          "id": "category-price-2",
+          "delta": 0.02777777777777779,
+          "family": "category-price"
+        },
+        {
+          "id": "category-sales-1",
+          "delta": 0.17948717948717952,
+          "family": "category-sales"
+        },
+        {
+          "id": "category-sales-2",
+          "delta": 0.1515151515151516,
+          "family": "category-sales"
+        },
+        {
+          "id": "cost-margin-1",
+          "delta": -0.15584415584415584,
+          "family": "cost-margin"
+        },
+        {
+          "id": "cost-margin-2",
+          "delta": 0.3162393162393162,
+          "family": "cost-margin"
+        },
+        {
+          "id": "department-sales-1",
+          "delta": 0.054166666666666696,
+          "family": "department-sales"
+        },
+        {
+          "id": "department-sales-2",
+          "delta": 0.25,
+          "family": "department-sales"
+        },
+        {
+          "id": "margin-ratio-1",
+          "delta": 0.11363636363636365,
+          "family": "margin-ratio"
+        },
+        {
+          "id": "margin-ratio-2",
+          "delta": -0.054545454545454564,
+          "family": "margin-ratio"
+        },
+        {
+          "id": "unsold-catalog-1",
+          "delta": 0.24999999999999994,
+          "family": "unsold-catalog"
+        },
+        {
+          "id": "unsold-catalog-2",
+          "delta": -0.3737373737373738,
+          "family": "unsold-catalog"
+        }
+      ],
+      "paired_score_gate_passed": false,
+      "promotable": false,
+      "limitation": "Single-run judge uncertainty is not captured by case bootstrap. Promotion also requires independent review and sealed-test confirmation."
+    },
+    "sql_factual_faithfulness": {
+      "complete": true,
+      "paired_cases": 20,
+      "mean_delta": 0.031048534798534793,
+      "delta_ci95": [
+        -0.003376068376068392,
+        0.07217948717948716
+      ],
+      "ci_method": "2000 family-cluster paired bootstrap; seed=20261122",
+      "improved": 6,
+      "regressed": 1,
+      "unchanged": 13,
+      "pairs": [
+        {
+          "id": "brand-return-1",
+          "delta": 0.0,
+          "family": "brand-return"
+        },
+        {
+          "id": "brand-return-2",
+          "delta": 0.0,
+          "family": "brand-return"
+        },
+        {
+          "id": "brand-sales-1",
+          "delta": 0.0,
+          "family": "brand-sales"
+        },
+        {
+          "id": "brand-sales-2",
+          "delta": 0.08333333333333337,
+          "family": "brand-sales"
+        },
+        {
+          "id": "brand-status-1",
+          "delta": 0.07692307692307687,
+          "family": "brand-status"
+        },
+        {
+          "id": "brand-status-2",
+          "delta": 0.0,
+          "family": "brand-status"
+        },
+        {
+          "id": "catalog-reference-gap-1",
+          "delta": -0.11111111111111116,
+          "family": "catalog-reference-gap"
+        },
+        {
+          "id": "catalog-reference-gap-2",
+          "delta": 0.0,
+          "family": "catalog-reference-gap"
+        },
+        {
+          "id": "category-price-1",
+          "delta": 0.0,
+          "family": "category-price"
+        },
+        {
+          "id": "category-price-2",
+          "delta": 0.0,
+          "family": "category-price"
+        },
+        {
+          "id": "category-sales-1",
+          "delta": 0.19999999999999996,
+          "family": "category-sales"
+        },
+        {
+          "id": "category-sales-2",
+          "delta": 0.09999999999999998,
+          "family": "category-sales"
+        },
+        {
+          "id": "cost-margin-1",
+          "delta": 0.0,
+          "family": "cost-margin"
+        },
+        {
+          "id": "cost-margin-2",
+          "delta": 0.0,
+          "family": "cost-margin"
+        },
+        {
+          "id": "department-sales-1",
+          "delta": 0.0,
+          "family": "department-sales"
+        },
+        {
+          "id": "department-sales-2",
+          "delta": 0.0,
+          "family": "department-sales"
+        },
+        {
+          "id": "margin-ratio-1",
+          "delta": 0.11111111111111116,
+          "family": "margin-ratio"
+        },
+        {
+          "id": "margin-ratio-2",
+          "delta": 0.1607142857142857,
+          "family": "margin-ratio"
+        },
+        {
+          "id": "unsold-catalog-1",
+          "delta": 0.0,
+          "family": "unsold-catalog"
+        },
+        {
+          "id": "unsold-catalog-2",
+          "delta": 0.0,
+          "family": "unsold-catalog"
+        }
+      ],
+      "paired_score_gate_passed": false,
+      "promotable": false,
+      "limitation": "Single-run judge uncertainty is not captured by case bootstrap. Promotion also requires independent review and sealed-test confirmation."
+    }
+  },
+  "complete_coverage": true,
+  "automatic_promotion": false,
+  "human_review": "pending",
+  "baseline_expected_cases": 20,
+  "candidate_expected_cases": 20,
+  "boundary": "Same synthetic frozen evidence and judge contracts. Case bootstrap excludes repeated-judge variance. No overall accuracy claim."
+}

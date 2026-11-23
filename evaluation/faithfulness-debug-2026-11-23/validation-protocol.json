@@ -1,0 +1,20 @@
+{
+  "phase": "full validation comparison",
+  "generator": "gemini-3.8-flash",
+  "judge": "gemini-3.8-flash",
+  "provider": "WikiVibe OpenAI-compatible",
+  "cases_per_variant": 20,
+  "dataset": "evaluation/faithfulness-v2/validation.json",
+  "dataset_sha256": "e1211c00bbaf79104f35d837983b7870d9c778c84ad1fa75c16f5b76d00394fd",
+  "baseline_prompt_sha256": "ffdbb916856ec9869dff60fa81627ad466e7dac2eb99189d3c925237453517d2",
+  "candidate_prompt_sha256": "6e0d0c9c2abc68dcdc8b51abc91e866ba049c611c6cf3b39157841e415282304",
+  "judge_context": "schema-v1",
+  "standard_metric": "unmodified Ragas 0.4.4 Faithfulness",
+  "secondary_metric": "separate SQL-aware extraction/entailment v1",
+  "first_pass_max_generation_calls": 40,
+  "first_pass_max_judge_calls": 160,
+  "rechecks": "One recheck per failed generation and incomplete batch; retains first attempt; separately disclosed calls, worst-case double first-pass ceiling",
+  "repetitions": 1,
+  "candidate_changes": "DeepSeek-authored precise counts, grounded query-scoped limits, proposed analytical questions; no safety or tool-flow changes",
+  "boundary": "Frozen synthetic SQL report-review evaluation, no BigQuery execution or tool routing. Validation was previously exposed and is not a newly held-out set. Single judge run is not statistical repeatability or overall accuracy."
+}

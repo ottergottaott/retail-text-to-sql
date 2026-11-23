@@ -1,0 +1,25 @@
+{
+  "id": "age-band-volume-1",
+  "family": "age-band-volume",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nCompleted item counts grouped by coarse age band for authorized products [q1]:\n\n| age_band | complete_items |\n| --- | --- |\n| 30s | 14 |\n\nAcross the authorized product scope, customers in the `30s` age band represent 14 completed items [q1]. No other age bands had completed items recorded in this query.\n\n### Limitations\n- The analysis was restricted to item records where `status = 'Complete'` joined to user demographics; it did not examine other order statuses, sale prices, customer counts, or changes over time [q1].\n- Historical completeness and date range coverage were not measured.\n\n### Action items (proposed)\n1. How do completed item volumes compare across different calendar years or months?\n2. What are the item counts and cancellation/return rates across other order item statuses for these products?",
+  "status": "generated",
+  "seconds": 24.095226546982303,
+  "usage": {
+    "input_tokens": 2604,
+    "output_tokens": 888,
+    "total_tokens": 3492,
+    "thought_tokens": 670,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

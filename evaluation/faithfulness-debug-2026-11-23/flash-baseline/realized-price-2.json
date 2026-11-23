@@ -1,0 +1,25 @@
+{
+  "id": "realized-price-2",
+  "family": "realized-price",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe mean realized sale price for Complete items across authorized products is 25.0 [q1]. Note that currency is not specified in the data.\n\n| mean_price |\n| --- |\n| 25.0 |\n\n### Limitations\n- The analysis reflects the overall average `sale_price` for Complete items within authorized scope, but item counts, order counts, and customer counts were not queried [q1].\n- Price dispersion (such as minimum, maximum, standard deviation, or median) was not measured [q1].\n- Breakdown by individual product, category, or time period was not queried, and historical completeness was not measured [q1].\n- Non-completed statuses and catalog retail prices were not evaluated [q1].\n\n### Action items (proposed)\n- Query item volume (`COUNT(*)`) alongside min, max, and average sale prices to assess transaction volume and price variation [q1].\n- Break down average realized prices by product ID (`product_id`) and by date buckets to observe product-specific differences and historical trends.\n- Compare realized `sale_price` against `retail_price` from the products table to check for price realization differences.",
+  "status": "generated",
+  "seconds": 15.846506014990155,
+  "usage": {
+    "input_tokens": 2303,
+    "output_tokens": 1511,
+    "total_tokens": 3814,
+    "thought_tokens": 1230,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

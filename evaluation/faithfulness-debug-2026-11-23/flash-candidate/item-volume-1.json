@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-1",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n| product_id | complete_items |\n| --- | --- |\n| 1 | 7 |\n| 2 | 7 |\n\n- Product 1 has 7 completed items [q1].\n- Product 2 has 7 completed items [q1].\n\n### Limitations\n- Only order items with status 'Complete' were evaluated; other order statuses (such as cancelled, returned, or pending) were excluded [q1].\n- Date ranges, prices, customer counts, and product catalog attributes were not queried [q1].\n- Data coverage and historical completeness were not measured [q1].\n\n### Action items (proposed)\n1. Would you like to compare completed item counts against cancelled or returned item counts for these products?\n2. Would you like to view the breakdown of completed item counts by time period or order date?",
+  "status": "generated",
+  "seconds": 13.363325243000872,
+  "usage": {
+    "input_tokens": 2469,
+    "output_tokens": 1061,
+    "total_tokens": 3530,
+    "thought_tokens": 849,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

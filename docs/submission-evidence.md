@@ -1,11 +1,17 @@
 # Evidence guide
 
-Updated on 22 November 2026. Results are local observations, not production guarantees.
+## Latest report-grounding evaluation (23 November)
 
-Current entry point: [one-page review summary](review-summary.html),
+Use the [current review summary](review-summary.md) and [machine-readable metrics](../evaluation/faithfulness-debug-2026-11-23/final-metrics.json) for the latest prompt, complete validation/test scores and local regression evidence. The dated records below are historical and cover different revisions.
+
+## Historical evidence (22 November)
+
+Results below are dated local observations, not production guarantees.
+
+Historical entry points: [one-page review summary](review-summary.html),
 [source-backed metrics](../evaluation/submission-metrics-2026-11-22.json) and
 [browser acceptance](../evaluation/browser-acceptance-2026-11-22.json).
-The latest regression suite passed 253/253 tests; see [client-alignment evidence](../evaluation/client-alignment-2026-11-22.json). Earlier dated summaries retain their original counts.
+The regression suite at that revision passed 253/253 tests; see [client-alignment evidence](../evaluation/client-alignment-2026-11-22.json). Earlier dated summaries retain their original counts.
 DeepSeek independently audited the metric claims and compared the new live
 WebUI report with its embedded SQL evidence; it did not execute SQL or inspect
 screenshots. Both critiques are retained in `evaluation/deepseek-*-2026-11-22.json`.

@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "automation_access_privacy_business_rules_unchanged": true,
+    "tool_save_preference_rules_unchanged": true,
+    "no_established_demand_from_handful_preserved": true,
+    "requested_tables_preserved": true,
+    "scope_limitation_rule_present": true
+  },
+  "boundary": "Local prompt diff/invariant review; not semantic output acceptance or live execution",
+  "serving_unchanged": true
+}

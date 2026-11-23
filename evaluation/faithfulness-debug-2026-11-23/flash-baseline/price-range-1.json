@@ -1,0 +1,25 @@
+{
+  "id": "price-range-1",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nBased on completed order item records within authorized product scope [q1], the observed sale price range is:\n\n| min_price | max_price |\n| --- | --- |\n| 10.0 | 20.0 |\n\nThe minimum observed complete item price is 10.0 and the maximum observed complete item price is 20.0 [q1].\n\n### Limitations\n- The query only evaluated `MIN(sale_price)` and `MAX(sale_price)` for items with `status = 'Complete'` [q1]; non-completed items were excluded.\n- Overall item counts, transaction volume, and customer counts were not queried, so the distribution of prices between 10.0 and 20.0 is unmeasured [q1].\n- Currency is not specified in the logical schema.\n- Data completeness and time period coverage were not measured [q1].\n- Price metrics were not broken down by individual product ID [q1].\n\n### Action items (proposed)\n- Propose querying item volume, average sale price, and price distribution across completed items [q1].\n- Propose breaking down price ranges by product ID to compare price boundaries across authorized products.\n- Propose evaluating price trends over time across completed order items.",
+  "status": "generated",
+  "seconds": 15.410731615993427,
+  "usage": {
+    "input_tokens": 2331,
+    "output_tokens": 1629,
+    "total_tokens": 3960,
+    "thought_tokens": 1326,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

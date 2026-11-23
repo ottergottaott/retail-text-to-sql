@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-1",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on query [q1], the completed item revenue and item count for authorized products by category are:\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Outerwear | 210.0 | 14 |\n\n- Complete-item revenue is defined as `SUM(sale_price)` where `status = 'Complete'` [q1].\n- Outerwear generated 210.0 in complete revenue across 14 completed items [q1].\n\n### Limitations\n- The analysis only measured items with `status = 'Complete'`; other order item statuses (such as cancelled or returned items) were not queried [q1].\n- Historical date boundaries, trends over time, profit margins, and customer-level distributions were not evaluated [q1].\n- Historical completeness of the records was not measured.\n\n### Action items (proposed)\n1. How does complete-item revenue and volume for Outerwear trend month-over-month across available history?\n2. What are the item volumes and revenue distributions across non-completed order statuses for these products?",
+  "status": "generated",
+  "seconds": 14.294574291998288,
+  "usage": {
+    "input_tokens": 2599,
+    "output_tokens": 1070,
+    "total_tokens": 3669,
+    "thought_tokens": 800,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

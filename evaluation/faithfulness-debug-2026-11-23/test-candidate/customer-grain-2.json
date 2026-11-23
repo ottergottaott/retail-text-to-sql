@@ -1,0 +1,25 @@
+{
+  "id": "customer-grain-2",
+  "family": "customer-grain",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nFor authorized products with item status 'Complete', there are 4 distinct customers and a total complete revenue of 350.0 [q1].\n\n| customers | complete_revenue |\n| --- | --- |\n| 4 | 350.0 |\n\n### Limitations\nThis analysis only measured distinct customer count and sum of `sale_price` where `status = 'Complete'` [q1]. It did not measure transaction counts, item volume, date ranges, product-level breakdowns, or currency.\n\n### Action items (proposed)\n1. Would you like to examine customer counts and revenue broken down by individual authorized product?\n2. Would you like to analyze how these metrics trend over specific time periods?",
+  "status": "generated",
+  "seconds": 16.911849725001957,
+  "usage": {
+    "input_tokens": 2566,
+    "output_tokens": 1546,
+    "total_tokens": 4112,
+    "thought_tokens": 1361,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-2",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on the authorized product scope [q1]:\n\n| brand | complete_items | returned_items |\n|---|---|---|\n| South | 7 | 1 |\n| West | 7 | 1 |\n\n- Both brand South and brand West have 7 Complete items and 1 Returned item recorded [q1].\n- Note that the sample size is small, with only 8 total items observed across these statuses for each brand [q1].\n\n### Limitations\n- The analysis reflects only item counts filtered to Complete and Returned statuses for authorized products; items in other statuses (e.g., Cancelled, Processing) were not counted [q1].\n- The query does not measure revenue, profit, costs, discounts, order volume, or customer volume [q1].\n- Date ranges and temporal completeness were not queried [q1].\n\n### Action items (proposed)\n- Propose querying return rates broken down by time period to examine if return counts are concentrated in specific intervals.\n- Propose analyzing order-level and product-level pricing details to evaluate whether specific products or price points associate with returns.",
+  "status": "generated",
+  "seconds": 16.595686448999913,
+  "usage": {
+    "input_tokens": 2408,
+    "output_tokens": 1598,
+    "total_tokens": 4006,
+    "thought_tokens": 1330,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

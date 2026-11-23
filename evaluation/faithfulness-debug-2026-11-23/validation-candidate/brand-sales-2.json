@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings [q1]\nRevenue and item counts for authorized products were calculated using `SUM(sale_price)` and `COUNT(*)` filtered by `status = 'Complete'`.\n\n| brand | complete_revenue | complete_items |\n| --- | --- | --- |\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n- Brand South generated 140.0 in complete revenue across 7 completed items [q1].\n- Brand West generated 210.0 in complete revenue across 7 completed items [q1].\n\n### Limitations\n- The analysis was restricted to completed items (`status = 'Complete'`) and did not measure cancelled, returned, or pending items [q1].\n- Product costs, discounts, and net profit were not included in the query [q1].\n- Historical date boundaries and completeness over time were not evaluated [q1].\n\n### Action items (proposed)\n- How do revenue and item counts compare when factoring in product costs to evaluate gross margin?\n- How are these completed sales distributed across time periods or order dates?",
+  "status": "generated",
+  "seconds": 15.853606072021648,
+  "usage": {
+    "input_tokens": 2624,
+    "output_tokens": 1537,
+    "total_tokens": 4161,
+    "thought_tokens": 1263,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

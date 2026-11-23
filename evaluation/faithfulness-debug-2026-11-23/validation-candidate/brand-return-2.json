@@ -1,0 +1,25 @@
+{
+  "id": "brand-return-2",
+  "family": "brand-return",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nQuery [q1] counted returned items (`order_items.status = 'Returned'`) by catalogue brand for authorized products:\n\n| brand | returned_items |\n| --- | --- |\n| South | 1 |\n| West | 1 |\n\nBrand South and brand West each have 1 returned item recorded [q1].\n\n### Limitations\n- This analysis measured only returned item counts; total order item volume, return rates, product prices, and temporal distribution were not queried [q1].\n- Historical coverage and completeness of records were not measured [q1].\n\n### Action items (proposed)\n1. What is the return rate for each brand relative to its total ordered or completed items?\n2. How do return counts distribute over time across specific products or categories?",
+  "status": "generated",
+  "seconds": 14.963860146002844,
+  "usage": {
+    "input_tokens": 2581,
+    "output_tokens": 1196,
+    "total_tokens": 3777,
+    "thought_tokens": 999,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

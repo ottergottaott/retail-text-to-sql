@@ -1,0 +1,9 @@
+{
+  "id": "price-range-1",
+  "family": "price-range",
+  "split": "development",
+  "status": "failed",
+  "error_category": "ModelError",
+  "seconds": 0.3927221980120521,
+  "attempt": 1
+}

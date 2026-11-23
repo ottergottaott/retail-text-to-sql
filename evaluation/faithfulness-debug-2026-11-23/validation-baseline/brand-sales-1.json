@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-1",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings [q1]\nThe following table shows Complete-item revenue (`SUM(sale_price)`) and item volume (`COUNT(*)`) by brand across all available history for authorized products:\n\n| brand | complete_revenue | complete_items |\n|---|---|---|\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\n- Both **North** and **South** have 7 completed item sales recorded in the available data.\n- **South** generated 140.0 in total complete revenue (an average of 20.0 per completed item), compared to 70.0 for **North** (an average of 10.0 per completed item).\n\n### Limitations\n- The analysis is limited strictly to items where `status = 'Complete'` [q1]; pending, cancelled, or returned items are not reflected.\n- Scope reflects authorized products enforced by the execution environment; date ranges and temporal completeness were not measured.\n- Currency units are not specified in the underlying schema.\n- Discounting, customer counts, and inventory levels were not queried.\n\n### Action items (proposed)\n- Propose breaking down completed item sales by time period (e.g., year or month) to check whether revenue differences are consistent over time.\n- Propose comparing `sale_price` against `retail_price` and `cost` in the `products` table to assess margins and potential price variation.\n- Propose evaluating non-completed order statuses (e.g., returns or cancellations) by brand to understand overall fulfillment performance.",
+  "status": "generated",
+  "seconds": 13.34850322199054,
+  "usage": {
+    "input_tokens": 2392,
+    "output_tokens": 1236,
+    "total_tokens": 3628,
+    "thought_tokens": 865,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

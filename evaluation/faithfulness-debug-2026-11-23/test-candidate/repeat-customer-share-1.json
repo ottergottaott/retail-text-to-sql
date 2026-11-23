@@ -1,0 +1,25 @@
+{
+  "id": "repeat-customer-share-1",
+  "family": "repeat-customer-share",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\n| repeat_customer_share | customers |\n| --- | --- |\n| 1.0 | 4 |\n\n- Across authorized products, 4 distinct customers were identified having at least one item with status = 'Complete' [q1].\n- All 4 customers (a share of 1.0) have more than one distinct order represented among Complete items [q1].\n\n### Limitations\n- This query measured only item records with status = 'Complete' within authorized products; items with other statuses were not evaluated [q1].\n- Order dates, purchase intervals, customer tenure, and historical data completeness were not measured [q1].\n\n### Action items (proposed)\n1. What is the distribution of total completed orders per customer when segmented by calendar year or cohort?\n2. How does repeat customer share change if orders containing statuses other than 'Complete' are included?",
+  "status": "generated",
+  "seconds": 18.77180011800374,
+  "usage": {
+    "input_tokens": 2644,
+    "output_tokens": 1957,
+    "total_tokens": 4601,
+    "thought_tokens": 1739,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

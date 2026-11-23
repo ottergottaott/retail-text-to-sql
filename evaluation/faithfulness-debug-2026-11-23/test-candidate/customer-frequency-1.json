@@ -1,0 +1,25 @@
+{
+  "id": "customer-frequency-1",
+  "family": "customer-frequency",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nBased on completed order items within authorized product scope [q1]:\n\n| orders | customers |\n| --- | --- |\n| 3 | 2 |\n| 4 | 2 |\n\n- Exactly 2 customers have 3 distinct completed orders representing authorized products [q1].\n- Exactly 2 customers have 4 distinct completed orders representing authorized products [q1].\n\n### Limitations\n- The analysis was restricted to order items with status 'Complete' for authorized products and did not measure orders with other statuses or orders outside this product scope [q1].\n- Customer tenure, order dates, and historical coverage completeness were not queried [q1].\n\n### Action items (proposed)\n1. How does the order frequency distribution compare when examining order history across different calendar quarters?\n2. Does the distribution of order counts differ if analyzed by individual authorized product ID?",
+  "status": "generated",
+  "seconds": 13.651217153004836,
+  "usage": {
+    "input_tokens": 2624,
+    "output_tokens": 1460,
+    "total_tokens": 4084,
+    "thought_tokens": 1246,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

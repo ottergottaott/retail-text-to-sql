@@ -1,0 +1,309 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6794871794871795,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.6794871794871795,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "item-volume-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], the completed item count for authorized product ID 1 across all recorded history is 7.",
+                "reason": "The query results show product_id 1 with 7 complete_items without any temporal filtering, and execution_scope lists authorized_products as [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on query [q1], the completed item count for authorized product ID 2 across all recorded history is 7.",
+                "reason": "The query results show product_id 2 with 7 complete_items without any temporal filtering, and execution_scope lists authorized_products as [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "Both product 1 and product 2 have 7 completed items based on query [q1].",
+                "reason": "The result rows in query [q1] show a complete_items value of 7 for both product_id 1 and product_id 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis scope is restricted to authorized products with product IDs 1 and 2 with the status \"Complete\" based on query [q1].",
+                "reason": "The execution scope explicitly limits authorization to products [1, 2], and the query contains the filter `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed items, such as returns, cancellations, or processing orders, were not included in the analysis.",
+                "reason": "The SQL query specifically filters with WHERE `order_items`.`status` = 'Complete', excluding any non-completed statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Temporal bounds were not filtered in the analysis.",
+                "reason": "The SQL query does not contain any WHERE clauses or filters restricting timestamps or dates.",
+                "verdict": 1
+              },
+              {
+                "statement": "The results reflect all available records in the dataset.",
+                "reason": "The query filters records where status = 'Complete' and is restricted to authorized products [1, 2], so it does not reflect all available records in the dataset.",
+                "verdict": 0
+              },
+              {
+                "statement": "Historical completeness over time was not measured based on query [q1].",
+                "reason": "The query only groups by product_id and does not group by or measure trends across time.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sale price, product cost, net profit, promotional discounts, and customer or order counts were not queried.",
+                "reason": "The SQL query only selects `product_id` and COUNT(*), omitting fields like sale_price, cost, and customer/order keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "Querying revenue (SUM(sale_price)) and average item price by product is proposed to determine financial contribution alongside unit volume.",
+                "reason": "The context consists purely of query metadata, execution scope, and schema; it contains no recommendations or proposals.",
+                "verdict": 0
+              },
+              {
+                "statement": "Checking the distribution of order item statuses, such as \"Cancelled\" and \"Returned\", is proposed to evaluate completion rates for each product.",
+                "reason": "No proposals or recommendations are mentioned in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Analyzing completed item counts across time buckets, such as by month or quarter, is proposed to observe demand trends.",
+                "reason": "No proposals or future analysis recommendations are present in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 33.46580541698495
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], product 1 has 7 completed items across all recorded history.",
+                "reason": "Query [q1] aggregates complete items without temporal filters and returns 7 complete items for product 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on query [q1], product 2 has 7 completed items across all recorded history.",
+                "reason": "Query [q1] aggregates complete items without temporal filters and returns 7 complete items for product 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "The completed item count metric is defined as COUNT(*) WHERE status = \"Complete\".",
+                "reason": "The SQL query defines `complete_items` as `COUNT(*)` with the predicate `WHERE order_items.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The scope is restricted to authorized products with product IDs 1 and 2 and status \"Complete\".",
+                "reason": "The execution scope explicitly binds to authorized products [1, 2], and the WHERE clause filters for status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed items, such as returns, cancellations, or processing orders, were not included in the analysis.",
+                "reason": "The query specifically filtered for status = 'Complete', excluding all non-completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Temporal bounds were not filtered, and results reflect all available records in the dataset.",
+                "reason": "The SQL query does not contain any WHERE or HAVING clauses filtering on dates or timestamps.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness over time was not measured.",
+                "reason": "The query groups solely by product_id without any temporal grouping (such as created_at), so trend/completeness over time was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sale price, product cost, net profit, promotional discounts, and customer or order counts were not queried.",
+                "reason": "The SQL query only selects `product_id` and `COUNT(*)`, omitting financial metrics and customer/order aggregations.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 23.380746226001065
+        }
+      }
+    },
+    {
+      "id": "item-volume-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6923076923076923,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed item counts across the authorized products were retrieved from the order_items table filtered by status equal to Complete.",
+                "reason": "The context provides the executed SQL query, which selects product_id and COUNT(*) AS complete_items from order_items WHERE status = 'Complete' for the authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product_id 2, the complete_items count is 7.",
+                "reason": "The query result rows explicitly include {\"product_id\": 2, \"complete_items\": 7}.",
+                "verdict": 1
+              },
+              {
+                "statement": "For product_id 3, the complete_items count is 7.",
+                "reason": "The query result rows explicitly include {\"product_id\": 3, \"complete_items\": 7}.",
+                "verdict": 1
+              },
+              {
+                "statement": "Each authorized product, specifically product_id 2 and product_id 3, has an identical volume of 7 completed items.",
+                "reason": "The context shows authorized_products as [2, 3] and both rows show complete_items equal to 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query filtered strictly by status equal to Complete.",
+                "reason": "The SQL query in the context contains the filter WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other item statuses, such as cancelled, returned, or pending, were not queried.",
+                "reason": "The SQL query only selects rows where status equals 'Complete', confirming that other item statuses were not queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured item volume only.",
+                "reason": "The SQL query only computes COUNT(*) as complete_items grouped by product_id, measuring volume only.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue, pricing, order-level groupings, and customer counts were not queried.",
+                "reason": "The SQL query does not select or aggregate sale_price, retail_price, order_key, or customer_key.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries and overall temporal coverage were not measured.",
+                "reason": "The SQL query contains no date filtering, time intervals, or temporal aggregations on created_at.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed action item is breaking down completed item volume by date buckets to observe trend patterns over time.",
+                "reason": "The context only contains raw data, query metadata, execution scope, and a schema; it does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "One proposed action item is measuring revenue metrics, such as SUM(sale_price), alongside item counts for product 2 and product 3.",
+                "reason": "The context does not contain any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "One proposed action item is measuring average item prices alongside item counts for product 2 and product 3.",
+                "reason": "The context does not contain any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "One proposed action item is checking unique customer counts, such as COUNT(DISTINCT customer_key), to determine whether orders represent repeat or distinct buyers.",
+                "reason": "The context does not propose any action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 47.96958433400141
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed item counts for authorized products were retrieved from order_items filtered by status = 'Complete'.",
+                "reason": "The SQL query selects product_id and COUNT(*) from order_items with WHERE status = 'Complete', under executor-bound views restricting to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product_id 2 has 7 completed items.",
+                "reason": "The returned results show product_id 2 has a complete_items count of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product_id 3 has 7 completed items.",
+                "reason": "The returned results show product_id 3 has a complete_items count of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Each authorized product (product_id 2 and product_id 3) has an identical volume of 7 completed items.",
+                "reason": "Both authorized products (2 and 3) have exactly 7 completed items in the returned rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query filtered strictly by status = 'Complete'.",
+                "reason": "The SQL WHERE clause filters strictly on `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other item statuses, such as cancelled, returned, or pending, were not queried.",
+                "reason": "The query only filters and includes rows where status = 'Complete', omitting any other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured item volume only.",
+                "reason": "The only aggregation performed in the SQL query is COUNT(*) AS complete_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue, pricing, order-level groupings, and customer counts were not queried.",
+                "reason": "The SQL query does not inspect or aggregate sale_price, retail_price, order_key, or customer_key.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries and overall temporal coverage were not measured.",
+                "reason": "The SQL query does not filter or group by created_at or establish temporal coverage.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 15.280186738003977
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 8,
+  "measured_total_tokens": 22319,
+  "usage_responses": 8,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

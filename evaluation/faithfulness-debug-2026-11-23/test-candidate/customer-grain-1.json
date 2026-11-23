@@ -1,0 +1,25 @@
+{
+  "id": "customer-grain-1",
+  "family": "customer-grain",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products filtered to completed items (`status = 'Complete'`), distinct purchasing customers and total revenue are summarized below [q1]:\n\n| customers | complete_revenue |\n| --- | --- |\n| 4 | 210.0 |\n\n- **Customer Count**: 4 distinct customers made completed purchases [q1].\n- **Complete Revenue**: Total revenue across these completed purchases is 210.0 (calculated as `SUM(sale_price)`) [q1]. Transaction counts were not evaluated.\n\n### Limitations\n- This query measured only completed order items (`status = 'Complete'`) within authorized product scope; it did not measure order or transaction counts, non-completed statuses, product costs, net profit, discounts, or date coverage [q1].\n- Currency is not defined in the queried data and historical completeness was not measured [q1].\n\n### Action items (proposed)\n1. Would you like to break down revenue and distinct customer counts by individual authorized product or over specific time periods?\n2. Would you like to evaluate total order counts and item volume alongside revenue?",
+  "status": "generated",
+  "seconds": 14.536577780003427,
+  "usage": {
+    "input_tokens": 2564,
+    "output_tokens": 1303,
+    "total_tokens": 3867,
+    "thought_tokens": 1038,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

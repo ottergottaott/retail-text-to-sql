@@ -1,0 +1,25 @@
+{
+  "id": "complete-revenue-1",
+  "family": "complete-revenue",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nTotal Complete-item revenue across authorized products is 210.0 [q1].\n\n| complete_revenue |\n| --- |\n| 210.0 |\n\n### Limitations\n- Reflects only items with `status = 'Complete'` across authorized products; other order item statuses are excluded [q1].\n- Item counts, order counts, and customer counts were not queried [q1].\n- Currency, date ranges, and inventory levels were not measured in this dataset [q1].\n\n### Action items (proposed)\n1. How does complete-item revenue break down by individual product ID and date bucket?\n2. What are the corresponding completed item and order volumes?",
+  "status": "generated",
+  "seconds": 16.309315899998182,
+  "usage": {
+    "input_tokens": 2425,
+    "output_tokens": 1273,
+    "total_tokens": 3698,
+    "thought_tokens": 1094,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

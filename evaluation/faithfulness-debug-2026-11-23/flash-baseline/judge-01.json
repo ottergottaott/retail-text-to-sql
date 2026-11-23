@@ -1,0 +1,309 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.717948717948718,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.717948717948718,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "item-status-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7692307692307693,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 14 order items are recorded with the status Complete.",
+                "reason": "The context shows an authorized product scope and query results indicating 14 items with the status 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, 2 order items are recorded with the status Returned.",
+                "reason": "The context shows an authorized product scope and query results indicating 2 items with the status 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis reflects only recorded order item counts by status within the authorized scope.",
+                "reason": "The SQL query groups solely by status to count items, running under the executor-bound views for authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges were not queried in the analysis.",
+                "reason": "The SQL query in the context contains no date range filtering or temporal columns.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order grain was not queried in the analysis.",
+                "reason": "The SQL query aggregates at the status level rather than grouping or querying at the order grain.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts were not queried in the analysis.",
+                "reason": "The SQL query only counts order items and does not compute distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product-level splits were not queried in the analysis.",
+                "reason": "The SQL query groups strictly by status and does not split or group by product ID.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue metrics were not queried in the analysis.",
+                "reason": "The SQL query only counts items and does not query or calculate any revenue metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Overall temporal coverage was not measured in the analysis.",
+                "reason": "The SQL query does not select or evaluate any time or date attributes to measure temporal coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "Data completeness was not measured in the analysis.",
+                "reason": "The SQL query only counts rows grouped by status and does not measure data completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Querying status counts over time, such as by month or quarter, is proposed to evaluate whether return rates vary by period.",
+                "reason": "The context contains only data results, execution scope, and schema; it does not propose querying status counts over time.",
+                "verdict": 0
+              },
+              {
+                "statement": "Breaking down statuses by individual product ID is proposed to assess whether returns concentrate in particular items.",
+                "reason": "There is no recommendation or proposal mentioned in the context regarding breaking down statuses by product ID.",
+                "verdict": 0
+              },
+              {
+                "statement": "Measuring distinct order and customer counts alongside item totals is proposed to evaluate customer impact.",
+                "reason": "There is no mention or proposal in the context regarding measuring distinct order and customer counts to evaluate customer impact.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 49.07585463201394
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 14 order items are recorded as Complete.",
+                "reason": "The query result for the authorized products scope shows 14 order items with the status 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, 2 order items are recorded as Returned.",
+                "reason": "The query result for the authorized products scope shows 2 order items with the status 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis reflects only recorded order item counts by status within authorized scope.",
+                "reason": "The SQL query groups solely by status and counts order items within the authorized scope enforced by executor-bound views.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges were not queried in the analysis.",
+                "reason": "The SQL query does not select, filter by, or group by any date or timestamp fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order grain was not queried in the analysis.",
+                "reason": "The SQL query aggregates at the status level of order items without grouping by or querying at the distinct order level.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts were not queried in the analysis.",
+                "reason": "The SQL query counts total items via COUNT(*) and does not compute distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product-level splits were not queried in the analysis.",
+                "reason": "The SQL query groups exclusively by status rather than product identifiers or attributes.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue metrics were not queried in the analysis.",
+                "reason": "The SQL query does not include sale_price, retail_price, or any other revenue calculations.",
+                "verdict": 1
+              },
+              {
+                "statement": "Overall temporal coverage was not measured in the analysis.",
+                "reason": "The query did not inspect created_at timestamps or analyze time intervals, so temporal coverage was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Data completeness was not measured in the analysis.",
+                "reason": "No coverage or completeness audit query was executed in the provided analysis.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 35.35616492398549
+        }
+      }
+    },
+    {
+      "id": "item-status-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across all available history, authorized products have an item count of 14 with the status Complete.",
+                "reason": "The query results show 14 items with status Complete, scoped to authorized products with no date filter restricting history.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all available history, authorized products have an item count of 2 with the status Returned.",
+                "reason": "The query results show 2 items with status Returned under the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The results reflect item-level records for authorized products within the available dataset.",
+                "reason": "The SQL query is executed on order_items under the execution scope of authorized products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "No date range filter was applied to the item records for authorized products.",
+                "reason": "The SQL query contains no WHERE clause filtering by date range.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness or date coverage was not measured for the authorized products dataset.",
+                "reason": "The query only aggregates count by status, without measuring date coverage or historical completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer counts, order volume, revenue, profit, and discount history were not queried.",
+                "reason": "The SQL query only selects status and COUNT(*) from order_items, not any customer metrics, order volume, revenue, profit, or discount history.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to check status distribution over time, such as grouped by month or year, to evaluate whether return rates are changing.",
+                "reason": "The context only contains raw execution results, execution scope, and schema; it mentions no proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare item counts and return rates across individual authorized product IDs.",
+                "reason": "The context does not state or propose any action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query sale_price and status together to assess associated revenue and return values.",
+                "reason": "There are no proposed action items mentioned anywhere in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 19.70174129199586
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products across all available history, there are 14 items with status Complete.",
+                "reason": "The query results show 14 items with the status 'Complete' within the authorized product scope and without any date filtering, with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products across all available history, there are 2 items with status Returned.",
+                "reason": "The query results show 2 items with the status 'Returned' within the authorized product scope and without any date filtering, with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "The results reflect item-level records for authorized products within the available dataset.",
+                "reason": "The query operates on the 'order_items' table with executor-bound views enforcing authorized products, counting item-level records.",
+                "verdict": 1
+              },
+              {
+                "statement": "No date range filter was applied to the query.",
+                "reason": "The logical SQL does not contain any WHERE clause or date range filter.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness or date coverage was not measured.",
+                "reason": "The SQL query only groups by status and counts items, without inspecting dates or performing any coverage audit.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer counts were not queried.",
+                "reason": "The SQL query does not select or aggregate customer counts (e.g., customer_key).",
+                "verdict": 1
+              },
+              {
+                "statement": "Order volume was not queried.",
+                "reason": "The SQL query counts item rows (COUNT(*)), not distinct orders or order volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was not queried.",
+                "reason": "The SQL query does not query or aggregate sale prices or revenue fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Profit was not queried.",
+                "reason": "The SQL query does not compute or select profit metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Discount history was not queried.",
+                "reason": "The SQL query does not inspect or reference discounts or pricing history.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 23.320509217999643
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 8,
+  "measured_total_tokens": 18026,
+  "usage_responses": 8,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

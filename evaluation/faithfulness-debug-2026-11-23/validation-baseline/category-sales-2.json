@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-2",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings [q1]\nComplete-item revenue and item volume for authorized products are summarized by category below [q1]:\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Footwear | 210.0 | 7 |\n| Outerwear | 140.0 | 7 |\n\n- **Footwear**: Generated 210.0 in revenue across 7 completed items [q1].\n- **Outerwear**: Generated 140.0 in revenue across 7 completed items [q1].\n- Both categories have identical item counts (7 items each), while Footwear generated 70.0 more in total completed revenue [q1].\n\n### Limitations\n- Scope is restricted to authorized products and records where `status = 'Complete'` [q1].\n- Analysis does not measure date ranges, customer counts, order frequency, or non-complete order statuses [q1].\n- Pricing variations, discounts, costs, and currency are not defined or queried in this dataset [q1].\n\n### Action items (proposed)\n- Propose breaking down completed revenue and item volume by time period (e.g., monthly) to assess category trends over time.\n- Propose querying distinct customer counts and order counts per category to understand customer concentration.\n- Propose evaluating product cost and retail price against sale price to assess realized margins across categories.",
+  "status": "generated",
+  "seconds": 17.193175371008692,
+  "usage": {
+    "input_tokens": 2395,
+    "output_tokens": 1408,
+    "total_tokens": 3803,
+    "thought_tokens": 1074,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

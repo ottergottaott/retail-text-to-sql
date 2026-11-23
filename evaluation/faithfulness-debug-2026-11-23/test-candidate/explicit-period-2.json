@@ -1,0 +1,25 @@
+{
+  "id": "explicit-period-2",
+  "family": "explicit-period",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nFor the authorized products in January 2026 (2026-01-01 to 2026-02-01), completed item revenue totaled 180.0 across 7 completed order items [q1]. Revenue is defined as `SUM(sale_price)` where `status = 'Complete'`.\n\n| january_revenue | complete_items |\n| --- | --- |\n| 180.0 | 7 |\n\n### Limitations\n- This query measured gross revenue (`SUM(sale_price)`) for items with status 'Complete'; product costs, net profit, discount depth, and non-completed statuses were not queried [q1].\n- Historical completeness and order-level or customer-level distributions were not evaluated [q1].\n\n### Action items (proposed)\n1. How does January 2026 completed-item revenue compare to prior months or the same period in previous years?\n2. How does the sale price breakdown compare across individual authorized product IDs for this period?",
+  "status": "generated",
+  "seconds": 19.971256513003027,
+  "usage": {
+    "input_tokens": 2605,
+    "output_tokens": 1376,
+    "total_tokens": 3981,
+    "thought_tokens": 1121,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

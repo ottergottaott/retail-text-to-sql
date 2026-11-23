@@ -1,0 +1,431 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.773989898989899,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.773989898989899,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "age-band-volume-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed item counts grouped by coarse age band for authorized products show 14 completed items for the 30s age band.",
+                "reason": "The query result shows 14 complete items for the '30s' age band within the execution scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across the authorized product scope, customers in the 30s age band represent 14 completed items.",
+                "reason": "The query returned a count of 14 complete items for users with age_band '30s' under the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "No age bands other than the 30s age band had completed items recorded in the query.",
+                "reason": "The query results list only the '30s' age band and truncated is false, meaning no other age bands were returned in the query output.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to item records where status equals \"Complete\" joined to user demographics.",
+                "reason": "The SQL query explicitly filters with `WHERE i.status = 'Complete'` and joins `order_items` with `users` demographics on `customer_key`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine other order statuses, sale prices, customer counts, or changes over time.",
+                "reason": "The SQL query only examines status = 'Complete' grouped by age_band, omitting sale prices, distinct customer counts, and time/date fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date range coverage were not measured.",
+                "reason": "The SQL query does not evaluate date or timestamp fields such as created_at to measure historical completeness or coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is comparing how completed item volumes differ across different calendar years or months.",
+                "reason": "The context consists purely of query data, execution metadata, and schema; it contains no proposed next analytical steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is examining item counts and cancellation or return rates across other order item statuses for the authorized products.",
+                "reason": "The context does not mention or propose any next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 19.100756758009084
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across the authorized product scope, customers in the 30s age band represent 14 completed items.",
+                "reason": "The query executed under executor-bound views for authorized products [1, 2] and returned exactly 14 completed items for the 30s age band.",
+                "verdict": 1
+              },
+              {
+                "statement": "No age bands other than the 30s had completed items recorded in the query for authorized products.",
+                "reason": "With truncated set to false and no LIMIT applied across the authorized scope, the query returned only the 30s age band, confirming no other age bands had completed items recorded.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to item records where status = 'Complete' joined to user demographics.",
+                "reason": "The logical SQL explicitly filters with WHERE `i`.`status` = 'Complete' and performs an inner join between `order_items` and `users` on `customer_key`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine other order statuses, sale prices, customer counts, or changes over time.",
+                "reason": "The SQL query only filters on status = 'Complete' and computes COUNT(*) grouped by age_band, without selecting or aggregating distinct customers, sale prices, created_at timestamps, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date range coverage were not measured.",
+                "reason": "No date filtering, timestamps, or coverage audits were included or measured in the supplied SQL query.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 19.300432910007657
+        }
+      }
+    },
+    {
+      "id": "age-band-volume-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete item counts by coarse age band for authorized products show 14 complete items in the 30s age band.",
+                "reason": "The context shows a query grouping by age_band under the execution scope of authorized products, returning a single row with age_band '30s' and 14 complete_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, 14 Complete items were recorded.",
+                "reason": "The query output under the authorized products execution scope returns only one row with a count of 14 complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 14 Complete items recorded across authorized products were associated with the 30s age band.",
+                "reason": "The only row returned in the query results is for the '30s' age band with 14 complete items, meaning all recorded complete items are in this band.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only items with status \"Complete\" aggregated by coarse age band.",
+                "reason": "The SQL query explicitly filters for `i.status = 'Complete'` and aggregates by `u.age_band`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine order dates.",
+                "reason": "The executed SQL query does not filter, group by, or select date/timestamp fields such as `created_at`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine historical coverage over time.",
+                "reason": "The executed query does not include any temporal dimensions or historical coverage over time.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine other order statuses.",
+                "reason": "The query filters exclusively for `i.status = 'Complete'` and does not look at any other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is investigating how Complete item volumes vary across specific time periods or individual authorized product IDs.",
+                "reason": "The context only contains query metadata, execution scope, schema, and raw results; it does not contain any proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is investigating what the item volumes are across other order statuses for the authorized products.",
+                "reason": "The context contains no recommendations or proposals for next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 19.039407264994225
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 14 Complete items were recorded.",
+                "reason": "The query was executed under executor-bound views scoped to authorized products, filtered for items with status 'Complete', and returned a single row with 14 complete items with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, all 14 recorded Complete items were associated with the 30s age band.",
+                "reason": "The complete, non-truncated result set contains only the '30s' age band group with a count of 14 complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only items with status 'Complete' aggregated by coarse age band.",
+                "reason": "The supplied SQL filters specifically on status = 'Complete' and groups by age_band without measuring any other item statuses or alternative demographic breakdowns.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine order dates, historical coverage over time, or other order statuses.",
+                "reason": "The SQL query does not reference created_at or date fields, does not audit time coverage, and filters strictly to status = 'Complete', ignoring all other order statuses.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 17.572542301000794
+        }
+      }
+    },
+    {
+      "id": "repeat-customer-share-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 4 distinct customers were identified as having at least one item with status = 'Complete'.",
+                "reason": "The context shows a SQL query filtering for `status = 'Complete'` grouped by `customer_key` within the execution scope of authorized products, returning a count of 4 customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 4 identified customers have more than one distinct order represented among Complete items.",
+                "reason": "The context shows `repeat_customer_share` is 1.0 (100%) calculated as the proportion of customers with `orders > 1`, meaning all 4 customers had more than one order.",
+                "verdict": 1
+              },
+              {
+                "statement": "The repeat customer share among Complete-item customers with more than one represented order is 1.0.",
+                "reason": "The context explicitly reports `repeat_customer_share` of 1.0 from the query measuring customers with more than one order among Complete-status items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only item records with status = 'Complete' within authorized products.",
+                "reason": "The SQL query explicitly filters `WHERE order_items.status = 'Complete'` under the execution scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item records with statuses other than 'Complete' were not evaluated.",
+                "reason": "Because the query strictly filters `WHERE order_items.status = 'Complete'`, items with other statuses were excluded from the analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order dates, purchase intervals, customer tenure, and historical data completeness were not measured.",
+                "reason": "The executed SQL query only selects and calculates over `customer_key`, `order_key`, and `status`, leaving dates, purchase intervals, tenure, and historical data completeness unmeasured.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is investigating the distribution of total completed orders per customer when segmented by calendar year or cohort.",
+                "reason": "The context consists only of query execution metadata, schema, and query results; it contains no recommendations or proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is determining how repeat customer share changes if orders containing statuses other than 'Complete' are included.",
+                "reason": "The context contains only data results, schema, and query details, with no mention of proposed next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 16.99446738799452
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 4 distinct customers were identified having at least one item with status = 'Complete'.",
+                "reason": "The query groups order items by customer_key with status = 'Complete' under the executor-bound scope of authorized products [1, 2], returning a total customer count of 4.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 4 customers identified have more than one distinct order represented among Complete items, representing a repeat customer share of 1.0.",
+                "reason": "The query calculates repeat_customer_share as the proportion of customers with more than one distinct order key, which returned 1.0 across all 4 customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only item records with status = 'Complete' within authorized products.",
+                "reason": "The SQL query specifically filters with WHERE order_items.status = 'Complete' within the executor-bound view restricted to authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "Items with statuses other than 'Complete' within authorized products were not evaluated.",
+                "reason": "Because the SQL query exclusively filters for status = 'Complete', items with other statuses were excluded from evaluation.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order dates, purchase intervals, customer tenure, and historical data completeness were not measured.",
+                "reason": "The SQL query only examines customer_key, order_key, and status; it does not query timestamps, intervals, tenure, or audit completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 31.25763554801233
+        }
+      }
+    },
+    {
+      "id": "repeat-customer-share-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8181818181818182,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products, all four customers with Complete items had more than one distinct order represented.",
+                "reason": "The context shows that for authorized products [2, 3], there were 4 customers and the repeat_customer_share was 1.0, which means 100% of the 4 customers had more than one distinct order.",
+                "verdict": 1
+              },
+              {
+                "statement": "The repeat customer share for customers with Complete items across authorized products is 1.0.",
+                "reason": "The query result explicitly reports a repeat_customer_share of 1.0 under the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The total count of customers evaluated with Complete items for authorized products is four.",
+                "reason": "The query result explicitly reports customers as 4 under the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only customers associated with Complete items for authorized products in the `order_items` table.",
+                "reason": "The SQL query specifically queries the `order_items` table filtering for `status = 'Complete'`, restricted by the execution scope of authorized products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness were not measured in the analysis.",
+                "reason": "The context provides the complete SQL query, which only computes repeat customer share and customer count, confirming that historical coverage and completeness were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure order timing.",
+                "reason": "The SQL query in the context does not incorporate timestamp fields like `created_at` or measure timing.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure total order volume.",
+                "reason": "The query calculates repeat customer share and customer count, but does not calculate or report total order volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-Complete item statuses.",
+                "reason": "The SQL query explicitly filters for `status = 'Complete'`, thereby excluding non-Complete item statuses from the measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer activity across unauthorized products.",
+                "reason": "The execution scope restricts enforcement to authorized products [2, 3], meaning activity across unauthorized products was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed analytical check is to examine the distribution of completed order counts per customer across authorized products broken down by time period.",
+                "reason": "The context only contains query data, execution scope, and schema; it does not mention or propose any analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed analytical check is to compare how the repeat customer metric behaves when non-Complete order item statuses are evaluated.",
+                "reason": "The context does not contain any proposed analytical checks or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 80.01526760699926
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products, there are 4 customers with Complete items.",
+                "reason": "The query results show 4 customers within the executor-bound scope of authorized products and filtered by status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, all 4 customers with Complete items had more than one distinct order represented.",
+                "reason": "The repeat_customer_share is 1.0 (100%), calculated as the proportion of customers with distinct orders > 1 among the 4 total customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the repeat customer share for customers with Complete items is 1.0.",
+                "reason": "The returned repeat_customer_share column explicitly equals 1.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only customers associated with Complete items for authorized products in order_items.",
+                "reason": "The SQL query explicitly filters `order_items`.`status` = 'Complete' and is restricted by executor-bound views to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness were not measured in the analysis.",
+                "reason": "The query does not perform any coverage or completeness audits.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure order timing.",
+                "reason": "The SQL query does not inspect timestamps or temporal intervals.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure total order volume.",
+                "reason": "The query evaluates whether distinct order counts per customer exceed 1 to determine repeat share, but does not aggregate or output total order volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-Complete item statuses.",
+                "reason": "The query restricts items to status = 'Complete' and does not measure or report on other item statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer activity across unauthorized products.",
+                "reason": "The query execution is strictly bound to authorized products, leaving activity for unauthorized products unmeasured.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 20.126481740997406
+        }
+      }
+    }
+  ],
+  "attempted_provider_calls": 16,
+  "measured_total_tokens": 41634,
+  "call_count_complete": true,
+  "judge_model": "gemini-3.8-flash",
+  "max_provider_calls": 16,
+  "judge_workers": 2,
+  "human_review": "pending",
+  "evaluation_attempts": 1
+}

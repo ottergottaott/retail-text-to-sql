@@ -1,0 +1,25 @@
+{
+  "id": "state-revenue-2",
+  "family": "state-revenue",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nComplete-item revenue is defined as `SUM(sale_price)` where `status = 'Complete'` for authorized products [q1].\n\n| state | complete_revenue |\n| --- | --- |\n| California | 350.0 |\n\nCalifornia recorded a total completed revenue of 350.0 across authorized products [q1].\n\n### Limitations\n- This analysis only evaluated `SUM(sale_price)` for records with `status = 'Complete'`; item quantities, order counts, customer counts, and discount history were not queried [q1].\n- Currency is not defined by the dataset, and historical completeness or date ranges were not measured in this query [q1].\n\n### Action items (proposed)\n1. Would you like to evaluate the distribution of completed order and item counts across states?\n2. Would you like to examine revenue across specific date ranges or include other order statuses?",
+  "status": "generated",
+  "seconds": 13.867100736999419,
+  "usage": {
+    "input_tokens": 2602,
+    "output_tokens": 1308,
+    "total_tokens": 3910,
+    "thought_tokens": 1084,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

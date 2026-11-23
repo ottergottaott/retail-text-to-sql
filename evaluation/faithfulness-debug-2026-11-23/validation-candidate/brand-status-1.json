@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-1",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products (IDs 1 and 2), item counts by brand for completed and returned statuses are as follows [q1]:\n\n| brand | complete_items | returned_items |\n| :--- | :--- | :--- |\n| North | 7 | 1 |\n| South | 7 | 1 |\n\n- Both \"North\" and \"South\" brands each recorded 7 complete items and 1 returned item [q1].\n\n### Limitations\n- The query specifically measured items with status 'Complete' and 'Returned'; other statuses (such as 'Cancelled' or 'Shipped') and revenue amounts were not queried [q1].\n- Coverage across specific date ranges or time periods was not measured.\n\n### Action items (proposed)\n1. Would you like to examine the return rates across calendar periods to determine whether returns vary over time?\n2. Should we query all order item statuses to see the full status distribution for these brands?",
+  "status": "generated",
+  "seconds": 14.546667705988511,
+  "usage": {
+    "input_tokens": 2643,
+    "output_tokens": 1279,
+    "total_tokens": 3922,
+    "thought_tokens": 1044,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

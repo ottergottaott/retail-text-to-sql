@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-2",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on items with status 'Complete' across authorized products [q1]:\n\n| brand | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| South | 140.0 | 7 |\n| West | 210.0 | 7 |\n\n- Brand `West` generated 210.0 in revenue across 7 completed items [q1].\n- Brand `South` generated 140.0 in revenue across 7 completed items [q1].\n- Both brands had an identical volume of completed items (7 items each), with `West` generating higher total completed revenue [q1].\n\n### Limitations\n- Revenue is calculated strictly as `SUM(sale_price)` for items where `status = 'Complete'`; this does not measure net profit, product costs, or non-complete order statuses [q1].\n- Sale prices do not reflect promotional activity or discount history relative to retail prices [q1].\n- Currency units are not specified in the logical schema.\n- Data reflects all available records within authorized scope; date ranges and customer counts were not queried [q1].\n\n### Action items (proposed)\n- Propose querying product `cost` alongside `sale_price` to evaluate gross margin and profitability by brand.\n- Propose analyzing non-completed statuses (such as cancelled or returned items) to compare fulfillment performance across brands.\n- Propose aggregating completed item volume and revenue over time buckets (e.g., monthly) to identify sales trends.",
+  "status": "generated",
+  "seconds": 32.85078630800126,
+  "usage": {
+    "input_tokens": 2391,
+    "output_tokens": 1513,
+    "total_tokens": 3904,
+    "thought_tokens": 1154,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

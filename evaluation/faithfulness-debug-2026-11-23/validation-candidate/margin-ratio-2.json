@@ -1,0 +1,25 @@
+{
+  "id": "margin-ratio-2",
+  "family": "margin-ratio",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe cost-proxy margin ratio was computed for completed items (`status = 'Complete'`) across authorized products [q1]. The metric is calculated as `SUM(sale_price - cost) / NULLIF(SUM(sale_price), 0)` across all available records.\n\n| cost_proxy_margin_ratio |\n| --- |\n| -1.0 |\n\nThe observed `cost_proxy_margin_ratio` is -1.0 [q1].\n\n### Limitations\n- This query measured only the aggregate ratio across authorized products and did not break down revenue, cost, or item counts by individual product, order, or customer [q1].\n- Item volume and sample size were not queried, so representativeness cannot be evaluated from this query [q1].\n- Historical date boundaries and whether recorded costs reflect current supplier costs were not measured [q1].\n\n### Action items (proposed)\n1. Would you like to query total revenue, total cost, and item counts broken down by product ID to identify which authorized products drive the aggregate margin ratio?\n2. Would you like to inspect the metric over time to determine whether the negative margin ratio occurs across all periods or is confined to specific date intervals?",
+  "status": "generated",
+  "seconds": 17.489293517981423,
+  "usage": {
+    "input_tokens": 2588,
+    "output_tokens": 1165,
+    "total_tokens": 3753,
+    "thought_tokens": 878,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

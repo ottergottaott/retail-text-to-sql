@@ -1,0 +1,25 @@
+{
+  "id": "explicit-period-1",
+  "family": "explicit-period",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nDuring January 2026 (2026-01-01 to 2026-02-01), authorized products recorded a total `january_revenue` of 100.0 across 7 `complete_items` [q1]. Revenue is defined as `SUM(sale_price)` where `status = 'Complete'`.\n\n| january_revenue | complete_items |\n| --- | --- |\n| 100.0 | 7 |\n\n### Limitations\nThis analysis was limited to completed items within January 2026 [q1]. It did not measure other order statuses, customer- or product-level distributions, or trends over other timeframes, and currency and data completeness were not measured.\n\n### Action items (proposed)\n1. How does Complete-item revenue in January 2026 compare to prior months for authorized products?\n2. What are the revenue and item count distributions when broken down by individual authorized product?",
+  "status": "generated",
+  "seconds": 16.891933208011324,
+  "usage": {
+    "input_tokens": 2607,
+    "output_tokens": 1662,
+    "total_tokens": 4269,
+    "thought_tokens": 1416,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

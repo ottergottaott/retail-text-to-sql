@@ -1,0 +1,25 @@
+{
+  "id": "price-range-1",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe observed sale price range for completed items across authorized products is summarized below [q1]:\n\n| min_price | max_price |\n| --- | --- |\n| 10.0 | 20.0 |\n\n### Limitations\n- The analysis was restricted to items with status 'Complete' across authorized products [q1].\n- Transaction counts, date ranges, and customer counts were not queried; sample size and temporal coverage were not measured [q1].\n- Product-level price variations, retail list prices, and product costs were not examined [q1].\n- Currency is not defined in the underlying data.\n\n### Action items (proposed)\n1. Would you like to query the item volume and price range broken down by individual product ID?\n2. Would you like to compare observed sale prices against catalog retail prices and costs for completed items?",
+  "status": "generated",
+  "seconds": 11.4298539700103,
+  "usage": {
+    "input_tokens": 2457,
+    "output_tokens": 995,
+    "total_tokens": 3452,
+    "thought_tokens": 781,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

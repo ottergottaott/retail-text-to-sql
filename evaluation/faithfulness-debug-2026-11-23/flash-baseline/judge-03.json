@@ -1,0 +1,294 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.7817460317460317,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.7817460317460317,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "price-range-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7857142857142857,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on completed order item records within authorized product scope, the observed minimum sale price is 10.0.",
+                "reason": "The context shows an execution scope with authorized products and query results where min_price is 10.0 for completed order items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on completed order item records within authorized product scope, the observed maximum sale price is 20.0.",
+                "reason": "The context shows an execution scope with authorized products and query results where max_price is 20.0 for completed order items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The minimum observed complete item price is 10.0.",
+                "reason": "The query result row explicitly states min_price is 10.0 for items with status 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The maximum observed complete item price is 20.0.",
+                "reason": "The query result row explicitly states max_price is 20.0 for items with status 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only evaluated MIN(sale_price) and MAX(sale_price) for items with status equal to 'Complete'.",
+                "reason": "The SQL query in the context selects only MIN(sale_price) and MAX(sale_price) with the condition WHERE status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed items were excluded from the query evaluation.",
+                "reason": "The SQL query explicitly filters for `order_items`.`status` = 'Complete', excluding non-completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Overall item counts, transaction volume, and customer counts were not queried.",
+                "reason": "The SQL query only selects MIN and MAX of sale_price, without querying counts or transaction volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The distribution of prices between 10.0 and 20.0 is unmeasured.",
+                "reason": "The query only measured the extreme values (min and max) rather than any price distribution.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the logical schema.",
+                "reason": "The logical schema contains field names and types (e.g., sale_price is DOUBLE), with no currency information specified.",
+                "verdict": 1
+              },
+              {
+                "statement": "Data completeness and time period coverage were not measured.",
+                "reason": "The query in the context did not query timestamps, time windows, or completeness metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Price metrics were not broken down by individual product ID.",
+                "reason": "The query aggregates MIN and MAX over the whole table without grouping by product_id.",
+                "verdict": 1
+              },
+              {
+                "statement": "Querying item volume, average sale price, and price distribution across completed items is proposed as an action item.",
+                "reason": "The context only consists of raw JSON query execution data and metadata; it does not contain any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "Breaking down price ranges by product ID to compare price boundaries across authorized products is proposed as an action item.",
+                "reason": "The context does not contain any recommendations or proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "Evaluating price trends over time across completed order items is proposed as an action item.",
+                "reason": "The context contains no recommendations or proposals regarding future action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 24.6258432760078
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on completed order item records within authorized product scope, the observed minimum sale price is 10.0.",
+                "reason": "The query filters for status = 'Complete' within the executor-bound authorized products scope and returns a min_price of 10.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on completed order item records within authorized product scope, the observed maximum sale price is 20.0.",
+                "reason": "The query filters for status = 'Complete' within the executor-bound authorized products scope and returns a max_price of 20.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only evaluated MIN(sale_price) and MAX(sale_price) for items with status = 'Complete'.",
+                "reason": "The SQL query specifically selects MIN(order_items.sale_price) and MAX(order_items.sale_price) with the predicate WHERE order_items.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed items were excluded from the query.",
+                "reason": "The WHERE clause restricts the records to order_items.status = 'Complete', excluding non-completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Overall item counts, transaction volume, and customer counts were not queried.",
+                "reason": "The SQL query only selects MIN and MAX of sale_price without calculating item counts, order/transaction counts, or distinct customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "The distribution of prices between 10.0 and 20.0 is unmeasured.",
+                "reason": "Only the minimum and maximum aggregate values were computed; no distribution, median, standard deviation, or histogram of prices was measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the logical schema.",
+                "reason": "The schema specifies sale_price, cost, and retail_price as DOUBLE without defining any currency column or unit specification.",
+                "verdict": 1
+              },
+              {
+                "statement": "Data completeness and time period coverage were not measured.",
+                "reason": "The query does not evaluate temporal fields or completeness metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Price metrics were not broken down by individual product ID.",
+                "reason": "The query calculates global aggregate minimum and maximum sale prices without grouping by product_id.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 19.769961099984357
+        }
+      }
+    },
+    {
+      "id": "price-range-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across items with status = 'Complete' for authorized products, the observed minimum sale price (min_price) is 20.0.",
+                "reason": "The context shows a query result with min_price equal to 20.0 under the condition status = 'Complete' within the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across items with status = 'Complete' for authorized products, the observed maximum sale price (max_price) is 30.0.",
+                "reason": "The context shows a query result with max_price equal to 30.0 under the condition status = 'Complete' within the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the schema.",
+                "reason": "The logical schema includes numeric price fields such as sale_price, cost, and retail_price as DOUBLE, with no currency field or unit specified.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and customer counts were not queried.",
+                "reason": "The SQL query in the context only selects MIN(sale_price) and MAX(sale_price), and does not query any counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sample size and demand volume are unmeasured.",
+                "reason": "Because the query only computed min and max sale prices without counting items, orders, or rows, sample size and demand volume are unmeasured in the results.",
+                "verdict": 1
+              },
+              {
+                "statement": "Aggregate pricing does not distinguish between individual authorized product IDs, list prices (retail_price), or discounts.",
+                "reason": "The executed SQL query aggregates min and max sale_price across all completed records without grouping by product_id or comparing against retail_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges and temporal coverage were not measured.",
+                "reason": "The executed SQL query did not filter, group by, or select timestamps or date ranges from created_at.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query item volume, distinct order counts, and price statistics grouped by product_id to evaluate product-level price variations.",
+                "reason": "The context contains only query metadata, results, execution scope, and schema; it does not mention or propose any action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to analyze completed sales over time by date bucket to check whether price variation reflects changes across specific periods.",
+                "reason": "The context contains only query metadata, results, execution scope, and schema; it does not mention or propose any action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 24.20290734199807
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across items with status = 'Complete' for authorized products, the observed minimum sale price (min_price) is 20.0.",
+                "reason": "The query filters for status = 'Complete', is scoped to authorized products via executor-bound views, and returns a min_price of 20.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across items with status = 'Complete' for authorized products, the observed maximum sale price (max_price) is 30.0.",
+                "reason": "The query filters for status = 'Complete', is scoped to authorized products via executor-bound views, and returns a max_price of 30.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the schema.",
+                "reason": "The logical schema lists column types (e.g., DOUBLE for sale_price and retail_price) without specifying any currency column or unit.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and customer counts were not queried.",
+                "reason": "The SQL query only selects MIN and MAX of sale_price, without querying any item, order, or customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Sample size and demand volume are unmeasured.",
+                "reason": "Because no counts or volume metrics were calculated in the SQL query, sample size and demand volume remain unmeasured.",
+                "verdict": 1
+              },
+              {
+                "statement": "The aggregate pricing does not distinguish between individual authorized product IDs, list prices (retail_price), or discounts.",
+                "reason": "The query computes global min and max over order_items without grouping by product_id or joining products to compare against retail_price or discounts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges and temporal coverage were not measured.",
+                "reason": "The SQL query does not inspect or filter by timestamps (such as created_at), leaving date ranges and temporal coverage unmeasured.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 20.660805669002002
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 8,
+  "measured_total_tokens": 19255,
+  "usage_responses": 8,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

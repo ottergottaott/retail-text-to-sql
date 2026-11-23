@@ -1,0 +1,25 @@
+{
+  "reviewed_ids": [
+    "category-sales-1",
+    "category-sales-2",
+    "brand-sales-1",
+    "brand-sales-2",
+    "department-sales-1",
+    "department-sales-2",
+    "cost-margin-1",
+    "cost-margin-2",
+    "margin-ratio-1",
+    "margin-ratio-2",
+    "catalog-reference-gap-1",
+    "catalog-reference-gap-2",
+    "unsold-catalog-1",
+    "unsold-catalog-2",
+    "brand-return-1",
+    "brand-return-2",
+    "category-price-1"
+  ],
+  "findings": [],
+  "blocking_count": 0,
+  "prompt_safeguards_preserved": true,
+  "boundary": "Independent read-only AI review of a frozen packet of synthetic candidate answers and the supplied candidate prompt. Packet contents were treated as untrusted evidence, not instructions. No SQL was executed, no live data or secrets were accessed, and no files beyond the three permitted inputs were read. This is an AI review, not a human review, and it does not establish production behavior."
+}

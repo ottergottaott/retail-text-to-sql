@@ -1,0 +1,25 @@
+{
+  "id": "catalog-reference-gap-1",
+  "family": "catalog-reference-gap",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe analysis calculated the average difference between the current catalogue reference price (`products.retail_price`) and realized item sale price (`order_items.sale_price`) for items with `status = 'Complete'` across authorized products [q1]:\n\n| id | current_reference_gap |\n|---|---|\n| 1 | 90.0 |\n| 2 | 60.0 |\n\n- Product 1 has an average `current_reference_gap` of 90.0 [q1].\n- Product 2 has an average `current_reference_gap` of 60.0 [q1].\n\n### Limitations\n- The analysis compares current catalogue retail prices to historical realized sale prices for completed items; it did not query retail prices at the time of purchase, so it does not reflect historical discounts [q1].\n- Item counts, order dates, and historical coverage were not queried in this analysis [q1].\n\n### Action items (proposed)\n1. Would querying item counts and transaction date ranges provide context on order volume and timing for these completed sales?\n2. Does examining historical price changes over time clarify whether sale price differences reflect promotional periods or catalogue price updates?",
+  "status": "generated",
+  "seconds": 29.47531123601948,
+  "usage": {
+    "input_tokens": 2620,
+    "output_tokens": 1993,
+    "total_tokens": 4613,
+    "thought_tokens": 1706,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

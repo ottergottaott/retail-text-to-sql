@@ -1,0 +1,25 @@
+{
+  "id": "age-band-volume-2",
+  "family": "age-band-volume",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nComplete item counts by coarse age band for authorized products [q1]:\n\n| age_band | complete_items |\n| :--- | :--- |\n| 30s | 14 |\n\nAcross authorized products, 14 Complete items were recorded, all associated with the 30s age band [q1].\n\n### Limitations\nThis analysis measured only items with status 'Complete' aggregated by coarse age band; it did not examine order dates, historical coverage over time, or other order statuses [q1].\n\n### Action items (proposed)\n1. How do Complete item volumes vary across specific time periods or individual authorized product IDs?\n2. What are the item volumes across other order statuses for these authorized products?",
+  "status": "generated",
+  "seconds": 13.798070881981403,
+  "usage": {
+    "input_tokens": 2606,
+    "output_tokens": 1338,
+    "total_tokens": 3944,
+    "thought_tokens": 1151,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

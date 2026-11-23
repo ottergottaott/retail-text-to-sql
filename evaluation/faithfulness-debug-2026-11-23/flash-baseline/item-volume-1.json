@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-1",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nBased on query [q1], the completed item counts (`COUNT(*) WHERE status = 'Complete'`) for your authorized products across all recorded history are:\n\n| product_id | complete_items |\n| --- | --- |\n| 1 | 7 |\n| 2 | 7 |\n\nBoth product 1 and product 2 have 7 completed items [q1].\n\n### Limitations\n- **Metric and Scope**: Scope is restricted to authorized products (IDs 1 and 2) with status `Complete` [q1]. Non-completed items (such as returns, cancellations, or processing orders) were not included.\n- **Timeframe**: Temporal bounds were not filtered; results reflect all available records in the dataset, and historical completeness over time was not measured [q1].\n- **Dimensions not measured**: Sale price, product cost, net profit, promotional discounts, and customer or order counts were not queried.\n\n### Action items (proposed)\n- Propose querying revenue (`SUM(sale_price)`) and average item price by product to determine financial contribution alongside unit volume.\n- Check the distribution of order item statuses (e.g., `Cancelled`, `Returned`) to evaluate completion rates for each product.\n- Analyze completed item counts across time buckets (e.g., by month or quarter) to observe demand trends.",
+  "status": "generated",
+  "seconds": 13.480314875021577,
+  "usage": {
+    "input_tokens": 2343,
+    "output_tokens": 1127,
+    "total_tokens": 3470,
+    "thought_tokens": 812,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

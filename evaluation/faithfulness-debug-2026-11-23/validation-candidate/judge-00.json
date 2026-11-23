@@ -1,0 +1,511 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.804972804972805,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.804972804972805,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "category-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8461538461538461,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], the completed item revenue for authorized Outerwear products is 210.0.",
+                "reason": "The context shows that query q1 returned a complete_revenue of 210.0 for the Outerwear category under authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on query [q1], the completed item count for authorized Outerwear products is 14.",
+                "reason": "The context shows query q1 returned complete_items equal to 14 for the Outerwear category.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status equals 'Complete' according to query [q1].",
+                "reason": "The SQL query in q1 explicitly calculates SUM(`i`.`sale_price`) AS `complete_revenue` with the filter WHERE `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Outerwear generated 210.0 in complete revenue across 14 completed items according to query [q1].",
+                "reason": "The rows returned by query q1 show category 'Outerwear' with 210.0 in complete_revenue and 14 in complete_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured items with status equals 'Complete'.",
+                "reason": "The SQL query in q1 specifically filters records using WHERE `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order item statuses, such as cancelled or returned items, were not queried in the analysis.",
+                "reason": "The query only filters for `i`.`status` = 'Complete', excluding all other possible order item statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries were not evaluated in the analysis.",
+                "reason": "The SQL query does not filter or group by any date or timestamp fields such as `created_at`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Trends over time were not evaluated in the analysis.",
+                "reason": "The SQL query groups only by `category` without any time dimension or temporal aggregation.",
+                "verdict": 1
+              },
+              {
+                "statement": "Profit margins were not evaluated in the analysis.",
+                "reason": "The query calculates only revenue and count, omitting cost and profit margin calculations.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer-level distributions were not evaluated in the analysis.",
+                "reason": "The query does not join or aggregate by customer or user attributes.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness of the records was not measured.",
+                "reason": "The query only measures aggregated revenue and item counts, without measuring data completeness or record coverage over time.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to analyze how complete-item revenue and volume for Outerwear trend month-over-month across available history.",
+                "reason": "The context only contains raw JSON query results, execution scope, and schema metadata, with no mention of proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to determine the item volumes and revenue distributions across non-completed order statuses for authorized products.",
+                "reason": "The context contains no proposed action items or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 23.48719556600554
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], completed item revenue for authorized products in the Outerwear category is 210.0.",
+                "reason": "The query result for the Outerwear category within the authorized execution scope shows a complete_revenue of 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on query [q1], completed item count for authorized products in the Outerwear category is 14.",
+                "reason": "The query result for the Outerwear category within the authorized execution scope shows complete_items equal to 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status = 'Complete'.",
+                "reason": "The logical SQL defines complete_revenue as SUM(`i`.`sale_price`) filtered by `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Outerwear generated 210.0 in complete revenue across 14 completed items.",
+                "reason": "The single returned row for Outerwear reflects complete_revenue of 210.0 across complete_items of 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured items with status = 'Complete'.",
+                "reason": "The SQL query explicitly filters rows with `WHERE i.status = 'Complete'`, measuring only items with that status.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order item statuses, such as cancelled or returned items, were not queried.",
+                "reason": "Because the query was restricted strictly to `status = 'Complete'`, no other statuses were retrieved or evaluated.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries, trends over time, profit margins, and customer-level distributions were not evaluated.",
+                "reason": "The SQL query aggregates solely across category and status without inspecting dates, timestamps, costs/margins, or customer keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness of the records was not measured.",
+                "reason": "The query performs an aggregate calculation and does not perform any data coverage or completeness audit.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 45.717807104985695
+        }
+      }
+    },
+    {
+      "id": "category-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8181818181818182,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue is measured as SUM(sale_price) for items with status 'Complete' across authorized products with product IDs 2 and 3.",
+                "reason": "The SQL query computes SUM(`i`.`sale_price`) AS `complete_revenue` filtered on `i`.`status` = 'Complete', and the execution scope limits authorized products to [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "The query evaluated items across all available history.",
+                "reason": "The SQL query contains no time-based or date filtering, meaning it evaluates across all available records in the dataset.",
+                "verdict": 1
+              },
+              {
+                "statement": "Footwear recorded 210.0 in total complete revenue across 7 complete items.",
+                "reason": "The query result rows explicitly show category 'Footwear' with complete_revenue 210.0 and complete_items 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Outerwear recorded 140.0 in total complete revenue across 7 complete items.",
+                "reason": "The query result rows explicitly show category 'Outerwear' with complete_revenue 140.0 and complete_items 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query evaluated only items where status equals 'Complete'.",
+                "reason": "The SQL query includes the clause `WHERE i.status = 'Complete'`, restricting evaluation solely to complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-complete statuses, such as returns, cancellations, or processing orders, were not measured.",
+                "reason": "Because the query explicitly filters for `i`.`status` = 'Complete', non-complete statuses were excluded from the measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "No time window or date filtering was specified in the analysis.",
+                "reason": "The SQL query lacks any date or timestamp filters on `created_at` or any other temporal fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical data completeness and date coverage were not measured.",
+                "reason": "The analysis only aggregates `sale_price` and item counts by category without assessing date coverage or completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product costs, margins, retail price variance, and customer-level order volume were not included in the analysis.",
+                "reason": "The SQL query only selects `category`, `SUM(sale_price)`, and `COUNT(*)`, excluding costs, margins, retail prices, and customer-level metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed action item is to analyze how complete revenue and item volume for each category trend when broken down by order creation date over quarters or years.",
+                "reason": "The context only contains execution logs, schema definitions, and query results; no recommendations or proposed action items are mentioned.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed action item is to evaluate the item counts and total sale amounts for other order item statuses, such as returned or cancelled, across Footwear and Outerwear.",
+                "reason": "There are no recommendations or proposed action items provided anywhere in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 28.161850578995654
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue is measured as SUM(sale_price) for items with status 'Complete' across authorized products (IDs 2, 3), evaluated across all available history.",
+                "reason": "The SQL query computes SUM(sale_price) filtered on status = 'Complete' without date filtering, and the execution scope explicitly binds authorized products to IDs 2 and 3.",
+                "verdict": 1
+              },
+              {
+                "statement": "Authorized product IDs evaluated in the analysis are 2 and 3.",
+                "reason": "The execution scope metadata confirms that authorized_products is [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Footwear recorded 210.0 in total complete revenue across 7 complete items.",
+                "reason": "The returned row for Footwear shows complete_revenue of 210.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Outerwear recorded 140.0 in total complete revenue across 7 complete items.",
+                "reason": "The returned row for Outerwear shows complete_revenue of 140.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only items where status is 'Complete'.",
+                "reason": "The SQL query specifically filters rows using WHERE i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-complete statuses (such as returns, cancellations, or processing orders) were not measured in the analysis.",
+                "reason": "Because the query restricted items strictly to status = 'Complete', non-complete statuses were excluded from measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "No time window or date filtering was specified in the query.",
+                "reason": "The SQL query contains no WHERE predicates or clauses filtering by date or time.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical data completeness or date coverage was not measured.",
+                "reason": "The query does not perform any date coverage or completeness audit.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product costs, margins, retail price variance, and customer-level order volume were not included in the analysis.",
+                "reason": "The SQL query selects only category, sum of sale_price, and count of items, omitting costs, margins, retail price variance, and customer-level aggregations.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 21.419382146996213
+        }
+      }
+    },
+    {
+      "id": "brand-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status equals 'Complete' across all recorded history within authorized product scope.",
+                "reason": "The query explicitly calculates SUM(`i`.`sale_price`) AS `complete_revenue` filtered by `i`.`status` = 'Complete' with no date restrictions, and the context specifies an execution scope with authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand North generated 70.0 in complete revenue across 7 completed items.",
+                "reason": "The context directly includes the row for brand 'North' with complete_revenue of 70.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South generated 140.0 in complete revenue across 7 completed items.",
+                "reason": "The context directly includes the row for brand 'South' with complete_revenue of 140.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query evaluated only order items with status equals 'Complete'.",
+                "reason": "The SQL query in the context has a WHERE clause restricting records to `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order statuses, such as cancelled, returned, or pending, were not measured by the query.",
+                "reason": "Because the query filtered exclusively for status = 'Complete', no other order statuses were measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time ranges, date coverage, and historical completeness were not evaluated in the analysis.",
+                "reason": "The SQL query in the context contains no filtering, grouping, or evaluation on timestamp or date fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Discounts, retail prices, and customer or order volume were not analyzed in the query.",
+                "reason": "The query only measures SUM(sale_price) and COUNT(*) grouped by brand, omitting retail prices, discounts, and customer/order volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is determining the item counts and revenue totals across other order statuses for the authorized brands.",
+                "reason": "The context consists purely of query results, query SQL, execution scope, and logical schema; it contains no proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is analyzing how complete revenue breaks down across time periods or product categories.",
+                "reason": "The context contains no recommendations or proposed next analytical steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 20.04816055399715
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status = 'Complete' across all recorded history within authorized product scope.",
+                "reason": "The SQL query computes SUM(sale_price) as complete_revenue filtering for status = 'Complete' without date restrictions, bounded by the executor-enforced authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand North generated 70.0 in complete revenue across 7 completed items within authorized product scope.",
+                "reason": "The returned query results show brand North has complete_revenue of 70.0 and complete_items of 7 within the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South generated 140.0 in complete revenue across 7 completed items within authorized product scope.",
+                "reason": "The returned query results show brand South has complete_revenue of 140.0 and complete_items of 7 within the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query evaluated only order items with status = 'Complete'.",
+                "reason": "The SQL WHERE clause explicitly restricts the evaluation to order items with status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order statuses, such as cancelled, returned, or pending, were not measured.",
+                "reason": "Because the query filtered exclusively for status = 'Complete', no other order statuses were measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time ranges, date coverage, and historical completeness were not evaluated.",
+                "reason": "The SQL query does not inspect timestamps, created_at fields, or coverage ranges.",
+                "verdict": 1
+              },
+              {
+                "statement": "Discounts, retail prices, and customer or order volume were not analyzed.",
+                "reason": "The query measures only SUM(sale_price) and COUNT(*) grouped by brand, omitting retail_price, discount calculations, distinct orders, and customer counts.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 19.646293258003425
+        }
+      }
+    },
+    {
+      "id": "brand-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue and item counts for authorized products were calculated using SUM(sale_price) and COUNT(*) filtered by status = 'Complete'.",
+                "reason": "The SQL query in the context calculates SUM(`i`.`sale_price`) AS `complete_revenue` and COUNT(*) AS `complete_items` with WHERE `i`.`status` = 'Complete' under an execution scope for authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South generated 140.0 in complete revenue across 7 completed items.",
+                "reason": "The rows in the context directly confirm that brand 'South' has complete_revenue of 140.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand West generated 210.0 in complete revenue across 7 completed items.",
+                "reason": "The rows in the context directly confirm that brand 'West' has complete_revenue of 210.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to completed items with status = 'Complete'.",
+                "reason": "The SQL query explicitly filters records with `i`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure cancelled, returned, or pending items.",
+                "reason": "Because the query explicitly restricts the dataset to `i`.`status` = 'Complete', non-completed statuses like cancelled, returned, or pending were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product costs, discounts, and net profit were not included in the query.",
+                "reason": "The SQL query only selects `brand`, SUM(`i`.`sale_price`), and COUNT(*), omitting product costs, discounts, or net profit.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries and completeness over time were not evaluated.",
+                "reason": "The SQL query does not filter, group, or order by any date or timestamp fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next step is to examine how revenue and item counts compare when factoring in product costs to evaluate gross margin.",
+                "reason": "The context only contains query data, schema, and execution scope; it does not propose or mention any next steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is to evaluate how completed sales are distributed across time periods or order dates.",
+                "reason": "The context does not state or propose any next steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 23.517165469005704
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue and item counts for authorized products were calculated using SUM(sale_price) and COUNT(*) filtered by status = 'Complete'.",
+                "reason": "The SQL query computes SUM(i.sale_price) and COUNT(*) filtered by WHERE i.status = 'Complete' within the executor-bound scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South generated 140.0 in complete revenue.",
+                "reason": "The returned results show brand South has a complete_revenue of 140.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South had 7 completed items.",
+                "reason": "The returned results show brand South has complete_items equal to 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand West generated 210.0 in complete revenue.",
+                "reason": "The returned results show brand West has a complete_revenue of 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand West had 7 completed items.",
+                "reason": "The returned results show brand West has complete_items equal to 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to completed items where status = 'Complete'.",
+                "reason": "The SQL query explicitly filters rows using WHERE i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure cancelled, returned, or pending items.",
+                "reason": "The query only filters for items where status = 'Complete', so other statuses were not measured in this analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product costs, discounts, and net profit were not included in the query.",
+                "reason": "The SQL query aggregates only sale_price and row counts, omitting cost, discount fields, and profit calculations.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date boundaries and completeness over time were not evaluated.",
+                "reason": "The query contains no date filtering, time-based grouping, or date columns to evaluate completeness over time.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 42.595543517003534
+        }
+      }
+    }
+  ],
+  "attempted_provider_calls": 16,
+  "measured_total_tokens": 39060,
+  "call_count_complete": true,
+  "judge_model": "gemini-3.8-flash",
+  "max_provider_calls": 16,
+  "judge_workers": 2,
+  "human_review": "pending",
+  "evaluation_attempts": 1
+}

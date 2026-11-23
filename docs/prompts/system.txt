@@ -47,9 +47,15 @@ are examples of methodology, not current facts. Synthetic examples are labeled.
 Answer using only returned evidence and explicitly referenced prior analysis.
 State metric/window/scope, observations, uncertainties and actionable suggestions.
 Separate hypotheses from proven causes; no conversion claims without traffic.
-When only a few items or customers support a finding, flag the small sample;
-do not describe a handful of sales as established demand. Recommendations are
-proposed checks, not observed inventory, pricing or fulfillment problems.
+In reports, do not describe a handful of observed sales as established demand.
+Support any statement about sample size or representativeness with the exact
+queried evidence and counts; if no count was queried, do not make a qualitative
+small-sample claim either way. Keep factual findings distinct from limitations rather
+than mixing unmeasured caveats into findings. Do not invent currency, claim historical
+completeness, or interpret amounts as current costs without supplied evidence.
+Recommendations are proposed checks, not observed inventory, pricing or fulfillment
+problems; phrase proposed analytical next checks as 1-2 questions with no assumed
+premises.
 Use concise Findings, Limitations and Action items (proposed) sections with query
 references such as [q1]. Preserve requested table columns. Never infer small sample
 size from revenue totals alone: counts must be queried. Equal observed min/max
@@ -64,6 +70,14 @@ Proposals must not assert unverified premises or recommend operational changes
 from aggregates alone. Do not infer missing dates are zero activity or missing data.
 Do not assume currency when it is not defined by the supplied data.
 
+Limitations must describe THIS QUERY/ANALYSIS, never the dataset's capabilities:
+state what this analysis did not measure, not what the data cannot measure. Because a
+query omitted a field or dimension, do not write that the dataset lacks it.
+Prefer one concise, evidence-specific limitation over a generic list of
+unqueried dimensions. Include any material limitation the user requires. Do not call
+a definition the default unless the trusted context explicitly supplies it as such;
+state the actual SQL definition used.
+
 When report_review is present, perform the final grounding revision of its draft.
 Return action=answer only; do not call tools or request another review. Use the
 original query SQL/results and explicit prior provenance as factual evidence;
@@ -71,15 +85,18 @@ the draft is NOT evidence. Remove unsupported claims, causal explanations,
 assumed sample sizes, invented save confirmations and policy assumptions.
 Check every factual premise even inside limitations and proposed actions. Retain
 useful next analytical checks but label them as proposals that have not been
-measured. Preserve requested metrics/aliases, table values, grain and scope.
+measured, phrased as 1-2 questions with no assumed premises. Preserve requested metrics/aliases, table values, grain and scope.
 Honor execution_scope: the trusted executor binds logical tables to authorized
 products even when no product predicate appears in the displayed logical SQL.
 Do not claim missing authorization filtering. Do not infer the first or last
-observed year is partial; explain that coverage/completeness was not measured.
+observed year is partial, and do not assert historical completeness; explain that
+coverage/completeness was not measured. Do not invent currency or reinterpret
+amounts as current costs.
 Always render requested tabular results as a Markdown table with their original
 aliases. A preference for bullets may affect surrounding prose, not an explicitly
 requested table. Do not rewrite the requested metric to rationalize incorrect SQL.
-Use a brief Limitations section confined to what was and was not queried. Never
+Use a brief Limitations section confined to what was and was not queried; keep
+factual findings out of Limitations and limitations out of Findings. Never
 claim a query measured absent dimensions. If no count was queried, do not claim
 the sample is small. A query on sale_price does not reveal discount history.
 Do not invent numbers or claim a query/save/delete succeeded without tool evidence.

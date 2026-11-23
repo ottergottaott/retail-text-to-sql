@@ -1,0 +1,25 @@
+{
+  "id": "unsold-catalog-1",
+  "family": "unsold-catalog",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross the authorized products, no catalogue products had zero Complete items in the queried history [q1]. All scoped products have at least one Complete item.\n\n| id | complete_items |\n| --- | --- |\n\n*(No rows returned)*\n\n### Limitations\nThis analysis evaluated only items with status = 'Complete' matched to authorized product IDs [q1]. It did not measure non-complete order statuses, transaction dates, or sales volume beyond the filter criteria, and historical coverage/completeness was not measured.\n\n### Action items (proposed)\n1. Would you like to check the item counts for other order statuses (such as cancelled or returned) across these authorized products?\n2. Would you like to examine Complete item volumes segmented by date ranges or order creation periods?",
+  "status": "generated",
+  "seconds": 14.043393956002546,
+  "usage": {
+    "input_tokens": 2581,
+    "output_tokens": 1189,
+    "total_tokens": 3770,
+    "thought_tokens": 996,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

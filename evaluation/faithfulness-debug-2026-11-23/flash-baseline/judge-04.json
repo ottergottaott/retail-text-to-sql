@@ -1,0 +1,304 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6961538461538461,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.6961538461538461,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "realized-price-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for completed order items within the authorized product scope is 15.0.",
+                "reason": "The context shows a query calculating AVG(`order_items`.`sale_price`) where `status` = 'Complete' within the authorized product scope view, returning a mean_price of 15.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the supplied data.",
+                "reason": "The logical schema and query result only specify numeric values (DOUBLE) with no currency units defined or mentioned.",
+                "verdict": 1
+              },
+              {
+                "statement": "Only the overall average sale price of completed items was queried.",
+                "reason": "The SQL query in the context only selects AVG(`order_items`.`sale_price`) for rows where `status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and price dispersion measures such as minimum, maximum, or standard deviation were not measured.",
+                "reason": "The executed SQL query only computes the mean price; no counts, minimum, maximum, or standard deviation metrics were queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Realized sale price was not compared against product catalog retail prices or costs.",
+                "reason": "The query only references the `order_items` table and does not join with or compare against `retail_price` or `cost` from the `products` table.",
+                "verdict": 1
+              },
+              {
+                "statement": "Discount depths and profit margins are unmeasured.",
+                "reason": "The query output only provides the average sale price, leaving discount depths and profit margins uncalculated.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date ranges, seasonality, and pricing trends over time were not analyzed.",
+                "reason": "The SQL query lacks any date filtering or temporal grouping to analyze historical ranges, seasonality, or pricing trends over time.",
+                "verdict": 1
+              },
+              {
+                "statement": "Querying item counts alongside minimum, median, and maximum sale prices is suggested to evaluate price consistency across authorized products.",
+                "reason": "The context only contains structured data, schemas, and query metadata; it does not contain suggestions or recommendations.",
+                "verdict": 0
+              },
+              {
+                "statement": "Comparing sale price with retail price from the products table is proposed to evaluate discounting patterns.",
+                "reason": "There are no proposals or analytical suggestions provided in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Segmenting realized prices by product ID and date buckets is recommended to identify pricing trends across authorized items.",
+                "reason": "The context provides only query execution results and metadata, with no recommendations regarding price segmentation or trend identification.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 31.100436620006803
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price (mean_price) for completed order items within authorized product scope is 15.0.",
+                "reason": "The query calculates AVG(sale_price) for items with status 'Complete' within the executor-bound authorized product scope, returning a mean_price of 15.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the supplied data.",
+                "reason": "Neither the schema nor the query result specifies currency symbols or currency metadata.",
+                "verdict": 1
+              },
+              {
+                "statement": "Only the overall average sale_price of completed items was queried.",
+                "reason": "The SQL query only selects AVG(order_items.sale_price) for completed items without any additional metrics or grouping.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts were not measured.",
+                "reason": "The SQL query does not compute item counts (COUNT).",
+                "verdict": 1
+              },
+              {
+                "statement": "Order counts were not measured.",
+                "reason": "The SQL query does not compute order counts or distinct orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "Price dispersion, such as minimum, maximum, or standard deviation, was not measured.",
+                "reason": "No dispersion metrics such as MIN, MAX, or standard deviation were included in the SQL query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Realized sale price was not compared against product catalog retail prices or costs.",
+                "reason": "The query does not join the products table or reference retail_price or cost.",
+                "verdict": 1
+              },
+              {
+                "statement": "Discount depths and margins are unmeasured.",
+                "reason": "The SQL query does not calculate discounts, margins, or compare prices to costs.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date ranges, seasonality, and pricing trends over time were not analyzed.",
+                "reason": "The SQL query does not inspect created_at timestamps or analyze trends over time.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 19.81512863500393
+        }
+      }
+    },
+    {
+      "id": "realized-price-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6923076923076923,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for Complete items across authorized products is 25.0.",
+                "reason": "The query calculates the average sale_price for items where status is 'Complete' within the authorized scope, and the result explicitly shows mean_price as 25.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the data.",
+                "reason": "The schema shows prices as DOUBLE with no currency symbol or currency attribute specified anywhere in the context.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Markdown table reports the mean_price as 25.0.",
+                "reason": "The context provides JSON data and does not contain or mention a Markdown table.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis reflects the overall average sale_price for Complete items within the authorized scope.",
+                "reason": "The SQL query computes AVG(sale_price) where status = 'Complete', running under the enforcement of the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and customer counts were not queried in the analysis.",
+                "reason": "The SQL query only selected AVG(sale_price) and did not include any counts for items, orders, or customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "Price dispersion, including minimum, maximum, standard deviation, or median, was not measured in the analysis.",
+                "reason": "The executed SQL query only computes the average sale_price and includes no metrics for minimum, maximum, standard deviation, or median.",
+                "verdict": 1
+              },
+              {
+                "statement": "A breakdown by individual product, category, or time period was not queried.",
+                "reason": "The SQL query does not contain any GROUP BY clause or breakdown by product, category, or time period.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not measured in the analysis.",
+                "reason": "The query only computed the average sale price across completed items without assessing historical completeness over time.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed statuses were not evaluated in the analysis.",
+                "reason": "The query strictly filtered for status = 'Complete', leaving non-completed statuses unexamined.",
+                "verdict": 1
+              },
+              {
+                "statement": "Catalog retail prices were not evaluated in the analysis.",
+                "reason": "The query only accessed the order_items table and did not query the retail_price from the products table.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to query item volume using COUNT(*) alongside minimum, maximum, and average sale prices to assess transaction volume and price variation.",
+                "reason": "There are no proposed action items mentioned anywhere in the context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to break down average realized prices by product ID (product_id) and by date buckets to observe product-specific differences and historical trends.",
+                "reason": "The context consists solely of query metadata, schema, and results, with no proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare realized sale_price against retail_price from the products table to check for price realization differences.",
+                "reason": "The context contains no proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 20.220356724021258
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The mean realized sale price for Complete items across authorized products is 25.0.",
+                "reason": "The query calculated the average sale price for items with status 'Complete' within the authorized product scope, returning 25.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the data.",
+                "reason": "The schema defines sale_price as a DOUBLE without specifying any currency code or unit.",
+                "verdict": 1
+              },
+              {
+                "statement": "The SQL alias for the mean price is mean_price.",
+                "reason": "The SQL query explicitly aliases the average calculation as `mean_price`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and customer counts were not queried in the analysis.",
+                "reason": "The SQL query only computes the average sale price and does not query counts of items, orders, or customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "Price dispersion, including minimum, maximum, standard deviation, or median, was not measured in the analysis.",
+                "reason": "The executed SQL query only includes AVG(sale_price) and does not measure minimum, maximum, standard deviation, or median.",
+                "verdict": 1
+              },
+              {
+                "statement": "Breakdown by individual product, category, or time period was not queried.",
+                "reason": "The SQL query does not contain any GROUP BY clause to break down results by product, category, or time period.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not measured in the analysis.",
+                "reason": "The analysis consists solely of an average price calculation on complete items and does not audit or measure historical completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-completed statuses were not evaluated in the analysis.",
+                "reason": "The SQL query specifically filters with WHERE status = 'Complete', excluding non-completed statuses from the evaluation.",
+                "verdict": 1
+              },
+              {
+                "statement": "Catalog retail prices were not evaluated in the analysis.",
+                "reason": "The query accesses `order_items`.`sale_price` and does not query or evaluate `products`.`retail_price`.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 20.449581965978723
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 8,
+  "measured_total_tokens": 18947,
+  "usage_responses": 8,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

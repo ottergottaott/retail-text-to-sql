@@ -28,11 +28,9 @@ Leave `LLM_PROVIDER=gemini`, the prefilled Google `GEMINI_BASE_URL` and
 `EMBEDDING_PROVIDER=none` unchanged for the first launch.
 
 BigQuery needs **separate Google credentials**, not the Gemini key. Use an
-existing credential JSON, or run `gcloud auth application-default login` with
-the Google Cloud CLI. On macOS/Linux its output is normally
-`$HOME/.config/gcloud/application_default_credentials.json`; pass that file below.
-Your execution project needs the BigQuery API enabled and your identity needs
-permission to create query jobs.
+existing credential JSON, or create one with `gcloud auth application-default login`.
+Pass that JSON file to the launcher below. Your execution project needs the
+BigQuery API enabled and permission to create query jobs.
 [Credentials and permissions checklist](docs/setup.md#credentials-checklist).
 
 ```sh
@@ -97,22 +95,27 @@ activates it automatically, with version history and rollback.
 
 ## Verification and limits
 
-Recorded on 23 November 2026. **Hydrogen evaluation is incomplete due to judge
-timeouts and the run deadline; no quality improvement is established.**
-[Results and reproduction](evaluation/hydrogen-2026-11-23/README.md).
+Recorded on 23 November 2026. The report-grounding prompt was evaluated with
+WikiVibe's `gemini-3.8-flash` gateway alias for both generation and judging.
+[Results, protocols and reproduction](evaluation/faithfulness-debug-2026-11-23/README.md).
 
 | Check | Result | Coverage |
 | --- | ---: | --- |
-| Local regression suite | **303 passed** | [Safety, retrieval, preferences, automatic feedback and tone](evaluation/automatic-learning-2026-11-23.json) |
-| Standard Ragas faithfulness | **0.588** | 4/20 synthetic validation cases scored |
-| Custom SQL-aware faithfulness | **0.956** | 4/20 cases; separate judge contract |
-| Answer structure and table checks | **12/12 generated** | Frozen-row checks passed; 8/20 cases were not generated |
-| Automatic learning browser smoke | **5 checks passed** | [Fixture page/backend: feedback, tone activation/rejection and rollback](evaluation/automatic-learning-browser-2026-11-23.json) |
+| Local regression suite | **308 passed** | [Safety, retrieval, preferences, learning and evaluator checks](evaluation/faithfulness-debug-2026-11-23/regression.xml) |
+| Standard Ragas, validation | **0.683 → 0.718** | 20/20 baseline; 20/20 candidate |
+| Standard Ragas, reserved test | **0.752** | 20/20 candidate; not used for tuning |
+| Custom SQL-aware, validation / test | **0.988 / 1.000** | 20/20 each; separate metric contract |
+| Answer tables and structure | **20/20 validation; 20/20 test** | Exact frozen-row checks |
+| Automatic learning browser smoke | **5 checks passed** | [Fixture feedback, tone and rollback](evaluation/automatic-learning-browser-2026-11-23.json) |
 
-The faithfulness run used **WikiVibe `gemini-4-hydrogen`** for generation and
-judging, with the current `retail-v10-auto-improvement` prompt. It evaluates report
-review against frozen synthetic SQL evidence; it does not execute BigQuery or
-measure end-to-end accuracy. Using the same model as judge can introduce bias.
+These are **synthetic report-review evaluations**, with frozen SQL results and
+supplied schema as evidence; they do not execute BigQuery or measure end-to-end
+SQL accuracy. Standard Ragas 0.4.4 Faithfulness is unchanged. The custom SQL-aware
+score is a separate contract. Each run has one repetition; using the same model
+for generation and judging can introduce bias. The paired change interval includes
+zero, so a statistically reliable gain is not established. Validation was previously exposed;
+the reserved test was not used for tuning. Provider failures and bounded rechecks
+are retained in the [evidence](evaluation/faithfulness-debug-2026-11-23/final-metrics.json).
 
 [Clean Docker startup](evaluation/client-startup-2026-11-23.json) was checked with
 fixture data and synthetic Google credentials. Fresh client Gemini/BigQuery
@@ -124,10 +127,11 @@ Do not enter real PII into WebUI: it stores messages before backend sanitization
 <details>
 <summary>Historical measurements</summary>
 
-Previous Flash validation scored 0.756 on 19/20 synthetic cases. The older live
-BigQuery set scored standard Ragas 0.534 and custom SQL-aware 0.843 on 12 reports.
-These used different prompts/models or evidence and do not establish a paired
-improvement. [Recorded checks and limitations](docs/review-summary.md).
+The older live BigQuery set scored standard Ragas 0.534 and custom SQL-aware
+0.843 on 12 reports. Hydrogen scored 0.588 standard on only 4/20 synthetic
+validation cases before provider/time limits. Those runs used different
+models/prompts or evidence and are not paired controls for this experiment.
+[Recorded checks and limitations](docs/review-summary.md).
 
 </details>
 

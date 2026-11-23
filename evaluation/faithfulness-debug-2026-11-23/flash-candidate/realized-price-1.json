@@ -1,0 +1,25 @@
+{
+  "id": "realized-price-1",
+  "family": "realized-price",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nThe mean realized sale price for completed items across authorized products is 15.0 [q1].\n\n| mean_price |\n|---|\n| 15.0 |\n\n### Limitations\n- The query only calculated the average sale price for items with status 'Complete' and did not return transaction volume or item counts [q1]; sample size was not measured.\n- Historical date boundaries and completeness over time were not queried [q1].\n- Currency is not defined in the schema.\n- Non-completed statuses, costs, and list retail prices were not evaluated.\n\n### Action items (proposed)\n1. What are the item counts and total realized revenue for completed items across each authorized product ID?\n2. How does the realized sale price compare to the catalog retail price over monthly intervals?",
+  "status": "generated",
+  "seconds": 12.557738160976442,
+  "usage": {
+    "input_tokens": 2426,
+    "output_tokens": 1067,
+    "total_tokens": 3493,
+    "thought_tokens": 866,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

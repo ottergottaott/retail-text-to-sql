@@ -1,0 +1,456 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.6767676767676768,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.6767676767676768,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "unsold-catalog-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.6666666666666666,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across the authorized products, no catalogue products had zero Complete items in the queried history.",
+                "reason": "The query specifically looked for products with a count of Complete items equal to 0 within the authorized products, and the result set is empty (`rows: []`), confirming no such products were found.",
+                "verdict": 1
+              },
+              {
+                "statement": "All scoped products have at least one Complete item.",
+                "reason": "Since the query searched for products having 0 Complete items and returned 0 rows, all authorized products in scope must have at least one Complete item.",
+                "verdict": 1
+              },
+              {
+                "statement": "No rows were returned in the table with columns id and complete_items.",
+                "reason": "The SQL query defines the selected columns as `id` and `complete_items`, and the context specifies `\"rows\": []`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only items with status equal to Complete matched to authorized product IDs.",
+                "reason": "The SQL join condition explicitly filters on `status = 'Complete'` and the execution scope restricts products to authorized IDs [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-complete order statuses.",
+                "reason": "The SQL query only filtered for items where `status = 'Complete'`, ignoring all other order statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure transaction dates or sales volume beyond the filter criteria.",
+                "reason": "The logical schema includes transaction dates (`created_at`) and sales volume (`sale_price`), but neither was aggregated or evaluated in the SQL query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness were not measured in the analysis.",
+                "reason": "The context does not mention or define historical coverage or completeness, so this statement cannot be directly inferred.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is checking the item counts for other order statuses, such as cancelled or returned, across the authorized products.",
+                "reason": "The context consists only of query metadata, execution scope, and schema; it contains no recommendations or proposed next steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is examining Complete item volumes segmented by date ranges or order creation periods.",
+                "reason": "The context does not mention or propose any next steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 66.08612975399592
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across the authorized products, no catalogue products had zero Complete items in the queried history.",
+                "reason": "The query filters for products having a count of Complete items equal to 0, and returned an empty set of rows without truncation within the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "All scoped products have at least one Complete item.",
+                "reason": "Because no authorized products had zero Complete items (empty result for COUNT = 0) and the results were not truncated, all scoped products have at least one Complete item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query returned no rows.",
+                "reason": "The execution output explicitly shows an empty list of rows (`\"rows\": []`).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only items with status = 'Complete' matched to authorized product IDs.",
+                "reason": "The SQL query joins order_items strictly on `status = 'Complete'` and authorized product IDs enforced by executor views.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-complete order statuses beyond the filter criteria.",
+                "reason": "The SQL query only examines items where `status = 'Complete'` and does not measure other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure transaction dates beyond the filter criteria.",
+                "reason": "The SQL query does not inspect or measure transaction dates or timestamps.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure sales volume beyond the filter criteria.",
+                "reason": "The SQL query does not measure sales volume outside of counting complete items matched to scoped products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage or completeness was not measured.",
+                "reason": "The query does not include any coverage audit or measurement of historical data completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 48.89427976400475
+        }
+      }
+    },
+    {
+      "id": "unsold-catalog-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.4444444444444444,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Query [q1] identified catalogue products within the authorized scope with zero associated items having status Complete.",
+                "reason": "Query [q1] returned an empty list of rows, meaning it did not identify any catalogue products with zero associated Complete items.",
+                "verdict": 0
+              },
+              {
+                "statement": "No products met the condition of having zero associated items with status Complete.",
+                "reason": "Query [q1] specifically filtered for products having zero complete items (`HAVING COUNT(`i`.`item_key`) = 0`) and returned zero rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] returned zero rows.",
+                "reason": "The context explicitly shows `\"rows\": []` for query [q1].",
+                "verdict": 1
+              },
+              {
+                "statement": "All scoped catalogue products have at least one completed item record in the queried history.",
+                "reason": "Because query [q1] searched for scoped products with zero completed item records and returned no rows, it directly implies that all scoped catalogue products have at least one completed item record.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis queried item records with status Complete grouped by product ID [q1].",
+                "reason": "The SQL query in [q1] joins on `status = 'Complete'` and groups by product ID (`GROUP BY `id``).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure items in other statuses, such as Cancelled, Returned, or Processing.",
+                "reason": "The context does not mention other statuses such as Cancelled, Returned, or Processing.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis did not assess temporal coverage across the recorded history.",
+                "reason": "The context does not contain any information or evaluation regarding temporal coverage across the recorded history.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to query the total item count broken down by all order statuses for authorized products.",
+                "reason": "The context provides query execution data and schema, but does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to inspect the earliest and latest transaction dates for Complete items to review the date range of activity.",
+                "reason": "The context does not mention any proposed action items or date range inspections.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 84.33337547100382
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Query [q1] returned 0 rows for catalogue products within authorized scope with zero associated items having status Complete.",
+                "reason": "Query [q1] filters for products with COUNT(i.item_key) = 0 where status is 'Complete', and the returned rows list is empty (`[]`).",
+                "verdict": 1
+              },
+              {
+                "statement": "No catalogue products within authorized scope met the condition of having zero associated items with status Complete in query [q1].",
+                "reason": "With truncated=false and no row limits, the query evaluated the authorized scope and returned 0 rows, meaning no scoped catalogue products met the HAVING condition.",
+                "verdict": 1
+              },
+              {
+                "statement": "All scoped catalogue products have at least one completed item record in the queried history.",
+                "reason": "Because query [q1] performed a LEFT JOIN on products in scope and returned zero rows having a completed item count of zero, all scoped catalogue products in the dataset have at least one completed item record.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis queried item records with status Complete grouped by product ID [q1].",
+                "reason": "The SQL query joins on `i.status = 'Complete'` and groups the results by `id` (product ID).",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure items in other statuses, such as Cancelled, Returned, or Processing.",
+                "reason": "The supplied SQL query strictly filters order items by `i.status = 'Complete'` and does not evaluate or aggregate any other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not assess temporal coverage across the recorded history.",
+                "reason": "The query does not select, filter, or audit `created_at` or any temporal boundaries, so temporal coverage was not assessed by this analysis.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 40.79683235398261
+        }
+      }
+    },
+    {
+      "id": "brand-return-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The count of returned items by catalogue brand is provided for authorized products, filtering on status = 'Returned'.",
+                "reason": "The context specifies an execution scope of authorized products and provides a SQL query that groups by brand with the condition WHERE i.status = 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand North has 1 returned item.",
+                "reason": "The rows in the context explicitly show brand 'North' with returned_items equal to 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South has 1 returned item.",
+                "reason": "The rows in the context explicitly show brand 'South' with returned_items equal to 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand North and brand South each have 1 returned item recorded in the queried records.",
+                "reason": "The query result rows show both brand 'North' and brand 'South' each having 1 returned item.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured items where status = 'Returned'.",
+                "reason": "The SQL query in the context filters rows strictly using `WHERE i.status = 'Returned'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total order volumes, total items sold, and return rates were not queried in the analysis.",
+                "reason": "The SQL query in the context only selects brand and counts returned items, without querying total order volumes, items sold, or return rates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges, transaction timing, and historical completeness were not evaluated.",
+                "reason": "The SQL query does not filter on or group by any timestamp or date fields, confirming these were not evaluated in the query.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to determine the total volume of items sold and the resulting return rate for brand North compared to brand South.",
+                "reason": "The context contains only data results, SQL, execution scope, and schema; it does not mention any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to determine how return volumes break down across product categories and calendar months.",
+                "reason": "There is no mention of proposed analytical checks anywhere in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 33.86536523900577
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "In the queried records for authorized products filtering on status = 'Returned', brand North has 1 returned item.",
+                "reason": "The query results show brand 'North' with a returned_items count of 1 within the authorized execution scope and status = 'Returned' filter.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the queried records for authorized products filtering on status = 'Returned', brand South has 1 returned item.",
+                "reason": "The query results show brand 'South' with a returned_items count of 1 within the authorized execution scope and status = 'Returned' filter.",
+                "verdict": 1
+              },
+              {
+                "statement": "Each brand has 1 returned item recorded in the queried records.",
+                "reason": "Both brands ('North' and 'South') present in the query results have exactly 1 returned item recorded.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured items where status = 'Returned'.",
+                "reason": "The SQL query explicitly filters records with WHERE `i`.`status` = 'Returned'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total order volumes, total items sold, and return rates were not queried.",
+                "reason": "The SQL query only counts items filtered by status = 'Returned' grouped by brand; it does not calculate total items sold, overall order volume, or return rates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date ranges, transaction timing, and historical completeness were not evaluated in the analysis.",
+                "reason": "The SQL query does not inspect or filter by timestamps, dates, or evaluate temporal completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 39.16998607199639
+        }
+      }
+    },
+    {
+      "id": "brand-return-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8181818181818182,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Query [q1] counted returned items where order_items.status is equal to Returned by catalogue brand for authorized products.",
+                "reason": "The SQL query in q1 counts records where order_items.status = 'Returned' grouped by product brand, under an execution scope of authorized products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South has 1 returned item recorded according to query [q1].",
+                "reason": "The output rows for query [q1] explicitly list South with a returned_items count of 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand West has 1 returned item recorded according to query [q1].",
+                "reason": "The output rows for query [q1] explicitly list West with a returned_items count of 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only returned item counts.",
+                "reason": "Query [q1] only aggregates COUNT(*) AS returned_items where status is 'Returned', measuring nothing else.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total order item volume was not queried in the analysis.",
+                "reason": "Query [q1] filters solely for status = 'Returned' and does not query the total volume of order items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Return rates were not queried in the analysis.",
+                "reason": "Query [q1] only calculates the raw count of returned items, not return rates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product prices were not queried in the analysis.",
+                "reason": "The SQL query does not select or aggregate any price columns from order_items or products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Temporal distribution was not queried in the analysis.",
+                "reason": "Query [q1] does not include timestamps, dates, or any temporal grouping/filtering.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness of records were not measured in the analysis.",
+                "reason": "The analysis only includes query [q1], which does not measure historical coverage or data completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is determining the return rate for each brand relative to the brand's total ordered or completed items.",
+                "reason": "The context consists only of query output, execution scope, and logical schema; it does not mention any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is determining how return counts distribute over time across specific products or categories.",
+                "reason": "The context does not mention any proposed analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 24.105649325007107
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Query [q1] counted returned items with order_items.status = 'Returned' by catalogue brand for authorized products.",
+                "reason": "The logical SQL filters by order_items.status = 'Returned', groups by p.brand, and execution metadata enforces authorized_products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand South has 1 returned item recorded for authorized products in query [q1].",
+                "reason": "The results for query [q1] explicitly show brand 'South' with a returned_items count of 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "Brand West has 1 returned item recorded for authorized products in query [q1].",
+                "reason": "The results for query [q1] explicitly show brand 'West' with a returned_items count of 1.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only returned item counts.",
+                "reason": "The only query executed was query [q1], which exclusively counted returned items by brand.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total order item volume, return rates, product prices, and temporal distribution were not queried.",
+                "reason": "Query [q1] only selects brand and COUNT(*) where status = 'Returned'; it does not query overall volume, rates, prices, or timestamps.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness of records were not measured.",
+                "reason": "No coverage or completeness audit queries were included in the supplied analysis context.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 17.507351392996497
+        }
+      }
+    }
+  ],
+  "attempted_provider_calls": 16,
+  "measured_total_tokens": 40575,
+  "call_count_complete": true,
+  "judge_model": "gemini-3.8-flash",
+  "max_provider_calls": 16,
+  "judge_workers": 2,
+  "human_review": "pending",
+  "evaluation_attempts": 1
+}

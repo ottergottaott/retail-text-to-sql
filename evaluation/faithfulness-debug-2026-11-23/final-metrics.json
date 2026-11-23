@@ -1,0 +1,184 @@
+{
+  "serving_prompt": "retail-v11-grounded-reports",
+  "generator_and_judge": "WikiVibe gateway gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "judge_evidence": "schema-v1: frozen SQL/results/scope plus supplied logical schema; draft/history/examples excluded",
+  "local_regression": {
+    "tests": 308,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 123.804,
+    "command": ".venv/bin/python -m pytest -q --junitxml=/tmp/retail-v11-final.xml",
+    "scope": "Post-promotion local regression on retail-v11-grounded-reports; no client Google/BigQuery acceptance claim"
+  },
+  "validation": {
+    "baseline": {
+      "status": "tested",
+      "acceptance": "passed",
+      "expected_cases": 20,
+      "scored_cases": 20,
+      "checks_passed": 20,
+      "means": {
+        "faithfulness": 0.6834490876770289,
+        "sql_factual_faithfulness": 0.9571459096459096
+      },
+      "coverage": {
+        "faithfulness": {
+          "ragas_scored": 20,
+          "rule_scored": 0,
+          "applicable": 20,
+          "total_samples": 20
+        },
+        "sql_factual_faithfulness": {
+          "ragas_scored": 20,
+          "rule_scored": 0,
+          "applicable": 20,
+          "total_samples": 20
+        }
+      },
+      "missing_ids": [],
+      "attempted_provider_calls": 88,
+      "measured_total_tokens": null,
+      "call_count_complete": null
+    },
+    "candidate": {
+      "status": "tested",
+      "acceptance": "passed",
+      "expected_cases": 20,
+      "scored_cases": 20,
+      "checks_passed": 20,
+      "means": {
+        "faithfulness": 0.7176215451215452,
+        "sql_factual_faithfulness": 0.9881944444444445
+      },
+      "coverage": {
+        "faithfulness": {
+          "ragas_scored": 20,
+          "rule_scored": 0,
+          "applicable": 20,
+          "total_samples": 20
+        },
+        "sql_factual_faithfulness": {
+          "ragas_scored": 20,
+          "rule_scored": 0,
+          "applicable": 20,
+          "total_samples": 20
+        }
+      },
+      "missing_ids": [],
+      "attempted_provider_calls": 92,
+      "measured_total_tokens": null,
+      "call_count_complete": null
+    }
+  },
+  "reserved_test": {
+    "status": "tested",
+    "acceptance": "passed",
+    "expected_cases": 20,
+    "scored_cases": 20,
+    "checks_passed": 20,
+    "means": {
+      "faithfulness": 0.7518531468531469,
+      "sql_factual_faithfulness": 1.0
+    },
+    "coverage": {
+      "faithfulness": {
+        "ragas_scored": 20,
+        "rule_scored": 0,
+        "applicable": 20,
+        "total_samples": 20
+      },
+      "sql_factual_faithfulness": {
+        "ragas_scored": 20,
+        "rule_scored": 0,
+        "applicable": 20,
+        "total_samples": 20
+      }
+    },
+    "missing_ids": [],
+    "attempted_provider_calls": 80,
+    "measured_total_tokens": null,
+    "call_count_complete": null
+  },
+  "development": {
+    "baseline": {
+      "status": "tested",
+      "acceptance": "passed",
+      "expected_cases": 10,
+      "scored_cases": 10,
+      "checks_passed": 10,
+      "means": {
+        "faithfulness": 0.6894610944610944,
+        "sql_factual_faithfulness": 0.975
+      },
+      "coverage": {
+        "faithfulness": {
+          "ragas_scored": 10,
+          "rule_scored": 0,
+          "applicable": 10,
+          "total_samples": 10
+        },
+        "sql_factual_faithfulness": {
+          "ragas_scored": 10,
+          "rule_scored": 0,
+          "applicable": 10,
+          "total_samples": 10
+        }
+      },
+      "missing_ids": [],
+      "attempted_provider_calls": 44,
+      "measured_total_tokens": null,
+      "call_count_complete": null
+    },
+    "candidate_v1": {
+      "status": "tested",
+      "acceptance": "passed",
+      "expected_cases": 10,
+      "scored_cases": 10,
+      "checks_passed": 10,
+      "means": {
+        "faithfulness": 0.7816414141414142,
+        "sql_factual_faithfulness": 0.9607142857142857
+      },
+      "coverage": {
+        "faithfulness": {
+          "ragas_scored": 10,
+          "rule_scored": 0,
+          "applicable": 10,
+          "total_samples": 10
+        },
+        "sql_factual_faithfulness": {
+          "ragas_scored": 10,
+          "rule_scored": 0,
+          "applicable": 10,
+          "total_samples": 10
+        }
+      },
+      "missing_ids": [],
+      "attempted_provider_calls": 40,
+      "measured_total_tokens": null,
+      "call_count_complete": null
+    }
+  },
+  "limitations": [
+    "Synthetic report-review evidence; no live BigQuery or tool routing in this experiment.",
+    "One repetition; generator and judge share a model, so judge bias is possible.",
+    "Validation was previously exposed; reserved test was not used for prompt tuning.",
+    "Standard Ragas and custom SQL-aware contracts are separate; neither measures overall SQL accuracy.",
+    "Fresh direct-Gemini/client-BigQuery acceptance and another-machine installation remain unverified."
+  ],
+  "sources_sha256": {
+    "validation-baseline/results.json": "ae7750b06c9de0afbc8411216e2dc194f63e6f6e107e29e569d51fb7f518486c",
+    "validation-candidate/results.json": "3b0df14d3b35da3345e5ac3ff8f2f445f8f8c44a6452359446ed6267b3c47686",
+    "test-candidate/results.json": "d97fe0090b6031c934d5e38ebd3f98c6f7c36112d4a50b7a5bdc74d778664c47",
+    "candidate-v2-frozen.txt": "6e0d0c9c2abc68dcdc8b51abc91e866ba049c611c6cf3b39157841e415282304",
+    "regression.xml": "73b78885b4345a5a05cf8a533552059b6a5d3c31262cc568709d8ef65ac31ccb"
+  },
+  "strict_automatic_paired_gate_passed": false,
+  "paired_faithfulness_delta_ci95": [
+    -0.012345073227426178,
+    0.08389273716479602
+  ],
+  "deployment_boundary": "Repository default prompt updated; no live container rebuild or cloud integration acceptance in this evaluation."
+}

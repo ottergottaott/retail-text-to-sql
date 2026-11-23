@@ -1,0 +1,25 @@
+{
+  "id": "repeat-customer-share-2",
+  "family": "repeat-customer-share",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nFor authorized products, all 4 customers with Complete items had more than one distinct order represented, resulting in a repeat customer share of 1.0 [q1].\n\n| repeat_customer_share | customers |\n| --- | --- |\n| 1.0 | 4 |\n\n### Limitations\nThis analysis evaluated only customers associated with Complete items for authorized products in `order_items`; historical coverage and completeness were not measured [q1]. It did not measure order timing, total order volume, non-Complete item statuses, or customer activity across unauthorized products [q1].\n\n### Action items (proposed)\n1. What is the distribution of completed order counts per customer across authorized products when broken down by time period?\n2. How does the repeat customer metric compare if non-Complete order item statuses are evaluated?",
+  "status": "generated",
+  "seconds": 13.700507372006541,
+  "usage": {
+    "input_tokens": 2641,
+    "output_tokens": 1385,
+    "total_tokens": 4026,
+    "thought_tokens": 1159,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

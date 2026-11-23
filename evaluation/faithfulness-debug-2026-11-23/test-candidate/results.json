@@ -1,0 +1,2698 @@
+{
+  "dataset_sha256": "8cf6ffc608b6d093f3a2ddf5345f1c11a4d2a34622cab23787b99f178dc44dbb",
+  "prompt_sha256": "6e0d0c9c2abc68dcdc8b51abc91e866ba049c611c6cf3b39157841e415282304",
+  "model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "generation_provider": "openai_compatible",
+  "gateway_base_url": "https://api.wikivibe.dev/v1",
+  "metric_contract": "standard-faithfulness-unchanged; separate-sql-aware-v1",
+  "judge_context_contract": "schema-v1",
+  "judge_contexts_sha256": "9d79ce37a8528a7359840a976ffe7436ba7311a207fffddeace7c981adcdba64",
+  "judge_workers": 2,
+  "judge_timeout_seconds": 120,
+  "generation_seconds": 60,
+  "batch_size": 4,
+  "max_calls_per_batch": 16,
+  "evidence_boundary": "Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing.",
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.7518531468531469,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.7518531468531469,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 20,
+      "rule_scored": 0,
+      "applicable": 20,
+      "total_samples": 20
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 20,
+      "rule_scored": 0,
+      "applicable": 20,
+      "total_samples": 20
+    }
+  },
+  "acceptance": "passed",
+  "expected_cases": 20,
+  "scored_cases": 20,
+  "missing_ids": [],
+  "cases": [
+    {
+      "id": "monthly-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measures monthly revenue for authorized products based on order items with a status of \"Complete\".",
+                "reason": "The context shows an execution scope with authorized products and a SQL query aggregating monthly sale prices where status equals 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis defines revenue as SUM(sale_price).",
+                "reason": "The SQL query in the context explicitly computes revenue as SUM(`order_items`.`sale_price`) AS `complete_revenue`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete item revenue for 2026-01-01 00:00:00 is 100.0.",
+                "reason": "The row data explicitly contains the record {\"month\": \"2026-01-01 00:00:00\", \"complete_revenue\": 100.0}.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete item revenue for 2026-02-01 00:00:00 is 110.0.",
+                "reason": "The row data explicitly contains the record {\"month\": \"2026-02-01 00:00:00\", \"complete_revenue\": 110.0}.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed complete item revenue increased from 100.0 in January 2026 to 110.0 in February 2026.",
+                "reason": "The records show complete revenue was 100.0 in January 2026 and 110.0 in February 2026, which is an increase.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only evaluated SUM(sale_price) for items with status equal to \"Complete\".",
+                "reason": "The SQL query in the context restricts calculations strictly to SUM(`order_items`.`sale_price`) with WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure item counts, product costs, net profit, discounts, or other order statuses.",
+                "reason": "The SQL query only selects and aggregates sale_price for 'Complete' items, omitting counts, costs, profits, discounts, and other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date coverage outside the returned months were not measured.",
+                "reason": "The query results only cover two months (January and February 2026) and do not evaluate dates or historical completeness outside this range.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item asks whether comparing monthly complete revenue against item order volumes would provide additional insight into growth drivers.",
+                "reason": "The context contains no proposed action items or text discussing comparing revenue against item order volumes.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item asks how monthly complete revenue compares to cost and return volumes over the same period.",
+                "reason": "The context does not contain any proposed action items or discussion comparing revenue against cost and return volumes.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 33.40397801800282
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measures monthly revenue for authorized products based on order items with a status of 'Complete'.",
+                "reason": "The query filters order_items by status = 'Complete' grouped by month, and execution metadata enforces scope to authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis defines revenue as SUM(sale_price).",
+                "reason": "The SQL query computes complete_revenue using SUM(`order_items`.`sale_price`).",
+                "verdict": 1
+              },
+              {
+                "statement": "For the month of 2026-01-01 00:00:00, complete_revenue was 100.0.",
+                "reason": "The returned row for month '2026-01-01 00:00:00' lists complete_revenue as 100.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "For the month of 2026-02-01 00:00:00, complete_revenue was 110.0.",
+                "reason": "The returned row for month '2026-02-01 00:00:00' lists complete_revenue as 110.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed complete item revenue increased from 100.0 in January 2026 to 110.0 in February 2026.",
+                "reason": "The complete_revenue values for January 2026 and February 2026 are 100.0 and 110.0 respectively, reflecting an increase.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only evaluated SUM(sale_price) for items with status = 'Complete'.",
+                "reason": "The SQL query specifically aggregates SUM(`order_items`.`sale_price`) with the filter `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure item counts, product costs, net profit, discounts, or other order statuses.",
+                "reason": "The supplied SQL query aggregates only SUM(sale_price) for status = 'Complete', without querying or computing counts, costs, profits, discounts, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date coverage outside the returned months were not measured.",
+                "reason": "No coverage or completeness audit queries were executed in the supplied context.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 58.60129191502347
+        }
+      }
+    },
+    {
+      "id": "monthly-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, Complete-item revenue was 180.0 in January 2026.",
+                "reason": "The context specifies an execution scope of authorized products and shows a complete_revenue of 180.0 for 2026-01-01 (January 2026).",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, Complete-item revenue was 170.0 in February 2026.",
+                "reason": "The context specifies an execution scope of authorized products and shows a complete_revenue of 170.0 for 2026-02-01 (February 2026).",
+                "verdict": 1
+              },
+              {
+                "statement": "The complete revenue for the month of 2026-01-01 was 180.0.",
+                "reason": "The rows explicitly include month '2026-01-01 00:00:00' with complete_revenue equal to 180.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The complete revenue for the month of 2026-02-01 was 170.0.",
+                "reason": "The rows explicitly include month '2026-02-01 00:00:00' with complete_revenue equal to 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only SUM(sale_price) for items with status = 'Complete' grouped by month.",
+                "reason": "The SQL query in the context selects only DATE_TRUNC(..., MONTH) and SUM(`order_items`.`sale_price`) WHERE status = 'Complete' GROUP BY `month`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts were not queried in the analysis.",
+                "reason": "The SQL query only selects month and SUM(sale_price), with no item count aggregate queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts were not queried in the analysis.",
+                "reason": "The SQL query does not select or aggregate distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-complete order statuses were not queried in the analysis.",
+                "reason": "The SQL query strictly filters by `order_items`.`status` = 'Complete', excluding non-complete order statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical data completeness outside the returned months was not measured.",
+                "reason": "The query and result set only encompass the specific returned months, with no evaluation or measurement of historical data completeness outside them.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date coverage outside the returned months was not measured.",
+                "reason": "The query only groups and returns the specified months, without measuring date coverage outside those months.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is comparing item quantities and average selling prices between January 2026 and February 2026 to determine what drove the revenue difference.",
+                "reason": "The context consists purely of raw query data, scope, and schema, and makes no mention of any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is breaking down monthly Complete-item revenue by authorized product ID to show product-level contribution trends.",
+                "reason": "There is no mention of any proposed analytical check or recommendations within the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 27.34183153900085
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, Complete-item revenue was 180.0 in January 2026 (2026-01-01 00:00:00).",
+                "reason": "The query results within the authorized products execution scope show that for the month of 2026-01-01 00:00:00, complete_revenue was 180.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, Complete-item revenue was 170.0 in February 2026 (2026-02-01 00:00:00).",
+                "reason": "The query results within the authorized products execution scope show that for the month of 2026-02-01 00:00:00, complete_revenue was 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only SUM(sale_price) for items with status = 'Complete' grouped by month.",
+                "reason": "The logical SQL explicitly selects only DATE_TRUNC(order_items.created_at, MONTH) and SUM(order_items.sale_price) filtered by status = 'Complete' grouped by month.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts were not queried in the analysis.",
+                "reason": "The executed query does not calculate or select any count of items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts were not queried in the analysis.",
+                "reason": "The executed query does not include any COUNT(DISTINCT customer_key) or customer metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-complete order statuses were not queried in the analysis.",
+                "reason": "The query explicitly filters WHERE order_items.status = 'Complete', excluding non-complete statuses from measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical data completeness outside the returned months was not measured.",
+                "reason": "No coverage or completeness audit query was executed, meaning historical data completeness outside the returned months was not measured by this analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date coverage outside the returned months was not measured.",
+                "reason": "The query only grouped existing data matching the filter without performing a date coverage audit across the data source.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 33.409336026001256
+        }
+      }
+    },
+    {
+      "id": "yearly-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue was calculated as SUM(sale_price) for items where status equals Complete.",
+                "reason": "The SQL query in the context explicitly shows `SUM(order_items.sale_price) AS complete_revenue` with the filter `WHERE order_items.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was grouped by the year extracted from created_at across authorized products.",
+                "reason": "The query extracts the year from `created_at` and groups by `year`, and the execution scope specifies authorized products enforced by executor bound views.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed Complete-item revenue for the year 2026 is 210.0.",
+                "reason": "The returned row in the context explicitly states `{\"year\": 2026, \"complete_revenue\": 210.0}`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure date boundaries or calendar coverage for 2026.",
+                "reason": "The SQL query only extracts the year and computes the sum of sales without checking minimum, maximum, or intermediate date boundaries.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness cannot be determined from the query.",
+                "reason": "The query only outputs aggregated data for the year 2026 without full date spans or coverage metrics to evaluate completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item volumes and order counts were not queried.",
+                "reason": "The SQL query only selects the year and the sum of `sale_price`; it does not include any count aggregates for items or orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "Items with non-complete statuses were not queried.",
+                "reason": "The SQL query filters strictly on `order_items.status = 'Complete'`, excluding any non-complete statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next step is querying the minimum and maximum created_at timestamps to determine the date range covered in 2026.",
+                "reason": "The context consists purely of query execution output, schema, and configuration; it does not propose or mention any next steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is breaking down complete_revenue alongside item and order counts by month.",
+                "reason": "The context does not contain any recommendations or proposed next steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 38.336879187001614
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue was calculated as SUM(sale_price) for items where status = 'Complete', grouped by the year extracted from created_at across authorized products.",
+                "reason": "The SQL query sums sale_price for items where status is 'Complete', groups by EXTRACT(YEAR FROM created_at), and runs under an execution scope bound to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed Complete-item revenue (complete_revenue) for 2026 is 210.0.",
+                "reason": "The returned row explicitly shows year 2026 with complete_revenue of 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure date boundaries or calendar coverage for 2026.",
+                "reason": "The SQL query only extracted the year from created_at without inspecting minimum/maximum dates or calendar boundaries.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness cannot be determined from the query.",
+                "reason": "The query only measures Complete revenue aggregated by year, providing no audit or measurement of historical completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item volumes were not queried.",
+                "reason": "The SQL query computes SUM(sale_price) and does not count or select item volumes.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order counts were not queried.",
+                "reason": "The SQL query aggregates item revenue without counting distinct orders or order keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "Items with non-complete statuses were not queried.",
+                "reason": "The SQL query contains a WHERE clause filtering strictly for status = 'Complete', excluding non-complete items.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 35.72306264800136
+        }
+      }
+    },
+    {
+      "id": "yearly-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], total complete-item revenue for authorized products in 2026 was 350.0.",
+                "reason": "The context shows query [q1] executed under an authorized products scope with rows indicating year 2026 and complete_revenue of 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the findings table, the year is listed as 2026 and the complete_revenue is listed as 350.0.",
+                "reason": "The rows array in the context explicitly lists year as 2026 and complete_revenue as 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was calculated as SUM(sale_price) filtered strictly where status equals 'Complete' according to query [q1].",
+                "reason": "The SQL query in [q1] explicitly defines complete_revenue as SUM(`order_items`.`sale_price`) with WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Coverage across the full calendar year 2026 was not measured by query [q1].",
+                "reason": "The SQL query for [q1] only aggregates revenue by year and does not evaluate or measure date coverage across the full calendar year.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness across years other than 2026 was not evaluated by query [q1].",
+                "reason": "The SQL query in [q1] does not include metrics or evaluation for historical completeness across years.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure item counts, order volumes, customer counts, or non-complete order statuses.",
+                "reason": "The SQL in [q1] selects only EXTRACT(YEAR) and SUM(sale_price) filtered solely for status = 'Complete', and does not compute item counts, order volumes, customer counts, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to break down 2026 revenue by month along with item counts to determine how volume was distributed over time.",
+                "reason": "The context contains raw query results, execution scope, and schema, but does not state or propose any analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to analyze complete revenue and unit volume broken down by authorized product ID to provide insight into individual product performance.",
+                "reason": "The context contains only data results, execution scope, and schema; it mentions no proposed analytical checks or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 77.5126507570094
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], total complete-item revenue for authorized products in 2026 was 350.0.",
+                "reason": "The execution scope restricts data to authorized products [2, 3], and query [q1] returned a complete_revenue of 350.0 for year 2026.",
+                "verdict": 1
+              },
+              {
+                "statement": "In query [q1], revenue was calculated as SUM(sale_price) filtered strictly where status = 'Complete'.",
+                "reason": "The SQL query specifically calculates SUM(`order_items`.`sale_price`) with the WHERE clause `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Coverage across the full calendar year 2026 was not measured by query [q1].",
+                "reason": "Query [q1] only extracted the year from `created_at` without checking dates, day coverage, or calendar completeness across 2026.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness across other years was not evaluated by query [q1].",
+                "reason": "Query [q1] aggregates existing records by year and contains no checks or audits for historical completeness across other years.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure item counts.",
+                "reason": "Query [q1] only aggregated sale_price and did not include any COUNT of items or rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure order volumes.",
+                "reason": "Query [q1] did not count orders or measure order volumes.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure customer counts.",
+                "reason": "Query [q1] did not count distinct customers or measure customer metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure non-complete order statuses.",
+                "reason": "Query [q1] filtered strictly for status = 'Complete', excluding and leaving unmeasured all non-complete order statuses.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 33.21233146300074
+        }
+      }
+    },
+    {
+      "id": "quarterly-volume-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Fourteen items with status 'Complete' were recorded across the authorized product scope in the quarter beginning 2026-01-01 00:00:00.",
+                "reason": "The context shows a query result row with quarter '2026-01-01 00:00:00' and complete_items of 14, run under an execution scope of authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only item counts where status equals 'Complete' aggregated by calendar quarter.",
+                "reason": "The executed SQL query explicitly groups by calendar quarter and filters strictly where status = 'Complete' counting rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-complete order statuses.",
+                "reason": "The SQL query explicitly filters for status = 'Complete', excluding non-complete order statuses from the measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure distinct order counts.",
+                "reason": "The query calculates COUNT(*) over order_items rather than counting distinct order keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure sales revenue.",
+                "reason": "The SQL query counts items and does not compute or aggregate sale_price or revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure historical coverage beyond the observed quarter beginning 2026-01-01 00:00:00.",
+                "reason": "The returned results only contain the single quarter beginning 2026-01-01 00:00:00, showing no data covering other quarters.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is to examine how the completed item volume is distributed across individual authorized product IDs within the quarter.",
+                "reason": "The context contains raw query results, metadata, and schema, but does not state or propose any next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is to determine item volumes for other order statuses, such as cancelled or returned, over the same time frame.",
+                "reason": "The context does not contain any proposed next analytical checks or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 42.521574005979346
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across the authorized product scope, 14 items with status 'Complete' were recorded in the quarter beginning 2026-01-01 00:00:00.",
+                "reason": "The query executed across executor-bound views for authorized products [1, 2] returned 14 complete items for the quarter starting 2026-01-01 00:00:00 with truncated set to false.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only item counts where status = 'Complete' aggregated by calendar quarter.",
+                "reason": "The SQL query specifically aggregates COUNT(*) filtered strictly by status = 'Complete' and grouped by calendar quarter.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-complete statuses.",
+                "reason": "The SQL query filters for status = 'Complete' only, so other statuses were not measured in this analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure distinct order counts.",
+                "reason": "The SQL query computes COUNT(*) of items and does not measure distinct order keys or order counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure sales revenue.",
+                "reason": "The SQL query aggregates item counts and does not sum or measure sale_price or revenue.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure historical coverage beyond the observed quarter.",
+                "reason": "The supplied SQL query aggregates only existing records and conducts no coverage audit or measurement beyond the single observed quarter.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 28.524821885017445
+        }
+      }
+    },
+    {
+      "id": "quarterly-volume-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5555555555555556,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The execution scope was enforced to authorized products via executor-bound views.",
+                "reason": "The context explicitly states that the execution scope has authorized_products [2, 3] and enforcement is executor_bound_views.",
+                "verdict": 1
+              },
+              {
+                "statement": "For the quarter starting 2026-01-01 00:00:00, the count of complete items for authorized products is 14.",
+                "reason": "The result row specifies quarter '2026-01-01 00:00:00' with complete_items equal to 14 within the authorized product execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "A total of 14 completed items were recorded in the single observed quarter starting 2026-01-01.",
+                "reason": "The context returns exactly one row for the quarter starting 2026-01-01 with a complete_items value of 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only item volume for records where status equals 'Complete'.",
+                "reason": "The SQL query in the context selects COUNT(*) where status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order statuses, monetary values, and customer counts were not queried.",
+                "reason": "The SQL query only selects the quarter date truncation and COUNT(*) filtered by status = 'Complete', excluding other statuses, customer counts, and monetary values.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage across other time periods was not measured.",
+                "reason": "The context does not state or imply whether historical coverage across other time periods was or was not measured; the SQL query had no date filtering.",
+                "verdict": 0
+              },
+              {
+                "statement": "Completeness across other time periods was not measured.",
+                "reason": "There is no information in the context indicating that completeness across other time periods was not measured.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is breaking down complete-item volume by individual authorized product ID for this quarter.",
+                "reason": "The context consists purely of query execution data and metadata, with no proposed next steps mentioned.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is evaluating item counts across all order statuses over the same period.",
+                "reason": "The context does not mention any proposed next steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 40.669187972001964
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The execution scope was enforced to authorized products via executor-bound views.",
+                "reason": "The execution scope metadata explicitly specifies that enforcement was handled via executor_bound_views for authorized products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the number of completed items in the quarter starting 2026-01-01 00:00:00 was 14.",
+                "reason": "Under the executor-bound scope for authorized products, the query returned a complete_items count of 14 for the quarter starting 2026-01-01 00:00:00.",
+                "verdict": 1
+              },
+              {
+                "statement": "A total of 14 completed items were recorded in the single observed quarter starting 2026-01-01.",
+                "reason": "The query result contains exactly one row for the quarter starting 2026-01-01 with complete_items equal to 14.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only item volume for records where status = 'Complete'.",
+                "reason": "The SQL query specifically filters with WHERE order_items.status = 'Complete' and aggregates using COUNT(*) to measure item volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order statuses, monetary values, and customer counts were not queried.",
+                "reason": "The SQL query only selects COUNT(*) for status = 'Complete', omitting monetary metrics (such as sale_price), distinct customer counts, and other status values.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness across other time periods were not measured.",
+                "reason": "The supplied aggregate query does not include a coverage audit or historical completeness validation across other time periods.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 32.657572370022535
+        }
+      }
+    },
+    {
+      "id": "explicit-period-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Authorized products recorded a total january_revenue of 100.0 across 7 complete_items during January 2026 (2026-01-01 to 2026-02-01).",
+                "reason": "The context shows an execution scope with authorized products, a query filtering for January 2026 (2026-01-01 to 2026-02-01) where status is Complete, and results showing january_revenue of 100.0 and complete_items of 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue is defined as SUM(sale_price) where status equals \"Complete\".",
+                "reason": "The SQL query defines january_revenue as SUM(`order_items`.`sale_price`) filtered by WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was limited to completed items within January 2026.",
+                "reason": "The WHERE clause restricts the query specifically to `order_items`.`status` = 'Complete' and timestamps between '2026-01-01' and '2026-02-01'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure other order statuses.",
+                "reason": "The query only selects rows where status equals 'Complete' and does not evaluate or measure any other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer-level or product-level distributions.",
+                "reason": "The query performs an overall aggregation without grouping by customer or product, so customer-level and product-level distributions were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure trends over other timeframes.",
+                "reason": "The query only looks at January 2026 and produces a single aggregated record, with no other timeframes evaluated.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency and data completeness were not measured in the analysis.",
+                "reason": "The query and results contain no metrics or evaluation of currency or data completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to examine how Complete-item revenue in January 2026 compares to prior months for authorized products.",
+                "reason": "The context only contains raw execution results, query metadata, execution scope, and schema; it contains no proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to determine the revenue and item count distributions when broken down by individual authorized product.",
+                "reason": "The context provides no proposals or recommendations for future analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 40.743330645986134
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "During January 2026 (2026-01-01 to 2026-02-01), authorized products recorded a total january_revenue of 100.0.",
+                "reason": "The query executed over authorized products via executor-bound views for the period from 2026-01-01 to 2026-02-01 returned a january_revenue of 100.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "During January 2026 (2026-01-01 to 2026-02-01), authorized products recorded 7 complete_items.",
+                "reason": "The query returned a complete_items count of 7 for the authorized products within the January 2026 date range.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue is defined as SUM(sale_price) where status = 'Complete'.",
+                "reason": "The logical SQL defines january_revenue as SUM(`order_items`.`sale_price`) with the filter `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was limited to completed items within January 2026.",
+                "reason": "The WHERE clause in the SQL query explicitly restricts the records to `order_items`.`status` = 'Complete' and `order_items`.`created_at` between '2026-01-01' and '2026-02-01'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure order statuses other than Complete.",
+                "reason": "The query strictly filtered for `status` = 'Complete' and did not inspect, aggregate, or measure other order statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer- or product-level distributions.",
+                "reason": "The SQL query performs a single table aggregate without any GROUP BY clauses for customers or products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure trends over other timeframes.",
+                "reason": "The analysis was restricted entirely to the single timeframe of January 2026 and did not evaluate trends over other periods.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency was not measured in the analysis.",
+                "reason": "Neither the schema nor the SQL query tracks or measures currency information.",
+                "verdict": 1
+              },
+              {
+                "statement": "Data completeness was not measured in the analysis.",
+                "reason": "No coverage or completeness audit was included in the supplied SQL query.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 23.445178091002163
+        }
+      }
+    },
+    {
+      "id": "explicit-period-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.45454545454545453,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed item revenue for authorized products totaled 180.0 in January 2026 (2026-01-01 to 2026-02-01).",
+                "reason": "The context shows that within the execution scope of authorized products [2, 3], the query for completed items in January 2026 resulted in a january_revenue of 180.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "There were 7 completed order items for authorized products in January 2026.",
+                "reason": "The context explicitly reports complete_items as 7 for the query covering completed items in January 2026 under the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue is defined as `SUM(sale_price)` where `status = 'Complete'`.",
+                "reason": "The SQL query in the context calculates `january_revenue` using `SUM(order_items.sale_price)` with the condition `order_items.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The Markdown table reports a `january_revenue` value of 180.0.",
+                "reason": "The context provides data in JSON format, not a Markdown table.",
+                "verdict": 0
+              },
+              {
+                "statement": "The Markdown table reports a `complete_items` count of 7.",
+                "reason": "The context provides data in JSON format, not a Markdown table.",
+                "verdict": 0
+              },
+              {
+                "statement": "The query measured gross revenue (`SUM(sale_price)`) for items with status 'Complete'.",
+                "reason": "The SQL query directly calculates `SUM(order_items.sale_price)` as revenue for items filtered by `order_items.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product costs, net profit, discount depth, and non-completed statuses were not queried.",
+                "reason": "The SQL query in the context shows that only `sale_price` and row count were queried for items with status 'Complete', so product costs, net profit, discount depth, and non-completed statuses were not queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not evaluated in the analysis.",
+                "reason": "The context contains raw query results and schema information, with no mention of an analysis or whether historical completeness was evaluated.",
+                "verdict": 0
+              },
+              {
+                "statement": "Order-level or customer-level distributions were not evaluated in the analysis.",
+                "reason": "The context contains only query metadata and execution results; it does not describe an analysis or its evaluation scope.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is comparing January 2026 completed-item revenue to prior months or the same period in previous years.",
+                "reason": "The context contains no proposed next analytical checks or recommendations.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is comparing the sale price breakdown across individual authorized product IDs for the specified period.",
+                "reason": "The context contains no proposed next analytical checks or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 75.37003088902566
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products in January 2026 (2026-01-01 to 2026-02-01), completed item revenue totaled 180.0.",
+                "reason": "The execution scope restricts the query to authorized products, and the query filters for created_at between 2026-01-01 and 2026-02-01 with status = 'Complete', returning a january_revenue of 180.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products in January 2026 (2026-01-01 to 2026-02-01), there were 7 completed order items.",
+                "reason": "The query executed within the authorized products scope for the specified date range and status = 'Complete' returned complete_items = 7.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue is defined as SUM(sale_price) where status = 'Complete'.",
+                "reason": "The SQL query computes january_revenue using SUM(order_items.sale_price) with the predicate status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured gross revenue (SUM(sale_price)) for items with status 'Complete'.",
+                "reason": "The SQL query directly measures SUM(sale_price) for records where status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Product costs, net profit, discount depth, and non-completed statuses were not queried.",
+                "reason": "The SQL query only selected SUM(sale_price) and COUNT(*) for status = 'Complete' from order_items, without querying costs, profit, discounts, or non-completed statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and order-level or customer-level distributions were not evaluated.",
+                "reason": "The query only computed a single aggregate across January 2026 and did not evaluate distributions across orders, customers, or historical completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 46.362805656011915
+        }
+      }
+    },
+    {
+      "id": "customer-grain-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products filtered to completed items where status equals 'Complete', distinct purchasing customers and total revenue are summarized.",
+                "reason": "The execution scope restricts the query to authorized products, and the SQL query filters by status = 'Complete' to compute the distinct count of customer keys and the sum of sale prices.",
+                "verdict": 1
+              },
+              {
+                "statement": "Four distinct customers made completed purchases for authorized products.",
+                "reason": "The query result row explicitly shows 4 customers under the 'customers' field within the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Total revenue across completed purchases for authorized products is 210.0.",
+                "reason": "The query result row explicitly shows 'complete_revenue' as 210.0 within the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The complete revenue of 210.0 is calculated as SUM(sale_price).",
+                "reason": "The SQL query in the context explicitly specifies 'SUM(`order_items`.`sale_price`) AS `complete_revenue`'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction counts were not evaluated in the query.",
+                "reason": "The SQL query only calculates COUNT(DISTINCT customer_key) and SUM(sale_price), with no evaluation of transaction counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only completed order items with status equal to 'Complete' within the authorized product scope.",
+                "reason": "The context specifies an execution scope of authorized products and a WHERE clause of `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure order or transaction counts.",
+                "reason": "The SQL query only selects COUNT(DISTINCT customer_key) and SUM(sale_price); it does not select order or transaction counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure non-completed statuses, product costs, net profit, discounts, or date coverage.",
+                "reason": "The SQL query filters strictly for 'Complete' status and aggregates only sale_price, without measuring costs, profit, discounts, or dates.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined in the queried data.",
+                "reason": "The logical schema defines sale_price as DOUBLE and retail_price/cost as DOUBLE, with no currency symbol or definition provided in the data.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not measured in the queried data.",
+                "reason": "The SQL query contains no time-based filters or measurements of historical completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next step is to break down revenue and distinct customer counts by individual authorized product or over specific time periods.",
+                "reason": "The context contains only query results, SQL execution details, scope, and schema; it mentions no proposed next steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is to evaluate total order counts and item volume alongside revenue.",
+                "reason": "The context does not mention any proposed next steps or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 23.79694247498992
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products filtered to completed items (status = 'Complete'), there are 4 distinct purchasing customers.",
+                "reason": "The query counts distinct customer_key for status = 'Complete' within the executor-bound authorized products scope, returning 4.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products filtered to completed items (status = 'Complete'), total revenue is 210.0.",
+                "reason": "The query calculates SUM(sale_price) for status = 'Complete' within authorized product scope, yielding complete_revenue of 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete revenue was calculated as SUM(sale_price).",
+                "reason": "The SQL query explicitly defines complete_revenue as SUM(`order_items`.`sale_price`).",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction counts were not evaluated in the analysis.",
+                "reason": "The SQL query counts distinct customer keys and sums sale price, but does not count transactions or orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only completed order items (status = 'Complete') within authorized product scope.",
+                "reason": "The query contains a WHERE clause filtering for status = 'Complete' and is restricted by the execution scope to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not measure order or transaction counts, non-completed statuses, product costs, net profit, discounts, or date coverage.",
+                "reason": "The supplied SQL query aggregates only distinct customers and sale price for completed items, inspecting none of these other dimensions or metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined in the queried data.",
+                "reason": "Neither the schema, query, nor returned rows specify a currency unit for sale_price.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not measured.",
+                "reason": "The analysis does not include any historical coverage audit or completeness measurement.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 31.86193973600166
+        }
+      }
+    },
+    {
+      "id": "customer-grain-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.5833333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products with item status 'Complete', there are 4 distinct customers.",
+                "reason": "The context shows that under the execution scope for authorized products, the query for status 'Complete' returned 4 distinct customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products with item status 'Complete', there is a total complete revenue of 350.0.",
+                "reason": "The context shows that the query for status 'Complete' returned a complete_revenue of 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis results are presented in a Markdown table with the SQL aliases 'customers' and 'complete_revenue'.",
+                "reason": "The context is JSON formatted and does not state or show that the results are presented in a Markdown table.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis only measured distinct customer count where status equals 'Complete'.",
+                "reason": "The analysis also measured the sum of sale_price (complete_revenue), so it did not only measure distinct customer count.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis only measured the sum of sale_price where status equals 'Complete'.",
+                "reason": "The analysis also measured distinct customer count, so it did not only measure the sum of sale_price.",
+                "verdict": 0
+              },
+              {
+                "statement": "The analysis did not measure transaction counts.",
+                "reason": "The executed SQL query in the context only measures COUNT(DISTINCT customer_key) and SUM(sale_price), and does not measure transaction counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure item volume.",
+                "reason": "The executed SQL query only calculates distinct customer count and sum of sale price, and does not measure item volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure date ranges.",
+                "reason": "The SQL query in the context filters only on status and does not measure or filter by date ranges.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure product-level breakdowns.",
+                "reason": "The query contains no GROUP BY clause or breakdown by product, so product-level breakdowns were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure currency.",
+                "reason": "Currency is neither tracked nor measured anywhere in the executed query or results.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to examine customer counts and revenue broken down by individual authorized product.",
+                "reason": "The context contains only execution metadata, schema, and query output, with no proposed analytical checks mentioned.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to analyze how customer count and revenue metrics trend over specific time periods.",
+                "reason": "The context does not mention any proposed analytical checks or trend analyses over time periods.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 41.05287992901867
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products with item status 'Complete', there are 4 distinct customers.",
+                "reason": "The query executed against executor-bound views for authorized products with status = 'Complete' returned a distinct customer count of 4 with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products with item status 'Complete', the total complete revenue is 350.0.",
+                "reason": "The query executed against executor-bound views for authorized products with status = 'Complete' returned complete_revenue of 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only measured distinct customer count and the sum of sale_price where status = 'Complete'.",
+                "reason": "The supplied SQL query exclusively aggregates COUNT(DISTINCT customer_key) and SUM(sale_price) filtered on status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure transaction counts, item volume, date ranges, product-level breakdowns, or currency.",
+                "reason": "The supplied SQL aggregate query does not select, count, or group by transactions, item volume, dates, individual products, or currency units.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 17.459620415000245
+        }
+      }
+    },
+    {
+      "id": "customer-frequency-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8461538461538461,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The findings are based on completed order items within authorized product scope.",
+                "reason": "The SQL query explicitly filters for status = 'Complete' on order_items, and the execution scope enforces authorized products [1, 2] via executor_bound_views.",
+                "verdict": 1
+              },
+              {
+                "statement": "A table of findings indicates that 2 customers have 3 orders.",
+                "reason": "The returned query rows contain {\"orders\": 3, \"customers\": 2}.",
+                "verdict": 1
+              },
+              {
+                "statement": "A table of findings indicates that 2 customers have 4 orders.",
+                "reason": "The returned query rows contain {\"orders\": 4, \"customers\": 2}.",
+                "verdict": 1
+              },
+              {
+                "statement": "Exactly 2 customers have 3 distinct completed orders representing authorized products.",
+                "reason": "The query counts distinct order_keys with status 'Complete' under the authorized product scope, yielding 2 customers with 3 orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "Exactly 2 customers have 4 distinct completed orders representing authorized products.",
+                "reason": "The query counts distinct order_keys with status 'Complete' under the authorized product scope, yielding 2 customers with 4 orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to order items with status 'Complete' for authorized products.",
+                "reason": "The SQL WHERE clause filters by `order_items`.`status` = 'Complete' and the execution scope enforces authorized_products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure orders with statuses other than 'Complete'.",
+                "reason": "The query exclusively selected rows where `order_items`.`status` = 'Complete', excluding all other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure orders outside the authorized product scope.",
+                "reason": "The execution scope restricts enforcement to authorized_products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer tenure was not queried.",
+                "reason": "The SQL query only selected and grouped by customer_key, order_key, and status from order_items; customer tenure was not queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order dates were not queried.",
+                "reason": "The SQL query did not reference created_at or any other date fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage completeness was not queried.",
+                "reason": "The context shows the query did not evaluate or query historical coverage completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item asks how the order frequency distribution compares when examining order history across different calendar quarters.",
+                "reason": "The context contains only query results, SQL text, execution scope, and logical schema; it does not mention any proposed action items.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item asks whether the distribution of order counts differs if analyzed by individual authorized product ID.",
+                "reason": "The context does not mention any proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 23.441500335000455
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Exactly 2 customers have 3 distinct completed orders representing authorized products.",
+                "reason": "The query groups complete order items within the authorized product scope and returned a row with 3 orders and 2 customers, with truncated set to false.",
+                "verdict": 1
+              },
+              {
+                "statement": "Exactly 2 customers have 4 distinct completed orders representing authorized products.",
+                "reason": "The query groups complete order items within the authorized product scope and returned a row with 4 orders and 2 customers, with truncated set to false.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to order items with status 'Complete' for authorized products.",
+                "reason": "The SQL query explicitly filters for `status` = 'Complete', and executor-bound views enforce the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure orders with statuses other than 'Complete' or orders outside the authorized product scope.",
+                "reason": "Measurement boundaries established by the SQL query and executor scope show only 'Complete' status and authorized products were evaluated.",
+                "verdict": 1
+              },
+              {
+                "statement": "Customer tenure, order dates, and historical coverage completeness were not queried in the analysis.",
+                "reason": "The supplied SQL query aggregates customer keys and order counts without querying dates, tenure metrics, or historical coverage completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 37.65156460099388
+        }
+      }
+    },
+    {
+      "id": "customer-frequency-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8181818181818182,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Query [q1] provides the distribution of customers by distinct Complete order frequency for authorized products.",
+                "reason": "The SQL query in [q1] filters for status = 'Complete', groups by customer_key to count distinct order_keys, and aggregates customer counts by order frequency within the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, 2 customers each have 3 distinct Complete orders.",
+                "reason": "The result rows show {\"orders\": 3, \"customers\": 2}, directly confirming that 2 customers have 3 distinct Complete orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, 2 customers each have 4 distinct Complete orders.",
+                "reason": "The result rows show {\"orders\": 4, \"customers\": 2}, directly confirming that 2 customers have 4 distinct Complete orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "There is a total of 4 purchasing customers in the analyzed population.",
+                "reason": "Summing the customer counts across all returned rows (2 + 2) yields a total of 4 customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis in query [q1] was restricted to items where status equals \"Complete\".",
+                "reason": "The SQL query explicitly filters records with WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-Complete orders were not measured in query [q1].",
+                "reason": "Because the query strictly filters for `order_items`.`status` = 'Complete', non-Complete orders were excluded from measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order dates and temporal trends were not measured in query [q1].",
+                "reason": "The SQL query does not select, filter, or group by any date or timestamp fields (such as created_at), so temporal trends were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Overall catalog purchasing behavior was not measured in query [q1].",
+                "reason": "The execution scope restricts the query to authorized_products [2, 3], meaning the full product catalog was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not evaluated in query [q1].",
+                "reason": "The SQL query only calculates order counts by customer without evaluating historical data completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is investigating how customer order frequency changes if all order statuses are included rather than only Complete orders.",
+                "reason": "The context consists only of query execution metadata, schema, and results; it contains no proposed next analytical checks or recommendations.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is determining the distribution of the Complete orders across specific time periods or calendar years.",
+                "reason": "The context contains no proposed next steps or analytical recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 35.22627374200965
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], across authorized products, 2 customers have 3 distinct Complete orders.",
+                "reason": "The query results for query [q1] within the authorized product scope show a row with orders = 3 and customers = 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "Based on query [q1], across authorized products, 2 customers have 4 distinct Complete orders.",
+                "reason": "The query results for query [q1] within the authorized product scope show a row with orders = 4 and customers = 2.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, there is a total of 4 purchasing customers with distinct Complete orders.",
+                "reason": "With truncated=false and complete grouping, summing the customer counts across all returned rows (2 + 2) yields 4 total purchasing customers with distinct Complete orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis in query [q1] was restricted to items where status = 'Complete'.",
+                "reason": "The SQL query explicitly filters records with `WHERE order_items.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-Complete orders, order dates, temporal trends, and overall catalog purchasing behavior were not measured in query [q1].",
+                "reason": "The SQL query strictly filters for status = 'Complete', does not inspect temporal fields, and is bounded to authorized products, so these dimensions were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness was not evaluated in query [q1].",
+                "reason": "No coverage or historical completeness audit was performed in query [q1].",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 18.323266810999485
+        }
+      }
+    },
+    {
+      "id": "country-customers-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Distinct customer counts were queried for authorized products filtering on items where status equals \"Complete\".",
+                "reason": "The context shows an execution scope with authorized products [1, 2] and a SQL query filtering on `i`.`status` = 'Complete' to count distinct customer keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "The distinct customer count for the United States is 4.",
+                "reason": "The query results explicitly list the row `{\"country\": \"United States\", \"customers\": 4}`.",
+                "verdict": 1
+              },
+              {
+                "statement": "A total of 4 distinct customers with completed items were observed.",
+                "reason": "The result set is not truncated and contains only one row with 4 distinct customers for completed items.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 4 distinct customers with completed items were associated with the United States.",
+                "reason": "The query results only show 4 customers, all under the country 'United States', with `truncated: false`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was confined to distinct customer counts by country for completed items.",
+                "reason": "The SQL query only selects country and `COUNT(DISTINCT i.customer_key)` filtered by `status = 'Complete'` grouped by country.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure total item counts, order volumes, revenue, or transactions with non-complete statuses.",
+                "reason": "The SQL query only measures distinct customers with status = 'Complete' and does not measure item counts, order volumes, revenue, or non-complete transactions.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time ranges, date filters, and historical completeness were not evaluated in the query.",
+                "reason": "The SQL query does not include any date/time predicates or filtering on `created_at`.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to examine how distinct customer counts and item volumes distribute across individual authorized product IDs over specific time intervals.",
+                "reason": "The context consists solely of query metadata, execution scope, schema, and rows, and contains no proposed action items or recommendations.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to compare how customer geographic distribution behaves when including orders across all item statuses.",
+                "reason": "There are no proposed action items or recommendations mentioned anywhere in the context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 20.073057216010056
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Distinct customer counts were queried for authorized products filtering on items where status = 'Complete'.",
+                "reason": "The query calculates COUNT(DISTINCT i.customer_key) filtered on i.status = 'Complete', and the trusted execution metadata confines the data source to authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products with completed items, the distinct customer count for the United States is 4.",
+                "reason": "The query returned a single row for 'United States' with a customer count of 4 under the authorized product execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "A total of 4 distinct customers with completed items were observed for authorized products.",
+                "reason": "With truncated set to false and the entire population grouped by country yielding only the United States with 4 distinct customers, exactly 4 distinct customers were observed.",
+                "verdict": 1
+              },
+              {
+                "statement": "All observed distinct customers with completed items were associated with the United States.",
+                "reason": "With truncated set to false and no LIMIT or sampling, the complete returned population contains only the United States.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was confined to distinct customer counts by country for completed items and did not measure total item counts, order volumes, revenue, or transactions with non-complete statuses.",
+                "reason": "The SQL query only selects country and COUNT(DISTINCT i.customer_key) with status = 'Complete', without querying or aggregating total items, orders, revenue, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time ranges, date filters, and historical completeness were not evaluated in the query.",
+                "reason": "The logical query contains no WHERE predicates on timestamp or date columns and does not inspect temporal bounds or coverage.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 19.848844613996334
+        }
+      }
+    },
+    {
+      "id": "country-customers-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Distinct customers with completed item purchases for authorized products were grouped by country.",
+                "reason": "The SQL query groups by country and counts distinct customer keys where status is 'Complete', executed within the scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "There are 4 distinct customers in the United States with completed item purchases for authorized products.",
+                "reason": "The query result explicitly shows 4 distinct customers for 'United States' under the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all recorded history within authorized scope, 4 distinct customers in the United States have completed item purchases.",
+                "reason": "The query has no time filter and returned 4 customers in the United States across the entire available dataset within the authorized scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "No countries other than the United States had matching completed records.",
+                "reason": "The query results are not truncated and only contain a single row for the United States.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only items where status equals 'Complete'.",
+                "reason": "The SQL query explicitly filters rows with `WHERE i.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query did not evaluate order statuses other than 'Complete'.",
+                "reason": "The SQL query explicitly filters for `i.status = 'Complete'`, thereby excluding all other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts reflect unique buyers.",
+                "reason": "The metric `COUNT(DISTINCT i.customer_key)` directly counts unique customer keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts do not measure total item counts, order frequency, or monetary amounts.",
+                "reason": "The query calculates `COUNT(DISTINCT i.customer_key)` rather than counting items, orders, or summing sale prices.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time periods were not constrained or segmented in the analysis.",
+                "reason": "The SQL query contains no time-based filters in the WHERE clause or time dimensions in the GROUP BY clause.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date coverage was not measured in the analysis.",
+                "reason": "The query does not select, filter, or aggregate across created_at timestamps or any date ranges.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is evaluating whether segmenting completed purchases by order date or year clarifies if customer acquisition across regions is shifting over time.",
+                "reason": "The context consists only of raw query results, SQL text, scope, and schema; it contains no proposed analytical recommendations or checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is evaluating whether comparing total completed item quantities and revenue alongside distinct customer counts provides a clearer view of geographic volume.",
+                "reason": "There is no mention of proposed analytical checks anywhere in the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 25.598797739017755
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across all recorded history within authorized scope, 4 distinct customers in the United States have completed item purchases.",
+                "reason": "The query counted distinct customer keys with status 'Complete' within the executor-bound authorized scope, returning 4 distinct customers in the United States with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across all recorded history within authorized scope, no countries other than the United States had matching completed records for authorized products.",
+                "reason": "Because truncated is false, there is no LIMIT or sampling, and the query groups by country across the entire authorized population, the single returned country row confirms no other countries had matching completed records.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only items where status = 'Complete' and did not evaluate other order statuses.",
+                "reason": "The SQL query explicitly filters rows with WHERE `i`.`status` = 'Complete', excluding any other statuses from measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts reflect unique buyers and do not measure total item counts, order frequency, or monetary amounts.",
+                "reason": "The metric COUNT(DISTINCT `i`.`customer_key`) evaluates only unique customer identifiers, not order frequency, item quantity, or monetary spend.",
+                "verdict": 1
+              },
+              {
+                "statement": "Time periods were not constrained or segmented in the query.",
+                "reason": "The SQL query contains no WHERE filters or GROUP BY clauses on timestamp columns such as `created_at`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical date coverage was not measured in the query.",
+                "reason": "The query did not audit or inspect timestamp ranges or date coverage in the tables.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 18.90348844899563
+        }
+      }
+    },
+    {
+      "id": "state-revenue-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue from completed items with a status equal to 'Complete' is grouped by customer state for authorized products.",
+                "reason": "The SQL query filters for items with `status = 'Complete'`, groups by `state`, and operates within the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue is defined as the sum of sale price (SUM(sale_price)) for completed order items.",
+                "reason": "The SQL query computes `complete_revenue` using `SUM(i.sale_price)` on items where `status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Completed revenue for authorized products in California is 210.0.",
+                "reason": "The query result row explicitly shows California with a `complete_revenue` of 210.0 under the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to items where the status equals 'Complete'.",
+                "reason": "The query includes the clause `WHERE i.status = 'Complete'`, restricting the analysis to that status.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order statuses, such as cancelled, returned, or pending, were not queried in the analysis.",
+                "reason": "The query strictly filters for `status = 'Complete'`, confirming that no other order statuses were included in the query.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and date ranges were not included in the query.",
+                "reason": "The SQL query only selects `state` and `SUM(sale_price)`, omitting counts and date fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Volume and temporal coverage were not measured in the analysis.",
+                "reason": "The query does not include any aggregation for volume (counts) or temporal dimensions (dates/timestamps).",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the supplied data.",
+                "reason": "The provided context and schema define numeric price columns (`DOUBLE`) without specifying any currency.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item is to check the item counts and order counts associated with completed sales across customer locations.",
+                "reason": "There are no proposed action items or recommendations mentioned anywhere in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item is to examine how completed revenue compares across different time intervals or date buckets.",
+                "reason": "The context consists only of query metadata, execution scope, and schema; it contains no proposed action items.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 26.641161405976163
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue is defined as SUM(sale_price) for completed order items.",
+                "reason": "The SQL query computes complete_revenue as SUM(i.sale_price) with the condition WHERE i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Completed revenue observed for authorized products is 210.0 in California.",
+                "reason": "Under the executor-bound authorized products scope, the single returned row shows state 'California' with complete_revenue 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to items where status = 'Complete'.",
+                "reason": "The SQL query contains the predicate WHERE i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Other order statuses, such as cancelled, returned, or pending, were not queried.",
+                "reason": "The query specifically filters for status = 'Complete' and does not retrieve or include any other order statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and date ranges were not included in the query.",
+                "reason": "The SQL query only selects state and SUM(sale_price), with no COUNT functions or temporal date filters/projections.",
+                "verdict": 1
+              },
+              {
+                "statement": "Volume and temporal coverage were not measured in the analysis.",
+                "reason": "The supplied SQL query aggregates sale_price without inspecting counts, transaction volume, or date timestamps, so volume and temporal coverage were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the supplied data.",
+                "reason": "Neither the schema, query, nor returned rows specify a currency unit for sale_price or complete_revenue.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 32.21997306100093
+        }
+      }
+    },
+    {
+      "id": "state-revenue-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue is defined as the sum of sale price where status equals complete for authorized products.",
+                "reason": "The SQL query defines complete_revenue as SUM(i.sale_price) where i.status = 'Complete', and execution scope restricts the view to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "According to the coarse state analysis, California recorded a total completed revenue of 350.0 across authorized products.",
+                "reason": "The query result row explicitly shows California with a complete_revenue of 350.0 under the execution scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only evaluated the sum of sale price for records with a complete status.",
+                "reason": "The SQL query explicitly calculates SUM(i.sale_price) filtered by the condition i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item quantities, order counts, customer counts, and discount history were not queried in the analysis.",
+                "reason": "The SQL query only selects the state and the sum of sale_price, without querying counts, quantities, or discount history.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined by the dataset.",
+                "reason": "The logical schema defines monetary attributes as DOUBLE without specifying any currency column or symbol.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness or date ranges were not measured in the query.",
+                "reason": "The SQL query does not filter or group by any timestamp or date range fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next step is evaluating the distribution of completed order and item counts across states.",
+                "reason": "The context only contains query execution data and logical schema; it does not mention any proposed next steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is examining revenue across specific date ranges or including other order statuses.",
+                "reason": "The context does not state or propose any next steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 20.16226080901106
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue is defined as SUM(sale_price) where status = 'Complete' for authorized products.",
+                "reason": "The SQL query computes complete_revenue as SUM(i.sale_price) with status = 'Complete', scoped to authorized products by the execution metadata.",
+                "verdict": 1
+              },
+              {
+                "statement": "California recorded a total completed revenue of 350.0 across authorized products.",
+                "reason": "The query returned a single row with state 'California' and complete_revenue of 350.0 under the authorized product scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only evaluated SUM(sale_price) for records with status = 'Complete'.",
+                "reason": "The SQL query specifically aggregates SUM(i.sale_price) under the predicate WHERE i.status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item quantities, order counts, customer counts, and discount history were not queried in this analysis.",
+                "reason": "The SQL query only selects state and SUM(sale_price), without querying or calculating quantities, order counts, customer counts, or discount history.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined by the dataset.",
+                "reason": "The schema shows sale_price as DOUBLE with no currency symbol, currency code, or unit definition provided in the context.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness or date ranges were not measured in this query.",
+                "reason": "The SQL query does not inspect created_at timestamps or evaluate any date ranges or historical completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 30.17142342502484
+        }
+      }
+    },
+    {
+      "id": "age-band-volume-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed item counts grouped by coarse age band for authorized products show 14 completed items for the 30s age band.",
+                "reason": "The query result shows 14 complete items for the '30s' age band within the execution scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across the authorized product scope, customers in the 30s age band represent 14 completed items.",
+                "reason": "The query returned a count of 14 complete items for users with age_band '30s' under the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "No age bands other than the 30s age band had completed items recorded in the query.",
+                "reason": "The query results list only the '30s' age band and truncated is false, meaning no other age bands were returned in the query output.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to item records where status equals \"Complete\" joined to user demographics.",
+                "reason": "The SQL query explicitly filters with `WHERE i.status = 'Complete'` and joins `order_items` with `users` demographics on `customer_key`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine other order statuses, sale prices, customer counts, or changes over time.",
+                "reason": "The SQL query only examines status = 'Complete' grouped by age_band, omitting sale prices, distinct customer counts, and time/date fields.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date range coverage were not measured.",
+                "reason": "The SQL query does not evaluate date or timestamp fields such as created_at to measure historical completeness or coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is comparing how completed item volumes differ across different calendar years or months.",
+                "reason": "The context consists purely of query data, execution metadata, and schema; it contains no proposed next analytical steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is examining item counts and cancellation or return rates across other order item statuses for the authorized products.",
+                "reason": "The context does not mention or propose any next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 19.100756758009084
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across the authorized product scope, customers in the 30s age band represent 14 completed items.",
+                "reason": "The query executed under executor-bound views for authorized products [1, 2] and returned exactly 14 completed items for the 30s age band.",
+                "verdict": 1
+              },
+              {
+                "statement": "No age bands other than the 30s had completed items recorded in the query for authorized products.",
+                "reason": "With truncated set to false and no LIMIT applied across the authorized scope, the query returned only the 30s age band, confirming no other age bands had completed items recorded.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis was restricted to item records where status = 'Complete' joined to user demographics.",
+                "reason": "The logical SQL explicitly filters with WHERE `i`.`status` = 'Complete' and performs an inner join between `order_items` and `users` on `customer_key`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine other order statuses, sale prices, customer counts, or changes over time.",
+                "reason": "The SQL query only filters on status = 'Complete' and computes COUNT(*) grouped by age_band, without selecting or aggregating distinct customers, sale prices, created_at timestamps, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date range coverage were not measured.",
+                "reason": "No date filtering, timestamps, or coverage audits were included or measured in the supplied SQL query.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 19.300432910007657
+        }
+      }
+    },
+    {
+      "id": "age-band-volume-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete item counts by coarse age band for authorized products show 14 complete items in the 30s age band.",
+                "reason": "The context shows a query grouping by age_band under the execution scope of authorized products, returning a single row with age_band '30s' and 14 complete_items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, 14 Complete items were recorded.",
+                "reason": "The query output under the authorized products execution scope returns only one row with a count of 14 complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 14 Complete items recorded across authorized products were associated with the 30s age band.",
+                "reason": "The only row returned in the query results is for the '30s' age band with 14 complete items, meaning all recorded complete items are in this band.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only items with status \"Complete\" aggregated by coarse age band.",
+                "reason": "The SQL query explicitly filters for `i.status = 'Complete'` and aggregates by `u.age_band`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine order dates.",
+                "reason": "The executed SQL query does not filter, group by, or select date/timestamp fields such as `created_at`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine historical coverage over time.",
+                "reason": "The executed query does not include any temporal dimensions or historical coverage over time.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine other order statuses.",
+                "reason": "The query filters exclusively for `i.status = 'Complete'` and does not look at any other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is investigating how Complete item volumes vary across specific time periods or individual authorized product IDs.",
+                "reason": "The context only contains query metadata, execution scope, schema, and raw results; it does not contain any proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is investigating what the item volumes are across other order statuses for the authorized products.",
+                "reason": "The context contains no recommendations or proposals for next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 19.039407264994225
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 14 Complete items were recorded.",
+                "reason": "The query was executed under executor-bound views scoped to authorized products, filtered for items with status 'Complete', and returned a single row with 14 complete items with truncated=false.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, all 14 recorded Complete items were associated with the 30s age band.",
+                "reason": "The complete, non-truncated result set contains only the '30s' age band group with a count of 14 complete items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only items with status 'Complete' aggregated by coarse age band.",
+                "reason": "The supplied SQL filters specifically on status = 'Complete' and groups by age_band without measuring any other item statuses or alternative demographic breakdowns.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not examine order dates, historical coverage over time, or other order statuses.",
+                "reason": "The SQL query does not reference created_at or date fields, does not audit time coverage, and filters strictly to status = 'Complete', ignoring all other order statuses.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 17.572542301000794
+        }
+      }
+    },
+    {
+      "id": "repeat-customer-share-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 4 distinct customers were identified as having at least one item with status = 'Complete'.",
+                "reason": "The context shows a SQL query filtering for `status = 'Complete'` grouped by `customer_key` within the execution scope of authorized products, returning a count of 4 customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 4 identified customers have more than one distinct order represented among Complete items.",
+                "reason": "The context shows `repeat_customer_share` is 1.0 (100%) calculated as the proportion of customers with `orders > 1`, meaning all 4 customers had more than one order.",
+                "verdict": 1
+              },
+              {
+                "statement": "The repeat customer share among Complete-item customers with more than one represented order is 1.0.",
+                "reason": "The context explicitly reports `repeat_customer_share` of 1.0 from the query measuring customers with more than one order among Complete-status items.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only item records with status = 'Complete' within authorized products.",
+                "reason": "The SQL query explicitly filters `WHERE order_items.status = 'Complete'` under the execution scope of authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item records with statuses other than 'Complete' were not evaluated.",
+                "reason": "Because the query strictly filters `WHERE order_items.status = 'Complete'`, items with other statuses were excluded from the analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order dates, purchase intervals, customer tenure, and historical data completeness were not measured.",
+                "reason": "The executed SQL query only selects and calculates over `customer_key`, `order_key`, and `status`, leaving dates, purchase intervals, tenure, and historical data completeness unmeasured.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next analytical check is investigating the distribution of total completed orders per customer when segmented by calendar year or cohort.",
+                "reason": "The context consists only of query execution metadata, schema, and query results; it contains no recommendations or proposed next analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next analytical check is determining how repeat customer share changes if orders containing statuses other than 'Complete' are included.",
+                "reason": "The context contains only data results, schema, and query details, with no mention of proposed next analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 16.99446738799452
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, 4 distinct customers were identified having at least one item with status = 'Complete'.",
+                "reason": "The query groups order items by customer_key with status = 'Complete' under the executor-bound scope of authorized products [1, 2], returning a total customer count of 4.",
+                "verdict": 1
+              },
+              {
+                "statement": "All 4 customers identified have more than one distinct order represented among Complete items, representing a repeat customer share of 1.0.",
+                "reason": "The query calculates repeat_customer_share as the proportion of customers with more than one distinct order key, which returned 1.0 across all 4 customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query measured only item records with status = 'Complete' within authorized products.",
+                "reason": "The SQL query specifically filters with WHERE order_items.status = 'Complete' within the executor-bound view restricted to authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "Items with statuses other than 'Complete' within authorized products were not evaluated.",
+                "reason": "Because the SQL query exclusively filters for status = 'Complete', items with other statuses were excluded from evaluation.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order dates, purchase intervals, customer tenure, and historical data completeness were not measured.",
+                "reason": "The SQL query only examines customer_key, order_key, and status; it does not query timestamps, intervals, tenure, or audit completeness.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 31.25763554801233
+        }
+      }
+    },
+    {
+      "id": "repeat-customer-share-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8181818181818182,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products, all four customers with Complete items had more than one distinct order represented.",
+                "reason": "The context shows that for authorized products [2, 3], there were 4 customers and the repeat_customer_share was 1.0, which means 100% of the 4 customers had more than one distinct order.",
+                "verdict": 1
+              },
+              {
+                "statement": "The repeat customer share for customers with Complete items across authorized products is 1.0.",
+                "reason": "The query result explicitly reports a repeat_customer_share of 1.0 under the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The total count of customers evaluated with Complete items for authorized products is four.",
+                "reason": "The query result explicitly reports customers as 4 under the authorized products execution scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only customers associated with Complete items for authorized products in the `order_items` table.",
+                "reason": "The SQL query specifically queries the `order_items` table filtering for `status = 'Complete'`, restricted by the execution scope of authorized products [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness were not measured in the analysis.",
+                "reason": "The context provides the complete SQL query, which only computes repeat customer share and customer count, confirming that historical coverage and completeness were not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure order timing.",
+                "reason": "The SQL query in the context does not incorporate timestamp fields like `created_at` or measure timing.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure total order volume.",
+                "reason": "The query calculates repeat customer share and customer count, but does not calculate or report total order volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-Complete item statuses.",
+                "reason": "The SQL query explicitly filters for `status = 'Complete'`, thereby excluding non-Complete item statuses from the measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer activity across unauthorized products.",
+                "reason": "The execution scope restricts enforcement to authorized products [2, 3], meaning activity across unauthorized products was not measured.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed analytical check is to examine the distribution of completed order counts per customer across authorized products broken down by time period.",
+                "reason": "The context only contains query data, execution scope, and schema; it does not mention or propose any analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "Another proposed analytical check is to compare how the repeat customer metric behaves when non-Complete order item statuses are evaluated.",
+                "reason": "The context does not contain any proposed analytical checks or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 80.01526760699926
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "For authorized products, there are 4 customers with Complete items.",
+                "reason": "The query results show 4 customers within the executor-bound scope of authorized products and filtered by status = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, all 4 customers with Complete items had more than one distinct order represented.",
+                "reason": "The repeat_customer_share is 1.0 (100%), calculated as the proportion of customers with distinct orders > 1 among the 4 total customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "For authorized products, the repeat customer share for customers with Complete items is 1.0.",
+                "reason": "The returned repeat_customer_share column explicitly equals 1.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis evaluated only customers associated with Complete items for authorized products in order_items.",
+                "reason": "The SQL query explicitly filters `order_items`.`status` = 'Complete' and is restricted by executor-bound views to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical coverage and completeness were not measured in the analysis.",
+                "reason": "The query does not perform any coverage or completeness audits.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure order timing.",
+                "reason": "The SQL query does not inspect timestamps or temporal intervals.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure total order volume.",
+                "reason": "The query evaluates whether distinct order counts per customer exceed 1 to determine repeat share, but does not aggregate or output total order volume.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure non-Complete item statuses.",
+                "reason": "The query restricts items to status = 'Complete' and does not measure or report on other item statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure customer activity across unauthorized products.",
+                "reason": "The query execution is strictly bound to authorized products, leaving activity for unauthorized products unmeasured.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 20.126481740997406
+        }
+      }
+    }
+  ],
+  "generations": [
+    {
+      "id": "monthly-sales-1",
+      "family": "monthly-sales",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nThis analysis measures monthly revenue for authorized products based on order items with a status of 'Complete', defining revenue as `SUM(sale_price)` [q1].\n\n| month | complete_revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 100.0 |\n| 2026-02-01 00:00:00 | 110.0 |\n\nObserved complete item revenue increased from 100.0 in January 2026 to 110.0 in February 2026 [q1].\n\n### Limitations\n- This analysis only evaluated `SUM(sale_price)` for items with `status = 'Complete'`; it did not measure item counts, product costs, net profit, discounts, or other order statuses [q1].\n- Historical completeness and date coverage outside the returned months were not measured [q1].\n\n### Action items (proposed)\n1. Would comparing monthly complete revenue against item order volumes provide additional insight into growth drivers?\n2. How does monthly complete revenue compare to cost and return volumes over the same period?",
+      "status": "generated",
+      "seconds": 12.777557479013922,
+      "usage": {
+        "input_tokens": 2625,
+        "output_tokens": 985,
+        "total_tokens": 3610,
+        "thought_tokens": 693,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "monthly-sales-2",
+      "family": "monthly-sales",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\n- Across authorized products, Complete-item revenue was 180.0 in January 2026 and 170.0 in February 2026 [q1].\n\n| month | complete_revenue |\n| --- | --- |\n| 2026-01-01 00:00:00 | 180.0 |\n| 2026-02-01 00:00:00 | 170.0 |\n\n### Limitations\n- This analysis measured only `SUM(sale_price)` for items with `status = 'Complete'` grouped by month [q1]; item counts, distinct customer counts, and non-complete order statuses were not queried.\n- Historical data completeness and date coverage outside the returned months were not measured.\n\n### Action items (proposed)\n1. Would comparing item quantities and average selling prices between January 2026 and February 2026 help determine what drove the revenue difference?\n2. Would breaking down monthly Complete-item revenue by authorized product ID show product-level contribution trends?",
+      "status": "generated",
+      "seconds": 18.622893694991944,
+      "usage": {
+        "input_tokens": 2627,
+        "output_tokens": 1570,
+        "total_tokens": 4197,
+        "thought_tokens": 1294,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "yearly-sales-1",
+      "family": "yearly-sales",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nRevenue was calculated as `SUM(sale_price)` for items where `status = 'Complete'`, grouped by the year extracted from `created_at` across authorized products [q1].\n\n| year | complete_revenue |\n| --- | --- |\n| 2026 | 210.0 |\n\nObserved Complete-item revenue for 2026 is 210.0 [q1].\n\n### Limitations\n- This analysis did not measure date boundaries or calendar coverage for 2026, so historical completeness cannot be determined from this query [q1].\n- Item volumes, order counts, and items with non-complete statuses were not queried [q1].\n\n### Action items (proposed)\n1. Would you like to query the minimum and maximum `created_at` timestamps to determine the date range covered in 2026?\n2. Would you like to break down `complete_revenue` alongside item and order counts by month?",
+      "status": "generated",
+      "seconds": 14.119985272991471,
+      "usage": {
+        "input_tokens": 2581,
+        "output_tokens": 1529,
+        "total_tokens": 4110,
+        "thought_tokens": 1287,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "yearly-sales-2",
+      "family": "yearly-sales",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\n| year | complete_revenue |\n| --- | --- |\n| 2026 | 350.0 |\n\n- Based on query [q1], total complete-item revenue for authorized products in 2026 was 350.0.\n\n### Limitations\n- Metric definition: Revenue was calculated as `SUM(sale_price)` filtered strictly where `status = 'Complete'` [q1].\n- Temporal coverage: Coverage across the full calendar year 2026 was not measured by this query, and historical completeness across other years was not evaluated.\n- Excluded metrics: This query did not measure item counts, order volumes, customer counts, or non-complete order statuses.\n\n### Action items (proposed)\n1. Would breaking down 2026 revenue by month along with item counts help determine how volume was distributed over time?\n2. Would analyzing complete revenue and unit volume broken down by authorized product ID provide insight into individual product performance?",
+      "status": "generated",
+      "seconds": 22.28403615800198,
+      "usage": {
+        "input_tokens": 2578,
+        "output_tokens": 2064,
+        "total_tokens": 4642,
+        "thought_tokens": 1822,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "quarterly-volume-1",
+      "family": "quarterly-volume",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nThe quarterly volume of completed items for authorized products is shown below [q1]:\n\n| quarter | complete_items |\n| --- | --- |\n| 2026-01-01 00:00:00 | 14 |\n\nAcross the authorized product scope, 14 items with status 'Complete' were recorded in the quarter beginning 2026-01-01 00:00:00 [q1].\n\n### Limitations\nThis analysis measured only item counts where `status = 'Complete'` aggregated by calendar quarter; it did not measure non-complete statuses, distinct order counts, sales revenue, or historical coverage beyond the observed quarter [q1].\n\n### Action items (proposed)\n1. How is this completed item volume distributed across the individual authorized product IDs within that quarter?\n2. What are the item volumes for other order statuses (such as cancelled or returned) over the same time frame?",
+      "status": "generated",
+      "seconds": 28.241290030971868,
+      "usage": {
+        "input_tokens": 2577,
+        "output_tokens": 1429,
+        "total_tokens": 4006,
+        "thought_tokens": 1191,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "quarterly-volume-2",
+      "family": "quarterly-volume",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nThe quarterly volume of items with `status = 'Complete'` for authorized products is shown below [q1]. The execution scope was enforced to authorized products via executor-bound views.\n\n| quarter | complete_items |\n| :--- | :--- |\n| 2026-01-01 00:00:00 | 14 |\n\nA total of 14 completed items were recorded in the single observed quarter starting 2026-01-01 [q1].\n\n### Limitations\n- This query measured only item volume for records where `status = 'Complete'`; other order statuses, monetary values, and customer counts were not queried [q1].\n- Historical coverage and completeness across other time periods were not measured [q1].\n\n### Action items (proposed)\n1. Would you like to break down complete-item volume by individual authorized product ID for this quarter?\n2. Would you like to evaluate item counts across all order statuses (such as Cancelled or Returned) over the same period?",
+      "status": "generated",
+      "seconds": 12.658941346016945,
+      "usage": {
+        "input_tokens": 2580,
+        "output_tokens": 1384,
+        "total_tokens": 3964,
+        "thought_tokens": 1128,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "explicit-period-1",
+      "family": "explicit-period",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nDuring January 2026 (2026-01-01 to 2026-02-01), authorized products recorded a total `january_revenue` of 100.0 across 7 `complete_items` [q1]. Revenue is defined as `SUM(sale_price)` where `status = 'Complete'`.\n\n| january_revenue | complete_items |\n| --- | --- |\n| 100.0 | 7 |\n\n### Limitations\nThis analysis was limited to completed items within January 2026 [q1]. It did not measure other order statuses, customer- or product-level distributions, or trends over other timeframes, and currency and data completeness were not measured.\n\n### Action items (proposed)\n1. How does Complete-item revenue in January 2026 compare to prior months for authorized products?\n2. What are the revenue and item count distributions when broken down by individual authorized product?",
+      "status": "generated",
+      "seconds": 16.891933208011324,
+      "usage": {
+        "input_tokens": 2607,
+        "output_tokens": 1662,
+        "total_tokens": 4269,
+        "thought_tokens": 1416,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "explicit-period-2",
+      "family": "explicit-period",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nFor the authorized products in January 2026 (2026-01-01 to 2026-02-01), completed item revenue totaled 180.0 across 7 completed order items [q1]. Revenue is defined as `SUM(sale_price)` where `status = 'Complete'`.\n\n| january_revenue | complete_items |\n| --- | --- |\n| 180.0 | 7 |\n\n### Limitations\n- This query measured gross revenue (`SUM(sale_price)`) for items with status 'Complete'; product costs, net profit, discount depth, and non-completed statuses were not queried [q1].\n- Historical completeness and order-level or customer-level distributions were not evaluated [q1].\n\n### Action items (proposed)\n1. How does January 2026 completed-item revenue compare to prior months or the same period in previous years?\n2. How does the sale price breakdown compare across individual authorized product IDs for this period?",
+      "status": "generated",
+      "seconds": 19.971256513003027,
+      "usage": {
+        "input_tokens": 2605,
+        "output_tokens": 1376,
+        "total_tokens": 3981,
+        "thought_tokens": 1121,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "customer-grain-1",
+      "family": "customer-grain",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nAcross authorized products filtered to completed items (`status = 'Complete'`), distinct purchasing customers and total revenue are summarized below [q1]:\n\n| customers | complete_revenue |\n| --- | --- |\n| 4 | 210.0 |\n\n- **Customer Count**: 4 distinct customers made completed purchases [q1].\n- **Complete Revenue**: Total revenue across these completed purchases is 210.0 (calculated as `SUM(sale_price)`) [q1]. Transaction counts were not evaluated.\n\n### Limitations\n- This query measured only completed order items (`status = 'Complete'`) within authorized product scope; it did not measure order or transaction counts, non-completed statuses, product costs, net profit, discounts, or date coverage [q1].\n- Currency is not defined in the queried data and historical completeness was not measured [q1].\n\n### Action items (proposed)\n1. Would you like to break down revenue and distinct customer counts by individual authorized product or over specific time periods?\n2. Would you like to evaluate total order counts and item volume alongside revenue?",
+      "status": "generated",
+      "seconds": 14.536577780003427,
+      "usage": {
+        "input_tokens": 2564,
+        "output_tokens": 1303,
+        "total_tokens": 3867,
+        "thought_tokens": 1038,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "customer-grain-2",
+      "family": "customer-grain",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nFor authorized products with item status 'Complete', there are 4 distinct customers and a total complete revenue of 350.0 [q1].\n\n| customers | complete_revenue |\n| --- | --- |\n| 4 | 350.0 |\n\n### Limitations\nThis analysis only measured distinct customer count and sum of `sale_price` where `status = 'Complete'` [q1]. It did not measure transaction counts, item volume, date ranges, product-level breakdowns, or currency.\n\n### Action items (proposed)\n1. Would you like to examine customer counts and revenue broken down by individual authorized product?\n2. Would you like to analyze how these metrics trend over specific time periods?",
+      "status": "generated",
+      "seconds": 16.911849725001957,
+      "usage": {
+        "input_tokens": 2566,
+        "output_tokens": 1546,
+        "total_tokens": 4112,
+        "thought_tokens": 1361,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "customer-frequency-1",
+      "family": "customer-frequency",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nBased on completed order items within authorized product scope [q1]:\n\n| orders | customers |\n| --- | --- |\n| 3 | 2 |\n| 4 | 2 |\n\n- Exactly 2 customers have 3 distinct completed orders representing authorized products [q1].\n- Exactly 2 customers have 4 distinct completed orders representing authorized products [q1].\n\n### Limitations\n- The analysis was restricted to order items with status 'Complete' for authorized products and did not measure orders with other statuses or orders outside this product scope [q1].\n- Customer tenure, order dates, and historical coverage completeness were not queried [q1].\n\n### Action items (proposed)\n1. How does the order frequency distribution compare when examining order history across different calendar quarters?\n2. Does the distribution of order counts differ if analyzed by individual authorized product ID?",
+      "status": "generated",
+      "seconds": 13.651217153004836,
+      "usage": {
+        "input_tokens": 2624,
+        "output_tokens": 1460,
+        "total_tokens": 4084,
+        "thought_tokens": 1246,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "customer-frequency-2",
+      "family": "customer-frequency",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nBased on query [q1], the distribution of customers by distinct Complete order frequency for authorized products is as follows:\n\n| orders | customers |\n| --- | --- |\n| 3 | 2 |\n| 4 | 2 |\n\n- Across authorized products, 2 customers each have 3 distinct Complete orders, and 2 customers each have 4 distinct Complete orders, representing a total of 4 purchasing customers in this population.\n\n### Limitations\n- The analysis in [q1] was restricted to items where `status = 'Complete'`; non-Complete orders, order dates, temporal trends, and overall catalog purchasing behavior were not measured. Historical completeness was not evaluated.\n\n### Action items (proposed)\n- How does customer order frequency change if all order statuses are included rather than only Complete orders?\n- What is the distribution of these Complete orders across specific time periods or calendar years?",
+      "status": "generated",
+      "seconds": 14.169063324021408,
+      "usage": {
+        "input_tokens": 2621,
+        "output_tokens": 1310,
+        "total_tokens": 3931,
+        "thought_tokens": 1089,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "country-customers-1",
+      "family": "country-customers",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nDistinct customer counts were queried for authorized products filtering on items where `status = 'Complete'` [q1].\n\n| country | customers |\n| :--- | :--- |\n| United States | 4 |\n\n- A total of 4 distinct customers with completed items were observed, all associated with the United States [q1].\n\n### Limitations\n- The analysis was confined to distinct customer counts by country for completed items; it did not measure total item counts, order volumes, revenue, or transactions with non-complete statuses [q1].\n- Time ranges, date filters, and historical completeness were not evaluated in this query [q1].\n\n### Action items (proposed)\n1. How do distinct customer counts and item volumes distribute across individual authorized product IDs over specific time intervals?\n2. How does the customer geographic distribution compare when including orders across all item statuses?",
+      "status": "generated",
+      "seconds": 14.63922672800254,
+      "usage": {
+        "input_tokens": 2597,
+        "output_tokens": 1282,
+        "total_tokens": 3879,
+        "thought_tokens": 1068,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "country-customers-2",
+      "family": "country-customers",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nDistinct customers with completed item purchases for authorized products, grouped by country [q1]:\n\n| country | customers |\n| :--- | :--- |\n| United States | 4 |\n\nAcross all recorded history within authorized scope, 4 distinct customers in the United States have completed item purchases [q1]. No other countries had matching completed records [q1].\n\n### Limitations\n- This query measured only items where `status = 'Complete'` and did not evaluate other order statuses [q1].\n- Distinct customer counts reflect unique buyers and do not measure total item counts, order frequency, or monetary amounts [q1].\n- Time periods were not constrained or segmented, so historical date coverage was not measured [q1].\n\n### Action items (proposed)\n1. Would segmenting completed purchases by order date or year clarify whether customer acquisition across regions is shifting over time?\n2. Would comparing total completed item quantities and revenue alongside distinct customer counts provide a clearer view of geographic volume?",
+      "status": "generated",
+      "seconds": 12.099307028984185,
+      "usage": {
+        "input_tokens": 2600,
+        "output_tokens": 975,
+        "total_tokens": 3575,
+        "thought_tokens": 737,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "state-revenue-1",
+      "family": "state-revenue",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nThe table below displays revenue from completed items (`status = 'Complete'`) grouped by customer state for authorized products [q1]. Revenue is defined as `SUM(sale_price)` for completed order items.\n\n| state | complete_revenue |\n| :--- | :--- |\n| California | 210.0 |\n\n- Completed revenue observed for authorized products is 210.0, located in California [q1].\n\n### Limitations\n- The analysis was restricted to items where `status = 'Complete'`; other order statuses (e.g., cancelled, returned, or pending) were not queried [q1].\n- Item counts, order counts, and date ranges were not included in the query, so volume and temporal coverage were not measured [q1].\n- Currency is not specified in the supplied data.\n\n### Action items (proposed)\n1. What are the item counts and order counts associated with completed sales across customer locations?\n2. How does completed revenue compare across different time intervals or date buckets?",
+      "status": "generated",
+      "seconds": 11.865259985992452,
+      "usage": {
+        "input_tokens": 2604,
+        "output_tokens": 1198,
+        "total_tokens": 3802,
+        "thought_tokens": 948,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "state-revenue-2",
+      "family": "state-revenue",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nComplete-item revenue is defined as `SUM(sale_price)` where `status = 'Complete'` for authorized products [q1].\n\n| state | complete_revenue |\n| --- | --- |\n| California | 350.0 |\n\nCalifornia recorded a total completed revenue of 350.0 across authorized products [q1].\n\n### Limitations\n- This analysis only evaluated `SUM(sale_price)` for records with `status = 'Complete'`; item quantities, order counts, customer counts, and discount history were not queried [q1].\n- Currency is not defined by the dataset, and historical completeness or date ranges were not measured in this query [q1].\n\n### Action items (proposed)\n1. Would you like to evaluate the distribution of completed order and item counts across states?\n2. Would you like to examine revenue across specific date ranges or include other order statuses?",
+      "status": "generated",
+      "seconds": 13.867100736999419,
+      "usage": {
+        "input_tokens": 2602,
+        "output_tokens": 1308,
+        "total_tokens": 3910,
+        "thought_tokens": 1084,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "age-band-volume-1",
+      "family": "age-band-volume",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nCompleted item counts grouped by coarse age band for authorized products [q1]:\n\n| age_band | complete_items |\n| --- | --- |\n| 30s | 14 |\n\nAcross the authorized product scope, customers in the `30s` age band represent 14 completed items [q1]. No other age bands had completed items recorded in this query.\n\n### Limitations\n- The analysis was restricted to item records where `status = 'Complete'` joined to user demographics; it did not examine other order statuses, sale prices, customer counts, or changes over time [q1].\n- Historical completeness and date range coverage were not measured.\n\n### Action items (proposed)\n1. How do completed item volumes compare across different calendar years or months?\n2. What are the item counts and cancellation/return rates across other order item statuses for these products?",
+      "status": "generated",
+      "seconds": 24.095226546982303,
+      "usage": {
+        "input_tokens": 2604,
+        "output_tokens": 888,
+        "total_tokens": 3492,
+        "thought_tokens": 670,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "age-band-volume-2",
+      "family": "age-band-volume",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nComplete item counts by coarse age band for authorized products [q1]:\n\n| age_band | complete_items |\n| :--- | :--- |\n| 30s | 14 |\n\nAcross authorized products, 14 Complete items were recorded, all associated with the 30s age band [q1].\n\n### Limitations\nThis analysis measured only items with status 'Complete' aggregated by coarse age band; it did not examine order dates, historical coverage over time, or other order statuses [q1].\n\n### Action items (proposed)\n1. How do Complete item volumes vary across specific time periods or individual authorized product IDs?\n2. What are the item volumes across other order statuses for these authorized products?",
+      "status": "generated",
+      "seconds": 13.798070881981403,
+      "usage": {
+        "input_tokens": 2606,
+        "output_tokens": 1338,
+        "total_tokens": 3944,
+        "thought_tokens": 1151,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "repeat-customer-share-1",
+      "family": "repeat-customer-share",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\n| repeat_customer_share | customers |\n| --- | --- |\n| 1.0 | 4 |\n\n- Across authorized products, 4 distinct customers were identified having at least one item with status = 'Complete' [q1].\n- All 4 customers (a share of 1.0) have more than one distinct order represented among Complete items [q1].\n\n### Limitations\n- This query measured only item records with status = 'Complete' within authorized products; items with other statuses were not evaluated [q1].\n- Order dates, purchase intervals, customer tenure, and historical data completeness were not measured [q1].\n\n### Action items (proposed)\n1. What is the distribution of total completed orders per customer when segmented by calendar year or cohort?\n2. How does repeat customer share change if orders containing statuses other than 'Complete' are included?",
+      "status": "generated",
+      "seconds": 18.77180011800374,
+      "usage": {
+        "input_tokens": 2644,
+        "output_tokens": 1957,
+        "total_tokens": 4601,
+        "thought_tokens": 1739,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    },
+    {
+      "id": "repeat-customer-share-2",
+      "family": "repeat-customer-share",
+      "split": "test",
+      "action": "answer",
+      "response": "### Findings\nFor authorized products, all 4 customers with Complete items had more than one distinct order represented, resulting in a repeat customer share of 1.0 [q1].\n\n| repeat_customer_share | customers |\n| --- | --- |\n| 1.0 | 4 |\n\n### Limitations\nThis analysis evaluated only customers associated with Complete items for authorized products in `order_items`; historical coverage and completeness were not measured [q1]. It did not measure order timing, total order volume, non-Complete item statuses, or customer activity across unauthorized products [q1].\n\n### Action items (proposed)\n1. What is the distribution of completed order counts per customer across authorized products when broken down by time period?\n2. How does the repeat customer metric compare if non-Complete order item statuses are evaluated?",
+      "status": "generated",
+      "seconds": 13.700507372006541,
+      "usage": {
+        "input_tokens": 2641,
+        "output_tokens": 1385,
+        "total_tokens": 4026,
+        "thought_tokens": 1159,
+        "usage_source": "provider_measured",
+        "cost": null
+      },
+      "checks": {
+        "passed": true,
+        "oracle_table_covered": true,
+        "sections_present": true,
+        "no_false_save": true,
+        "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+      },
+      "attempt": 1
+    }
+  ],
+  "checks_passed": 20,
+  "attempted_provider_calls": 80,
+  "confirmed_judge_call_lower_bound": 80,
+  "measured_judge_tokens": 198494,
+  "generation_attempts": 20,
+  "rechecks_disclosed": "At most one generation recheck per failed case and one judge recheck per batch; original attempt artifacts retained.",
+  "human_review": "pending",
+  "cost": null
+}

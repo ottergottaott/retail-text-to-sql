@@ -1,0 +1,25 @@
+{
+  "id": "price-range-2",
+  "family": "price-range",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nObserved Complete-item price range for authorized products [q1]:\n\n| min_price | max_price |\n| --- | --- |\n| 20.0 | 30.0 |\n\n- Across items with status 'Complete', the minimum observed sale price is 20.0 [q1].\n- The maximum observed sale price is 30.0 [q1].\n\n### Limitations\n- Scope is confined to items with status 'Complete' within authorized products; historical completeness and date coverage were not measured [q1].\n- Item counts, order counts, and customer counts were not queried, so volume and sample size were not measured [q1].\n- Currency is not defined by the dataset.\n- Catalog retail price, cost, promotional history, and stock availability were not queried.\n\n### Action items (proposed)\n1. What are the item volumes and sales distribution across price points for each authorized product?\n2. How do observed Complete sale prices compare to the catalog `retail_price` and `cost` fields in `products`?",
+  "status": "generated",
+  "seconds": 16.28116867999779,
+  "usage": {
+    "input_tokens": 2454,
+    "output_tokens": 1519,
+    "total_tokens": 3973,
+    "thought_tokens": 1260,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

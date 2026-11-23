@@ -155,7 +155,7 @@ class Agent:
         if len(json.dumps(context, default=str)) > self.config.max_context_chars:
             return {"stop": True, "outcome": "budget_exhausted",
                 "answer": "The analysis context exceeds its size budget. Request a smaller aggregation or start a narrower analysis."}
-        s["trace"].event("model_context", system_prompt_version="retail-v10-auto-improvement",
+        s["trace"].event("model_context", system_prompt_version="retail-v11-grounded-reports",
             model_call_id=f"{s['trace'].id}:model:{s['calls'] + 1}",
             context_digest=hashlib.sha256(json.dumps(context, sort_keys=True, default=str).encode()).hexdigest(),
             tool_results=len(s["tools"]))
@@ -200,7 +200,7 @@ class Agent:
             return {"stop": True, "outcome": "budget_exhausted",
                     "answer": "The report review exceeds the context budget. No completed report was saved."}
         call_id = f"{s['trace'].id}:model:{s['calls'] + 1}"
-        s["trace"].event("model_context", system_prompt_version="retail-v10-auto-improvement", phase="report_review",
+        s["trace"].event("model_context", system_prompt_version="retail-v11-grounded-reports", phase="report_review",
                          model_call_id=call_id, context_digest=hashlib.sha256(
                              json.dumps(context, sort_keys=True, default=str).encode()).hexdigest())
         try:

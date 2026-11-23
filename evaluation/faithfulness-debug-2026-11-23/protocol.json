@@ -1,0 +1,18 @@
+{
+  "generator": "gemini-4-hydrogen",
+  "judge": "gemini-3.8-flash",
+  "provider": "WikiVibe OpenAI-compatible",
+  "dataset": "faithfulness-v2/development.json",
+  "selected_cases": 10,
+  "selection": "first 5 complete development families, 2 cases each",
+  "variants": [
+    "baseline",
+    "candidate"
+  ],
+  "judge_context": "schema-v1",
+  "standard_ragas_contract": "unchanged",
+  "per_variant_max_generation_calls": 10,
+  "per_variant_max_judge_calls": 40,
+  "repetitions": 1,
+  "scope": "diagnostic development pilot only; frozen synthetic SQL; no BigQuery; no promotion on pilot alone"
+}

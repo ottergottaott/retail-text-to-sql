@@ -1,0 +1,25 @@
+{
+  "id": "cost-margin-1",
+  "family": "cost-margin",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross all available historical records for authorized products, the sum of completed order item sale prices minus current catalogue cost is negative [q1].\n\n| cost_proxy_margin | complete_items |\n| ---: | ---: |\n| -280.0 | 14 |\n\n* **Metric**: Total Complete-item sale price minus catalogue cost (`cost_proxy_margin`), representing a cost proxy margin rather than net profit [q1].\n* **Volume**: 14 completed items (`complete_items`) within authorized product scope [q1].\n* **Window**: All recorded history; date boundaries were not constrained [q1].\n\n### Limitations\n* Catalogue `cost` is a static product attribute proxy, not historical cost of goods sold or batch acquisition cost [q1].\n* This metric does not represent net profit, as fulfillment, shipping, operational expenses, taxes, and customer returns are not included [q1].\n* Historical coverage and date range completeness were not measured [q1].\n* Findings are based on an observed population of 14 completed items [q1].\n\n### Action items (proposed)\n* Propose breaking down `cost_proxy_margin` and volume by individual product ID to determine which items generated negative differences.\n* Propose evaluating completed sale prices against product retail prices over time to analyze discounting behavior.",
+  "status": "generated",
+  "seconds": 49.22830834300839,
+  "usage": {
+    "input_tokens": 2358,
+    "output_tokens": 1478,
+    "total_tokens": 3836,
+    "thought_tokens": 1162,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,21 @@
+{
+  "provider": "WikiVibe OpenAI-compatible https://api.wikivibe.dev/v1",
+  "generator": "gemini-3.8-flash",
+  "judge": "gemini-3.8-flash",
+  "judge_context": "schema-v1",
+  "standard_ragas_contract": "unmodified Ragas 0.4.4 Faithfulness",
+  "dataset": "evaluation/faithfulness-v2/development.json",
+  "cases_per_variant": 10,
+  "selection": "first five complete development families; two variants each",
+  "variants": [
+    "baseline.txt",
+    "candidate-frozen.txt"
+  ],
+  "max_generation_calls": 20,
+  "max_judge_calls": 80,
+  "repetitions": 1,
+  "generation_rechecks": "at most one per failed case, separately retained",
+  "judge_rechecks": "at most one per incomplete batch, separately retained",
+  "boundary": "Development pilot; synthetic frozen SQL; no live BigQuery/tool routing; no promotion on pilot alone",
+  "provider_probe": "Hydrogen HTTP502; Flash HTTP200. Existing Hydrogen run is preserved, excluded from pairing."
+}

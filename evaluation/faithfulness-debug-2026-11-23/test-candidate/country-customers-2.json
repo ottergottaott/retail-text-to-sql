@@ -1,0 +1,25 @@
+{
+  "id": "country-customers-2",
+  "family": "country-customers",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nDistinct customers with completed item purchases for authorized products, grouped by country [q1]:\n\n| country | customers |\n| :--- | :--- |\n| United States | 4 |\n\nAcross all recorded history within authorized scope, 4 distinct customers in the United States have completed item purchases [q1]. No other countries had matching completed records [q1].\n\n### Limitations\n- This query measured only items where `status = 'Complete'` and did not evaluate other order statuses [q1].\n- Distinct customer counts reflect unique buyers and do not measure total item counts, order frequency, or monetary amounts [q1].\n- Time periods were not constrained or segmented, so historical date coverage was not measured [q1].\n\n### Action items (proposed)\n1. Would segmenting completed purchases by order date or year clarify whether customer acquisition across regions is shifting over time?\n2. Would comparing total completed item quantities and revenue alongside distinct customer counts provide a clearer view of geographic volume?",
+  "status": "generated",
+  "seconds": 12.099307028984185,
+  "usage": {
+    "input_tokens": 2600,
+    "output_tokens": 975,
+    "total_tokens": 3575,
+    "thought_tokens": 737,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

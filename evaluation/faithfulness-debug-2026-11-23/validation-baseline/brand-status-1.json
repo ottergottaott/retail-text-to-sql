@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-1",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe table below displays the count of Complete and Returned items by brand for your authorized products [q1]:\n\n| brand | complete_items | returned_items |\n| :--- | :--- | :--- |\n| North | 7 | 1 |\n| South | 7 | 1 |\n\nBoth brand North and brand South show identical item counts in the queried data: 7 completed items and 1 returned item each [q1].\n\n### Limitations\n- The analysis only evaluates order items with status 'Complete' and 'Returned'; other statuses (e.g., Cancelled, Shipped, Processing) were not queried [q1].\n- No date or time window was specified or filtered, and data coverage over time was not measured [q1].\n- Return reasons, monetary amounts (sale prices), and customer- or order-level metrics were not measured [q1].\n- Product scope is bound to authorized products by the execution environment [q1].\n\n### Action items (proposed)\n- Propose querying the full status distribution (including Cancelled and Processing) to evaluate the complete order fulfillment pipeline across brands.\n- Propose breaking down item status counts across time periods (e.g., by month or year) to determine whether return activity varies over time.\n- Propose analyzing return rates alongside `sale_price` and product categories to evaluate potential financial impact.",
+  "status": "generated",
+  "seconds": 14.043079800991109,
+  "usage": {
+    "input_tokens": 2410,
+    "output_tokens": 1404,
+    "total_tokens": 3814,
+    "thought_tokens": 1081,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

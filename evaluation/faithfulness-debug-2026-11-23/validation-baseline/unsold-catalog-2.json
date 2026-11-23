@@ -1,0 +1,25 @@
+{
+  "id": "unsold-catalog-2",
+  "family": "unsold-catalog",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\n\n| id | complete_items |\n| --- | --- |\n\nQuery [q1] searched for catalogue products within the authorized scope having zero associated order items with `status = 'Complete'`. The query returned zero rows [q1], indicating that there are no authorized catalogue products with zero Complete items in the scoped history (all scoped products have at least one Complete order item).\n\n### Limitations\n- Query [q1] restricted item counts to `status = 'Complete'`; other item statuses (such as cancelled, returned, or pending) were not examined.\n- Date coverage and historical completeness were not measured; the analysis reflects all records present in the executor-bound dataset.\n- Pricing, revenue totals, and detailed order counts beyond zero-item filtering were not queried.\n\n### Action items (proposed)\n- Propose querying the total count of Complete items and associated revenue per product ID to evaluate sales volume across authorized products.\n- Propose examining the distribution of non-Complete order statuses across authorized products to inspect order fulfillment pipelines.",
+  "status": "generated",
+  "seconds": 19.862264164024964,
+  "usage": {
+    "input_tokens": 2350,
+    "output_tokens": 1458,
+    "total_tokens": 3808,
+    "thought_tokens": 1211,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

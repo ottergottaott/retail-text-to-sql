@@ -1,0 +1,25 @@
+{
+  "id": "realized-price-1",
+  "family": "realized-price",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\n| mean_price |\n| :--- |\n| 15.0 |\n\nBased on completed order items within authorized product scope, the mean realized sale price is 15.0 [q1]. Currency is not specified in the supplied data.\n\n### Limitations\n\n- **Metric scope**: Only the overall average `sale_price` of completed items was queried; item counts, order counts, and price dispersion (such as minimum, maximum, or standard deviation) were not measured [q1].\n- **No pricing baseline**: Realized sale price was not compared against product catalog retail prices or costs, so discount depths and margins are unmeasured.\n- **Time coverage**: Historical date ranges, seasonality, and pricing trends over time were not analyzed.\n\n### Action items (proposed)\n\n- Query item counts alongside minimum, median, and maximum sale prices to evaluate price consistency across authorized products.\n- Compare `sale_price` with `retail_price` from the `products` table to evaluate discounting patterns.\n- Segment realized prices by product ID and date buckets to identify pricing trends across authorized items.",
+  "status": "generated",
+  "seconds": 16.450915316003375,
+  "usage": {
+    "input_tokens": 2300,
+    "output_tokens": 1010,
+    "total_tokens": 3310,
+    "thought_tokens": 747,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

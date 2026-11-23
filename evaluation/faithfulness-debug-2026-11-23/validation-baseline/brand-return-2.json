@@ -1,0 +1,25 @@
+{
+  "id": "brand-return-2",
+  "family": "brand-return",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nBased on the returned order items for authorized products [q1]:\n\n| brand | returned_items |\n| :--- | :--- |\n| South | 1 |\n| West | 1 |\n\nBoth brands record exactly 1 returned item within the authorized product scope. Note that the sample size is very small (1 item per brand) and represents returned units rather than fulfilled demand or sales volume.\n\n### Limitations\n- **Metric scope**: Only items with status `Returned` were retrieved [q1]. Total order volume, completed sales, and return rates (returns relative to total purchases) were not measured.\n- **Coverage**: Return reasons, transaction dates, customer distribution, and inventory levels were not queried.\n- **Authorization**: Results reflect executor-bound authorized products (IDs 2 and 3).\n\n### Action items (proposed)\n- Query total ordered and completed items by brand to calculate the actual return rate rather than relying on absolute return counts.\n- Compare return frequency over specific time windows to evaluate whether return activity is isolated or persistent.",
+  "status": "generated",
+  "seconds": 34.88338750900584,
+  "usage": {
+    "input_tokens": 2348,
+    "output_tokens": 1114,
+    "total_tokens": 3462,
+    "thought_tokens": 840,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

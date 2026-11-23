@@ -1,0 +1,25 @@
+{
+  "id": "item-status-1",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\n\nItem counts by `status` for your authorized products (`[1, 2]`, enforced via executor-bound views) across all available `order_items` records (no date filter applied) [q1]:\n\n| status | items |\n| --- | --- |\n| Complete | 14 |\n| Returned | 2 |\n\n- **Metric & grain:** Item-level row counts (`COUNT(*)`) from `order_items` grouped by `status`, totaling 16 items across the two observed statuses [q1].\n- **Sample size note:** The observed volume is small overall (14 `Complete`, 2 `Returned`), so these counts should be treated as a small sample rather than established demand or return rates [q1].\n\n### Limitations\n\n- **Unmeasured dimensions:** Only `status` and item counts were queried; the query did not break down results by individual `product_id`, time period (`created_at`), distinct orders (`order_key`), distinct customers (`customer_key`), or `sale_price` [q1].\n- **Time coverage:** Because no date range was filtered or grouped, temporal coverage and completeness across time were not measured [q1].\n- **No causal evidence:** Status counts alone do not explain why items are `Complete` or `Returned` [q1].\n\n### Action items (proposed)\n\n- **Product breakdown (proposed check):** Query item counts by `product_id` and `status` (joined with `products` attributes) to compare how `Complete` and `Returned` items split between products 1 and 2.\n- **Time trend check (proposed check):** Group `order_items` counts by `created_at` date buckets and `status` to evaluate date coverage and changes over time.\n- **Revenue and order/customer grain check (proposed check):** Query `SUM(sale_price)`, `COUNT(DISTINCT order_key)`, and `COUNT(DISTINCT customer_key)` by `status` to measure financial and order-level context alongside item counts.",
+  "status": "generated",
+  "seconds": 23.23739183798898,
+  "usage": {
+    "input_tokens": 2335,
+    "output_tokens": 1468,
+    "total_tokens": 3803,
+    "thought_tokens": 1001,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

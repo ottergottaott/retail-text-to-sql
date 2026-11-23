@@ -1,0 +1,25 @@
+{
+  "id": "brand-sales-1",
+  "family": "brand-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nComplete-item revenue is defined as `SUM(sale_price)` where `status = 'Complete'` across all recorded history within authorized product scope [q1].\n\n| brand | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| North | 70.0 | 7 |\n| South | 140.0 | 7 |\n\n- Brand North generated 70.0 in complete revenue across 7 completed items [q1].\n- Brand South generated 140.0 in complete revenue across 7 completed items [q1].\n\n### Limitations\n- This query evaluated only order items with `status = 'Complete'`; other order statuses (such as cancelled, returned, or pending) were not measured [q1].\n- Time ranges, date coverage, and historical completeness were not evaluated [q1].\n- Discounts, retail prices, and customer or order volume were not analyzed [q1].\n\n### Action items (proposed)\n1. What are the item counts and revenue totals across other order statuses for these brands?\n2. How does complete revenue break down when analyzed across time periods or product categories?",
+  "status": "generated",
+  "seconds": 15.22467640999821,
+  "usage": {
+    "input_tokens": 2625,
+    "output_tokens": 1528,
+    "total_tokens": 4153,
+    "thought_tokens": 1246,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

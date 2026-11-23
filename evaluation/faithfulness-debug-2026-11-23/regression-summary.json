@@ -1,0 +1,9 @@
+{
+  "tests": 308,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 123.804,
+  "command": ".venv/bin/python -m pytest -q --junitxml=/tmp/retail-v11-final.xml",
+  "scope": "Post-promotion local regression on retail-v11-grounded-reports; no client Google/BigQuery acceptance claim"
+}

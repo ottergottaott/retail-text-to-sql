@@ -1,0 +1,25 @@
+{
+  "id": "item-status-2",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nAcross authorized products (IDs 2 and 3), item counts by status are as follows [q1]:\n\n| status | items |\n| :--- | :--- |\n| Complete | 14 |\n| Returned | 2 |\n\n- There are 14 items with status \"Complete\" and 2 items with status \"Returned\" [q1].\n\n### Limitations\n- The query only aggregates total item counts by status; it does not measure revenue, prices, costs, or profit [q1].\n- No date or time filters were evaluated, and historical coverage or completeness was not measured [q1].\n- Order-level, customer-level, or individual product-level distributions were not queried [q1].\n\n### Action items (proposed)\n1. Would you like to examine these status counts broken down by product ID or category?\n2. Should we evaluate how status distributions vary across specific date ranges or order cohorts?",
+  "status": "generated",
+  "seconds": 12.778955745015992,
+  "usage": {
+    "input_tokens": 2438,
+    "output_tokens": 994,
+    "total_tokens": 3432,
+    "thought_tokens": 763,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

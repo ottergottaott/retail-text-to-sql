@@ -1,0 +1,25 @@
+{
+  "id": "country-customers-1",
+  "family": "country-customers",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nDistinct customer counts were queried for authorized products filtering on items where `status = 'Complete'` [q1].\n\n| country | customers |\n| :--- | :--- |\n| United States | 4 |\n\n- A total of 4 distinct customers with completed items were observed, all associated with the United States [q1].\n\n### Limitations\n- The analysis was confined to distinct customer counts by country for completed items; it did not measure total item counts, order volumes, revenue, or transactions with non-complete statuses [q1].\n- Time ranges, date filters, and historical completeness were not evaluated in this query [q1].\n\n### Action items (proposed)\n1. How do distinct customer counts and item volumes distribute across individual authorized product IDs over specific time intervals?\n2. How does the customer geographic distribution compare when including orders across all item statuses?",
+  "status": "generated",
+  "seconds": 14.63922672800254,
+  "usage": {
+    "input_tokens": 2597,
+    "output_tokens": 1282,
+    "total_tokens": 3879,
+    "thought_tokens": 1068,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

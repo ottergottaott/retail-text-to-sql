@@ -1,0 +1,25 @@
+{
+  "id": "item-status-2",
+  "family": "item-status",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nItem counts grouped by status for authorized products across all available history [q1]:\n\n| status | items |\n| :--- | :--- |\n| Complete | 14 |\n| Returned | 2 |\n\n### Limitations\n- Scope and window: Results reflect item-level records for authorized products within the available dataset; no date range filter was applied, and historical completeness or date coverage was not measured [q1].\n- Dimensions: Customer counts, order volume, revenue, profit, and discount history were not queried [q1].\n\n### Action items (proposed)\n- Check status distribution over time (e.g., grouped by month or year) to evaluate whether return rates are changing.\n- Compare item counts and return rates across individual authorized product IDs.\n- Query `sale_price` and status together to assess associated revenue and return values.",
+  "status": "generated",
+  "seconds": 23.836116121994564,
+  "usage": {
+    "input_tokens": 2312,
+    "output_tokens": 1303,
+    "total_tokens": 3615,
+    "thought_tokens": 1091,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

@@ -1,0 +1,250 @@
+{
+  "status": "incomplete",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.571969696969697,
+    "sql_factual_faithfulness": 0.75
+  },
+  "combined_means": {
+    "faithfulness": 0.571969696969697,
+    "sql_factual_faithfulness": 0.75
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 2,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 1,
+      "rule_scored": 0,
+      "applicable": 2,
+      "total_samples": 2
+    }
+  },
+  "evaluation": "ragas_advisory",
+  "cases": [
+    {
+      "id": "complete-revenue-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7272727272727273,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Complete-item revenue for authorized products is reported as 210.0 under the SQL alias complete_revenue.",
+                "reason": "The context shows rows returning complete_revenue as 210.0 under execution scope authorized_products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The metric complete_revenue is defined as the sum of sale_price for items with status equal to Complete across authorized products over all available history.",
+                "reason": "The SQL query sums order_items.sale_price where status = 'Complete' across the authorized scope without date filters, spanning all available history.",
+                "verdict": 1
+              },
+              {
+                "statement": "The query only calculated aggregate revenue.",
+                "reason": "The SQL query computes solely `SUM(order_items.sale_price) AS complete_revenue`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item volume, order counts, and distinct customer counts were not measured by the query.",
+                "reason": "The query only aggregates sale_price and does not include COUNT or DISTINCT operations for items, orders, or customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was not segmented by product ID, category, or time period.",
+                "reason": "The query lacks any GROUP BY clause and does not partition or segment revenue by product ID, category, or time period.",
+                "verdict": 1
+              },
+              {
+                "statement": "Data completeness and time span coverage were not evaluated.",
+                "reason": "The context only contains a single aggregation query without evaluations of data completeness or time span coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not specified in the dataset.",
+                "reason": "The logical schema defines price columns as DOUBLE without any currency specification or currency column.",
+                "verdict": 1
+              },
+              {
+                "statement": "Stock levels, promotional status, and non-completed orders were not queried.",
+                "reason": "The SQL query only selects from order_items with status = 'Complete' and does not query stock levels, promotional status, or other order statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Querying item counts and distinct order counts is proposed to understand unit volume behind the aggregate revenue.",
+                "reason": "The context consists purely of query data, execution scope, and schema; it contains no text proposing or recommending future queries.",
+                "verdict": 0
+              },
+              {
+                "statement": "Breaking down revenue by product and by date bucket, such as month or year, is proposed to evaluate performance trends over time.",
+                "reason": "There are no proposals or recommendations mentioned in the provided context.",
+                "verdict": 0
+              },
+              {
+                "statement": "Analyzing order statuses beyond Complete, such as returns and cancellations, is proposed to assess completion rates.",
+                "reason": "The context contains no proposals or recommendations regarding analyzing other order statuses.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 24.168169255019166
+        },
+        "sql_factual_faithfulness": {
+          "status": "untested",
+          "value": null,
+          "error_category": "judge_unavailable_or_invalid",
+          "seconds": 9.221868266991805
+        }
+      }
+    },
+    {
+      "id": "complete-revenue-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.4166666666666667,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed-item revenue for authorized products was calculated using the default revenue definition.",
+                "reason": "The context provides the query, execution scope, and schema, but does not mention or define any 'default revenue definition'.",
+                "verdict": 0
+              },
+              {
+                "statement": "The default revenue definition is `SUM(sale_price)` where `status = 'Complete'` across all available history.",
+                "reason": "The context does not state that this formula is the 'default revenue definition'.",
+                "verdict": 0
+              },
+              {
+                "statement": "Total Complete-item revenue across authorized products is 350.0.",
+                "reason": "The execution scope restricts the query to authorized products [2, 3], and the query result for complete revenue is 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] aggregates revenue across all recorded records.",
+                "reason": "Query [q1] filters records with `WHERE status = 'Complete'`, so it does not aggregate across all recorded records.",
+                "verdict": 0
+              },
+              {
+                "statement": "Temporal coverage and date completeness were not measured for query [q1].",
+                "reason": "Query [q1] only calculates `SUM(sale_price)` filtered by status, without querying or measuring dates or temporal coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and distinct customer counts were not queried.",
+                "reason": "The SQL query in [q1] only queries `SUM(order_items.sale_price)` and does not query counts of items, orders, or customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "Transaction and volume scale cannot be determined because item counts, order counts, and distinct customer counts were not queried.",
+                "reason": "The context does not discuss what can or cannot be determined regarding transaction and volume scale.",
+                "verdict": 0
+              },
+              {
+                "statement": "Revenue was not segmented by individual authorized product (`product_id` 2 vs. 3).",
+                "reason": "The SQL query does not group by or filter on individual `product_id` values, returning only an aggregated sum.",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined by the data schema.",
+                "reason": "The logical schema lists column types (DOUBLE, VARCHAR, TIMESTAMP, INT) with no currency specification or field.",
+                "verdict": 1
+              },
+              {
+                "statement": "One proposed analytical check is querying Complete revenue broken down by `product_id` to assess performance differences between authorized products.",
+                "reason": "The context contains raw query results, execution scope, and schema, with no proposed analytical checks mentioned.",
+                "verdict": 0
+              },
+              {
+                "statement": "One proposed analytical check is calculating item and order counts alongside revenue to measure order volume and average item selling price.",
+                "reason": "The context does not mention any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "One proposed analytical check is grouping Complete revenue into date buckets (such as by month or year) to evaluate revenue trajectory over time.",
+                "reason": "The context does not mention any proposed analytical checks.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 35.32493776199408
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Completed-item revenue for authorized products was calculated using the default revenue definition: SUM(sale_price) where status = 'Complete' across all available history.",
+                "reason": "While the SQL query calculates SUM(sale_price) WHERE status = 'Complete' across all available history within the authorized products scope, the context does not establish that this is an official or 'default revenue definition'. Undocumented policies or premises cannot be assumed.",
+                "verdict": 0
+              },
+              {
+                "statement": "Total Complete-item revenue (complete_revenue) across authorized products is 350.0.",
+                "reason": "The query result row directly returns complete_revenue as 350.0 for the authorized products scope.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] aggregates revenue across all recorded records.",
+                "reason": "Query [q1] filters specifically on status = 'Complete' and is bound to authorized products (product_ids 2 and 3), so it does not aggregate across all recorded records.",
+                "verdict": 0
+              },
+              {
+                "statement": "Temporal coverage and date completeness were not measured.",
+                "reason": "The query only aggregates sale_price and does not query, inspect, or audit dates or temporal coverage.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts, order counts, and distinct customer counts were not queried.",
+                "reason": "The SQL query computes only SUM(sale_price) and does not perform COUNT on items, orders, or distinct customers.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was not segmented by individual authorized product (product_id 2 vs. 3).",
+                "reason": "The SQL query aggregates total complete_revenue without grouping by product_id.",
+                "verdict": 1
+              },
+              {
+                "statement": "The authorized products include product_id 2 and product_id 3.",
+                "reason": "The trusted execution scope explicitly defines authorized_products as [2, 3].",
+                "verdict": 1
+              },
+              {
+                "statement": "Currency is not defined by the data schema.",
+                "reason": "The logical schema only specifies numerical types (DOUBLE) for price and cost attributes, without defining any currency.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 32.800206445972435
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LLM judge scores are not independent SQL correctness or human acceptance.",
+    "Golden context precision/recall measures reference logic coverage, not live numerical facts.",
+    "Faithfulness can penalize recommendations not entailed by SQL facts; inspect low scores."
+  ],
+  "judge_provider": "openai_compatible",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "attempted_provider_calls": 8,
+  "max_provider_calls": 8,
+  "measured_total_tokens": 18631,
+  "usage_responses": 7,
+  "cost": null,
+  "human_review": "pending",
+  "metric_definitions": {
+    "faithfulness": "Unmodified Ragas whole-response statement entailment against original SQL contexts.",
+    "factual_faithfulness": "Scoped Ragas metric with factual statement extraction v1; keeps every empirical assertion including premises inside proposals. Excludes only pure suggestions without factual premises. Not directly comparable to whole-response faithfulness.",
+    "sql_factual_faithfulness": "Factual extraction plus SQL/provenance entailment instruction v1. Accounts for trusted scope, untruncated groups and measurement boundaries; not standard Ragas or comparable with v1 factual scores."
+  },
+  "evaluation_attempts": 1
+}

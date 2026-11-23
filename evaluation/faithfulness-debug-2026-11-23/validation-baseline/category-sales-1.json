@@ -1,0 +1,25 @@
+{
+  "id": "category-sales-1",
+  "family": "category-sales",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nCompleted item revenue and item count by category for authorized products [q1]:\n\n| category | complete_revenue | complete_items |\n| :--- | :--- | :--- |\n| Outerwear | 210.0 | 14 |\n\n- For authorized products, the Outerwear category accounts for 210.0 in completed revenue across 14 completed items [q1].\n- With 14 items observed, this represents a small observed sample of completed transactions [q1].\n\n### Limitations\n- Filtered strictly to items with status 'Complete'; cancelled, returned, or pending items were not evaluated [q1].\n- Query grain is at the completed item level; distinct customers, distinct orders, and date ranges were not measured [q1].\n- Inventory, promotional discounts, and costs were not queried, and currency is not specified by the dataset [q1].\n- Execution scope is restricted to authorized products bound by the executor [q1].\n\n### Proposed Next Analytical Checks\n- Propose breaking down completed items and revenue by time periods (e.g., monthly or yearly) to examine sales trends over time.\n- Propose evaluating other item statuses (such as Returns or Cancelled) to assess overall fulfillment and return patterns.\n- Propose checking distinct order counts and customer distribution to understand purchasing concentration across the 14 items.",
+  "status": "generated",
+  "seconds": 16.06253784598084,
+  "usage": {
+    "input_tokens": 2366,
+    "output_tokens": 1217,
+    "total_tokens": 3583,
+    "thought_tokens": 897,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

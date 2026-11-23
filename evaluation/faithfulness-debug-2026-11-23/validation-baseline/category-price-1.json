@@ -1,0 +1,25 @@
+{
+  "id": "category-price-1",
+  "family": "category-price",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nAcross all available historical records for authorized products, the mean realized price for completed items is summarized below [q1]:\n\n| category | mean_realized_price |\n| :--- | :--- |\n| Outerwear | 15.0 |\n\nOuterwear is the only category with completed items returned within the authorized scope, with a mean realized price of 15.0 [q1].\n\n### Limitations\n- **Status scope:** The metric reflects `AVG(sale_price)` restricted strictly to items with `status = 'Complete'`; pending, cancelled, or returned orders are excluded [q1].\n- **Unmeasured volume:** Item counts, order counts, and customer counts were not queried, so the underlying sample size and transaction volume remain unmeasured [q1].\n- **Pricing & inventory context:** Catalog `retail_price`, product cost, discounts, and inventory levels were not queried [q1].\n- **Coverage:** No time filters were applied, and historical date coverage or completeness was not evaluated [q1].\n\n### Action items (proposed)\n- *Proposed check:* Query completed item counts (`COUNT(*)`) and distinct order counts by category to evaluate volume.\n- *Proposed check:* Compare realized prices against `retail_price` from the `products` table to measure realized discount rates.\n- *Proposed check:* Break down mean realized prices by date buckets (e.g., year or month) to evaluate price stability over time.",
+  "status": "generated",
+  "seconds": 18.361187000991777,
+  "usage": {
+    "input_tokens": 2359,
+    "output_tokens": 1775,
+    "total_tokens": 4134,
+    "thought_tokens": 1437,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

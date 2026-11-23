@@ -1,0 +1,25 @@
+{
+  "id": "brand-status-2",
+  "family": "brand-status",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings\nThe item counts by brand for authorized products are shown below [q1]:\n\n| brand | complete_items | returned_items |\n| --- | --- | --- |\n| South | 7 | 1 |\n| West | 7 | 1 |\n\n- Brand **South** has 7 complete items and 1 returned item [q1].\n- Brand **West** has 7 complete items and 1 returned item [q1].\n\n### Limitations\n- This analysis queried only item counts with status 'Complete' or 'Returned'; other statuses (e.g., Cancelled, Processing, Shipped) were not measured [q1].\n- Financial metrics including sale price, retail price, product cost, discounts, and profit margins were not queried [q1].\n- Historical completeness and time range boundaries were not measured [q1].\n\n### Action items (proposed)\n- How do complete and returned item counts for these brands distribute across different time periods?\n- How do return counts compare across product categories or geographic regions for these authorized items?",
+  "status": "generated",
+  "seconds": 31.97759934599162,
+  "usage": {
+    "input_tokens": 2641,
+    "output_tokens": 1540,
+    "total_tokens": 4181,
+    "thought_tokens": 1285,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

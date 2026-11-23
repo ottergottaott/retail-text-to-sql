@@ -1,0 +1,25 @@
+{
+  "id": "brand-return-1",
+  "family": "brand-return",
+  "split": "validation",
+  "action": "answer",
+  "response": "### Findings [q1]\nThe table below shows the count of returned items by catalogue brand for authorized products, filtering on `status = 'Returned'`:\n\n| brand | returned_items |\n| --- | --- |\n| North | 1 |\n| South | 1 |\n\nEach brand has 1 returned item recorded in the queried records [q1].\n\n### Limitations\n- The analysis only measured items where `status = 'Returned'` [q1]; total order volumes, total items sold, and return rates were not queried.\n- Date ranges, transaction timing, and historical completeness were not evaluated.\n\n### Action items (proposed)\n1. What is the total volume of items sold and the resulting return rate for brand North compared to brand South?\n2. How do return volumes break down across product categories and calendar months?",
+  "status": "generated",
+  "seconds": 17.434751454013167,
+  "usage": {
+    "input_tokens": 2584,
+    "output_tokens": 1098,
+    "total_tokens": 3682,
+    "thought_tokens": 892,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

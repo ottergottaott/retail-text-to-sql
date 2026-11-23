@@ -1,0 +1,25 @@
+{
+  "id": "item-volume-2",
+  "family": "item-volume",
+  "split": "development",
+  "action": "answer",
+  "response": "### Findings\nBased on query [q1], the completed item counts for authorized products are:\n\n| product_id | complete_items |\n| --- | --- |\n| 2 | 7 |\n| 3 | 7 |\n\nBoth product 2 and product 3 have 7 recorded items with status 'Complete' [q1].\n\n### Limitations\n- Query [q1] filters solely on `status = 'Complete'`; non-completed statuses (such as returns or cancellations) were not queried.\n- Historical completeness and date ranges were not measured.\n- Product metadata (such as names or categories) and pricing metrics were not retrieved.\n\n### Action items (proposed)\n- How do completed item counts compare across different time intervals for products 2 and 3?\n- What are the total revenue amounts and product details associated with these completed items?",
+  "status": "generated",
+  "seconds": 15.651228558999719,
+  "usage": {
+    "input_tokens": 2471,
+    "output_tokens": 1396,
+    "total_tokens": 3867,
+    "thought_tokens": 1183,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

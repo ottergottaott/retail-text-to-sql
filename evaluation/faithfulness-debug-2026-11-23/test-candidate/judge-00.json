@@ -1,0 +1,486 @@
+{
+  "status": "tested",
+  "aggregation_version": "v2",
+  "means": {
+    "faithfulness": 0.7902777777777779,
+    "sql_factual_faithfulness": 1.0
+  },
+  "combined_means": {
+    "faithfulness": 0.7902777777777779,
+    "sql_factual_faithfulness": 1.0
+  },
+  "coverage": {
+    "faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    },
+    "sql_factual_faithfulness": {
+      "ragas_scored": 4,
+      "rule_scored": 0,
+      "applicable": 4,
+      "total_samples": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "monthly-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measures monthly revenue for authorized products based on order items with a status of \"Complete\".",
+                "reason": "The context shows an execution scope with authorized products and a SQL query aggregating monthly sale prices where status equals 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis defines revenue as SUM(sale_price).",
+                "reason": "The SQL query in the context explicitly computes revenue as SUM(`order_items`.`sale_price`) AS `complete_revenue`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete item revenue for 2026-01-01 00:00:00 is 100.0.",
+                "reason": "The row data explicitly contains the record {\"month\": \"2026-01-01 00:00:00\", \"complete_revenue\": 100.0}.",
+                "verdict": 1
+              },
+              {
+                "statement": "Complete item revenue for 2026-02-01 00:00:00 is 110.0.",
+                "reason": "The row data explicitly contains the record {\"month\": \"2026-02-01 00:00:00\", \"complete_revenue\": 110.0}.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed complete item revenue increased from 100.0 in January 2026 to 110.0 in February 2026.",
+                "reason": "The records show complete revenue was 100.0 in January 2026 and 110.0 in February 2026, which is an increase.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only evaluated SUM(sale_price) for items with status equal to \"Complete\".",
+                "reason": "The SQL query in the context restricts calculations strictly to SUM(`order_items`.`sale_price`) with WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure item counts, product costs, net profit, discounts, or other order statuses.",
+                "reason": "The SQL query only selects and aggregates sale_price for 'Complete' items, omitting counts, costs, profits, discounts, and other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date coverage outside the returned months were not measured.",
+                "reason": "The query results only cover two months (January and February 2026) and do not evaluate dates or historical completeness outside this range.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed action item asks whether comparing monthly complete revenue against item order volumes would provide additional insight into growth drivers.",
+                "reason": "The context contains no proposed action items or text discussing comparing revenue against item order volumes.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed action item asks how monthly complete revenue compares to cost and return volumes over the same period.",
+                "reason": "The context does not contain any proposed action items or discussion comparing revenue against cost and return volumes.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 33.40397801800282
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "The analysis measures monthly revenue for authorized products based on order items with a status of 'Complete'.",
+                "reason": "The query filters order_items by status = 'Complete' grouped by month, and execution metadata enforces scope to authorized products [1, 2].",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis defines revenue as SUM(sale_price).",
+                "reason": "The SQL query computes complete_revenue using SUM(`order_items`.`sale_price`).",
+                "verdict": 1
+              },
+              {
+                "statement": "For the month of 2026-01-01 00:00:00, complete_revenue was 100.0.",
+                "reason": "The returned row for month '2026-01-01 00:00:00' lists complete_revenue as 100.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "For the month of 2026-02-01 00:00:00, complete_revenue was 110.0.",
+                "reason": "The returned row for month '2026-02-01 00:00:00' lists complete_revenue as 110.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed complete item revenue increased from 100.0 in January 2026 to 110.0 in February 2026.",
+                "reason": "The complete_revenue values for January 2026 and February 2026 are 100.0 and 110.0 respectively, reflecting an increase.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis only evaluated SUM(sale_price) for items with status = 'Complete'.",
+                "reason": "The SQL query specifically aggregates SUM(`order_items`.`sale_price`) with the filter `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure item counts, product costs, net profit, discounts, or other order statuses.",
+                "reason": "The supplied SQL query aggregates only SUM(sale_price) for status = 'Complete', without querying or computing counts, costs, profits, discounts, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness and date coverage outside the returned months were not measured.",
+                "reason": "No coverage or completeness audit queries were executed in the supplied context.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 58.60129191502347
+        }
+      }
+    },
+    {
+      "id": "monthly-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.8333333333333334,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, Complete-item revenue was 180.0 in January 2026.",
+                "reason": "The context specifies an execution scope of authorized products and shows a complete_revenue of 180.0 for 2026-01-01 (January 2026).",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, Complete-item revenue was 170.0 in February 2026.",
+                "reason": "The context specifies an execution scope of authorized products and shows a complete_revenue of 170.0 for 2026-02-01 (February 2026).",
+                "verdict": 1
+              },
+              {
+                "statement": "The complete revenue for the month of 2026-01-01 was 180.0.",
+                "reason": "The rows explicitly include month '2026-01-01 00:00:00' with complete_revenue equal to 180.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The complete revenue for the month of 2026-02-01 was 170.0.",
+                "reason": "The rows explicitly include month '2026-02-01 00:00:00' with complete_revenue equal to 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only SUM(sale_price) for items with status = 'Complete' grouped by month.",
+                "reason": "The SQL query in the context selects only DATE_TRUNC(..., MONTH) and SUM(`order_items`.`sale_price`) WHERE status = 'Complete' GROUP BY `month`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts were not queried in the analysis.",
+                "reason": "The SQL query only selects month and SUM(sale_price), with no item count aggregate queried.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts were not queried in the analysis.",
+                "reason": "The SQL query does not select or aggregate distinct customer counts.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-complete order statuses were not queried in the analysis.",
+                "reason": "The SQL query strictly filters by `order_items`.`status` = 'Complete', excluding non-complete order statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical data completeness outside the returned months was not measured.",
+                "reason": "The query and result set only encompass the specific returned months, with no evaluation or measurement of historical data completeness outside them.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date coverage outside the returned months was not measured.",
+                "reason": "The query only groups and returns the specified months, without measuring date coverage outside those months.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is comparing item quantities and average selling prices between January 2026 and February 2026 to determine what drove the revenue difference.",
+                "reason": "The context consists purely of raw query data, scope, and schema, and makes no mention of any proposed analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is breaking down monthly Complete-item revenue by authorized product ID to show product-level contribution trends.",
+                "reason": "There is no mention of any proposed analytical check or recommendations within the provided context.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 27.34183153900085
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Across authorized products, Complete-item revenue was 180.0 in January 2026 (2026-01-01 00:00:00).",
+                "reason": "The query results within the authorized products execution scope show that for the month of 2026-01-01 00:00:00, complete_revenue was 180.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Across authorized products, Complete-item revenue was 170.0 in February 2026 (2026-02-01 00:00:00).",
+                "reason": "The query results within the authorized products execution scope show that for the month of 2026-02-01 00:00:00, complete_revenue was 170.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis measured only SUM(sale_price) for items with status = 'Complete' grouped by month.",
+                "reason": "The logical SQL explicitly selects only DATE_TRUNC(order_items.created_at, MONTH) and SUM(order_items.sale_price) filtered by status = 'Complete' grouped by month.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item counts were not queried in the analysis.",
+                "reason": "The executed query does not calculate or select any count of items.",
+                "verdict": 1
+              },
+              {
+                "statement": "Distinct customer counts were not queried in the analysis.",
+                "reason": "The executed query does not include any COUNT(DISTINCT customer_key) or customer metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Non-complete order statuses were not queried in the analysis.",
+                "reason": "The query explicitly filters WHERE order_items.status = 'Complete', excluding non-complete statuses from measurement.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical data completeness outside the returned months was not measured.",
+                "reason": "No coverage or completeness audit query was executed, meaning historical data completeness outside the returned months was not measured by this analysis.",
+                "verdict": 1
+              },
+              {
+                "statement": "Date coverage outside the returned months was not measured.",
+                "reason": "The query only grouped existing data matching the filter without performing a date coverage audit across the data source.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 33.409336026001256
+        }
+      }
+    },
+    {
+      "id": "yearly-sales-1",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.7777777777777778,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue was calculated as SUM(sale_price) for items where status equals Complete.",
+                "reason": "The SQL query in the context explicitly shows `SUM(order_items.sale_price) AS complete_revenue` with the filter `WHERE order_items.status = 'Complete'`.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was grouped by the year extracted from created_at across authorized products.",
+                "reason": "The query extracts the year from `created_at` and groups by `year`, and the execution scope specifies authorized products enforced by executor bound views.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed Complete-item revenue for the year 2026 is 210.0.",
+                "reason": "The returned row in the context explicitly states `{\"year\": 2026, \"complete_revenue\": 210.0}`.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure date boundaries or calendar coverage for 2026.",
+                "reason": "The SQL query only extracts the year and computes the sum of sales without checking minimum, maximum, or intermediate date boundaries.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness cannot be determined from the query.",
+                "reason": "The query only outputs aggregated data for the year 2026 without full date spans or coverage metrics to evaluate completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item volumes and order counts were not queried.",
+                "reason": "The SQL query only selects the year and the sum of `sale_price`; it does not include any count aggregates for items or orders.",
+                "verdict": 1
+              },
+              {
+                "statement": "Items with non-complete statuses were not queried.",
+                "reason": "The SQL query filters strictly on `order_items.status = 'Complete'`, excluding any non-complete statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed next step is querying the minimum and maximum created_at timestamps to determine the date range covered in 2026.",
+                "reason": "The context consists purely of query execution output, schema, and configuration; it does not propose or mention any next steps.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed next step is breaking down complete_revenue alongside item and order counts by month.",
+                "reason": "The context does not contain any recommendations or proposed next steps.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 38.336879187001614
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Revenue was calculated as SUM(sale_price) for items where status = 'Complete', grouped by the year extracted from created_at across authorized products.",
+                "reason": "The SQL query sums sale_price for items where status is 'Complete', groups by EXTRACT(YEAR FROM created_at), and runs under an execution scope bound to authorized products.",
+                "verdict": 1
+              },
+              {
+                "statement": "Observed Complete-item revenue (complete_revenue) for 2026 is 210.0.",
+                "reason": "The returned row explicitly shows year 2026 with complete_revenue of 210.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "The analysis did not measure date boundaries or calendar coverage for 2026.",
+                "reason": "The SQL query only extracted the year from created_at without inspecting minimum/maximum dates or calendar boundaries.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness cannot be determined from the query.",
+                "reason": "The query only measures Complete revenue aggregated by year, providing no audit or measurement of historical completeness.",
+                "verdict": 1
+              },
+              {
+                "statement": "Item volumes were not queried.",
+                "reason": "The SQL query computes SUM(sale_price) and does not count or select item volumes.",
+                "verdict": 1
+              },
+              {
+                "statement": "Order counts were not queried.",
+                "reason": "The SQL query aggregates item revenue without counting distinct orders or order keys.",
+                "verdict": 1
+              },
+              {
+                "statement": "Items with non-complete statuses were not queried.",
+                "reason": "The SQL query contains a WHERE clause filtering strictly for status = 'Complete', excluding non-complete items.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 35.72306264800136
+        }
+      }
+    },
+    {
+      "id": "yearly-sales-2",
+      "metrics": {
+        "faithfulness": {
+          "status": "measured",
+          "value": 0.75,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], total complete-item revenue for authorized products in 2026 was 350.0.",
+                "reason": "The context shows query [q1] executed under an authorized products scope with rows indicating year 2026 and complete_revenue of 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "In the findings table, the year is listed as 2026 and the complete_revenue is listed as 350.0.",
+                "reason": "The rows array in the context explicitly lists year as 2026 and complete_revenue as 350.0.",
+                "verdict": 1
+              },
+              {
+                "statement": "Revenue was calculated as SUM(sale_price) filtered strictly where status equals 'Complete' according to query [q1].",
+                "reason": "The SQL query in [q1] explicitly defines complete_revenue as SUM(`order_items`.`sale_price`) with WHERE `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Coverage across the full calendar year 2026 was not measured by query [q1].",
+                "reason": "The SQL query for [q1] only aggregates revenue by year and does not evaluate or measure date coverage across the full calendar year.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness across years other than 2026 was not evaluated by query [q1].",
+                "reason": "The SQL query in [q1] does not include metrics or evaluation for historical completeness across years.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure item counts, order volumes, customer counts, or non-complete order statuses.",
+                "reason": "The SQL in [q1] selects only EXTRACT(YEAR) and SUM(sale_price) filtered solely for status = 'Complete', and does not compute item counts, order volumes, customer counts, or other statuses.",
+                "verdict": 1
+              },
+              {
+                "statement": "A proposed analytical check is to break down 2026 revenue by month along with item counts to determine how volume was distributed over time.",
+                "reason": "The context contains raw query results, execution scope, and schema, but does not state or propose any analytical checks.",
+                "verdict": 0
+              },
+              {
+                "statement": "A proposed analytical check is to analyze complete revenue and unit volume broken down by authorized product ID to provide insight into individual product performance.",
+                "reason": "The context contains only data results, execution scope, and schema; it mentions no proposed analytical checks or recommendations.",
+                "verdict": 0
+              }
+            ]
+          },
+          "seconds": 77.5126507570094
+        },
+        "sql_factual_faithfulness": {
+          "status": "measured",
+          "value": 1.0,
+          "source": "ragas",
+          "statement_diagnostics": {
+            "statements": [
+              {
+                "statement": "Based on query [q1], total complete-item revenue for authorized products in 2026 was 350.0.",
+                "reason": "The execution scope restricts data to authorized products [2, 3], and query [q1] returned a complete_revenue of 350.0 for year 2026.",
+                "verdict": 1
+              },
+              {
+                "statement": "In query [q1], revenue was calculated as SUM(sale_price) filtered strictly where status = 'Complete'.",
+                "reason": "The SQL query specifically calculates SUM(`order_items`.`sale_price`) with the WHERE clause `order_items`.`status` = 'Complete'.",
+                "verdict": 1
+              },
+              {
+                "statement": "Coverage across the full calendar year 2026 was not measured by query [q1].",
+                "reason": "Query [q1] only extracted the year from `created_at` without checking dates, day coverage, or calendar completeness across 2026.",
+                "verdict": 1
+              },
+              {
+                "statement": "Historical completeness across other years was not evaluated by query [q1].",
+                "reason": "Query [q1] aggregates existing records by year and contains no checks or audits for historical completeness across other years.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure item counts.",
+                "reason": "Query [q1] only aggregated sale_price and did not include any COUNT of items or rows.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure order volumes.",
+                "reason": "Query [q1] did not count orders or measure order volumes.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure customer counts.",
+                "reason": "Query [q1] did not count distinct customers or measure customer metrics.",
+                "verdict": 1
+              },
+              {
+                "statement": "Query [q1] did not measure non-complete order statuses.",
+                "reason": "Query [q1] filtered strictly for status = 'Complete', excluding and leaving unmeasured all non-complete order statuses.",
+                "verdict": 1
+              }
+            ]
+          },
+          "seconds": 33.21233146300074
+        }
+      }
+    }
+  ],
+  "attempted_provider_calls": 16,
+  "measured_total_tokens": 41021,
+  "call_count_complete": true,
+  "judge_model": "gemini-3.8-flash",
+  "max_provider_calls": 16,
+  "judge_workers": 2,
+  "human_review": "pending",
+  "evaluation_attempts": 1
+}

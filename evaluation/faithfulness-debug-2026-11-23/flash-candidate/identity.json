@@ -1,0 +1,18 @@
+{
+  "dataset_sha256": "9d5955bbb13ff51121570804760181180a282e75c270276f04f9f4bafa136e4d",
+  "prompt_sha256": "5ccc56330acf8ec3878c88ebd1efbfdffb579e7c1c8ddb3f8e871137c130d716",
+  "model": "gemini-3.8-flash",
+  "judge_model": "gemini-3.8-flash",
+  "ragas_version": "0.4.4",
+  "generation_provider": "openai_compatible",
+  "gateway_base_url": "https://api.wikivibe.dev/v1",
+  "metric_contract": "standard-faithfulness-unchanged; separate-sql-aware-v1",
+  "judge_context_contract": "schema-v1",
+  "judge_contexts_sha256": "1f708e2e6daf65ed5cc4e477ce638c54de1f4d754828ddeb53852a85dc62609b",
+  "judge_workers": 1,
+  "judge_timeout_seconds": 120,
+  "generation_seconds": 60,
+  "batch_size": 2,
+  "max_calls_per_batch": 8,
+  "evidence_boundary": "Synthetic frozen SQL results; review stage only. No live BigQuery or tool routing."
+}

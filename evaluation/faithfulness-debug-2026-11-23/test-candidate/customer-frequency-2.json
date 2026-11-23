@@ -1,0 +1,25 @@
+{
+  "id": "customer-frequency-2",
+  "family": "customer-frequency",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\nBased on query [q1], the distribution of customers by distinct Complete order frequency for authorized products is as follows:\n\n| orders | customers |\n| --- | --- |\n| 3 | 2 |\n| 4 | 2 |\n\n- Across authorized products, 2 customers each have 3 distinct Complete orders, and 2 customers each have 4 distinct Complete orders, representing a total of 4 purchasing customers in this population.\n\n### Limitations\n- The analysis in [q1] was restricted to items where `status = 'Complete'`; non-Complete orders, order dates, temporal trends, and overall catalog purchasing behavior were not measured. Historical completeness was not evaluated.\n\n### Action items (proposed)\n- How does customer order frequency change if all order statuses are included rather than only Complete orders?\n- What is the distribution of these Complete orders across specific time periods or calendar years?",
+  "status": "generated",
+  "seconds": 14.169063324021408,
+  "usage": {
+    "input_tokens": 2621,
+    "output_tokens": 1310,
+    "total_tokens": 3931,
+    "thought_tokens": 1089,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}

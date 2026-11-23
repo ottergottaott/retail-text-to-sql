@@ -1,0 +1,15 @@
+{
+  "phase": "one-pass reserved test",
+  "candidate_sha256": "6e0d0c9c2abc68dcdc8b51abc91e866ba049c611c6cf3b39157841e415282304",
+  "dataset": "evaluation/faithfulness-v2/test.json",
+  "dataset_sha256": "a1ebbd58c4968dc4e78028914904eb41663c0811743586f1f1da56f35e59cad0",
+  "selection": "all 20 reserved cases; no contents inspected for tuning",
+  "generator": "gemini-3.8-flash",
+  "judge": "gemini-3.8-flash",
+  "provider": "WikiVibe OpenAI-compatible",
+  "judge_context": "schema-v1",
+  "max_generation_calls_first_pass": 20,
+  "max_judge_calls_first_pass": 80,
+  "acceptance": "Full deterministic structure/table checks and full judge coverage; standard mean at least 0.70. No prompt tuning from this run.",
+  "boundary": "Frozen synthetic SQL report-review test, not live SQL execution; one judge repetition"
+}

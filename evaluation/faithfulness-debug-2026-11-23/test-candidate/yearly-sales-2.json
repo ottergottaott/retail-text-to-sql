@@ -1,0 +1,25 @@
+{
+  "id": "yearly-sales-2",
+  "family": "yearly-sales",
+  "split": "test",
+  "action": "answer",
+  "response": "### Findings\n| year | complete_revenue |\n| --- | --- |\n| 2026 | 350.0 |\n\n- Based on query [q1], total complete-item revenue for authorized products in 2026 was 350.0.\n\n### Limitations\n- Metric definition: Revenue was calculated as `SUM(sale_price)` filtered strictly where `status = 'Complete'` [q1].\n- Temporal coverage: Coverage across the full calendar year 2026 was not measured by this query, and historical completeness across other years was not evaluated.\n- Excluded metrics: This query did not measure item counts, order volumes, customer counts, or non-complete order statuses.\n\n### Action items (proposed)\n1. Would breaking down 2026 revenue by month along with item counts help determine how volume was distributed over time?\n2. Would analyzing complete revenue and unit volume broken down by authorized product ID provide insight into individual product performance?",
+  "status": "generated",
+  "seconds": 22.28403615800198,
+  "usage": {
+    "input_tokens": 2578,
+    "output_tokens": 2064,
+    "total_tokens": 4642,
+    "thought_tokens": 1822,
+    "usage_source": "provider_measured",
+    "cost": null
+  },
+  "checks": {
+    "passed": true,
+    "oracle_table_covered": true,
+    "sections_present": true,
+    "no_false_save": true,
+    "boundary": "Deterministic coverage of expected table values and structure, not full factual correctness."
+  },
+  "attempt": 1
+}
