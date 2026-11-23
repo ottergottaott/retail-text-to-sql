@@ -22,11 +22,12 @@ credentials are stored in a private volume mounted read-only by the API.
    **Open tab**. The standalone HTML download is a snapshot.
 4. In a new chat, ask **List my saved reports.** Reports persist independently
    of their originating chat.
-5. Under the assistant's response, hover over the action icons and choose
-   **Give feedback**. Select **Helpful**, **Incomplete** or **Needs correction**
+5. Click the **Give feedback** link below a new assistant response.
+   Select **Helpful**, **Incomplete** or **Needs correction**
    and optionally add a comment. The form is linked to that specific response.
    Native WebUI thumbs up/down are separate and do not submit this feedback.
-   **My preferences** opens your saved format/depth settings.
+   **My preferences** beside it opens your saved format/depth settings.
+   Older responses use the **Give feedback** toolbar action.
 6. Ask **Delete reports** to preview the targets. Use `/cancel ID` to keep them;
    deletion requires the displayed `/confirm ID` command.
 

@@ -53,7 +53,8 @@ predates them. No new paid calls are required for preference learning.
 
 ## Feedback from Open WebUI
 
-Use **Give feedback** under a newly generated Retail Intelligence response.
+Use the visible **Give feedback** link below a newly generated Retail Intelligence
+response. The toolbar action remains available for older responses.
 The page previews the selected question/answer and accepts Helpful, Incomplete,
 or Needs correction plus an optional comment. Feedback remains **unreviewed**.
 Native Open WebUI thumbs are separate and are not bridged to this workflow.

@@ -8,7 +8,7 @@ requirements: httpx>=0.27.0
 import json
 import re
 from html import escape
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 from typing import Literal
 import httpx
 from pydantic import BaseModel, Field
@@ -118,7 +118,13 @@ class Pipe:
                                         answer = brief + '\n\n' + hint + '\n\n```html\n' + view["html"] + '\n```'
                                 await status("Complete · " + event["mode"], True)
                                 # Return final text/Artifact for persistence; embeds are supplementary.
-                                return answer
+                                links = []
+                                if all(isinstance(v, str) and 0 < len(v) <= 200
+                                       for v in (__chat_id__, __message_id__)):
+                                    reference = urlencode({'chat': __chat_id__, 'message': __message_id__})
+                                    links.append(f'[**Give feedback**](/static/retail-learning.html?{reference})')
+                                links.append('[**My preferences**](/static/retail-learning.html#preferences)')
+                                return answer + '\n\n---\n\n' + ' · '.join(links)
             await status("Connection ended before completion", True)
             return "No final response arrived. Check saved reports before retrying a save or deletion."
         except (httpx.HTTPError, ValueError, KeyError):
